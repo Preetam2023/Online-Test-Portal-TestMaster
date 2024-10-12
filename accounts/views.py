@@ -74,10 +74,10 @@ def profile(request):
         'test_history': test_history
     })
     
-
-@login_required    
+@login_required   
 def practice_questions(request):
-    return render(request, 'accounts/practice_questions.html')
+    subjects = Subject.objects.all()  # Get all subjects
+    return render(request, 'accounts/subjects_list.html', {'subjects': subjects})
 
 @login_required    
 def mock_test(request):
