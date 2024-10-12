@@ -1,0 +1,29 @@
+<h1>Add a Question</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <label for="option_1">Option 1:</label>
+    <input type="text" name="option_1" id="option_1"><br>
+    
+    <label for="option_2">Option 2:</label>
+    <input type="text" name="option_2" id="option_2"><br>
+    
+    <label for="option_3">Option 3:</label>
+    <input type="text" name="option_3" id="option_3"><br>
+    
+    <label for="option_4">Option 4:</label>
+    <input type="text" name="option_4" id="option_4"><br>
+
+    <label for="correct_answer">Correct Answer:</label>
+    <input type="text" name="correct_answer" id="correct_answer" required><br>
+
+    <label for="difficulty">Difficulty:</label>
+    <select name="difficulty" id="difficulty" required>
+        <option value="Easy">Easy</option>
+        <option value="Medium">Medium</option>
+        <option value="Hard">Hard</option>
+    </select><br>
+
+    <button type="submit">Add Question</button>
+</form>

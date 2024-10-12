@@ -7,7 +7,8 @@ from django.contrib import messages
 from .forms import LoginForm, SignupForm
 from django.contrib.auth.decorators import login_required
 from .models import CustomUser
-from .models import Subject, Question
+# accounts/views.py
+from questions.models import Subject, Question  # Change this line
 
 
 User = get_user_model()  # Use the custom user model
@@ -96,3 +97,24 @@ def subject_questions(request, subject_id):
     subject = get_object_or_404(Subject, id=subject_id)
     questions = Question.objects.filter(subject=subject)
     return render(request, 'accounts/subject_questions.html', {'subject': subject, 'questions': questions})
+
+def save_question(request):
+    if request.method == 'POST':
+        question_text = request.POST['question_text']
+        options = [
+            request.POST.get('option_1', ''),
+            request.POST.get('option_2', ''),
+            request.POST.get('option_3', ''),
+            request.POST.get('option_4', '')
+        ]
+        correct_answer = request.POST['correct_answer'].upper()  # Ensure it's A/B/C/D
+        
+        question = Question.objects.create(
+            question_text=question_text,
+            option_1=options[0],
+            option_2=options[1],
+            option_3=options[2],
+            option_4=options[3],
+            correct_answer=correct_answer
+        )
+        question.save()

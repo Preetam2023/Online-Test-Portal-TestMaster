@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'accounts',
-    
+    'questions',
+   
+   #python manage.py scrape_questions 
     
 ]
 

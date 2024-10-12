@@ -23,5 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),  # Include your app URLs
     path('', RedirectView.as_view(url='/accounts/')),
+    path('questions/', include('questions.urls')),
 
 ]
