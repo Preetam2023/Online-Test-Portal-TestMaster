@@ -1,0 +1,27 @@
+<!-- profile.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.first_name }}'s Profile</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Profile</h1>
+    <p><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+    
+    <h2>Test History</h2>
+    {% if test_history %}
+        <ul>
+            {% for test in test_history %}
+                <li>{{ test }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No test history available.</p>
+    {% endif %}
+</body>
+</html>

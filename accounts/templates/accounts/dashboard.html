@@ -1,4 +1,24 @@
-<!-- accounts/templates/accounts/dashboard.html -->
+<!-- dashboard.html -->
+{% load static %}
 
-<h2>Welcome to TestMaster, {{ user.username }}!</h2>
-<p>This is your dashboard.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <h1>Welcome to TestMaster, {{ user.first_name }} {{ user.last_name }}!</h1>
+    <nav>
+        <ul>
+            <li><a href="{% url 'practice_questions' %}">Practice Questions</a></li>
+            <li><a href="{% url 'mock_test' %}">Mock Test</a></li>
+            <li style="float:right;"><a href="{% url 'profile' %}"><img src="{% static 'img/profile-icon.png' %}" alt="Profile" style="width:40px; height:40px:" ></a></li>
+        </ul>
+    </nav>
+
+  
+</body>
+</html>
