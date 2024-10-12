@@ -19,3 +19,13 @@ class Question(models.Model):
 
     def __str__(self):
         return self.question_text
+
+class QuestionBank(models.Model):
+    subject = models.CharField(max_length=100)
+    question_no = models.IntegerField()
+    question_text = models.TextField()
+    options = models.JSONField()  # Store options as JSON
+    correct_answer = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.subject} - Q{self.question_no}: {self.question_text}"

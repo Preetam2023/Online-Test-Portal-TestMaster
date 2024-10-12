@@ -96,7 +96,25 @@ def subjects_list(request):
 def subject_questions(request, subject_id):
     subject = get_object_or_404(Subject, id=subject_id)
     questions = Question.objects.filter(subject=subject)
-    return render(request, 'accounts/subject_questions.html', {'subject': subject, 'questions': questions})
+
+    if request.method == "POST":
+        results = []
+        for question in questions:
+            selected_answer = request.POST.get('answer_' + str(question.id))
+            is_correct = selected_answer == question.correct_answer
+            results.append((question, is_correct))
+        
+        return render(request, 'questions/subject_questions.html', {
+            'subject': subject,
+            'questions': questions,
+            'results': results,
+        })
+
+    return render(request, 'questions/subject_questions.html', {
+        'subject': subject,
+        'questions': questions,
+    })
+
 
 def save_question(request):
     if request.method == 'POST':
