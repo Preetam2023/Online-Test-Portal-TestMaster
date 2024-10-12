@@ -1,12 +1,14 @@
 # accounts/views.py
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from .forms import LoginForm, SignupForm
 from django.contrib.auth.decorators import login_required
 from .models import CustomUser
+from .models import Subject, Question
+
 
 User = get_user_model()  # Use the custom user model
 
@@ -59,7 +61,8 @@ def login_view(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'accounts/dashboard.html')  # Create a template for this
+    user = request.user
+    return render(request, 'accounts/dashboard.html', {'user': user})  # Create a template for this
 
 @login_required
 def profile(request):
@@ -79,3 +82,17 @@ def practice_questions(request):
 @login_required    
 def mock_test(request):
     return render(request, 'accounts/mock_test.html')
+
+# views.py
+
+
+@login_required    
+def subjects_list(request):
+    subjects = Subject.objects.all()
+    return render(request, 'accounts/subjects_list.html', {'subjects': subjects})
+
+@login_required    
+def subject_questions(request, subject_id):
+    subject = get_object_or_404(Subject, id=subject_id)
+    questions = Question.objects.filter(subject=subject)
+    return render(request, 'accounts/subject_questions.html', {'subject': subject, 'questions': questions})
