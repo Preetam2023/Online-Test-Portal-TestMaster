@@ -1,0 +1,47 @@
+<!-- mocktest/templates/mocktest/start_test.html -->
+
+<h1>{{ mock_test.test_name }}</h1>
+<p>Duration: {{ mock_test.duration }} minutes</p>
+<p>Please read the instructions carefully.</p>
+
+<form id="test-form" method="POST">
+    {% csrf_token %}
+    <div>
+        {% for question in questions %}
+            <div>
+                <p>{{ question.question_text }}</p>
+                {% if question.question_type == "MCQ" %}
+                    {% for option in question.options.all %}
+                        <label>
+                            <input type="radio" name="question_{{ question.id }}" value="{{ option.option_text }}">
+                            {{ option.option_text }}
+                        </label><br>
+                    {% endfor %}
+                {% elif question.question_type == "TEXT" %}
+                    <input type="text" name="question_{{ question.id }}">
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    <input type="checkbox" required> I declare that I am attempting this test honestly.
+    <button type="submit">Submit Test</button>
+</form>
+
+<!-- Timer Logic -->
+<script>
+    let duration = {{ mock_test.duration }} * 60; // Convert minutes to seconds
+    let timerDisplay = document.createElement('div');
+    document.body.insertBefore(timerDisplay, document.getElementById('test-form'));
+    
+    let countdown = setInterval(() => {
+        let minutes = Math.floor(duration / 60);
+        let seconds = duration % 60;
+        timerDisplay.innerHTML = `Time Remaining: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        duration--;
+        
+        if (duration < 0) {
+            clearInterval(countdown);
+            document.getElementById('test-form').submit(); // Auto-submit form when time is up
+        }
+    }, 1000);
+</script>

@@ -1,19 +1,21 @@
+# -*- coding: utf-8 -*-
 #
-# Copyright (C) 2009-2020 the sqlparse authors and contributors
+# Copyright (C) 2009-2018 the sqlparse authors and contributors
 # <see AUTHORS file>
 #
 # This module is part of python-sqlparse and is released under
 # the BSD License: https://opensource.org/licenses/BSD-3-Clause
 
 from sqlparse import tokens as T
+from sqlparse.compat import text_type
 
 
-class _CaseFilter:
+class _CaseFilter(object):
     ttype = None
 
     def __init__(self, case=None):
         case = case or 'upper'
-        self.convert = getattr(str, case)
+        self.convert = getattr(text_type, case)
 
     def process(self, stream):
         for ttype, value in stream:
@@ -36,7 +38,7 @@ class IdentifierCaseFilter(_CaseFilter):
             yield ttype, value
 
 
-class TruncateStringFilter:
+class TruncateStringFilter(object):
     def __init__(self, width, char):
         self.width = width
         self.char = char

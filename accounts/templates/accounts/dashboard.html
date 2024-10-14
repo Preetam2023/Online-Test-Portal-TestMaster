@@ -10,11 +10,11 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
-    <h1>Welcome to TestMaster, {{ user.first_name }} {{ user.last_name }}!</h1>
+    <h1>Welcome to TestMaster, {{ user.first_name }}!</h1>
     <nav>
         <ul>
             <li><a href="{% url 'practice_questions' %}">Practice Questions</a></li>
-            <li><a href="{% url 'mock_test' %}">Mock Test</a></li>
+            <li><a href="{% url 'start_mock_test' %}">Mock Test</a></li>  <!-- Link to the mock test page -->
             <li style="float:right;"><a href="{% url 'profile' %}"><img src="{% static 'img/profile-icon.png' %}" alt="Profile" style="width:40px; height:40px:" ></a></li>
         </ul>
     </nav>

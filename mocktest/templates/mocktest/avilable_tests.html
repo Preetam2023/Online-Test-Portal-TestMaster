@@ -1,0 +1,9 @@
+<!-- mocktest/templates/mocktest/available_tests.html -->
+
+<h1>Available Mock Tests</h1>
+<ul>
+    {% for test in tests %}
+        <li><a href="{% url 'start_test' test_id=mock_test.id %}">Start Test</a>
+            ({{ test.duration }} minutes)</li>
+    {% endfor %}
+</ul>

@@ -7,17 +7,16 @@
 # Lele Long <schemacs@gmail.com>, 2011,2015
 # mozillazg <opensource.mozillazg@gmail.com>, 2016
 # Ronald White <tkliuxing@me.com>, 2014
-# wolf ice <warwolf7677@163.com>, 2020
 # Kevin Sze <leiarix@gmail.com>, 2012
 # 航 柯 <korhang@163.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: django\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-18 11:41-0300\n"
-"PO-Revision-Date: 2023-12-04 18:45+0000\n"
-"Last-Translator: wolf ice <warwolf7677@163.com>, 2020\n"
-"Language-Team: Chinese (China) (http://app.transifex.com/django/django/"
+"POT-Creation-Date: 2017-01-19 16:49+0100\n"
+"PO-Revision-Date: 2018-10-15 08:06+0000\n"
+"Last-Translator: 航 柯 <korhang@163.com>\n"
+"Language-Team: Chinese (China) (http://www.transifex.com/django/django/"
 "language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,8 +31,8 @@ msgid "The base GIS field."
 msgstr "基础 GIS 字段。"
 
 msgid ""
-"The base Geometry field — maps to the OpenGIS Specification Geometry type."
-msgstr "基本几何字段—映射到OpenGIS规范几何类型。"
+"The base Geometry field -- maps to the OpenGIS Specification Geometry type."
+msgstr "基础 Geometry 字段 -- 映射到 OpenGIS 规范几何类型。"
 
 msgid "Point"
 msgstr "点"
@@ -79,6 +78,9 @@ msgstr "几何形状转换SRID字段将发生错误"
 msgid "Delete all Features"
 msgstr "删除所有要素"
 
+msgid "WKT debugging window:"
+msgstr "WKT 调试窗口："
+
 msgid "Debugging window (serialized value)"
 msgstr "调试窗口(已序列化的值)"
 
@@ -86,5 +88,5 @@ msgid "No feeds are registered."
 msgstr "没有已注册的源。"
 
 #, python-format
-msgid "Slug %r isn’t registered."
-msgstr "字段 %r没被注册"
+msgid "Slug %r isn't registered."
+msgstr "Slug %r 没有注册."

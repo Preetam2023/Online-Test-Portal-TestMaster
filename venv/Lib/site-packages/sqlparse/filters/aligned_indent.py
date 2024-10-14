@@ -1,15 +1,17 @@
+# -*- coding: utf-8 -*-
 #
-# Copyright (C) 2009-2020 the sqlparse authors and contributors
+# Copyright (C) 2009-2018 the sqlparse authors and contributors
 # <see AUTHORS file>
 #
 # This module is part of python-sqlparse and is released under
 # the BSD License: https://opensource.org/licenses/BSD-3-Clause
 
 from sqlparse import sql, tokens as T
+from sqlparse.compat import text_type
 from sqlparse.utils import offset, indent
 
 
-class AlignedIndentFilter:
+class AlignedIndentFilter(object):
     join_words = (r'((LEFT\s+|RIGHT\s+|FULL\s+)?'
                   r'(INNER\s+|OUTER\s+|STRAIGHT\s+)?|'
                   r'(CROSS\s+|NATURAL\s+)?)?JOIN\b')
@@ -71,7 +73,7 @@ class AlignedIndentFilter:
         end_token = tlist.token_next_by(m=(T.Keyword, 'END'))[1]
         cases.append((None, [end_token]))
 
-        condition_width = [len(' '.join(map(str, cond))) if cond else 0
+        condition_width = [len(' '.join(map(text_type, cond))) if cond else 0
                            for cond, _ in cases]
         max_cond_width = max(condition_width)
 
@@ -80,7 +82,8 @@ class AlignedIndentFilter:
             stmt = cond[0] if cond else value[0]
 
             if i > 0:
-                tlist.insert_before(stmt, self.nl(offset_ - len(str(stmt))))
+                tlist.insert_before(stmt, self.nl(
+                    offset_ - len(text_type(stmt))))
             if cond:
                 ws = sql.Token(T.Whitespace, self.char * (
                     max_cond_width - condition_width[i]))
@@ -107,7 +110,7 @@ class AlignedIndentFilter:
             ):
                 token_indent = token.value.split()[0]
             else:
-                token_indent = str(token)
+                token_indent = text_type(token)
             tlist.insert_before(token, self.nl(token_indent))
             tidx += 1
             tidx, token = self._next_token(tlist, tidx)
