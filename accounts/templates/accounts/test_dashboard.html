@@ -1,0 +1,15 @@
+<form action="" method="get">
+    <label for="organization_name">Enter Organization Name:</label>
+    <input type="text" id="organization_name" name="organization_name">
+    <button type="submit">Submit</button>
+</form>
+
+{% if tests %}
+    <ul>
+    {% for test in tests %}
+        <li>{{ test.name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>{{ message }}</p>
+{% endif %}

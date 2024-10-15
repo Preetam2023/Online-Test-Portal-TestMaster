@@ -1,16 +1,71 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Home</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap">
+    <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-image: url({% static 'img/exam_bg.jpg' %}); 
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 18px;
+            color: #666;
+        }
+        a {
+            text-decoration: none;
+            color: #337ab7;
+            transition: color 0.2s ease;
+        }
+        a:hover {
+            color: #23527c;
+        }
+        .btn {
+            background-color: #337ab7;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .btn:hover {
+            background-color: #23527c;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to TestMaster!</h1>
-    <p>Please login to further process, for new user signup first</p>
-    <a href="{% url 'signup' %}">Sign Up (For New Users)</a>
-    <a href="{% url 'login' %}">Log In</a>
-    
+    <div class="container">
+        <h1>Welcome to TestMaster!</h1>
+        <p>Please login to further process, for new user signup first</p>
+        <a href="{% url 'user_signup' %}" class="btn">Sign Up (For New Users)</a>
+        <a href="{% url 'user_login' %}" class="btn">Log In</a>
+        <p style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'organization-admin-signup' %}" class="btn">For Organization - Click Here</a>
+        </p>
+
+    </div>
 </body>
 </html>

@@ -1,0 +1,10 @@
+<!-- accounts/templates/accounts/login.html -->
+
+<h2>Admin login</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.email }}
+    {{ form.password }}
+    <button type="submit">Login</button>
+</form>
