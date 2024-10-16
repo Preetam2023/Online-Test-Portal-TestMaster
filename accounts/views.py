@@ -74,6 +74,13 @@ def user_profile(request):
         'user': request.user,
         'test_history': test_history
     })
+# In your views.py
+from django.shortcuts import render
+@login_required
+def practice_questions(request):
+    return render(request, 'accounts/practice_questions.html')
+
+
     
 from django.shortcuts import render, redirect
 from .forms import OrganizationAdminSignupForm

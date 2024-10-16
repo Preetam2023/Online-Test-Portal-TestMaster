@@ -1,16 +1,107 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>User Sign Up - TestMaster</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600&display=swap">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('{% static "img/signup_background.jpg" %}');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding-left: 5%;
+        }
+
+        .signup-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px; /* Reduced padding */
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            width: 500px; /* Smaller width */
+            text-align: left;
+        }
+
+        h2 {
+            font-size: 1.6em; /* Slightly smaller heading */
+            font-weight: 600;
+            margin-bottom: 15px; /* Reduced margin */
+            color: #036108;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.9em; /* Slightly smaller font */
+            font-weight: 500;
+            margin-bottom: 3px; /* Less space between label and input */
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            padding: 8px; /* Reduced padding inside inputs */
+            margin-bottom: 10px; /* Less margin between inputs */
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9em;
+            width: 100%;
+        }
+
+        button[type="submit"] {
+            background-color: #036108;
+            color: white;
+            padding: 10px; /* Reduced padding for the button */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.85em;
+            margin-bottom: 10px;
+        }
+
+        .login-link {
+            margin-top: 10px; /* Reduced space between form and login link */
+            color: #036108;
+            font-size: 0.85em;
+            text-decoration: none;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h2>Sign Up</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Sign Up</button>
-    </form>
+    <div class="signup-container">
+        <h2>Sign Up</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Sign Up</button>
+        </form>
+        <a href="{% url 'user_login' %}" class="login-link">Already have an account? Log in</a>
+    </div>
 </body>
 </html>

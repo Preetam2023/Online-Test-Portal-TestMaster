@@ -1,10 +1,378 @@
-<!-- templates/accounts/practice_questions.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Practice Questions</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Bank</title>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #036108;
+            font-size: 2.5em;
+        }
+
+        /* Navbar styling for subjects */
+        .navbar {
+            background-color: #036108;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .navbar button {
+            margin: 10px;
+            padding: 15px 30px;
+            background-color: #ffffff;
+            border: 2px solid #036108;
+            color: #036108;
+            font-size: 1.2em;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .navbar button:hover {
+            background-color: #036108;
+            color: white;
+        }
+
+        /* Section styling */
+        .section {
+            padding: 50px;
+        }
+
+        .subject-section {
+            margin-top: 50px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+            color: #333;
+            font-size: 1.8em;
+            text-align: center;
+        }
+
+        /* Question container styling */
+        .question-container {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-card {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            margin-bottom: 20px;
+            font-size: 1.5em; /* Increased font size for questions */
+            color: rgb(0, 0, 0);
+            padding: 20px;
+            background-color: #e9f5e9;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .options {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column; /* Stack options vertically */
+        }
+
+        .option {
+            padding: 15px 25px;
+            margin: 5px 0;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid #036108;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .option:hover {
+            background-color: #e9e9e9;
+            transform: scale(1.02);
+        }
+
+        /* Correct and incorrect answer colors */
+        .correct {
+            background-color: lightgreen !important;
+        }
+
+        .incorrect {
+            background-color: lightcoral !important;
+        }
+
+        /* Scroll to section smoothly */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 <body>
-    <h1>Practice Questions Page</h1>
+
+    <h1>Questions Bank</h1>
+
+    <!-- Navbar with subject buttons -->
+    <div class="navbar">
+        <button onclick="scrollToSection('c-section')">C</button>
+        <button onclick="scrollToSection('ds-section')">Data Structures</button>
+        <button onclick="scrollToSection('algo-section')">Algorithm</button>
+        <button onclick="scrollToSection('dbms-section')">DBMS</button>
+    </div>
+
+    <!-- C Section -->
+    <div class="section" id="c-section">
+        <h2>C Programming</h2>
+        <div class="subject-section">
+            <h3>Questions</h3>
+            <div class="question-container">
+                <div class="question-card">
+                    <div class="question">
+                        <p>1. What is the size of `int` in C?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, true)">4 bytes</div>
+                            <div class="option" onclick="checkAnswer(this, false)">2 bytes</div>
+                            <div class="option" onclick="checkAnswer(this, false)">8 bytes</div>
+                            <div class="option" onclick="checkAnswer(this, false)">1 byte</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more C questions here in similar format -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Data Structures Section -->
+    <div class="section" id="ds-section">
+        <h2>Data Structures</h2>
+        <div class="subject-section">
+            <h3>Questions</h3>
+            <div class="question-container">
+                <div class="question-card">
+                    <div class="question">
+                        <p>1. What is the time complexity of binary search?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, true)">O(log n)</div>
+                            <div class="option" onclick="checkAnswer(this, false)">O(n)</div>
+                            <div class="option" onclick="checkAnswer(this, false)">O(n log n)</div>
+                            <div class="option" onclick="checkAnswer(this, false)">O(1)</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more Data Structure questions here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Algorithm Section -->
+    <div class="section" id="algo-section ">
+        <h2>Algorithm</h2>
+        <div class="subject-section">
+            <h3>Questions</h3>
+            <div class="question-container">
+                <div class="question-card">
+                    <div class="question">
+                        <p>1. What is the best-case time complexity of QuickSort?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">O(n^2)</div>
+                            <div class="option" onclick="checkAnswer(this, false)">O(n)</div>
+                            <div class="option" onclick="checkAnswer(this, true)">O(n log n)</div>
+                            <div class="option" onclick="checkAnswer(this, false)">O(log n)</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add more Algorithm questions here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- DBMS Section -->
+    <div class="section" id="dbms-section">
+        <h2>DBMS</h2>
+        <div class="subject-section">
+            <h3>Questions</h3>
+            <div class="question-container">
+                <div class="question-card">
+                    <div class="question">
+                        <p>1. What is the ACID property in DBMS?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">Accuracy, Consistency, Isolation, Durability</div>
+                            <div class="option" onclick="checkAnswer(this, true)">Atomicity, Consistency, Isolation, Durability</div>
+                            <div class="option" onclick="checkAnswer(this, false)">Availability, Consistency, Isolation, Durability</div>
+                            <div class="option" onclick="checkAnswer(this, false)">Atomicity, Correctness, Isolation, Durability</div>
+                        </div>
+                        <p>2. What is the purpose of normalization in DBMS?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">To reduce data redundancy</div>
+                            <div class="option" onclick="checkAnswer(this, true)">To minimize data redundancy and dependency</div>
+                            <div class="option" onclick="checkAnswer(this, false)">To increase data redundancy</div>
+                            <div class="option" onclick="checkAnswer(this, false)">To eliminate data redundancy only</div>
+                        </div>
+    
+                        <p>3. Which of the following is a type of database model?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">Relational model</div>
+                            <div class="option" onclick="checkAnswer(this, true)">Hierarchical, Network, Relational, and Object-oriented models</div>
+                            <div class="option" onclick="checkAnswer(this, false)">Object-oriented model</div>
+                            <div class="option" onclick="checkAnswer(this, false)">Network model</div>
+                        </div>
+    
+                        <p>4. What is a primary key in a database table?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">A column that can have duplicate values</div>
+                            <div class="option" onclick="checkAnswer(this, true)">A column that uniquely identifies each row in the table</div>
+                            <div class="option" onclick="checkAnswer(this, false)">A column that can be null</div>
+                            <div class="option" onclick="checkAnswer(this, false)">A column that is not unique</div>
+                        </div>
+    
+                        <p>5. What is a foreign key in a database table?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">A column that uniquely identifies each row in the table</div>
+                            <div class="option" onclick="checkAnswer(this, true)">A column that references the primary key of another table</div>
+                            <div class="option" onclick="checkAnswer(this, false)">A column that can have duplicate values</div>
+                            <div class="option" onclick="checkAnswer(this, false)">A column that is not unique</div>
+                        </div>
+    
+                        <p>6. What is the purpose of indexing in DBMS?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">To reduce data redundancy</div>
+                            <div class="option" onclick="checkAnswer(this, true)">To improve query performance by providing quick access to data</div>
+                            <div class="option" onclick="checkAnswer(this, false)">To increase data redundancy</div>
+                            <div class="option" onclick="checkAnswer(this, false)">To eliminate data redundancy only</div>
+                        </div>
+    
+                        <p>7. What is a transaction in DBMS?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">A single database operation</div>
+                            <div class="option" onclick="checkAnswer(this, true)">A sequence of operations that are executed as a single, all-or-nothing unit of work</div>
+                            <div class="option" onclick="checkAnswer(this, false)">A database query</div>
+                            <div class="option" onclick="checkAnswer(this, false)">A database schema</div>
+                        </div>
+    
+                        <p>8. What is the purpose of locking in DBMS?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">To improve query performance</div>
+                            <div class="option" onclick="checkAnswer(this, true)">To prevent concurrent access to shared data and ensure data consistency</div>
+                            <div class="option" onclick="checkAnswer(this, false)">To increase data redundancy</div>
+                            <div class ="option" onclick="checkAnswer(this, false)">To eliminate data redundancy only</div>
+                        </div>
+    
+                        <p>9. What is a view in DBMS?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">A physical database table</div>
+                            <div class="option" onclick="checkAnswer(this, true)">A virtual table based on the result of a query</div>
+                            <div class="option" onclick="checkAnswer(this, false)">A database index</div>
+                            <div class="option" onclick="checkAnswer(this, false)">A database schema</div>
+                        </div>
+    
+                        <p>10. What is the purpose of a database trigger?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">To improve query performance</div>
+                            <div class="option" onclick="checkAnswer(this, true)">To automatically execute a set of actions in response to a specific event</div>
+                            <div class="option" onclick="checkAnswer(this, false)">To increase data redundancy</div>
+                            <div class="option" onclick="checkAnswer(this, false)">To eliminate data redundancy only</div>
+                        </div>
+    
+                        <p>11. What is a stored procedure in DBMS?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">A database query</div>
+                            <div class="option" onclick="checkAnswer(this, true)">A precompiled SQL program that can be executed repeatedly</div>
+                            <div class="option" onclick="checkAnswer(this, false)">A database index</div>
+                            <div class="option" onclick="checkAnswer(this, false)">A database schema</div>
+                        </div>
+    
+                        <p>12. What is the purpose of a database cursor?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">To improve query performance</div>
+                            <div class="option" onclick="checkAnswer(this, true)">To navigate and manipulate the result set of a query</div>
+                            <div class="option" onclick="checkAnswer(this, false)">To increase data redundancy</div>
+                            <div class="option" onclick="checkAnswer(this, false)">To eliminate data redundancy only</div>
+                        </div>
+    
+                        <p>13. What is a data warehouse in DBMS?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">A database schema</div>
+                            <div class="option" onclick="checkAnswer(this, true)">A centralized repository that stores data from various sources in a single location</div>
+                            <div class="option" onclick="checkAnswer(this, false)">A database index</div>
+                            <div class="option" onclick="checkAnswer(this, false)">A database query</div>
+                        </div>
+    
+                        <p>14. What is E-R modeling in DBMS?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">A type of database model</div>
+                            <div class="option" onclick="checkAnswer(this, true)">A methodology for designing and representing database structures</div>
+                            <div class="option" onclick="checkAnswer(this, false)">A database query language</div>
+                            <div class="option" onclick="checkAnswer(this, false)">A database schema</div>
+                        </div>
+    
+                        <p>15. What is the purpose of data mining in DBMS?</p>
+                        <div class="options">
+                            <div class="option" onclick="checkAnswer(this, false)">To improve query performance</div>
+                            <div class="option" onclick="checkAnswer(this, true)">To discover patterns and relationships in large datasets</div>
+                            <div class="option" onclick="checkAnswer(this, false)">To increase data redundancy</div>
+                            <div class="option" onclick="checkAnswer(this, false)">To eliminate data redundancy only</div>
+                        </div>
+    
+                    </div>
+                </div>
+                <!-- Add more DBMS questions here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to check answer and update background colors
+        function checkAnswer(selectedOption, isCorrect) {
+            const options = selectedOption.parentElement.children;
+            let correctOption;
+        
+            // Disable clicking on options
+            for (let option of options) {
+                option.onclick = null;
+            }
+        
+            if (isCorrect) {
+                selectedOption.classList.add('correct');
+            } else {
+                selectedOption.classList.add('incorrect');
+        
+                // Find the correct option and highlight it
+                for (let option of options) {
+                    if (option.getAttribute('onclick').includes('true')) {
+                        correctOption = option;
+                        break;
+                    }
+                }
+        
+                if (correctOption) {
+                    correctOption.classList.add('correct');
+                }
+            }
+        }
+
+        // Function to scroll to section
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>
