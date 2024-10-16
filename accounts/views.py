@@ -139,3 +139,65 @@ def admin_login_view(request):
     else:
         form = LoginForm()
     return render(request, 'accounts/org_admin_login.html', {'form': form})
+
+import requests
+from django.http import JsonResponse
+
+import json
+import requests
+from django.http import JsonResponse
+@login_required
+def run_code(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)  # Parse JSON data
+            code = data.get('code')
+            language = data.get('language')
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+
+        if not code or not language:
+            return JsonResponse({"error": "Code or language not provided."}, status=400)
+
+        # JDoodle API endpoint
+        api_url = "https://api.jdoodle.com/v1/execute"
+
+        # Mapping language to versionIndex (for supported languages)
+        version_map = {
+            "c": "5",  # C version index on JDoodle
+            "java": "4",  # Java version index on JDoodle
+            "python3": "5"  # Python version index on JDoodle
+        }
+
+        # Check if the language is supported
+        if language not in version_map:
+            return JsonResponse({"error": "Unsupported language"}, status=400)
+
+        # Prepare data for the API
+        data = {
+            "script": code,
+            "language": language,
+            "versionIndex": version_map[language],
+            "clientId": "a39a07ed1a877a291386df8269ba78d2",  # Replace with your JDoodle clientId
+            "clientSecret": "b3a4bafd1db367f11aad3baada1120cdd3d5bd26ea2887b8643545418d16740e"  # Replace with your JDoodle clientSecret
+        }
+
+        # Send code to the JDoodle API
+        try:
+            response = requests.post(api_url, json=data, headers={"Content-Type": "application/json"})
+            print("Response status code:", response.status_code)
+            print("Response content:", response.text)
+
+            if response.status_code != 200:
+                return JsonResponse({"error": "Error from JDoodle API: " + response.text}, status=response.status_code)
+
+            result = response.json()
+            print("Result from JDoodle:", result)
+            if 'output' in result:
+                print("Output:", result['output'])
+            else:
+                print("No output returned.")
+
+            return JsonResponse(result)
+        except requests.exceptions.RequestException as e:
+            return JsonResponse({"error": str(e)}, status=500)

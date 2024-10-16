@@ -1,3 +1,6 @@
+{% load static %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -129,7 +132,9 @@
 <body>
 
     <h1>Questions Bank</h1>
-
+    <a href="{% url 'user_dashboard' %}"> 
+        <img src="{% static 'img/home icon.png' %}" alt="Home Icon" style="position: absolute; top: 20px; right: 20px; width: 70px; height: 70px; cursor: pointer;">
+    </a>
     <!-- Navbar with subject buttons -->
     <div class="navbar">
         <button onclick="scrollToSection('c-section')">C</button>
@@ -373,6 +378,14 @@
             const section = document.getElementById(sectionId);
             section.scrollIntoView({ behavior: 'smooth' });
         }
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
     </script>
+    <a href="#" onclick="scrollToTop()">
+        <img src="{% static 'img/top arrow.png' %}" alt="Top Arrow" style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; cursor: pointer;">
+    </a>
+    
+    
 </body>
 </html>

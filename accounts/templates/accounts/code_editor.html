@@ -1,0 +1,293 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <title>Online Code Editor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0; /* Changed to a light gray background */
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fff; /* Changed to white background */
+            border-radius: 10px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background-color: #34C759; /* Changed to a green background */
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+            color: #fff; /* Changed to white text */
+        }
+        
+        .editor-container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        
+        .editor-container label {
+            margin-bottom: 10px;
+            color: #34C759; /* Changed to green text */
+        }
+        
+        #editor {
+            width: 100%;
+            height: 300px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 14px;
+            border: 1px solid #34C759; /* Changed to green border */
+            border-radius: 5px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            resize: none;
+            box-sizing: border-box; 
+        }
+        
+        #editor:focus {
+            outline: none;
+            box-shadow: 0px 4px 20px rgba(58, 185, 94, 0.4);
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        button {
+            background-color: #34C759; /* Changed to green background */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+        
+        button:active {
+            box-shadow: none;
+        }
+        
+        .output-container {
+            margin-top: 20px;
+        }
+        
+        #output {
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #34C759; /* Changed to green border */
+            border-radius: 5px;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            height: 200px;
+            overflow-y: auto;
+        }
+        
+        #output.error {
+            color: red;
+        }
+        
+        .custom-select-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .custom-select-btn {
+            padding: 10px;
+            border: 1px solid #34C759; /* Changed to green border */
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            width: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        
+        }
+        
+        .custom-select-btn img {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .custom-select-options {
+            display: none;
+            position: absolute;
+            background-color: white;
+            border: 1px solid #34C759; /* Changed to green border */
+            border-radius: 5px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            top: 45px;
+            width: 100%;
+            z-index: 1;
+        }
+        
+        .custom-select-options div {
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .custom-select-options div:hover {
+            background-color: #34C759; /* Changed to green background */
+            color: white;
+        }
+        
+        .custom-select-options div img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        
+        #selected-logo {
+            display: none; /* Hide the logo initially */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <img src="{% static 'img/code editor.jpg ' %}" alt="Code Editor Image" style="width: 40px; height: 40px; margin-right: 10px;">
+            <h1>Online Code Editor</h1>
+        </div>
+        <a href="{% url 'user_dashboard' %}"> 
+            <img src="{% static 'img/home icon.png' %}" alt="Home Icon" style="position: absolute; top: 20px; right: 20px; width: 70px; height: 70px; cursor: pointer;">
+        </a>
+        
+        <div class="editor-container">
+            <label for="language">Select Language:</label>
+            <div class="custom-select-container">
+                <div class="custom-select-btn">
+                    <img id="selected-logo" src="" alt="Logo"> 
+                    <span id="selected-lang">Select Language</span>
+                </div>
+        
+                <div class="custom-select-options">
+                    <div data-lang="c" data-img="{% static 'lang_logo/c-logo.png' %}">
+                        <img src="{% static 'lang_logo/c-logo.png' %}" alt="C Logo"> C
+                    </div>
+                    <div data-lang="java" data-img="{% static 'lang_logo/java-logo.png' %}">
+                        <img src="{% static 'lang_logo/java-logo.png' %}" alt="Java Logo"> Java
+                    </div>
+                    <div data-lang="python3" data-img="{% static 'lang_logo/python-logo.png' %}">
+                        <img src="{% static 'lang_logo/python-logo.png' %}" alt="Python Logo"> Python 3
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="language" value=""> <!-- Add this hidden input field -->
+            <textarea id="editor" placeholder="Write your code here..."></textarea>
+        </div>
+        
+        <div class="button-container">
+            <button id="run">Run</button>
+        </div>
+        
+        <div class="output-container">
+            <h2>Output:</h2>
+            <div id="output"></div>
+        </div>
+    </div>
+
+    <script>
+        const selectBtn = document.querySelector('.custom-select-btn');
+        const selectOptions = document.querySelector('.custom-select-options');
+        const selectedLang = document.getElementById('selected-lang');
+        const selectedLogo = document.getElementById('selected-logo');
+
+        // Toggle the custom select dropdown
+        selectBtn.addEventListener('click', () => {
+            selectOptions.style.display = selectOptions.style.display === 'block' ? 'none' : 'block';
+        });
+
+        // Handle option click
+        selectOptions.addEventListener('click', (e) => {
+            if (e.target.closest('div[data-lang]')) {
+                const selectedOption = e.target.closest('div[data-lang]');
+                const lang = selectedOption.getAttribute('data-lang');
+                const imgSrc = selectedOption.getAttribute('data-img');
+                
+                selectedLang.textContent = selectedOption.textContent.trim();
+
+                // Show the logo and make sure it's the right size
+                selectedLogo.src = imgSrc;
+                selectedLogo.style.display = 'inline-block'; // Show the logo after selection
+                selectedLogo.style.width = '20px'; // Keep the logo size small
+                selectedLogo.style.height = '20px'; 
+
+                selectOptions.style.display = 'none'; // Close the dropdown
+                document.getElementById('language').value = lang;
+            }
+        });
+
+        document.getElementById('run').onclick = function() {
+            const code = document.getElementById('editor').value;
+            const language = document.getElementById('language').value;
+        
+            if (!language || !code) {
+                document.getElementById('output').textContent = 'Error: Please provide both code and select a language.';
+                document.getElementById('output').classList.add('error');
+                return;
+            }
+        
+            const requestBody = JSON.stringify({ code: code, language: language });
+        
+            fetch('/accounts/run-code/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: requestBody
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('output').classList.remove('error');
+                if (data.output) {
+                    document.getElementById('output').textContent = data.output;
+                } else if (data.error) {
+                    document.getElementById('output').textContent = 'Error: ' + data.error;
+                } else {
+                    document.getElementById('output').textContent = 'No output returned or an error occurred.';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('output').textContent = 'Error: ' + error.message;
+                document.getElementById('output').classList.add('error');
+            });
+        };
+    </script>
+    
+</body>
+</html>
