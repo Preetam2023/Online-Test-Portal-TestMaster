@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Test</title>
+    <style>
+        /* Same styles as before */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #34C759;
+        }
+        .subject-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .subject-list li {
+            margin: 10px 0;
+            text-align: center;
+        }
+        .subject-list button {
+            padding: 10px 20px;
+            background-color: #34C759;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .subject-list button:hover {
+            background-color: #28a745;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Mock Test</h1>
+    <div class="subject-list">
+        <h2>Select a Subject</h2>
+        <ul>
+            <li><button onclick="startTest('C Programming')">C Programming</button></li>
+            <li><button onclick="startTest('Data Structures')">Data Structures</button></li>
+            <li><button onclick="startTest('DBMS')">DBMS</button></li>
+        </ul>
+    </div>
+</div>
+
+<script>
+    function startTest(subject) {
+        window.location.href = "{% url 'mock_test_page' %}?subject=" + subject;  // Pass the subject
+    }
+</script>
+
+</body>
+</html>

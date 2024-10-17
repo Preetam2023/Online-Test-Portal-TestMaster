@@ -201,3 +201,20 @@ def run_code(request):
             return JsonResponse(result)
         except requests.exceptions.RequestException as e:
             return JsonResponse({"error": str(e)}, status=500)
+        
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def mock_test(request):
+    return render(request, 'accounts/mock_test.html')
+# accounts/views.py
+from django.shortcuts import render
+
+
+def mock_test_page(request):
+    subject = request.GET.get('subject', '')
+    return render(request, 'accounts/mock_test_page.html', {'subject': subject})
+
+def submit_test(request):
+    # Handle test submission logic here
+    return HttpResponse('Test submitted!')

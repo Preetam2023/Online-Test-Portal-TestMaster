@@ -1,7 +1,7 @@
 from django.urls import path
 from django.views.generic import TemplateView
 
-from .views import home, login_view, user_signup,user_dashboard,user_profile,organization_admin_signup, admin_login_view, test_dashboard,run_code, practice_questions
+from .views import home, login_view, user_signup,user_dashboard,user_profile,organization_admin_signup, admin_login_view, test_dashboard,run_code, practice_questions,mock_test,mock_test_page
 urlpatterns = [
     path('', home, name='home'),
     path('user-signup/', user_signup, name='user_signup'),
@@ -12,7 +12,9 @@ urlpatterns = [
     path('organization-admin-login/', admin_login_view, name='organization-admin-login'),
     path('practice-questions/', practice_questions, name='practice_questions'),
     path('organization-admin-dashboard/', test_dashboard, name='dashboard'),
-    
-     path('code-editor/', TemplateView.as_view(template_name='accounts/code_editor.html'), name='code_editor'),
+    path('code-editor/', TemplateView.as_view(template_name='accounts/code_editor.html'), name='code_editor'),
     path('run-code/', run_code, name='run_code'),
+    path('mock-test/', mock_test, name='mock_test'),
+    path('mock-test-page/', mock_test_page, name='mock_test_page'),
+
 ]
