@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,44 +6,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mock Test</title>
     <style>
-        /* Same styles as before */
+        /* Green theme styles */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: #e8f5e9;
             margin: 0;
-            padding: 20px;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
+
         .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
+            background-color: #ffffff;
+            max-width: 1000px;
+            margin: 20px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #2e7d32;
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 30px;
+            color: #388e3c;
+        }
+
+        /* Grid layout for the subject boxes */
+        .subject-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        /* Individual subject box styling */
+        .subject-box {
+            background-color: #4caf50;
+            color: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, background-color 0.3s ease;
         }
-        h1 {
-            text-align: center;
-            color: #34C759;
+
+        .subject-box:hover {
+            background-color: #388e3c;
+            transform: translateY(-5px);
         }
-        .subject-list {
-            list-style-type: none;
-            padding: 0;
+
+        .subject-box h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
         }
-        .subject-list li {
-            margin: 10px 0;
-            text-align: center;
+
+        .subject-box p {
+            margin: 8px 0;
         }
-        .subject-list button {
-            padding: 10px 20px;
-            background-color: #34C759;
-            color: white;
+
+        /* Button styling */
+        .subject-box button {
+            background-color: white;
+            color: #2e7d32;
             border: none;
+            padding: 10px 15px;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
             transition: background-color 0.3s;
         }
-        .subject-list button:hover {
-            background-color: #28a745;
+
+        .subject-box button:hover {
+            background-color: #81c784;
+            color: white;
+        }
+
+        /* Responsive layout adjustments */
+        @media (max-width: 768px) {
+            .subject-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .subject-list {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -50,13 +106,29 @@
 
 <div class="container">
     <h1>Mock Test</h1>
+    <a href="{% url 'user_dashboard' %}"> 
+        <img src="{% static 'img/home icon.png' %}" alt="Home Icon" style="position: absolute; top: 20px; right: 20px; width: 70px; height: 70px; cursor: pointer;">
+    </a>
+    <h2>Select a Subject to Begin</h2>
     <div class="subject-list">
-        <h2>Select a Subject</h2>
-        <ul>
-            <li><button onclick="startTest('C Programming')">C Programming</button></li>
-            <li><button onclick="startTest('Data Structures')">Data Structures</button></li>
-            <li><button onclick="startTest('DBMS')">DBMS</button></li>
-        </ul>
+        <div class="subject-box">
+            <h3>C Programming</h3>
+            <p>Total questions - 15</p>
+            <p>Total time - 20 minutes</p>
+            <button onclick="startTest('C Programming')">Start Test</button>
+        </div>
+        <div class="subject-box">
+            <h3>Data Structures</h3>
+            <p>Total questions - 15</p>
+            <p>Total time - 20 minutes</p>
+            <button onclick="startTest('Data Structures')">Start Test</button>
+        </div>
+        <div class="subject-box">
+            <h3>DBMS</h3>
+            <p>Total questions - 15</p>
+            <p>Total time - 20 minutes</p>
+            <button onclick="startTest('DBMS')">Start Test</button>
+        </div>
     </div>
 </div>
 
