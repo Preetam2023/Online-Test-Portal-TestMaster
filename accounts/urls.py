@@ -7,14 +7,17 @@ urlpatterns = [
     path('user-signup/', user_signup, name='user_signup'),
     path('user-login/', login_view, name='user_login'),
     path('user-dashboard/',user_dashboard, name='user_dashboard'),
-    path('profile/', user_profile, name='profile'),
+    path('user-dashboard/profile/', user_profile, name='profile'),
+    path('user-dashboard/code-editor/', TemplateView.as_view(template_name='accounts/code_editor.html'), name='code_editor'),
+    path('user-dashboard/code-editor/run-code/', run_code, name='run_code'),
+    path('user-dashboard/mock-test/', mock_test, name='mock_test'),
+    path('user-dashboard/mock-test/mock-test-page/', mock_test_page, name='mock_test_page'),
+    path('user-dashboard/question-bank/', practice_questions, name='practice_questions'),
+
+    
     path('organization-admin-signup/', organization_admin_signup, name='organization-admin-signup'),
     path('organization-admin-login/', admin_login_view, name='organization-admin-login'),
-    path('practice-questions/', practice_questions, name='practice_questions'),
     path('organization-admin-dashboard/', test_dashboard, name='dashboard'),
-    path('code-editor/', TemplateView.as_view(template_name='accounts/code_editor.html'), name='code_editor'),
-    path('run-code/', run_code, name='run_code'),
-    path('mock-test/', mock_test, name='mock_test'),
-    path('mock-test-page/', mock_test_page, name='mock_test_page'),
+
 
 ]
