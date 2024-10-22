@@ -1,4 +1,3 @@
-# accounts/views.py
 
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth import authenticate, login
@@ -7,9 +6,19 @@ from django.contrib import messages
 from .forms import LoginForm, SignupForm
 from django.contrib.auth.decorators import login_required
 from .models import CustomUser
-# accounts/views.py
-#from questions.models import Subject, Question  # Change this line
+from django.shortcuts import render, redirect
+from .forms import OrganizationAdminSignupForm
+from .models import OrganizationAdmin
+from tests.models import Test
+from django.contrib.auth import login
+from .forms import LoginForm
 
+import requests
+from django.http import JsonResponse
+
+import json
+import requests
+from django.http import JsonResponse
 
 User = get_user_model()  # Use the custom user model
 
@@ -74,20 +83,11 @@ def user_profile(request):
         'user': request.user,
         'test_history': test_history
     })
-# In your views.py
-from django.shortcuts import render
 @login_required
 def practice_questions(request):
     return render(request, 'accounts/practice_questions.html')
 
 
-    
-from django.shortcuts import render, redirect
-from .forms import OrganizationAdminSignupForm
-
-from django.shortcuts import render
-from .models import OrganizationAdmin
-from tests.models import Test
 
 @login_required
 def test_dashboard(request):
@@ -99,9 +99,6 @@ def test_dashboard(request):
     else:
         return render(request, 'accounts/test_dashboard.html', {'message': 'Organization not registered with us, please contact your organization for any details'})
 
-from django.shortcuts import render, redirect
-from .forms import OrganizationAdminSignupForm
-from django.contrib.auth import login
 
 def organization_admin_signup(request):
     if request.method == 'POST':
@@ -116,11 +113,7 @@ def organization_admin_signup(request):
         form = OrganizationAdminSignupForm()
     return render(request, 'accounts/organization_admin_signup.html', {'form': form})
 
-# accounts/views.py
 
-from django.contrib.auth import authenticate, login
-from django.shortcuts import render, redirect
-from .forms import LoginForm
 
 def admin_login_view(request):
     if request.method == 'POST':
@@ -140,12 +133,7 @@ def admin_login_view(request):
         form = LoginForm()
     return render(request, 'accounts/org_admin_login.html', {'form': form})
 
-import requests
-from django.http import JsonResponse
 
-import json
-import requests
-from django.http import JsonResponse
 @login_required
 def run_code(request):
     if request.method == 'POST':
@@ -204,17 +192,18 @@ def run_code(request):
         
 from django.shortcuts import render
 from django.http import HttpResponse
-
+@login_required
 def mock_test(request):
     return render(request, 'accounts/mock_test.html')
 # accounts/views.py
 from django.shortcuts import render
 
-
+@login_required
 def mock_test_page(request):
     subject = request.GET.get('subject', '')
     return render(request, 'accounts/mock_test_page.html', {'subject': subject})
 
+@login_required
 def submit_test(request):
     # Handle test submission logic here
     return HttpResponse('Test submitted!')

@@ -8,6 +8,7 @@ class CustomUser(AbstractUser):
 from django.contrib.auth.models import AbstractUser , AbstractBaseUser , PermissionsMixin , Group , Permission
 from django.contrib.auth import get_user_model
 from django.contrib.auth.base_user import BaseUserManager
+
 class OrganizationAdmin(AbstractBaseUser , PermissionsMixin):
     organization_name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
