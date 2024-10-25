@@ -33,7 +33,7 @@ def user_signup(request):
             user = form.save()
             messages.success(request, 'Registration successful. You can now log in.')
             login(request, user)
-            return redirect('dashboard')  # Redirect to the dashboard
+            return redirect('user_dashboard')  # Redirect to the dashboard
     else:
         form = SignupForm()
 
@@ -108,7 +108,7 @@ def organization_admin_signup(request):
             user.set_password(form.cleaned_data['password'])
             user.save()
             login(request, user)
-            return redirect('dashboard')
+            return redirect('user_dashboard')
     else:
         form = OrganizationAdminSignupForm()
     return render(request, 'accounts/organization_admin_signup.html', {'form': form})

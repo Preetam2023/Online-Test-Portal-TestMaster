@@ -17,7 +17,7 @@ urlpatterns = [
     
     path('organization-admin-signup/', organization_admin_signup, name='organization-admin-signup'),
     path('organization-admin-login/', admin_login_view, name='organization-admin-login'),
-    path('organization-admin-dashboard/', test_dashboard, name='dashboard'),
+    path('organization-admin-dashboard/', test_dashboard, name='admin-dashboard'),
 
 
 ]
