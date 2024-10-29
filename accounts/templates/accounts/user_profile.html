@@ -8,87 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ user.first_name }}'s Profile</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <style>
-        /* Green theme */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
-        
-        .profile-container {
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            position: relative; /* Added for positioning the home icon */
-
-        }
-        
-        .profile-info {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .profile-info div {
-            margin: 20px;
-            text-align: center;
-        }
-        
-        .profile-info div span {
-            font-weight: bold;
-        }
-        
-        .profile-picture {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            margin: 20px auto;
-        }
-        
-        .test-history {
-            margin-top: 40px;
-        }
-        
-        .test-history table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .test-history th, .test-history td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
-        
-        .test-history th {
-            background-color: #dff0d8;
-        }
-        
-        .quote {
-            margin-top: 20px;
-            font-style: italic;
-            color: #3e8e41;
-        }
-        
-        .quote span {
-            font-weight: bold;
-        }
-        
-        .background-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.6;
-            z-index: -1;
-        }
-    </style>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="{% static 'css/user_profile.css' %}">  
 </head>
 <body>
     <img src="{% static 'img/prof_bg.jpg' %}" alt="Background Image" class="background-image">
@@ -133,28 +54,7 @@
         <div class="quote" id="quote"></div>
     </div>
     
-    <script>
-        // Array of quotes
-        const quotes = [
-            { text: "Believe you can and you're halfway there.", author: "Theodore Roosevelt" },
-            { text: "It does not matter how slowly you go as long as you do not stop.", author: "Confucius" },
-            { text: "Success is not final, failure is not fatal: It is the courage to continue that counts.", author: "Winston Churchill" },
-            { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
-            { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
-        ];
-        
-        // Function to display a random quote
-        function displayQuote() {
-            const randomIndex = Math.floor(Math.random() * quotes.length);
-            const quote = quotes[randomIndex];
-            document.getElementById("quote").innerHTML = `<span>"${quote.text}"</span> - ${quote.author}`;
-        }
-        
-        // Display a quote initially
-        displayQuote();
-        
-        // Display a new quote every 10 seconds
-        setInterval(displayQuote, 10000);
-    </script>
+    <!-- Link to the external JavaScript file -->
+    <script src="{% static 'js/user_profile.js' %}"></script> 
 </body>
 </html>

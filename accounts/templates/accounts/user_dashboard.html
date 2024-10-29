@@ -7,142 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard - TestMaster</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600&display=swap">
-    <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        /* Navbar styling */
-        nav {
-            background-color: #036108;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        nav ul {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
-
-        nav ul li {
-            margin-right: 20px;
-        }
-
-        nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1em;
-            padding: 10px 15px;
-            transition: background-color 0.3s ease;
-        }
-
-        nav ul li a:hover {
-            background-color: #45a049;
-            border-radius: 5px;
-        }
-
-        /* Profile icon and text */
-        .profile {
-            display: flex;
-            align-items: center;
-        }
-
-        .profile img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-
-        .profile-text {
-            color: white;
-            font-weight: 600;
-            margin-left: 10px;
-            cursor: pointer;
-        }
-
-        /* Main content styling */
-        .main-content {
-            padding: 30px;
-            text-align: center;
-        }
-
-        h1 {
-            color: #036108;
-            font-size: 2.2em;
-        }
-
-        /* Image styling */
-        .welcome-image {
-            margin-top: 20px;
-            width: 300px;
-            height: auto;
-        }
-
-        /* Button for organization-specific test */
-        .org-test-btn {
-            display: inline-block;
-            background-color: #036108;
-            color: white;
-            padding: 15px 30px;
-            margin-top: 30px;
-            text-decoration: none;
-            font-size: 1.1em;
-            font-weight: 600;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .org-test-btn:hover {
-            background-color: #45a049;
-        }
-
-        /* Image styling */
-        .welcome-image {
-            margin-top: 20px;
-            width: 80%; /* Adjust to your preference */
-            max-width: 800px; /* Max width to ensure it doesn’t get too large */
-            height: auto;
-            border-radius: 10px; /* Optional: adds rounded corners */
-        }
-        
-        /* Organization test form */
-        .org-test-form {
-            display: none; /* Initially hidden */
-            margin-top: 20px;
-        }
-
-        .org-test-form input[type="text"] {
-            padding: 10px;
-            width: 300px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-right: 10px;
-        }
-
-        .org-test-form button[type="submit"] {
-            padding: 10px 20px;
-            background-color: #036108;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .org-test-form button[type="submit"]:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="{% static 'css/user_dashboard.css' %}">  
 </head>
 <body>
     <!-- Navbar -->
@@ -181,12 +47,7 @@
         </div>
     </div>
 
-    <script>
-        // Show organization test form when the button is clicked
-        document.getElementById("orgTestBtn").addEventListener("click", function(e) {
-            e.preventDefault();
-            document.getElementById("orgTestForm").style.display = "block";
-        });
-    </script>
+    <!-- Link to the external JavaScript file -->
+    <script src="{% static 'js/user_dashboard.js' %}"></script> 
 </body>
 </html>

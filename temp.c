@@ -3,7 +3,7 @@
 
 int main() {
     // Write C code here
-    printf("Try programiz.pro");
+    printf("Try here");
 
     return 0;
 }

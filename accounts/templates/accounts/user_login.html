@@ -6,93 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Login</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600&display=swap">
-    <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-image: url('{% static "img/login_background.jpg" %}');
-            background-size: cover;
-            background-position: center;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .login-container {
-            background-color: rgba(255, 255, 255, 0.733);
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-
-        h2 {
-            font-size: 2em;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #036108;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-size: 1em;
-            font-weight: 500;
-            margin-bottom: 5px;
-            text-align: left;
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 1em;
-            width: 100%;
-        }
-
-        button[type="submit"] {
-            background-color: #036108;
-            color: white;
-            padding: 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-        }
-
-        button[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        .forgot-password {
-            display: block;
-            margin-top: 10px;
-            color: #036108;
-            font-size: 0.9em;
-            text-decoration: none;
-        }
-
-        .forgot-password:hover {
-            text-decoration: underline;
-        }
-
-        .error {
-            color: red;
-            font-size: 0.9em;
-            margin-bottom: 20px;
-        }
-    </style>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="{% static 'css/user_login.css' %}">  
 </head>
 <body>
     <div class="login-container">
@@ -104,5 +19,10 @@
         </form>
         <a href="#" class="forgot-password">Forgot Password?</a>
     </div>
+
+
+    <!-- Link to the external JavaScript file -->
+    <script src="{% static 'js/user_login.js' %}"></script>  
+
 </body>
 </html>

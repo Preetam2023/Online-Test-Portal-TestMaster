@@ -1,0 +1,78 @@
+/* Green theme */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+}
+
+.profile-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative; /* Added for positioning the home icon */
+}
+
+.profile-info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-info div {
+    margin: 20px;
+    text-align: center;
+}
+
+.profile-info div span {
+    font-weight: bold;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 20px auto;
+}
+
+.test-history {
+    margin-top: 40px;
+}
+
+.test-history table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.test-history th, .test-history td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.test-history th {
+    background-color: #dff0d8;
+}
+
+.quote {
+    margin-top: 20px;
+    font-style: italic;
+    color: #3e8e41;
+}
+
+.quote span {
+    font-weight: bold;
+}
+
+.background-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.6;
+    z-index: -1;
+}

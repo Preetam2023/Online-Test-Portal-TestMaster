@@ -1,0 +1,130 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 32px;
+    color: #34C759;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.instructions {
+    margin-bottom: 20px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.instructions p {
+    margin: 10px 0;
+}
+
+.declaration {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.declaration input {
+    margin-right: 10px;
+}
+
+.start-button {
+    padding: 12px 20px;
+    background-color: #34C759;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    display: none;
+    margin: 0 auto;
+    display: block;
+}
+
+.timer {
+    font-size: 20px;
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+    display: none;
+}
+
+.questions {
+    margin-top: 30px;
+    display: none;
+}
+
+.question {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+}
+
+.question p {
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.question input {
+    margin-right: 10px;
+}
+
+.submit-button {
+    padding: 12px 20px;
+    background-color: #34C759;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: none;
+    font-size: 16px;
+    margin: 30px auto;
+}
+
+.submit-button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.result {
+    text-align: center;
+    font-size: 20px;
+    margin-top: 30px;
+    display: none;
+}
+
+.more-tests {
+    text-align: center;
+    margin-top: 20px;
+    display: none;
+}
+
+.more-tests button {
+    padding: 10px 20px;
+    background-color: #007aff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}

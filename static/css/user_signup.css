@@ -1,0 +1,118 @@
+/* General Body Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f8fa; /* Soft background for a clean look */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Header Navbar */
+#navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #036108;
+    color: white;
+    font-size: 1.8em;
+    font-weight: 700;
+    padding: 15px 0;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+/* Signup Container Styles */
+.signup-container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 450px; /* Optimized width for a compact form */
+    margin-top: 80px;
+    text-align: center;
+}
+
+/* Heading Styles */
+h2 {
+    font-size: 1.8em;
+    font-weight: 600;
+    color: #036108;
+    margin-bottom: 20px;
+}
+
+/* Form Styles */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Input Field Styles */
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    color: #333;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+    border-color: #036108;
+    outline: none;
+}
+
+/* Submit Button Styles */
+button[type="submit"] {
+    background-color: #036108;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #028a05;
+    transform: scale(1.02);
+}
+
+/* Link Styles */
+.login-link {
+    color: #036108;
+    font-size: 0.9em;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-link:hover {
+    color: #028a05;
+    text-decoration: underline;
+}
+
+/* Error Message Styles */
+.error {
+    color: red;
+    font-size: 0.85em;
+    margin-bottom: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 500px) {
+    .signup-container {
+        padding: 20px;
+        width: 90%;
+    }
+}

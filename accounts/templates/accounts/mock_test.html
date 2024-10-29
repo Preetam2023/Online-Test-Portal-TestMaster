@@ -5,102 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mock Test</title>
-    <style>
-        /* Green theme styles */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #e8f5e9;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            background-color: #ffffff;
-            max-width: 1000px;
-            margin: 20px;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 36px;
-            margin-bottom: 30px;
-            color: #2e7d32;
-        }
-
-        h2 {
-            font-size: 22px;
-            margin-bottom: 30px;
-            color: #388e3c;
-        }
-
-        /* Grid layout for the subject boxes */
-        .subject-list {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        /* Individual subject box styling */
-        .subject-box {
-            background-color: #4caf50;
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-
-        .subject-box:hover {
-            background-color: #388e3c;
-            transform: translateY(-5px);
-        }
-
-        .subject-box h3 {
-            font-size: 20px;
-            margin-bottom: 10px;
-        }
-
-        .subject-box p {
-            margin: 8px 0;
-        }
-
-        /* Button styling */
-        .subject-box button {
-            background-color: white;
-            color: #2e7d32;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-
-        .subject-box button:hover {
-            background-color: #81c784;
-            color: white;
-        }
-
-        /* Responsive layout adjustments */
-        @media (max-width: 768px) {
-            .subject-list {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 480px) {
-            .subject-list {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="{% static 'css/mock_test.css' %}"> 
 </head>
 <body>
 
@@ -132,11 +38,8 @@
     </div>
 </div>
 
-<script>
-    function startTest(subject) {
-        window.location.href = "{% url 'mock_test_page' %}?subject=" + subject;  // Pass the subject
-    }
-</script>
+<!-- Link to the external JavaScript file -->
+<script src="{% static 'js/mock_test.js' %}"></script>  
 
 </body>
 </html>

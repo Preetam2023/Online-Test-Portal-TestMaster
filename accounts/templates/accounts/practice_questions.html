@@ -7,127 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Question Bank</title>
-    <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-        }
-
-        h1, h2 {
-            text-align: center;
-            color: #036108;
-            font-size: 2.5em;
-        }
-
-        /* Navbar styling for subjects */
-        .navbar {
-            background-color: #036108;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .navbar button {
-            margin: 10px;
-            padding: 15px 30px;
-            background-color: #ffffff;
-            border: 2px solid #036108;
-            color: #036108;
-            font-size: 1.2em;
-            font-weight: 600;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .navbar button:hover {
-            background-color: #036108;
-            color: white;
-        }
-
-        /* Section styling */
-        .section {
-            padding: 50px;
-        }
-
-        .subject-section {
-            margin-top: 50px;
-            padding: 20px;
-            border-radius: 10px;
-            background-color: #ffffff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h3 {
-            color: #333;
-            font-size: 1.8em;
-            text-align: center;
-        }
-
-        /* Question container styling */
-        .question-container {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .question-card {
-            margin-bottom: 20px;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .question {
-            margin-bottom: 20px;
-            font-size: 1.5em; /* Increased font size for questions */
-            color: rgb(0, 0, 0);
-            padding: 20px;
-            background-color: #e9f5e9;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .options {
-            margin-top: 10px;
-            display: flex;
-            flex-direction: column; /* Stack options vertically */
-        }
-
-        .option {
-            padding: 15px 25px;
-            margin: 5px 0;
-            background-color: #f4f4f4;
-            border-radius: 8px;
-            cursor: pointer;
-            border: 2px solid #036108;
-            font-size: 1.1em;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
-
-        .option:hover {
-            background-color: #e9e9e9;
-            transform: scale(1.02);
-        }
-
-        /* Correct and incorrect answer colors */
-        .correct {
-            background-color: lightgreen !important;
-        }
-
-        .incorrect {
-            background-color: lightcoral !important;
-        }
-
-        /* Scroll to section smoothly */
-        html {
-            scroll-behavior: smooth;
-        }
-    </style>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="{% static 'css/practice_question.css' %}">  
 </head>
 <body>
 
@@ -343,49 +224,12 @@
         </div>
     </div>
 
-    <script>
-        // Function to check answer and update background colors
-        function checkAnswer(selectedOption, isCorrect) {
-            const options = selectedOption.parentElement.children;
-            let correctOption;
-        
-            // Disable clicking on options
-            for (let option of options) {
-                option.onclick = null;
-            }
-        
-            if (isCorrect) {
-                selectedOption.classList.add('correct');
-            } else {
-                selectedOption.classList.add('incorrect');
-        
-                // Find the correct option and highlight it
-                for (let option of options) {
-                    if (option.getAttribute('onclick').includes('true')) {
-                        correctOption = option;
-                        break;
-                    }
-                }
-        
-                if (correctOption) {
-                    correctOption.classList.add('correct');
-                }
-            }
-        }
-
-        // Function to scroll to section
-        function scrollToSection(sectionId) {
-            const section = document.getElementById(sectionId);
-            section.scrollIntoView({ behavior: 'smooth' });
-        }
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    </script>
+    
     <a href="#" onclick="scrollToTop()">
         <img src="{% static 'img/top arrow.png' %}" alt="Top Arrow" style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; cursor: pointer;">
     </a>
-    
+    <!-- Link to the external JavaScript file -->
+    <script src="{% static 'js/practice_question.js' %}"></script>  
     
 </body>
 </html>
