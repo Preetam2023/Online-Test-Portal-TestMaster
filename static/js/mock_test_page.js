@@ -100,6 +100,8 @@ function submitTest() {
     submitButton.style.backgroundColor = '#ccc';
 }
 
-function goBack() {
-    window.location.href = "{% url 'mock_test' %}";  // Use Django template URL for going back to test selection
+function goBack(button) {
+    const url = button.getAttribute("data-url");
+    window.location.href = url;
 }
+

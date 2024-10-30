@@ -44,7 +44,7 @@ document.getElementById('run').onclick = function() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': '{{ csrf_token }}'
+            'X-CSRFToken': document.querySelector('[name=csrf-token]').content
         },
         body: requestBody
     })

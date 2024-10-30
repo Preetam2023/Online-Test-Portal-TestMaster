@@ -1,3 +1,6 @@
+{% load static %}
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,8 +35,9 @@
     <div class="result" id="result"></div>
     
     <div class="more-tests" id="more-tests">
-        <button onclick="goBack()">More Mock Tests</button>
+        <button data-url="{% url 'mock_test' %}" onclick="goBack(this)">More Mock Tests</button>
     </div>
+    
 </div>
 
 <!-- Link to the external JavaScript file -->

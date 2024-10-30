@@ -1,3 +1,4 @@
-function startTest(subject) {
-    window.location.href = "{% url 'mock_test_page' %}?subject=" + subject;  // Pass the subject
+function startTest(button, subject) {
+    const url = button.getAttribute("data-url");
+    window.location.href = `${url}?subject=${subject}`;
 }

@@ -41,6 +41,7 @@ nav ul li a:hover {
 
 /* Profile icon and text */
 .profile {
+    position: relative;
     display: flex;
     align-items: center;
 }
@@ -57,6 +58,32 @@ nav ul li a:hover {
     font-weight: 600;
     margin-left: 10px;
     cursor: pointer;
+}
+
+/* Dropdown styling */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* Show dropdown on hover */
+.profile:hover .dropdown-content {
+    display: block;
 }
 
 /* Main content styling */

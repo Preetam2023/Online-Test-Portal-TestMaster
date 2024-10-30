@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mock Test</title>
-    <!-- Link to the external CSS file -->
     <link rel="stylesheet" href="{% static 'css/mock_test.css' %}"> 
 </head>
 <body>
@@ -15,30 +14,29 @@
     <a href="{% url 'user_dashboard' %}"> 
         <img src="{% static 'img/home icon.png' %}" alt="Home Icon" style="position: absolute; top: 20px; right: 20px; width: 70px; height: 70px; cursor: pointer;">
     </a>
-    <h2>Select a Subject to Begin</h2>
+    <h2>Select a Subject to give test</h2>
     <div class="subject-list">
         <div class="subject-box">
             <h3>C Programming</h3>
             <p>Total questions - 15</p>
             <p>Total time - 20 minutes</p>
-            <button onclick="startTest('C Programming')">Start Test</button>
+            <button data-url="{% url 'mock_test_page' %}" onclick="startTest(this, 'C Programming')">Start Test</button>
         </div>
         <div class="subject-box">
             <h3>Data Structures</h3>
             <p>Total questions - 15</p>
             <p>Total time - 20 minutes</p>
-            <button onclick="startTest('Data Structures')">Start Test</button>
+            <button data-url="{% url 'mock_test_page' %}" onclick="startTest(this, 'Data Structures')">Start Test</button>
         </div>
         <div class="subject-box">
             <h3>DBMS</h3>
             <p>Total questions - 15</p>
             <p>Total time - 20 minutes</p>
-            <button onclick="startTest('DBMS')">Start Test</button>
+            <button data-url="{% url 'mock_test_page' %}" onclick="startTest(this, 'DBMS')">Start Test</button>
         </div>
     </div>
 </div>
 
-<!-- Link to the external JavaScript file -->
 <script src="{% static 'js/mock_test.js' %}"></script>  
 
 </body>

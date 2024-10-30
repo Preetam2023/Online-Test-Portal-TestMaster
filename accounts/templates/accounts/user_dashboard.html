@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard - TestMaster</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600&display=swap">
-    <!-- Link to the external CSS file -->
     <link rel="stylesheet" href="{% static 'css/user_dashboard.css' %}">  
 </head>
 <body>
@@ -19,8 +18,12 @@
             <li><a href="{% url 'code_editor' %}">Code Editor</a></li>
         </ul>
         <div class="profile">
-            <a href="{% url 'profile' %}"><img src="{% static 'img/profile-icon.png' %}" alt="Profile Icon"></a>
-            <span class="profile-text"><a href="{% url 'profile' %}" style="color:white; text-decoration:none;">Profile</a></span>
+            <a href="#"><img src="{% static 'img/profile-icon.png' %}" alt="Profile Icon"></a>
+            <span class="profile-text">Profile</span>
+            <div class="dropdown-content">
+                <a href="{% url 'profile' %}">My Profile</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            </div>
         </div>
     </nav>
 
@@ -33,7 +36,7 @@
             <img src="{% static 'img/user_dashboard.jpg' %}" alt="Welcome Image" class="welcome-image">
         </div>
         <!-- Button for Organization Test -->
-        <a href="#" class="org-test-btn" id="orgTestBtn">User of any specific organization? Click here to give your test</a>
+        <a href="#" class="org-test-btn" id="orgTestBtn">User  of any specific organization? Click here to give your test</a>
 
         <!-- Organization Test Form (initially hidden) -->
         <div class="org-test-form" id="orgTestForm">

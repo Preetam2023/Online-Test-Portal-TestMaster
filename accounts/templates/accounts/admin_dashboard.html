@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, {{ user.first_name }}!</h1>
+        <p>Your organization: {{ user.organization_name }}</p>
+        <div class="dashboard-links">
+            <a href="{% url 'test_dashboard' %}">View Tests</a>
+            <a href="{% url 'user_profile' %}">Profile</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+    </div>
+</body>
+</html>

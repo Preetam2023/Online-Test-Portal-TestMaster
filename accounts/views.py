@@ -207,3 +207,10 @@ def mock_test_page(request):
 def submit_test(request):
     # Handle test submission logic here
     return HttpResponse('Test submitted!')
+
+from django.contrib.auth import logout
+from django.shortcuts import redirect
+
+def custom_logout(request):
+    logout(request)
+    return redirect('home')  # Redirect to home after logout
