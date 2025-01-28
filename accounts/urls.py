@@ -15,10 +15,11 @@ from .views import (
     practice_questions,
     mock_test,
     mock_test_page,
+    custom_logout,
 )
 
 urlpatterns = [
-    path('', home, name='home'),  # Home page URL
+    path('', home, name='home'),  
     path('user-signup/', user_signup, name='user_signup'),
     path('user-login/', login_view, name='user_login'),
     path('user-dashboard/', user_dashboard, name='user_dashboard'),
@@ -33,7 +34,5 @@ urlpatterns = [
     path('organization-admin-login/', admin_login_view, name='organization-admin-login'),
     path('organization-admin-dashboard/', test_dashboard, name='admin-dashboard'),
 
-    # Logout URL
-   # Change your logout URL to avoid conflict
-    path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='custom_logout'),  # Redirect to home after logout
+    path('logout/', custom_logout, name='custom_logout'),  
 ]

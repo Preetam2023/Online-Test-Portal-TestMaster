@@ -39,6 +39,18 @@ def user_signup(request):
 
     return render(request, 'accounts/user_signup.html', {'form': form})
 
+from django.contrib.auth import authenticate, login, get_user_model
+from django.shortcuts import render, redirect
+from .forms import LoginForm
+
+User = get_user_model()  # Dynamically get the custom user model
+
+from django.contrib.auth import authenticate, login, get_user_model
+from django.shortcuts import render, redirect
+from .forms import LoginForm
+
+User = get_user_model()  # Dynamically get the custom user model
+
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -46,22 +58,23 @@ def login_view(request):
             username_or_email = form.cleaned_data['username_or_email']
             password = form.cleaned_data['password']
 
-            # Check if the input is an email
+            # Check if input is email or username
             if '@' in username_or_email:
+                # Try to get the user by email
                 try:
-                    user = User.objects.get(email=username_or_email)
-                    username = user.username
+                    user_obj = User.objects.get(email=username_or_email)
+                    username = user_obj.username  # Get username from the email
                 except User.DoesNotExist:
-                    user = None
+                    username = None
             else:
-                username = username_or_email
-            
-            # Authenticate the user
+                username = username_or_email  # Assume it's a username
+
+            # Authenticate using the username
             user = authenticate(request, username=username, password=password)
 
             if user is not None:
                 login(request, user)
-                return redirect('user_dashboard')  # Change this to your dashboard URL
+                return redirect('user_dashboard')  # Redirect to the dashboard
             else:
                 form.add_error(None, "Invalid username/email or password.")
     else:
@@ -69,14 +82,15 @@ def login_view(request):
 
     return render(request, 'accounts/user_login.html', {'form': form})
 
+
+
 @login_required
 def user_dashboard(request):
     user = request.user
-    return render(request, 'accounts/user_dashboard.html', {'user': user})  # Create a template for this
+    return render(request, 'accounts/user_dashboard.html', {'user': user})  
 
 @login_required
 def user_profile(request):
-    # Assuming that test history will be updated in the future
     
     test_history = []  # Placeholder for future test history data
     return render(request, 'accounts/user_profile.html', {

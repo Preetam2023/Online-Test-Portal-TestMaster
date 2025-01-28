@@ -5,24 +5,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Login</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600&display=swap">
-    <!-- Link to the external CSS file -->
-    <link rel="stylesheet" href="{% static 'css/user_login.css' %}">  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/user_login.css' %}">
 </head>
 <body>
-    <div class="login-container">
-        <h2>User Login</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Login</button>
-        </form>
-        <a href="#" class="forgot-password">Forgot Password?</a>
+<div class="container">
+    <div class="row m-5 no-gutters shadow-lg">
+        <!-- Image Section -->
+        <div class="col-md-6 d-none d-md-block">
+            <img src="{% static 'img/login_image.jpg' %}" class="img-fluid" style="min-height:100%;" alt="Login Image">
+        </div>
+
+        <!-- Login Form Section -->
+        <div class="col-md-6 bg-white p-5">
+            <h3 class="pb-3">User Login</h3>
+            <div class="form-style">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <div class="form-group pb-3">
+                        {{ form.username_or_email.label_tag }}
+                        {{ form.username_or_email }}
+                    </div>
+                    <div class="form-group pb-3">
+                        {{ form.password.label_tag }}
+                        {{ form.password }}
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between pb-3">
+                        <div class="d-flex align-items-center">
+                            <input type="checkbox" name="remember" id="remember">
+                            <span class="pl-2 font-weight-bold">Remember Me</span>
+                        </div>
+                        <div>
+                            <a href="#" class="forgot-password">Forgot Password?</a>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100 font-weight-bold mt-2">Login</button>
+                </form>
+
+                <div class="pt-4 text-center">
+                    Don't have an account? <a href="{% url 'user_signup' %}">Sign Up</a>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
-
-    <!-- Link to the external JavaScript file -->
-    <script src="{% static 'js/user_login.js' %}"></script>  
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
