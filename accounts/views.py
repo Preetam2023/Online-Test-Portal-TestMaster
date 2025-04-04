@@ -79,8 +79,10 @@ def login_view(request):
                 form.add_error(None, "Invalid username/email or password.")
     else:
         form = LoginForm()
+        
+        context = {'form': form}
 
-    return render(request, 'accounts/user_login.html', {'form': form})
+    return render(request, 'accounts/user_login.html', context)
 
 
 
