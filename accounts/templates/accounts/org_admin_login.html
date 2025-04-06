@@ -1,10 +1,43 @@
-<!-- accounts/templates/accounts/login.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Organization Admin Login</title>
+  <link rel="stylesheet" href="{% static 'css/org_admin_login.css' %}">
+</head>
+<body>
+  <div class="container">
+    <div class="login-box">
 
-<h2>Admin login</h2>
+      <h2>Organization Admin Login</h2>
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.email }}
-    {{ form.password }}
-    <button type="submit">Login</button>
-</form>
+      {% if form.errors %}
+      <div class="error-box">
+        <p>Invalid email or password</p>
+      </div>
+      {% endif %}
+
+      <form method="POST">
+        {% csrf_token %}
+        <label for="email">Email address</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+
+        <div class="options">
+          <label><input type="checkbox" name="remember-me"> Remember me</label>
+          <a href="#">Forgot your password?</a>
+        </div>
+
+        <button type="submit" class="btn-primary">Sign In</button>
+      </form>
+
+      <div class="divider">New to TestMaster?</div>
+
+      <a href="{% url 'organization-admin-signup' %}" class="btn-secondary">Create new organization account</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -10,12 +10,12 @@ from .views import (
     user_profile,
     organization_admin_signup,
     admin_login_view,
-    test_dashboard,
     run_code,
     practice_questions,
     mock_test,
     mock_test_page,
     custom_logout,
+    org_admin_dashboard,
 )
 
 urlpatterns = [
@@ -32,7 +32,7 @@ urlpatterns = [
 
     path('organization-admin-signup/', organization_admin_signup, name='organization-admin-signup'),
     path('organization-admin-login/', admin_login_view, name='organization-admin-login'),
-    path('organization-admin-dashboard/', test_dashboard, name='admin-dashboard'),
+    path('organization-admin-dashboard/', org_admin_dashboard, name='organization-admin-dashboard'),
 
     path('logout/', custom_logout, name='custom_logout'),  
 ]

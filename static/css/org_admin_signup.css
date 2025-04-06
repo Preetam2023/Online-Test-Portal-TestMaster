@@ -1,0 +1,111 @@
+/* Reset some default styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f2f2f2;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    width: 90%;
+    max-width: 1000px;
+    background-color: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.left-section {
+    flex: 1;
+    padding: 40px;
+}
+
+.right-section {
+    flex: 1;
+    background-color: #000;
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+}
+
+.logo {
+    width: 250px;       /* Adjust as needed */
+    height: auto;
+}
+
+
+h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    color: #333;
+}
+
+.subheading {
+    margin-bottom: 30px;
+    color: #666;
+    font-size: 14px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+    color: #444;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+label span {
+    color: red;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="file"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+button {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #3b82f6;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: #2563eb;
+}
+
+.right-section {
+    flex: 1;
+    background-color: #000;
+    background-image: url("../img/signup_graphic.jpg");
+    background-size: cover;         /* changes from cover to contain */
+    background-position: center;
+    background-repeat: no-repeat;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+
+

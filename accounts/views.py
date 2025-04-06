@@ -5,11 +5,9 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from .forms import LoginForm, SignupForm
 from django.contrib.auth.decorators import login_required
-from .models import CustomUser
+from .models import User
 from django.shortcuts import render, redirect
-from .forms import OrganizationAdminSignupForm
-from .models import OrganizationAdmin
-from tests.models import Test
+
 from django.contrib.auth import login
 from .forms import LoginForm
 
@@ -103,48 +101,36 @@ def practice_questions(request):
 
 
 
-@login_required
-def test_dashboard(request):
-    organization_name = request.GET.get('organization_name')
-    if organization_name:
-        organization_admin = OrganizationAdmin.objects.get(organization_name__iexact=organization_name)
-        tests = Test.objects.filter(organization_admin=organization_admin, is_active=True)
-        return render(request, 'accounts/test_dashboard.html', {'tests': tests})
-    else:
-        return render(request, 'accounts/test_dashboard.html', {'message': 'Organization not registered with us, please contact your organization for any details'})
 
 
-def organization_admin_signup(request):
-    if request.method == 'POST':
-        form = OrganizationAdminSignupForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
-            user.save()
-            login(request, user)
-            return redirect('user_dashboard')
-    else:
-        form = OrganizationAdminSignupForm()
-    return render(request, 'accounts/org_admin_signup.html', {'form': form})
 
 
+
+from django.contrib.auth import login, authenticate
+from .forms import OrganizationLoginForm  # Make sure to import the correct form
 
 def admin_login_view(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
+        form = OrganizationLoginForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-            users = CustomUser .objects.filter(email=email)
-            if users.exists():
-                user = users.first()
-                if user.check_password(password):
+            
+            # First authenticate the user
+            user = authenticate(request, username=email, password=password)
+            
+            if user is not None:
+                # Then verify they're an organization admin
+                if hasattr(user, 'org_admin_profile'):
                     login(request, user)
-                    return redirect('dashboard')
+                    return redirect('organization-admin-dashboard')  # Make sure this URL name matches
+                else:
+                    form.add_error(None, 'This account is not an organization admin')
             else:
                 form.add_error(None, 'Invalid email or password')
     else:
-        form = LoginForm()
+        form = OrganizationLoginForm()
+    
     return render(request, 'accounts/org_admin_login.html', {'form': form})
 
 
@@ -228,3 +214,37 @@ from django.shortcuts import redirect
 def custom_logout(request):
     logout(request)
     return redirect('home')  # Redirect to home after logout
+
+
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
+from .forms import OrganizationSignupForm, OrganizationLoginForm
+from .models import Organization 
+
+# views.py
+from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from .forms import OrganizationSignupForm
+from django.contrib import messages
+
+def organization_admin_signup(request):
+    if request.method == 'POST':
+        form = OrganizationSignupForm(request.POST, request.FILES)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            messages.success(request, 'Organization registration successful!')
+            return redirect('organization-admin-dashboard')  # Replace with your dashboard URL
+        else:
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = OrganizationSignupForm()
+    
+    return render(request, 'accounts/org_admin_signup.html', {'form': form})
+
+@login_required
+def org_admin_dashboard(request):
+    if not hasattr(request.user, 'organization'):
+        return redirect('home')
+    return render(request, 'accounts/org_admin_dashboard.html')
