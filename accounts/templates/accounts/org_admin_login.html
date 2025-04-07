@@ -9,25 +9,31 @@
 <body>
   <div class="container">
     <div class="login-box">
-
       <h2>Organization Admin Login</h2>
 
-      {% if form.errors %}
-      <div class="error-box">
-        <p>Invalid email or password</p>
-      </div>
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
       {% endif %}
 
-      <form method="POST">
+      <form method="POST" action="{% url 'organization-admin-login' %}">
         {% csrf_token %}
-        <label for="email">Email address</label>
-        <input type="email" id="email" name="email" required>
+        
+        <div class="form-group">
+          <label for="id_email">Email address</label>
+          <input type="email" id="id_email" name="email" required class="form-control">
+        </div>
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
+        <div class="form-group">
+          <label for="id_password">Password</label>
+          <input type="password" id="id_password" name="password" required class="form-control">
+        </div>
 
         <div class="options">
-          <label><input type="checkbox" name="remember-me"> Remember me</label>
+          <label><input type="checkbox" name="remember"> Remember me</label>
           <a href="#">Forgot your password?</a>
         </div>
 
@@ -35,8 +41,9 @@
       </form>
 
       <div class="divider">New to TestMaster?</div>
-
-      <a href="{% url 'organization-admin-signup' %}" class="btn-secondary">Create new organization account</a>
+      <a href="{% url 'organization-admin-signup' %}" class="btn-secondary">
+        Create new organization account
+      </a>
     </div>
   </div>
 </body>

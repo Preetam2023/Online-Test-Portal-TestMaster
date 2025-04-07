@@ -108,8 +108,10 @@ def practice_questions(request):
 
 
 
-from django.contrib.auth import login, authenticate
-from .forms import OrganizationLoginForm  # Make sure to import the correct form
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from .forms import OrganizationLoginForm
 
 def admin_login_view(request):
     if request.method == 'POST':
@@ -118,18 +120,21 @@ def admin_login_view(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             
-            # First authenticate the user
+            # Authenticate using email as username
             user = authenticate(request, username=email, password=password)
             
             if user is not None:
-                # Then verify they're an organization admin
+                # Check if user has organization admin profile
                 if hasattr(user, 'org_admin_profile'):
                     login(request, user)
-                    return redirect('organization-admin-dashboard')  # Make sure this URL name matches
+                    # Redirect to organization admin dashboard
+                    return redirect('organization-admin-dashboard')
                 else:
-                    form.add_error(None, 'This account is not an organization admin')
+                    messages.error(request, 'This account is not authorized as an organization admin')
             else:
-                form.add_error(None, 'Invalid email or password')
+                messages.error(request, 'Invalid email or password')
+        else:
+            messages.error(request, 'Please correct the errors below')
     else:
         form = OrganizationLoginForm()
     
@@ -246,7 +251,10 @@ def organization_admin_signup(request):
     return render(request, 'accounts/org_admin_signup.html', {'form': form})
 
 @login_required
+
+@login_required
 def org_admin_dashboard(request):
-    if not hasattr(request.user, 'organization'):
-        return redirect('home')
+    if not hasattr(request.user, 'org_admin_profile'):
+        return redirect('organization-admin-login')
+    # Your dashboard logic here
     return render(request, 'accounts/org_admin_dashboard.html')
