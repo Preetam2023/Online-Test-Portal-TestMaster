@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TestMaster Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'accounts/css/dashboard.css' %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>TestMaster</h3>
+            <button class="toggle-btn" id="toggleSidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <div class="sidebar-menu">
+            <a href="{% url 'organization-admin-dashboard' %}" class="menu-item {% if request.resolver_match.url_name == 'organization-admin-dashboard' %}active{% endif %}">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="{% url 'add-test' %}" class="menu-item {% if request.resolver_match.url_name == 'add-test' %}active{% endif %}">
+                <i class="fas fa-plus-circle"></i>
+                <span>Add Test</span>
+            </a>
+            <a href="{% url 'open-tests' %}" class="menu-item {% if request.resolver_match.url_name == 'open-tests' %}active{% endif %}">
+                <i class="fas fa-door-open"></i>
+                <span>Open Tests</span>
+            </a>
+            <a href="{% url 'closed-tests' %}" class="menu-item {% if request.resolver_match.url_name == 'closed-tests' %}active{% endif %}">
+                <i class="fas fa-door-closed"></i>
+                <span>Closed Tests</span>
+            </a>
+            <a href="{% url 'participants' %}" class="menu-item {% if request.resolver_match.url_name == 'participants' %}active{% endif %}">
+                <i class="fas fa-users"></i>
+                <span>Participants</span>
+            </a>
+            <a href="{% url 'analytics' %}" class="menu-item {% if request.resolver_match.url_name == 'analytics' %}active{% endif %}">
+                <i class="fas fa-chart-bar"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="{% url 'org-settings' %}" class="menu-item {% if request.resolver_match.url_name == 'org-settings' %}active{% endif %}">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="{% static 'accounts/js/dashboard.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

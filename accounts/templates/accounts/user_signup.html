@@ -4,43 +4,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Sign Up - TestMaster</title>
+    <title>Student Sign Up - TestMaster</title>
     <!-- Google Fonts -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,600&display=swap">
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Link to the external CSS file -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/user_signup.css' %}">
 </head>
 <body>
     <div class="signup-container">
-        <div class="signup-header">
-            <h2>Join TestMaster</h2>
-            <p>Create your account to get started</p>
+        <!-- Left Decorative Section -->
+        <div class="signup-hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h2>Join the Future of Learning</h2>
+                    <p>Create your account to access thousands of practice tests and performance analytics</p>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Students learning together" class="hero-img">
+                </div>
+                <div class="testimonials">
+                    <div class="testimonial-card">
+                        <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
+                        <p>"TestMaster helped me improve my scores by 30% in just 3 months!"</p>
+                        <div class="student-info">
+                            <span class="name">Alex Johnson</span>
+                            <span class="university">Harvard University</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <i class="fas fa-user"></i>
-                {{ form.username }}
+
+        <!-- Signup Form Section -->
+        <div class="signup-form-section">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <img src="{% static 'img/testmaster-logo.svg' %}" alt="TestMaster Logo" class="logo">
+                    <h1>Create Your Account</h1>
+                    <p>Start your learning journey in less than a minute</p>
+                </div>
+
+                <form method="POST" class="student-signup-form">
+                    {% csrf_token %}
+                    
+                    <div class="form-grid">
+                        <!-- First Name -->
+                        <div class="form-group">
+                            <label for="id_first_name">First Name</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user"></i>
+                                {{ form.first_name }}
+                            </div>
+                        </div>
+                        
+                        <!-- Last Name -->
+                        <div class="form-group">
+                            <label for="id_last_name">Last Name</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-user"></i>
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="id_email">Email Address</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-envelope"></i>
+                            {{ form.email }}
+                        </div>
+                    </div>
+                    
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="id_password1">Password</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="id_password1" name="password1" required placeholder="Create a password">
+                            <button type="button" class="toggle-password" aria-label="Show password">
+                                <i class="far fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="password-strength">
+                            <div class="strength-meter">
+                                <span class="strength-bar weak"></span>
+                                <span class="strength-bar medium"></span>
+                                <span class="strength-bar strong"></span>
+                            </div>
+                            <span class="strength-text">Password strength</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Confirm Password -->
+                    <div class="form-group">
+                        <label for="id_password2">Confirm Password</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="id_password2" name="password2" required placeholder="Confirm your password">
+                        </div>
+                    </div>
+                    
+                    <!-- Terms Checkbox -->
+                    <div class="form-group terms-group">
+                        <input type="checkbox" id="terms" name="terms" required>
+                        <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="signup-btn">
+                        <span>Create Account</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+
+                <div class="social-auth">
+                    <p class="divider-text"><span>or sign up with</span></p>
+                    
+                    <div class="social-buttons">
+                        <a href="#" class="social-btn google">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
+                            Google
+                        </a>
+                        <a href="#" class="social-btn microsoft">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft">
+                            Microsoft
+                        </a>
+                    </div>
+                </div>
+
+                <div class="login-redirect">
+                    Already have an account? <a href="{% url 'user_login' %}">Log in</a>
+                </div>
             </div>
-            <div class="form-group">
-                <i class="fas fa-envelope"></i>
-                {{ form.email }}
-            </div>
-            <div class="form-group">
-                <i class="fas fa-lock"></i>
-                {{ form.password1 }}
-            </div>
-            <div class="form-group">
-                <i class="fas fa-lock"></i>
-                {{ form.password2 }}
-            </div>
-            <button type="submit" class="signup-button">Sign Up</button>
-        </form>
-        <div class="login-link">
-            Already have an account? <a href="{% url 'user_login' %}">Log in</a>
         </div>
     </div>
+
+    <!-- JavaScript -->
+    <script src="{% static 'js/user_signup.js' %}"></script>
 </body>
 </html>
