@@ -19,13 +19,13 @@
 
         <!-- Login Form Section -->
         <div class="col-md-6 bg-white p-5">
-            <h3 class="pb-3">User Login</h3>
+            <h2 class="pb-3" style="color: #2e7d32; font-weight:bold; text-align: center;">User Login</h2>
             <div class="form-style">
                 <form method="post" action="">
                     {% csrf_token %}
                     <div class="form-group pb-3">
-                        {{ form.username_or_email.label_tag }}
-                        {{ form.username_or_email }}
+                        {{ form.email.label_tag }}
+                        {{ form.email }}
                     </div>
                     <div class="form-group pb-3">
                         {{ form.password.label_tag }}
@@ -37,14 +37,15 @@
                             <span class="pl-2 font-weight-bold">Remember Me</span>
                         </div>
                         <div>
-                            <a href="#" class="forgot-password">Forgot Password?</a>
+                            <a href="#" class="forgot-password" style="color:rgb(46, 125, 50);">Forgot Password?</a>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-dark w-100 font-weight-bold mt-2">Login</button>
+                    <button type="submit" style="background-color: #2e7d32;" class="btn btn-success w-100 font-weight-bold mt-2">Login</button>
                 </form>
+                
 
                 <div class="pt-4 text-center">
-                    Don't have an account? <a href="{% url 'user_signup' %}">Sign Up</a>
+                    Don't have an account? <a href="{% url 'user_signup' %}" style="color: #2e7d32;">Sign Up</a>
                 </div>
             </div>
         </div>

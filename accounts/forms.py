@@ -20,19 +20,24 @@ class SignupForm(forms.ModelForm):
             user.save()
         return user
 
+from django import forms
+from django.core.exceptions import ValidationError
+
 class LoginForm(forms.Form):
-    username_or_email = forms.CharField(label="Username or Email", required=True)
+    email = forms.EmailField(label="Email", required=True)
     password = forms.CharField(label="Password", widget=forms.PasswordInput, required=True)
 
     def clean(self):
         cleaned_data = super().clean()
-        username_or_email = cleaned_data.get("username_or_email")
+        email = cleaned_data.get("email")
         password = cleaned_data.get("password")
 
-        if not username_or_email or not password:
-            raise ValidationError("All fields are required")
+        if not email or not password:
+            raise ValidationError("Both email and password are required.")
 
         return cleaned_data
+
+
 
 class OrganizationSignupForm(UserCreationForm):
     organization_name = forms.CharField(
