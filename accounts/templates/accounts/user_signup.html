@@ -4,145 +4,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Sign Up - TestMaster</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome -->
+    <title>Create Your Account</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/user_signup.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'css/user_login.css' %}">
 </head>
 <body>
-    <div class="signup-container">
-        <!-- Left Decorative Section -->
-        <div class="signup-hero">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h2>Join the Future of Learning</h2>
-                    <p>Create your account to access thousands of practice tests and performance analytics</p>
-                </div>
-                <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Students learning together" class="hero-img">
-                </div>
-                <div class="testimonials">
-                    <div class="testimonial-card">
-                        <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                        <p>"TestMaster helped me improve my scores by 30% in just 3 months!"</p>
-                        <div class="student-info">
-                            <span class="name">Alex Johnson</span>
-                            <span class="university">Harvard University</span>
-                        </div>
-                    </div>
-                </div>
+<div class="container">
+    <div class="row m-5 no-gutters shadow-lg rounded-4 overflow-hidden">
+        <!-- Image Section -->
+        <div class="col-md-6 d-none d-md-block p-0">
+            <div class="signup-image-container">
+                <img src="https://img.freepik.com/free-vector/secure-login-concept-illustration_114360-4585.jpg" 
+                     class="img-fluid vector-image" alt="Vector illustration of login">
             </div>
         </div>
 
         <!-- Signup Form Section -->
-        <div class="signup-form-section">
-            <div class="form-wrapper">
-                <div class="form-header">
-                    <img src="{% static 'img/testmaster-logo.svg' %}" alt="TestMaster Logo" class="logo">
-                    <h1>Create Your Account</h1>
-                    <p>Start your learning journey in less than a minute</p>
-                </div>
-
-                <form method="POST" class="student-signup-form">
+        <div class="col-md-6 bg-white p-5">
+            <div class="text-center mb-4">
+                <h1 class="text-success font-weight-bold">Create Account</h1>
+                <p class="text-muted">Fill in your details to get started</p>
+            </div>
+            <div class="form-style">
+                <form method="post" action="">
                     {% csrf_token %}
-                    
-                    <div class="form-grid">
-                        <!-- First Name -->
-                        <div class="form-group">
-                            <label for="id_first_name">First Name</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-user"></i>
-                                {{ form.first_name }}
+                    <div class="form-group pb-3">
+                        <label for="id_username" class="font-weight-500">Username</label>
+                        <input type="text" name="username" class="form-control" required id="id_username" placeholder="Enter your Username">
+                    </div>
+                    <div class="form-group pb-3">
+                        <label for="id_email" class="font-weight-500">Email Address</label>
+                        <input type="email" name="email" class="form-control" required id="id_email" placeholder="Enter your Email">
+                    </div>
+                    <div class="form-group pb-3">
+                        <label for="id_password1" class="font-weight-500">Password</label>
+                        <div class="input-group">
+                            <input type="password" name="password1" class="form-control" required id="id_password1" placeholder="Create a password">
+                            <div class="input-group-append">
+                                <span class="input-group-text toggle-password" data-target="id_password1">
+                                    <i class="far fa-eye"></i>
+                                </span>
                             </div>
                         </div>
-                        
-                        <!-- Last Name -->
-                        <div class="form-group">
-                            <label for="id_last_name">Last Name</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-user"></i>
-                                {{ form.last_name }}
-                            </div>
-                        </div>
+                        <small class="form-text text-muted">At least 8 characters with a number</small>
                     </div>
                     
-                    <!-- Email -->
-                    <div class="form-group">
-                        <label for="id_email">Email Address</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-envelope"></i>
-                            {{ form.email }}
-                        </div>
+                    <div class="form-group pb-3 d-flex align-items-center">
+                        <input type="checkbox" class="form-check-input mr-2" id="terms" required>
+                        <label class="form-check-label mb-0" for="terms">I agree to the <a href="#" class="text-success">Terms of Service</a> and <a href="#" class="text-success">Privacy Policy</a></label>
                     </div>
-                    
-                    <!-- Password -->
-                    <div class="form-group">
-                        <label for="id_password1">Password</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" id="id_password1" name="password1" required placeholder="Create a password">
-                            <button type="button" class="toggle-password" aria-label="Show password">
-                                <i class="far fa-eye"></i>
-                            </button>
-                        </div>
-                        <div class="password-strength">
-                            <div class="strength-meter">
-                                <span class="strength-bar weak"></span>
-                                <span class="strength-bar medium"></span>
-                                <span class="strength-bar strong"></span>
-                            </div>
-                            <span class="strength-text">Password strength</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Confirm Password -->
-                    <div class="form-group">
-                        <label for="id_password2">Confirm Password</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" id="id_password2" name="password2" required placeholder="Confirm your password">
-                        </div>
-                    </div>
-                    
-                    <!-- Terms Checkbox -->
-                    <div class="form-group terms-group">
-                        <input type="checkbox" id="terms" name="terms" required>
-                        <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
-                    </div>
-                    
-                    <!-- Submit Button -->
-                    <button type="submit" class="signup-btn">
-                        <span>Create Account</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
+                    <button type="submit" class="btn btn-success btn-block font-weight-bold mt-2" style="height: 50px; border-radius: 5px;">Sign Up</button>
                 </form>
 
-                <div class="social-auth">
-                    <p class="divider-text"><span>or sign up with</span></p>
-                    
-                    <div class="social-buttons">
-                        <a href="#" class="social-btn google">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google">
-                            Google
-                        </a>
-                        <a href="#" class="social-btn microsoft">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg" alt="Microsoft">
-                            Microsoft
-                        </a>
-                    </div>
-                </div>
+                <div class="sideline my-4" style="text-align:center;">OR</div>
 
-                <div class="login-redirect">
-                    Already have an account? <a href="{% url 'user_login' %}">Log in</a>
+                <button class="btn btn-outline-success btn-block mt-2" style="height: 50px; border-radius: 5px;">
+                    <i class="fab fa-google mr-2"></i> Sign up with Google
+                </button>
+                <button class="btn btn-outline-dark btn-block mt-2" style="height: 50px; border-radius: 5px;">
+                    <i class="fab fa-apple mr-2"></i> Sign up with Apple
+                </button>
+
+                <div class="pt-4 text-center">
+                    Already have an account? <a href="{% url 'user_login' %}" class="font-weight-bold text-success">Log In</a>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- JavaScript -->
-    <script src="{% static 'js/user_signup.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.toggle-password').click(function() {
+        const target = $(this).data('target');
+        const input = $('#' + target);
+        const icon = $(this).find('i');
+        
+        if (input.attr('type') === 'password') {
+            input.attr('type', 'text');
+            icon.removeClass('fa-eye').addClass('fa-eye-slash');
+        } else {
+            input.attr('type', 'password');
+            icon.removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    });
+});
+</script>
 </body>
 </html>

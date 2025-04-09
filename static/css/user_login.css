@@ -1,54 +1,31 @@
 body {
-    background: #c9ccd1;
+    background: #e8f5e9; /* Light green background */
     font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
 }
 
 .form-style input {
-    border: 0;
+    border: 2px solid #ced4da9a; 
     height: 50px;
-    border-bottom: 1px solid #ebebeb;
-    border-radius: 0;
+    border-radius: 5px;
+    padding: 10px;
 }
 
 .form-style input:focus {
-    border-bottom: 1px solid #007bff;
+    border-bottom: 2px solid #2e7d32; /* Green focus border */
     box-shadow: none;
-    outline: 0;
-    background-color: #ebebeb;
+    outline: 12px;
+    background-color: #ebebebe0;
 }
 
-.sideline {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: #ccc;
-}
-
-button {
-    height: 50px;
-}
-
-.sideline:before,
-.sideline:after {
-    content: '';
-    border-top: 1px solid #ebebeb;
-    margin: 0 20px 0 0;
-    flex: 1 0 20px;
-}
-
-.sideline:after {
-    margin: 0 0 0 20px;
-}
 
 .forgot-password {
     text-decoration: none;
-    color: #007bff;
+    color: #2e7d32; /* Green link color */
 }
 
 .forgot-password:hover {
     text-decoration: underline;
+    color: #1b5e20; /* Darker green on hover */
 }
