@@ -1,31 +1,64 @@
 body {
-    background: #e8f5e9; /* Light green background */
+    background: #2e7d3257; /* Solid green background */
     font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.container {
+    max-width: 1000px;
 }
 
 .form-style input {
-    border: 2px solid #ced4da9a; 
-    height: 50px;
-    border-radius: 5px;
-    padding: 10px;
+    border: 2px solid #ced4da9a !important;
+    height: 40px !important; /* Fixed height */
+    border-radius: 5px !important;
+    padding: 10px !important;
+    width: 100% !important;
+    margin-top: 5px !important; /* Space between label and input */
 }
 
 .form-style input:focus {
-    border-bottom: 2px solid #2e7d32; /* Green focus border */
-    box-shadow: none;
-    outline: 12px;
-    background-color: #ebebebe0;
+    border: 2px solid #2e7d3284 !important; /* Green focus border */
+    outline: none !important;
+    background-color: #ebebebe0 !important;
 }
 
+/* Green checkbox styling */
+.custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #2e7d32;
+    border-color: #2e7d32;
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+    box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.571);
+}
+
+.custom-control-label {
+    padding-left: 5px;
+    cursor: pointer;
+}
 
 .forgot-password {
     text-decoration: none;
-    color: #2e7d32; /* Green link color */
+    color: #2e7d32 !important; /* Green link color */
 }
 
 .forgot-password:hover {
     text-decoration: underline;
-    color: #1b5e20; /* Darker green on hover */
+    color: #1b5e20 !important; /* Darker green on hover */
+}
+
+/* Ensure form groups have proper spacing */
+.form-group {
+    margin-bottom: 0 !important;
+}
+
+/* Make sure labels are properly aligned */
+.form-style label {
+    display: block;
+    margin-bottom: 4px;
 }

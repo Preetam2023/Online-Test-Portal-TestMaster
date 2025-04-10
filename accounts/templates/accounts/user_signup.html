@@ -10,16 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{% static 'css/user_login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user_signup.css' %}">
 </head>
 <body>
 <div class="container">
     <div class="row m-5 no-gutters shadow-lg rounded-4 overflow-hidden">
         <!-- Image Section -->
-        <div class="col-md-6 d-none d-md-block p-0">
-            <div class="signup-image-container">
-                <img src="{% static 'img/signup_illustration.jpg' %}" style="min-height:100%;"  class="img-fluid vector-image" alt="Vector illustration of login">
-            </div>
+        <div class="col-md-6 d-none d-md-flex justify-content-center align-items-center p-0 bg-white">
+            <img src="{% static 'img/user_signup.jpg' %}" class="img-fluid vector-image" alt="Signup illustration">
         </div>
 
         <!-- Signup Form Section -->
@@ -29,18 +27,22 @@
                 <p class="text-muted">Fill in your details to get started</p>
             </div>
             <div class="form-style">
-                <form method="post" action="">
+                <form method="post" action="" id="signupForm">
                     {% csrf_token %}
                     <div class="form-group pb-3">
-                        <label for="id_username" class="font-weight-500">Username</label>
-                        <input type="text" name="username" class="form-control" required id="id_username" placeholder="Enter your Username">
+                        <label for="first_name">First Name</label>
+                        <input type="text" name="first_name" class="form-control" required id="first_name" placeholder="Enter your first name">
                     </div>
                     <div class="form-group pb-3">
-                        <label for="id_email" class="font-weight-500">Email Address</label>
-                        <input type="email" name="email" class="form-control" required id="id_email" placeholder="Enter your Email">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" name="last_name" class="form-control" required id="last_name" placeholder="Enter your last name">
                     </div>
                     <div class="form-group pb-3">
-                        <label for="id_password1" class="font-weight-500">Password</label>
+                        <label for="id_email">Email Address</label>
+                        <input type="email" name="email" class="form-control" required id="id_email" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group pb-3">
+                        <label for="id_password1">Password</label>
                         <div class="input-group">
                             <input type="password" name="password1" class="form-control" required id="id_password1" placeholder="Create a password">
                             <div class="input-group-append">
@@ -49,25 +51,29 @@
                                 </span>
                             </div>
                         </div>
-                        <small class="form-text text-muted">At least 8 characters with a number</small>
+                        <small class="form-text text-muted">At least 8 characters with a number and a special character</small>
                     </div>
-                    
-                    <div class="form-group pb-3 d-flex align-items-center">
-                        <input type="checkbox" class="form-check-input mr-2" id="terms" required>
-                        <label class="form-check-label mb-0" for="terms">I agree to the <a href="#" class="text-success">Terms of Service</a> and <a href="#" class="text-success">Privacy Policy</a></label>
+
+                    <div class="form-group pb-3">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="terms">
+                            <label class="custom-control-label" for="terms">
+                                I agree to the 
+                                <a href="#" class="text-success" data-toggle="modal" data-target="#termsModal">Terms of Service</a> 
+                                and 
+                                <a href="#" class="text-success" data-toggle="modal" data-target="#privacyModal">Privacy Policy</a>
+                            </label>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-success btn-block font-weight-bold mt-2" style="height: 50px; border-radius: 5px;">Sign Up</button>
+                    <button type="submit" class="btn btn-success btn-block font-weight-bold mt-2" id="signupBtn" style="height: 40px; border-radius: 5px;" disabled>Sign Up</button>
                 </form>
 
-                <div class="sideline my-4" style="text-align:center;">OR</div>
+                <div class="sideline my-4">OR</div>
 
-                <button class="btn btn-outline-success btn-block mt-2" style="height: 50px; border-radius: 5px;">
+                <button class="btn btn-outline-success btn-block mt-2" style="height: 40px; border-radius: 5px;">
                     <i class="fab fa-google mr-2"></i> Sign up with Google
                 </button>
-                <button class="btn btn-outline-dark btn-block mt-2" style="height: 50px; border-radius: 5px;">
-                    <i class="fab fa-apple mr-2"></i> Sign up with Apple
-                </button>
-
+                
                 <div class="pt-4 text-center">
                     Already have an account? <a href="{% url 'user_login' %}" class="font-weight-bold text-success">Log In</a>
                 </div>
@@ -76,24 +82,79 @@
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script>
-$(document).ready(function() {
-    $('.toggle-password').click(function() {
-        const target = $(this).data('target');
-        const input = $('#' + target);
-        const icon = $(this).find('i');
-        
-        if (input.attr('type') === 'password') {
-            input.attr('type', 'text');
-            icon.removeClass('fa-eye').addClass('fa-eye-slash');
-        } else {
-            input.attr('type', 'password');
-            icon.removeClass('fa-eye-slash').addClass('fa-eye');
-        }
-    });
-});
-</script>
+<!-- Terms Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-success" id="termsModalLabel">Terms of Service</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>1. Acceptance of Terms</h6>
+                <p>By accessing or using our services, you agree to be bound by these Terms. If you disagree with any part, you may not access the service.</p>
+                
+                <h6>2. User Accounts</h6>
+                <p>When creating an account, you must provide accurate information. You are responsible for maintaining the confidentiality of your account.</p>
+                
+                <h6>3. Prohibited Activities</h6>
+                <ul>
+                    <li>Violating laws or regulations</li>
+                    <li>Infringing intellectual property rights</li>
+                    <li>Distributing viruses or malicious code</li>
+                    <li>Spamming or phishing activities</li>
+                </ul>
+                
+                <h6>4. Termination</h6>
+                <p>We may terminate or suspend access immediately for violations of these Terms without prior notice.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">I Understand</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Privacy Modal -->
+<div class="modal fade" id="privacyModal" tabindex="-1" role="dialog" aria-labelledby="privacyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-success" id="privacyModalLabel">Privacy Policy</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h6>1. Information We Collect</h6>
+                <p>We collect personal information including name, email address, and usage data to provide and improve our services.</p>
+                
+                <h6>2. How We Use Information</h6>
+                <ul>
+                    <li>To provide and maintain our service</li>
+                    <li>To notify you about changes</li>
+                    <li>To allow participation in interactive features</li>
+                    <li>To provide customer support</li>
+                </ul>
+                
+                <h6>3. Data Security</h6>
+                <p>We implement security measures including encryption and access controls, but no method is 100% secure.</p>
+                
+                <h6>4. Changes to This Policy</h6>
+                <p>We may update our Privacy Policy and will notify you of changes by posting the new policy on this page.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">I Understand</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'js/user_signup.js' %}"></script>
 </body>
 </html>

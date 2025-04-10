@@ -1,5 +1,6 @@
 body {
-    background: #f8f9fa;
+    background: url('../img/signup_bg.jpg') no-repeat center center fixed ;
+    background-size: cover;
     font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
@@ -12,108 +13,123 @@ body {
     max-width: 1200px;
 }
 
-.signup-image-container {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 150px;  /* Push image downward */
-    background: white;
+.signup-container {
+    margin: 1rem auto;
+    background: rgba(255, 255, 255, 0.95);
+    max-width: 1000px;
+    border-radius: 7px;
 }
 
-
-
-.signup-image-container img.vector-image {
-    width: 70%; /* Slightly smaller */
-    height: auto;
-    object-fit: contain;
-}
 .vector-image {
-    margin-top: 100px; /* or more if needed */
+    width: 1000px;
 }
 
-
-
+/* Form Inputs */
 .form-style input {
-    border: 1px solid #e1e5ee;
-    height: 50px;
+    border: 1px solid #28a745 !important;
+    height: 38px;
     border-radius: 5px;
-    padding: 10px 15px;
+    padding: 8px 12px;
     transition: all 0.3s ease;
+    font-size: 0.9rem;
 }
 
 .form-style input:focus {
-    border-color: #38a169;
-    box-shadow: 0 0 0 0.2rem rgba(56, 161, 105, 0.25);
+    border-color: #28a745 !important;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
     outline: none;
-    background-color: #fff;
 }
 
 .form-style label {
     font-weight: 500;
-    color: #4a5568;
-    margin-bottom: 0.5rem;
+    color: rgba(0, 0, 0, 0.877);
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
 }
 
+/* Buttons */
 .btn-success {
-    background-color: #38a169;
+    background-color: #28a745;
     border: none;
     transition: all 0.3s ease;
+    height: 38px;
+    font-size: 0.9rem;
 }
 
 .btn-success:hover {
-    background-color: #2f855a;
-    transform: translateY(-1px);
+    background-color: #218838;
 }
 
+#signupBtn:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+/* Checkbox Styling */
+.custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.custom-control-label {
+    font-size: 0.85rem;
+    padding-left: 5px;
+}
+
+/* Divider */
 .sideline {
     display: flex;
     width: 100%;
     justify-content: center;
     align-items: center;
-    text-align: center;
-    color: #a0aec0;
-    font-weight: 500;
-    margin: 1.5rem 0;
+    color: rgba(0, 0, 0, 0.71);
+    font-size: 0.9rem;
+    margin: 1rem 0;
 }
 
 .sideline:before,
 .sideline:after {
     content: '';
-    border-top: 1px solid #e2e8f0;
-    margin: 0 20px 0 0;
-    flex: 1 0 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.71);
+    margin: 0 15px;
+    flex: 1;
 }
 
-.sideline:after {
-    margin: 0 0 0 20px;
-}
-
+/* Password Toggle */
 .toggle-password {
     cursor: pointer;
     background-color: #f8fafc;
-    border: 1px solid #e1e5ee;
-    border-left: none;
-    border-radius: 0 5px 5px 0;
+    border: 1px solid #28a745 !important;
+    border-left: none !important;
 }
 
-.toggle-password:hover {
-    background-color: #edf2f7;
+/* Modals */
+.modal-content {
+    border: none;
+    border-radius: 10px;
 }
 
-.rounded-4 {
-    border-radius: 1rem !important;
+.modal-header {
+    border-bottom: 1px solid #28a745;
+    background: #f8f9fa;
+    border-radius: 10px 10px 0 0 !important;
 }
 
-.btn-outline-success, .btn-outline-dark {
-    transition: all 0.3s ease;
+.modal-body {
+    padding: 20px;
+    font-size: 0.9rem;
 }
 
-.btn-outline-success:hover, .btn-outline-dark:hover {
-    transform: translateY(-1px);
+.modal-body h6 {
+    color: green;
+    margin-top: 15px;
 }
 
-.form-check-input:checked {
-    background-color: #38a169;
-    border-color: #38a169;
+.modal-body ul {
+    padding-left: 20px;
+}
+
+.btn-outline-success {
+    height: 38px;
+    font-size: 0.9rem;
 }
