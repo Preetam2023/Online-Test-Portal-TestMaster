@@ -1,80 +1,22 @@
+{% extends 'accounts/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Online Education</title>
-  <link rel="stylesheet" href="{% static 'css/home.css' %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-<body>
-  <header>
-    <div class="logo">
-      <img src="{% static 'img/logo.png' %}"  alt="Logo">
+
+{% block title %}TestMaster - Home{% endblock %}
+
+{% block content %}
+<div class="content">
+  <div class="text">
+    <h1>Welcome to TestMaster</h1>
+    <p>Welcome to our online education platform. Learn at your own pace from anywhere in the world.</p>
+
+    <div class="button-group">
+      <a href="{% url 'user_signup' %}" class="btn">Sign Up</a><br>
+      <a href="{% url 'user_login' %}" class="btn">Login</a>
+      <a href="{% url 'organization-admin-signup' %}" class="btn org">Click Here for Organization</a>
     </div>
-    <nav>
-      <ul>
-        <li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'about' %}">About</a></li>
-        <li><a href="#">Courses</a></li>
-        <li><a href="{% url 'contact' %}">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main>
-    <div class="content">
-      <div class="text">
-        <h1>Welcome to TestMaster</h1>
-        <p>Welcome to our online education platform. Learn at your own pace from anywhere in the world.</p>
-
-      <div class="button-group">
-        <a href="{% url 'user_signup' %}" class="btn">Sign Up</a><br>
-        <a href="{% url 'user_login' %}" class="btn">Login</a>
-
-        <a href="{% url 'organization-admin-signup' %}" class="btn org">Click Here for Organization</a>
-      </div>
-
-      </div>
-      <div class="image">
-        <img src="{% static 'img/user_dashboard.jpg' %}" alt="online">
-      </div>
-    </div>
-  </main>
-  <footer>
-   <div class="footer-container">
-     <div class="footer-section">
-      <h3>About Us</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      </p>
-     </div>
-     <div class="footer-section">
-      <h3>Quick Links</h3>
-      <ul>
-        <li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'about' %}">About</a></li>
-        <li><a href="#">Courses</a></li>
-        <li><a href="{% url 'contact' %}">Contact</a></li>
-      </ul>
-      </div>
-       <div class="footer-section">
-       <h3>Follow Us</h3>
-       <div class="social-icons">
-        <a href="#"><i class="fa-brands fa-facebook"></i></a>
-        <a href="#"><i class="fa-brands fa-square-twitter"></i></a>
-        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-       </div>
-       </div>
-       <div class="footer-section">
-        <h3>Contact Us</h3>
-        <p><i class="fa-solid fa-phone"></i> +123-456-7890</p>
-        <p><i class="fa-solid fa-square-envelope"></i> info@example.com</p>
-        <p><i class="fa-solid fa-location-dot"></i> 123 Edu Street, City</p>
-       </div>
-      </div>
-  </footer>
-  <script src="{% static 'js/home.js' %}"></script>
-</body>
-</html>
+  </div>
+  <div class="image">
+    <img src="{% static 'img/user_dashboard.jpg' %}" alt="online">
+  </div>
+</div>
+{% endblock %}

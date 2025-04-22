@@ -1,93 +1,37 @@
+{% extends 'accounts/base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Online Education</title>
-  <link rel="stylesheet" href="{% static 'css/contact.css' %}">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
-<body>
-  <header>
-    <div class="logo">
-      <img src="{% static 'img/logo.png' %}" alt="Logo">
+
+{% block title %}TestMaster - Contact Us{% endblock %}
+
+{% block content %}
+<section class="contact-section">
+  <div class="contact-wrapper">
+    <div class="contact-image">
+      <img src="{% static 'img/about1.jpg' %}" alt="Contact Us Illustration">
     </div>
-    <nav>
-      <ul>
-        <li><a href="Homepage.html">Home</a></li>
-        <li><a href="About.html">About</a></li>
-        <li><a href="#">Courses</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main>
-    <section class="contact-section">
-      <div class="contact-wrapper">
-        <div class="contact-image">
-          <img src="{% static 'img/about1.jpg' %}" alt="Contact Us Illustration">
+    <div class="contact-form-container">
+      <h2>Contact Us</h2>
+      <form id="contactForm">
+        <div class="form-group">
+          <input type="text" placeholder="Full Name" id="name" name="name" required>
         </div>
-        <div class="contact-form-container">
-          <h2>Contact Us</h2>
-          <form id="contactForm">
-            <div class="form-group">
-              <!--<label for="name">Name</label>-->
-              <input type="text" placeholder="Full Name"id="name" name="name" required>
-            </div>
-            <div class="form-group">
-              <!--<label for="email">Email ID</label>-->
-              <input type="email" placeholder="Email Adress"id="email" name="email" required>
-            </div>
-            <div class="form-group">
-              <!--<label for="phone">Phone Number</label>-->
-              <input type="tel" placeholder="Phone Number" id="phone" name="phone" required>
-            </div>
-            <div class="form-group">
-              <!--<label for="message">Message</label>-->
-              <textarea id="message" placeholder="Write Your Massage" name="message" rows="4"></textarea>
-            </div>
-            <button type="submit" class="btn">Submit</button>
-          </form>
+        <div class="form-group">
+          <input type="email" placeholder="Email Address" id="email" name="email" required>
         </div>
-      </div>
-    </section>
-  </main>
-  
-  <footer>
-    <div class="footer-container">
-      <div class="footer-section">
-       <h3>About Us</h3>
-       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-         Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-       </p>
-      </div>
-      <div class="footer-section">
-       <h3>Quick Links</h3>
-       <ul>
-         <li><a href="#">Home</a></li>
-         <li><a href="#">About</a></li>
-         <li><a href="#">Courses</a></li>
-         <li><a href="#">Contact</a></li>
-       </ul>
-       </div>
-        <div class="footer-section">
-        <h3>Follow Us</h3>
-        <div class="social-icons">
-         <a href="#"><i class="fa-brands fa-facebook"></i></a>
-         <a href="#"><i class="fa-brands fa-square-twitter"></i></a>
-         <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+        <div class="form-group">
+          <input type="tel" placeholder="Phone Number" id="phone" name="phone" required>
         </div>
+        <div class="form-group">
+          <textarea id="message" placeholder="Write Your Message" name="message" rows="4"></textarea>
         </div>
-        <div class="footer-section">
-         <h3>Contact Us</h3>
-         <p><i class="fa-solid fa-phone"></i> +123-456-7890</p>
-         <p><i class="fa-solid fa-square-envelope"></i> info@example.com</p>
-         <p><i class="fa-solid fa-location-dot"></i> 123 Edu Street, City</p>
-        </div>
-       </div>
-   </footer>
-   <script src="{% static 'js/contact.css' %}"></script>
- </body>
- </html>
+        <button type="submit" class="btn">Submit</button>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<link rel="stylesheet" href="{% static 'css/contact.css' %}">
+<script src="{% static 'js/contact.js' %}"></script>
+{% endblock %}
