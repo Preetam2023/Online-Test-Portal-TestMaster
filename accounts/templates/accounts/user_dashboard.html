@@ -1,56 +1,161 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Dashboard - TestMaster</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600&display=swap">
-    <link rel="stylesheet" href="{% static 'css/user_dashboard.css' %}">  
+    <title>Dashboard - TestMaster</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/user_dashboard.css' %}">
 </head>
 <body>
-    <!-- Navbar -->
-    <nav>
-        <ul>
-            <li><a href="{% url 'practice_questions' %}">Question Bank</a></li>
-            <li><a href="{% url 'mock_test' %}">Mock Test</a></li>
-            <li><a href="{% url 'code_editor' %}">Code Editor</a></li>
-        </ul>
-        <div class="profile">
-            <a href="#"><img src="{% static 'img/profile-icon.png' %}" alt="Profile Icon"></a>
-            <span class="profile-text">Profile</span>
-            <div class="dropdown-content">
-                <a href="{% url 'profile' %}">My Profile</a>
-                <a href="{% url 'custom_logout' %}">Logout</a>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>Test<span>Master</span></h1>
+                <p>Knowledge Assessment Platform</p>
             </div>
-        </div>
-    </nav>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <h1>Welcome to TestMaster, {{ user.first_name }}!</h1>
+            <nav class="main-nav">
+                <ul>
+                    <li class="active">
+                        <a href="#">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'practice_questions' %}">
+                            <i class="fas fa-book-open"></i>
+                            <span>Question Bank</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'mock_test' %}">
+                            <i class="fas fa-clipboard-check"></i>
+                            <span>Mock Tests</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'code_editor' %}">
+                            <i class="fas fa-code"></i>
+                            <span>Code Editor</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
 
-        <!-- Image below welcome message -->
-        <div>
-            <img src="{% static 'img/user_dashboard.jpg' %}" alt="Welcome Image" class="welcome-image">
-        </div>
-        <!-- Button for Organization Test -->
-        <a href="#" class="org-test-btn" id="orgTestBtn">User  of any specific organization? Click here to give your test</a>
+            <div class="org-section">
+                <button class="org-btn" id="orgBtn">
+                    <i class="fas fa-building"></i>
+                    <span>Organization Test</span>
+                </button>
+                <div class="org-form" id="orgForm">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="text" placeholder="Organization Name" required>
+                        <input type="text" placeholder="Your ID" required>
+                        <button type="submit">Access Test</button>
+                    </form>
+                </div>
+            </div>
+        </aside>
 
-        <!-- Organization Test Form (initially hidden) -->
-        <div class="org-test-form" id="orgTestForm">
-            <form method="POST">
-                {% csrf_token %}
-                <input type="text" name="organization_name" placeholder="Enter Organization Name" required>
-                <input type="text" name="organization_user_id" placeholder="Enter User ID of organization" required>
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <div class="header-title">
+                    <h2>Welcome back, <span>{{ user.first_name }}</span></h2>
+                    <p>Ready for your next learning session?</p>
+                </div>
+                <div class="user-profile">
+                    <img src="{% static 'img/profile-icon.png' %}" alt="Profile" class="profile-img">
+                    <div class="profile-dropdown">
+                        <span>{{ user.first_name }} {{ user.last_name }}</span>
+                        <div class="dropdown-menu">
+                            <a href="{% url 'profile' %}"><i class="fas fa-user-cog"></i> My Profile</a>
+                            <a href="{% url 'custom_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
 
-                <button type="submit">Submit</button>
-            </form>
-        </div>
+            <div class="content-grid">
+                <!-- Hero Section -->
+                <section class="hero-card">
+                    <div class="hero-text">
+                        <h3>Enhance Your Skills</h3>
+                        <p>Practice with thousands of questions and improve your knowledge with our interactive platform.</p>
+                        <a href="{% url 'practice_questions' %}" class="cta-btn">Start Practicing</a>
+                    </div>
+                    <div class="hero-image">
+                        <img src="{% static 'img/dashboard-illustration.jpg' %}" alt="Online Testing Illustration">
+                    </div>
+                </section>
+
+                <!-- Quick Access Cards -->
+                <section class="quick-access">
+                    <div class="access-card" onclick="window.location.href='{% url 'practice_questions' %}'">
+                        <div class="card-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h4>Question Bank</h4>
+                        <p>Access thousands of practice questions</p>
+                    </div>
+
+                    <div class="access-card" onclick="window.location.href='{% url 'mock_test' %}'">
+                        <div class="card-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <h4>Mock Tests</h4>
+                        <p>Simulate real exam conditions</p>
+                    </div>
+
+                    <div class="access-card" onclick="window.location.href='{% url 'code_editor' %}'">
+                        <div class="card-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h4>Code Editor</h4>
+                        <p>Practice coding in multiple languages</p>
+                    </div>
+                </section>
+
+                <!-- Recent Activity -->
+                <section class="activity-section">
+                    <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h5>Practiced 15 questions</h5>
+                                <p>Data Structures | 30 minutes ago</p>
+                            </div>
+                            <div class="activity-score">
+                                85%
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-clipboard-check"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h5>Completed Python Test</h5>
+                                <p>Mock Test | 2 hours ago</p>
+                            </div>
+                            <div class="activity-score">
+                                92%
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
     </div>
 
-    <!-- Link to the external JavaScript file -->
-    <script src="{% static 'js/user_dashboard.js' %}"></script> 
+    <script src="{% static 'js/user_dashboard.js' %}"></script>
 </body>
 </html>
