@@ -30,18 +30,19 @@ def contact(request):
 
 def user_signup(request):
     if request.method == 'POST':
-        form = SignupForm(request.POST)  
+        form = SignupForm(request.POST)
         if form.is_valid():
-            # Create a new user
             user = form.save()
             messages.success(request, 'Registration successful. You can now log in.')
             login(request, user)
-            return redirect('user_dashboard')  # Redirect to the dashboard
+            return redirect('user_dashboard')
+        else:
+            print(form.errors)  # 👉 Add this line to debug
+
     else:
         form = SignupForm()
 
     return render(request, 'accounts/user_signup.html', {'form': form})
-
 
 
 from django.contrib.auth import authenticate, login, get_user_model

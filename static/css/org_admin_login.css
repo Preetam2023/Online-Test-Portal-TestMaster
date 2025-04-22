@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #ebf4ff, #e0e7ff);
+    background: rgb(196, 220, 245);
     margin: 0;
     padding: 0;
     display: flex;
@@ -25,7 +25,7 @@ body {
   h2 {
     text-align: center;
     margin-bottom: 20px;
-    color: #111827;
+    color:#2563eb;
   }
   
   .error-box {
@@ -54,6 +54,14 @@ body {
     font-size: 14px;
   }
   
+  
+input[type="email"]:hover,
+input[type="password"]:hover,
+input[type="email"]:focus,
+input[type="password"]:focus {
+  border-color: #7ab2ff;
+  outline: none;
+}
   .options {
     display: flex;
     justify-content: space-between;
@@ -106,6 +114,7 @@ body {
   }
   
   .btn-secondary:hover {
-    background-color: #f3f4f6;
+    background-color: #2d5bd8;
+    color: white;
   }
-  
+ 

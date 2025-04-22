@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f2f2f2;
+    background-color: #c4dcf5;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -41,15 +41,14 @@ body {
     height: auto;
 }
 
-
 h2 {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     font-size: 24px;
     color: #333;
 }
 
 .subheading {
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     color: #666;
     font-size: 14px;
 }
@@ -61,7 +60,7 @@ form {
 
 label {
     margin-bottom: 5px;
-    color: #444;
+    color: #393838;
     font-weight: 500;
     font-size: 14px;
 }
@@ -98,7 +97,6 @@ button:hover {
 
 .right-section {
     flex: 1;
-    background-color: #000;
     background-image: url("../img/signup_graphic.jpg");
     background-size: cover;         /* changes from cover to contain */
     background-position: center;
@@ -106,6 +104,3 @@ button:hover {
     border-top-right-radius: 12px;
     border-bottom-right-radius: 12px;
 }
-
-
-

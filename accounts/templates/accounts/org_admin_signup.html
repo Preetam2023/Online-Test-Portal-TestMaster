@@ -10,8 +10,7 @@
 <body>
     <div class="container">
         <div class="left-section">
-            <img src="{% static 'img/logo.png' %}" alt="TestMaster Logo" class="logo">
-            <h2>Organization Registration</h2>
+            <h1 style=" color:rgb(36, 109, 227);">Organization Registration </h1>
             <p class="subheading">Create your organization account to manage tests</p>
 
             {% if messages %}
@@ -24,55 +23,50 @@
 
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                
-                <!-- Organization Name -->
-                <div class="form-group">
-                    {{ form.organization_name.label_tag }}
-                    {{ form.organization_name }}
-                    {% if form.organization_name.errors %}
-                        <div class="error">{{ form.organization_name.errors }}</div>
-                    {% endif %}
-                </div>
+<div class="form-group">
+    <label for="id_organization_name">Organization Name <span class="required-star">*</span></label>
+    {{ form.organization_name }}
+    {% if form.organization_name.errors %}
+        <div class="error">{{ form.organization_name.errors }}</div>
+    {% endif %}
+</div>
 
-                <!-- Email -->
-                <div class="form-group">
-                    {{ form.email.label_tag }}
-                    {{ form.email }}
-                    {% if form.email.errors %}
-                        <div class="error">{{ form.email.errors }}</div>
-                    {% endif %}
-                </div>
+<div class="form-group">
+    <label for="id_email">Email <span class="required-star">*</span></label>
+    {{ form.email }}
+    {% if form.email.errors %}
+        <div class="error">{{ form.email.errors }}</div>
+    {% endif %}
+</div>
 
-                <!-- Password -->
-                <div class="form-group">
-                    {{ form.password1.label_tag }}
-                    {{ form.password1 }}
-                    {% if form.password1.errors %}
-                        <div class="error">{{ form.password1.errors }}</div>
-                    {% endif %}
-                </div>
+<div class="form-group">
+    <label for="id_password1">Password <span class="required-star">*</span></label>
+    {{ form.password1 }}
+    {% if form.password1.errors %}
+        <div class="error">{{ form.password1.errors }}</div>
+    {% endif %}
+</div>
 
-                <!-- Confirm Password -->
-                <div class="form-group">
-                    {{ form.password2.label_tag }}
-                    {{ form.password2 }}
-                    {% if form.password2.errors %}
-                        <div class="error">{{ form.password2.errors }}</div>
-                    {% endif %}
-                </div>
+<div class="form-group">
+    <label for="id_password2">Confirm Password <span class="required-star">*</span></label>
+    {{ form.password2 }}
+    {% if form.password2.errors %}
+        <div class="error">{{ form.password2.errors }}</div>
+    {% endif %}
+</div>
 
-                <!-- Logo -->
-                <div class="form-group">
-                    {{ form.logo.label_tag }}
-                    {{ form.logo }}
-                    {% if form.logo.errors %}
-                        <div class="error">{{ form.logo.errors }}</div>
-                    {% endif %}
-                </div>
+<!-- Logo remains without asterisk -->
+<div class="form-group">
+    {{ form.logo.label_tag }}
+    {{ form.logo }}
+    {% if form.logo.errors %}
+        <div class="error">{{ form.logo.errors }}</div>
+    {% endif %}
+</div>
 
                 <button type="submit" class="btn-submit">Register</button>
             </form>
-            <a href="{% url 'organization-admin-login' %}" class="login-link">Already have an account? Log in</a>
+                Already have an account?<a href="{% url 'organization-admin-login' %}" class="login-link"> Log in</a>
         </div>
         <div class="right-section">
             <!-- Optional right section content -->
