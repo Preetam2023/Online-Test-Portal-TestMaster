@@ -18,14 +18,19 @@ import json
 import requests
 from django.http import JsonResponse
 
-User = get_user_model()  # Use the custom user model
+User = get_user_model()  
 
 def home(request):
     return render(request, 'accounts/home.html')
 
+def about(request):
+    return render(request, 'accounts/about.html')
+def contact(request):
+    return render(request, 'accounts/contact.html')
+
 def user_signup(request):
     if request.method == 'POST':
-        form = SignupForm(request.POST)  # Use SignupForm
+        form = SignupForm(request.POST)  
         if form.is_valid():
             # Create a new user
             user = form.save()
@@ -36,6 +41,8 @@ def user_signup(request):
         form = SignupForm()
 
     return render(request, 'accounts/user_signup.html', {'form': form})
+
+
 
 from django.contrib.auth import authenticate, login, get_user_model
 from django.shortcuts import render, redirect

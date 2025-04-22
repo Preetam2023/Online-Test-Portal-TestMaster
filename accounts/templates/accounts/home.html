@@ -15,10 +15,10 @@
     </div>
     <nav>
       <ul>
-        <li><a href="Homepage.html">Home</a></li>
-        <li><a href="About.html">About</a></li>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
         <li><a href="#">Courses</a></li>
-        <li><a href="Contact.html">Contact</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
       </ul>
     </nav>
   </header>
@@ -27,20 +27,12 @@
       <div class="text">
         <h1>Welcome to TestMaster</h1>
         <p>Welcome to our online education platform. Learn at your own pace from anywhere in the world.</p>
-        <!--<a href="#" class="btn">Login</a>
-        <a href="#" class="btn">Sign Up</a><br>
-        
-         Login and Sign Up Buttons 
-        <div class="buttons-container">
-          <a href="#" class="btn">Login</a>
-          <a href="#" class="btn">Sign Up</a>
-        </div><br>
-        <a href="#" class="btn org"> for organization click here</a>
-      -->
+
       <div class="button-group">
-        <a href="#" class="btn">Login</a>
-        <a href="#" class="btn">Sign Up</a><br>
-        <a href="#" class="btn org">Click Here for Organization</a>
+        <a href="{% url 'user_signup' %}" class="btn">Sign Up</a><br>
+        <a href="{% url 'user_login' %}" class="btn">Login</a>
+
+        <a href="{% url 'organization-admin-signup' %}" class="btn org">Click Here for Organization</a>
       </div>
 
       </div>
@@ -61,10 +53,10 @@
      <div class="footer-section">
       <h3>Quick Links</h3>
       <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
+        <li><a href="{% url 'home' %}">Home</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
         <li><a href="#">Courses</a></li>
-        <li><a href="#">Contact</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
       </ul>
       </div>
        <div class="footer-section">

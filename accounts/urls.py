@@ -16,12 +16,18 @@ from .views import (
     mock_test_page,
     custom_logout,
     org_admin_dashboard,
+    about,
+    contact,
 )
 
 urlpatterns = [
     path('', home, name='home'),  
     path('user-signup/', user_signup, name='user_signup'),
     path('user-login/', login_view, name='user_login'),
+    path('about-us/', about, name='about'),
+    path('contact/', contact, name='contact'),
+
+
     path('user-dashboard/', user_dashboard, name='user_dashboard'),
     path('user-dashboard/profile/', user_profile, name='profile'),
     path('user-dashboard/code-editor/', TemplateView.as_view(template_name='accounts/code_editor.html'), name='code_editor'),
