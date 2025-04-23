@@ -147,3 +147,11 @@ CORS_ALLOWED_ORIGINS = [
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Email settings for Mailtrap
+EMAIL_HOST = 'in-v3.mailjet.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = '6596ba5c5ec7a1608ae1e6e2a20a2904'  # From Mailjet dashboard
+EMAIL_HOST_PASSWORD = 'e0cfc73f0073d84455d3f9346404376f'  # From Mailjet dashboard
+DEFAULT_FROM_EMAIL = 'help.testmaster@gmail.com'  # Any email

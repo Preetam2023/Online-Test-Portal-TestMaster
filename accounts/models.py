@@ -32,6 +32,7 @@ class User(AbstractUser):
         STUDENT = "STUDENT", "Student"
         ORG_ADMIN = "ORG_ADMIN", "Organization Admin"
         SUPERADMIN = "SUPERADMIN", "Super Admin"
+        MODERATOR = "MODERATOR", "Moderator"
     
     role = models.CharField(max_length=20, choices=Role.choices, default=Role.STUDENT)
     email = models.EmailField(unique=True)
@@ -75,3 +76,14 @@ class OrganizationAdminProfile(models.Model):
     
 from django.contrib.auth.models import BaseUserManager
 
+class ModeratorProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='moderator_profile')
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    added_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='added_moderators')
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    full_name = models.CharField(max_length=100)
+
+    
+    def __str__(self):
+        return f"{self.full_name} ({self.user.email})"

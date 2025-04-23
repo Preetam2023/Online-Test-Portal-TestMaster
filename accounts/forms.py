@@ -39,6 +39,13 @@ class LoginForm(forms.Form):
 
 
 
+# forms.py
+from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
+from .models import User, Organization, OrganizationAdminProfile, ModeratorProfile
+import re
+
 class OrganizationSignupForm(UserCreationForm):
     organization_name = forms.CharField(
         max_length=100,
@@ -55,6 +62,14 @@ class OrganizationSignupForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('email', 'password1', 'password2')
+
+    def clean_organization_name(self):
+        org_name = self.cleaned_data.get('organization_name')
+        normalized_name = re.sub(r'\s+', ' ', org_name.strip().lower())
+        
+        if Organization.objects.filter(name__iexact=normalized_name).exists():
+            raise ValidationError("An organization with this name already exists")
+        return org_name
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -100,3 +115,51 @@ class OrganizationLoginForm(forms.Form):
             raise forms.ValidationError("Both email and password are required")
         
         return cleaned_data
+    
+# forms.py
+from django.contrib.auth.forms import PasswordChangeForm
+from django.utils.crypto import get_random_string
+
+class OrganizationSettingsForm(forms.ModelForm):
+    class Meta:
+        model = Organization
+        fields = ['name', 'logo']
+
+class AddModeratorForm(forms.Form):
+        
+    full_name = forms.CharField(max_length=100, required=True, widget=forms.EmailInput(attrs={'placeholder': 'Moderator Email'}))
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={'placeholder': 'Moderator Email'})
+    )
+
+    
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("This email is already registered")
+        return email
+
+class ModeratorLoginForm(forms.Form):
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={
+            'placeholder': 'Moderator Email',
+            'class': 'form-control'
+        })
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={
+            'placeholder': 'Password',
+            'class': 'form-control'
+        })
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        email = cleaned_data.get('email')
+        password = cleaned_data.get('password')
+        
+        if not email or not password:
+            raise forms.ValidationError("Both email and password are required")
+        
+        return cleaned_data
+    

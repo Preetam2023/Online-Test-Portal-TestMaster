@@ -5,7 +5,9 @@
     --light: #f8f9fa;
     --dark: #212529;
     --gray: #6c757d;
+    --gray-light: #e2e8f0; /* Add this line */
     --light-gray: #e9ecef;
+    --space-md: 1rem; /* Add this line if not present */
 }
 
 * {
@@ -99,6 +101,73 @@ body {
 
 .sidebar.collapsed .sidebar-header h3 {
     display: none;
+}
+.sidebar-footer {
+    padding: var(--space-md);
+    border-top: 1px solid var(--gray-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+}
+
+.avatar-placeholder {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    background: var(--primary);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.user-email {
+    font-size: 0.75rem;
+    color: var(--gray);
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    color: var(--gray);
+    cursor: pointer;
+    transition: var(--transition);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+}
+
+.logout-btn:hover {
+    background: var(--gray-light);
+    color: var(--dark);
 }
 
 /* Main Content Styles */
@@ -265,40 +334,6 @@ body {
 .action-btn:hover {
     background: var(--primary);
     color: white;
-}
-
-@media (max-width: 768px) {
-    .sidebar {
-        position: fixed;
-        left: -100%;
-        height: 100%;
-        z-index: 200;
-        transition: left 0.3s ease;
-    }
-
-    .sidebar.active {
-        left: 0;
-    }
-
-    .menu-toggle {
-        display: block;
-        position: fixed;
-        top: 15px;
-        left: 15px;
-        z-index: 300;
-        font-size: 1.5rem;
-        background: var(--primary);
-        color: white;
-        padding: 10px;
-        border-radius: 8px;
-        cursor: pointer;
-    }
-}
-
-@media (min-width: 769px) {
-    .menu-toggle {
-        display: none;
-    }
 }
 
 @media (max-width: 768px) {

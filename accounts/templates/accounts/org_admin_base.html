@@ -4,10 +4,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}TestMaster Dashboard{% endblock %}</title>
+    <title>TestMaster - {% block title %}Organization Admin{% endblock %}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="{% static 'accounts/css/dashboard.css' %}">
-    {% block extra_css %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'css/org_admin_base.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    {% block extra_css %}
+    <style>
+        /* Message Notification Styles */
+        .message-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #6c757d;
+        }
+        
+        .notification-bell:hover {
+            color: #4361ee;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #f43f5e;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .message-container {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            width: 350px;
+            max-height: 500px;
+            overflow-y: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 15px;
+            display: none;
+        }
+        
+        .message-container.show {
+            display: block;
+        }
+        
+        .message-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 4px solid;
+        }
+        
+        .message-item.success {
+            background-color: #f0fff4;
+            border-left-color: #48bb78;
+        }
+        
+        .message-item.error {
+            background-color: #fff5f5;
+            border-left-color: #f56565;
+        }
+        
+        .message-item.info {
+            background-color: #ebf8ff;
+            border-left-color: #4299e1;
+        }
+        
+        .close-message {
+            float: right;
+            cursor: pointer;
+            font-size: 1rem;
+            line-height: 1;
+        }
+    </style>
+    {% endblock %}
 </head>
 <body>
     <!-- Sidebar Navigation -->
@@ -19,34 +106,54 @@
             </button>
         </div>
         <div class="sidebar-menu">
-            <a href="{% url 'organization-admin-dashboard' %}" class="menu-item {% if request.resolver_match.url_name == 'organization-admin-dashboard' %}active{% endif %}">
+            <a href="{% url 'organization-admin-dashboard' %}" class="menu-item {% if request.path == '/organization-admin-dashboard/' %}active{% endif %}">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
-            <a href="{% url 'add-test' %}" class="menu-item {% if request.resolver_match.url_name == 'add-test' %}active{% endif %}">
+            <a href="#" class="menu-item">
                 <i class="fas fa-plus-circle"></i>
                 <span>Add Test</span>
             </a>
-            <a href="{% url 'open-tests' %}" class="menu-item {% if request.resolver_match.url_name == 'open-tests' %}active{% endif %}">
+            <a href="#" class="menu-item">
                 <i class="fas fa-door-open"></i>
                 <span>Open Tests</span>
             </a>
-            <a href="{% url 'closed-tests' %}" class="menu-item {% if request.resolver_match.url_name == 'closed-tests' %}active{% endif %}">
+            <a href="#" class="menu-item">
                 <i class="fas fa-door-closed"></i>
                 <span>Closed Tests</span>
             </a>
-            <a href="{% url 'participants' %}" class="menu-item {% if request.resolver_match.url_name == 'participants' %}active{% endif %}">
+            <a href="#" class="menu-item">
                 <i class="fas fa-users"></i>
                 <span>Participants</span>
             </a>
-            <a href="{% url 'analytics' %}" class="menu-item {% if request.resolver_match.url_name == 'analytics' %}active{% endif %}">
+            <a href="#" class="menu-item">
                 <i class="fas fa-chart-bar"></i>
                 <span>Analytics</span>
             </a>
-            <a href="{% url 'org-settings' %}" class="menu-item {% if request.resolver_match.url_name == 'org-settings' %}active{% endif %}">
+            <a href="{% url 'organization-settings' %}" class="menu-item {% if request.path == '/organization/settings/' %}active{% endif %}">
                 <i class="fas fa-cog"></i>
                 <span>Settings</span>
             </a>
+            <a href="{% url 'control-moderators' %}" class="menu-item {% if request.path == '/organization/moderators/' %}active{% endif %}">
+                <i class="fas fa-users-cog"></i>
+                <span>Moderators</span>
+            </a>
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    {% if user.org_admin_profile.organization.logo %}
+                        <img src="{{ user.org_admin_profile.organization.logo.url }}" alt="Organization Logo" class="user-avatar">
+                    {% else %}
+                        <div class="avatar-placeholder">{{ user.org_admin_profile.organization.name|first|upper }}</div>
+                    {% endif %}
+                    <div class="user-info">
+                        <div class="user-name">{{ user.org_admin_profile.organization.name }}</div>
+                        <div class="user-email">{{ user.email }}</div>
+                    </div>
+                </div>
+                <a href="#" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
         </div>
     </div>
 
@@ -55,7 +162,42 @@
         {% block content %}{% endblock %}
     </div>
 
-    <script src="{% static 'accounts/js/dashboard.js' %}"></script>
-    {% block extra_js %}{% endblock %}
+    <script src="{% static 'js/org_admin_base.js' %}"></script>
+    {% block extra_js %}
+<script>
+    // Message notification toggle
+    document.addEventListener('DOMContentLoaded', function() {
+        const notificationBell = document.querySelector('.notification-bell');
+        const messageContainer = document.querySelector('.message-container');
+        
+        if (notificationBell && messageContainer) {
+            notificationBell.addEventListener('click', function() {
+                messageContainer.classList.toggle('show');
+            });
+            
+            // Close individual messages
+            document.querySelectorAll('.close-message').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.parentElement.style.display = 'none';
+                    updateNotificationCount();
+                });
+            });
+            
+            function updateNotificationCount() {
+                const visibleMessages = document.querySelectorAll('.message-item[style="display: block;"]').length;
+                const badge = document.querySelector('.notification-badge');
+                if (badge) {
+                    badge.textContent = visibleMessages;
+                    if (visibleMessages === 0) {
+                        badge.style.display = 'none';
+                    } else {
+                        badge.style.display = 'flex';
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
 </body>
 </html>

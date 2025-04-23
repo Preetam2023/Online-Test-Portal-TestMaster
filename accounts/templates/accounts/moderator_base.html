@@ -1,0 +1,71 @@
+{% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/moderator.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="moderator-dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>TestMaster</h2>
+            <p>Moderator Panel</p>
+        </div>
+
+        <nav class="moderator-nav">
+            <ul>
+                <li class="{% if request.path == '/moderator/dashboard/' %}active{% endif %}">
+                    <a href="{% url 'moderator-dashboard' %}">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>Add Test</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>View Tests</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Results</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="moderator-content">
+        <header class="moderator-header">
+            <div class="header-left">
+                <h3>{% block moderator_title %}{% endblock %}</h3>
+            </div>
+            <div class="header-right">
+                <div class="user-profile">
+                    <span>{{ user.email }}</span>
+                    <div class="profile-dropdown">
+                        <a href="#"><i class="fas fa-user"></i> Profile</a>
+                        <a href="{% url 'custom_logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-wrapper">
+            {% block moderator_content %}{% endblock %}
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/moderator.js' %}"></script>
+{% endblock %}

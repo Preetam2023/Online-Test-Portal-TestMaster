@@ -1,0 +1,54 @@
+{% extends 'accounts/moderator_base.html' %}
+{% load static %}
+
+{% block moderator_title %}Moderator Dashboard{% endblock %}
+
+{% block moderator_content %}
+<div class="dashboard-cards">
+    <div class="card" onclick="window.location.href='#'">
+        <div class="card-icon">
+            <i class="fas fa-plus-circle"></i>
+        </div>
+        <h4>Create New Test</h4>
+        <p>Set up a new assessment for your organization</p>
+    </div>
+    
+    <div class="card" onclick="window.location.href='#'">
+        <div class="card-icon">
+            <i class="fas fa-clipboard-list"></i>
+        </div>
+        <h4>My Tests</h4>
+        <p>View and manage tests you've created</p>
+    </div>
+    
+    <div class="card" onclick="window.location.href='#'">
+        <div class="card-icon">
+            <i class="fas fa-chart-bar"></i>
+        </div>
+        <h4>View Results</h4>
+        <p>Analyze participant performance</p>
+    </div>
+</div>
+
+<div class="recent-activity">
+    <h4><i class="fas fa-history"></i> Recent Activity</h4>
+    <div class="activity-list">
+        {% for activity in recent_activities %}
+        <div class="activity-item">
+            <div class="activity-icon">
+                <i class="fas fa-{{ activity.icon }}"></i>
+            </div>
+            <div class="activity-details">
+                <h5>{{ activity.title }}</h5>
+                <p>{{ activity.description }}</p>
+                <small>{{ activity.timestamp }}</small>
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-activity">
+            <p>No recent activity found</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

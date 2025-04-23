@@ -1,0 +1,32 @@
+{% extends 'accounts/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-card">
+        <div class="login-header">
+            <img src="{% static 'img/logo.png' %}" alt="TestMaster Logo">
+            <h2>Moderator Login</h2>
+            <p>Access your organization's test management panel</p>
+        </div>
+        
+        <form method="POST" class="login-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" name="email" class="form-control" placeholder="your@email.com" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Login</button>
+        </form>
+        
+        <div class="login-footer">
+            <p>Not a moderator? <a href="{% url 'organization-admin-login' %}">Organization admin login</a></p>
+            <p><a href="#">Forgot password?</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

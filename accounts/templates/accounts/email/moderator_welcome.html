@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { color: #4361ee; text-align: center; }
+        .credentials { background: #f8f9fa; padding: 15px; border-radius: 5px; }
+        .footer { margin-top: 20px; font-size: 0.9em; color: #6c757d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Welcome to {{ organization_name }}</h2>
+        </div>
+        
+        <p>Hello {{ moderator_name }},</p>
+        
+        <p>You have been added as a moderator to <strong>{{ organization_name }}</strong> on TestMaster.</p>
+        
+        <div class="credentials">
+            <h3>Your Login Credentials:</h3>
+            <p><strong>Email:</strong> {{ email }}</p>
+            <p><strong>Password:</strong> {{ password }}</p>
+        </div>
+        
+        <p>Please <a href="{{ login_url }}">login here</a> and change your password immediately.</p>
+        
+        <div class="footer">
+            <p>This is an automated message. Please do not reply.</p>
+        </div>
+    </div>
+</body>
+</html>

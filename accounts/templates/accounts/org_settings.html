@@ -1,0 +1,165 @@
+{% extends 'accounts/org_admin_base.html' %}
+{% load static %}
+
+{% block title %}Organization Settings{% endblock %}
+
+{% block content %}
+<style>
+    .settings-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        padding: 20px;
+        background: #f4f6f8;
+        border-radius: 12px;
+    }
+
+    .settings-form {
+        flex: 1 1 60%;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .settings-actions {
+        flex: 1 1 35%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .settings-card {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+
+    .settings-card.danger {
+        border-left: 4px solid #e74c3c;
+    }
+
+    h4, h5 {
+        margin-bottom: 15px;
+        color: #34495e;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .form-control, .form-control-file {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .logo-preview img {
+        max-height: 100px;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 6px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background-color: #3498db;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #7f8c8d;
+        color: white;
+        margin-top: 10px;
+    }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        color: white;
+        margin-top: 10px;
+    }
+</style>
+
+<div class="settings-container">
+    <!-- Organization Profile Form -->
+    <div class="settings-form">
+        <h4><i class="fas fa-building"></i> Edit Organization Profile</h4>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Change Organization Name</label>
+                <input type="text" name="name" value="{{ organization.name }}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label> Change Logo</label>
+                <div class="logo-preview">
+                    {% if organization.logo %}
+                        <img src="{{ organization.logo.url }}" alt="Current Logo" id="logoPreview">
+                    {% else %}
+                        <div class="no-logo">No logo uploaded</div>
+                    {% endif %}
+                </div>
+                <input type="file" name="logo" id="logoInput" accept="image/*" class="form-control-file">
+            </div>
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </form>
+    </div>
+
+    <!-- Settings Actions -->
+    <div class="settings-actions">
+        <div class="settings-card">
+            <h5><i class="fas fa-key"></i> Change Password</h5>
+            <p>Update your account password</p> <br>
+            <a href="{% url 'change-password' %}" class="btn btn-secondary">Change Password</a>
+        </div>
+
+        <div class="settings-card danger">
+            <h5><i class="fas fa-exclamation-triangle"></i> Danger Zone</h5>
+            <p>Permanently delete your organization account</p>
+            <button class="btn btn-danger" id="deleteOrgBtn">Delete Organization</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('logoInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            let preview = document.getElementById('logoPreview');
+            if (!preview) {
+                const previewDiv = document.querySelector('.logo-preview');
+                previewDiv.innerHTML = '';
+                preview = document.createElement('img');
+                preview.id = 'logoPreview';
+                previewDiv.appendChild(preview);
+            }
+            preview.src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+document.getElementById('deleteOrgBtn').addEventListener('click', function() {
+    if (confirm('Are you sure you want to delete this organization? This action cannot be undone.')) {
+        // Add deletion logic or redirection here
+        alert("Organization deletion requested.");
+    }
+});
+</script>
+{% endblock %}

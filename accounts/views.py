@@ -258,11 +258,195 @@ def organization_admin_signup(request):
     
     return render(request, 'accounts/org_admin_signup.html', {'form': form})
 
-@login_required
+
+# views.py
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import (OrganizationSignupForm, OrganizationLoginForm, 
+                   OrganizationSettingsForm, AddModeratorForm,
+                   PasswordChangeForm, ModeratorLoginForm)
+from .models import Organization, ModeratorProfile
+import random
+import string
 
 @login_required
 def org_admin_dashboard(request):
     if not hasattr(request.user, 'org_admin_profile'):
         return redirect('organization-admin-login')
-    # Your dashboard logic here
-    return render(request, 'accounts/org_admin_dashboard.html')
+    
+    organization = request.user.org_admin_profile.organization
+    moderators = ModeratorProfile.objects.filter(organization=organization)
+    
+    context = {
+        'organization': organization,
+        'moderators': moderators,
+    }
+    return render(request, 'accounts/org_admin_dashboard.html', context)
+
+@login_required
+def organization_settings(request):
+    if not hasattr(request.user, 'org_admin_profile'):
+        return redirect('organization-admin-login')
+    
+    organization = request.user.org_admin_profile.organization
+    
+    if request.method == 'POST':
+        form = OrganizationSettingsForm(request.POST, request.FILES, instance=organization)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Organization settings updated successfully!')
+            return redirect('organization-settings')
+    else:
+        form = OrganizationSettingsForm(instance=organization)
+    
+    return render(request, 'accounts/org_settings.html', {
+        'form': form,
+        'organization': organization,
+        'active_page': 'settings', 
+    })
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('organization-settings')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'accounts/change_password.html', {'form': form})
+
+from django.core.mail import send_mail
+from django.conf import settings
+
+from django.core.mail import send_mail
+from django.conf import settings
+from django.utils.html import strip_tags
+from django.template.loader import render_to_string
+import logging
+
+logger = logging.getLogger(__name__)
+
+@login_required
+def control_moderators(request):
+    if not hasattr(request.user, 'org_admin_profile'):
+        return redirect('organization-admin-login')
+    
+    organization = request.user.org_admin_profile.organization
+    moderators = ModeratorProfile.objects.filter(organization=organization)
+    
+    if request.method == 'POST':
+        form = AddModeratorForm(request.POST)
+        if form.is_valid():
+            full_name = form.cleaned_data['full_name']
+            email = form.cleaned_data['email']
+            # Generate random password
+            password = ''.join(random.choices(string.ascii_letters + string.digits, k=12))
+            
+            try:
+                # Create user
+                user = User.objects.create_user(
+                    email=email,
+                    password=password,
+                    role=User.Role.MODERATOR
+                )
+                
+                # Create moderator profile
+                moderator = ModeratorProfile.objects.create(
+                    user=user,
+                    organization=organization,
+                    added_by=request.user,
+                    full_name=full_name
+                )
+                
+                # Prepare email content
+                email_context = {
+                    'moderator_name': full_name,
+                    'organization_name': organization.name,
+                    'email': email,
+                    'password': password,
+                    'login_url': request.build_absolute_uri('accounts/moderator/login/')
+                }
+                
+                # Render HTML email template
+                html_message = render_to_string('accounts/email/moderator_welcome.html', email_context)
+                plain_message = strip_tags(html_message)
+                
+                # Send email via Mailtrap
+                try:
+                    send_mail(
+                        subject=f'Welcome to {organization.name} as Moderator',
+                        message=plain_message,
+                        from_email=settings.DEFAULT_FROM_EMAIL,
+                        recipient_list=[email],
+                        html_message=html_message,
+                        fail_silently=False
+                    )
+                    email_status = "Email sent successfully"
+                except Exception as e:
+                    logger.error(f"Failed to send email to {email}: {str(e)}")
+                    email_status = "Email failed to send"
+                
+                # Show success message with password (regardless of email status)
+                messages.success(request, 
+                    f'Moderator "{full_name}" added successfully!<br>'
+                    f'<strong>Email:</strong> {email}<br>'
+                    f'<strong>Password:</strong> {password}<br>'
+                    f'<strong>Email Status:</strong> {email_status}<br><br>'
+                    'Please ensure the moderator receives these credentials.'
+                )
+                return redirect('control-moderators')
+                
+            except Exception as e:
+                messages.error(request, f'Error creating moderator: {str(e)}')
+    else:
+        form = AddModeratorForm()
+    
+    context = {
+        'form': form,
+        'moderators': moderators,
+    }
+    return render(request, 'accounts/control_moderators.html', context)
+
+@login_required
+def delete_moderator(request, moderator_id):
+    if not hasattr(request.user, 'org_admin_profile'):
+        return redirect('organization-admin-login')
+    
+    moderator = get_object_or_404(ModeratorProfile, id=moderator_id, organization=request.user.org_admin_profile.organization)
+    user = moderator.user
+    moderator.delete()
+    user.delete()
+    
+    messages.success(request, 'Moderator deleted successfully!')
+    return redirect('control-moderators')
+
+def moderator_login(request):
+    if request.method == 'POST':
+        form = ModeratorLoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(request, email=email, password=password)
+            
+            if user is not None and hasattr(user, 'moderator_profile'):
+                login(request, user)
+                return redirect('moderator-dashboard')
+            else:
+                messages.error(request, 'Invalid email or password')
+    else:
+        form = ModeratorLoginForm()
+    
+    return render(request, 'accounts/moderator_login.html', {'form': form})
+
+@login_required
+def moderator_dashboard(request):
+    if not hasattr(request.user, 'moderator_profile'):
+        return redirect('moderator-login')
+    
+    # Add moderator dashboard logic here
+    return render(request, 'accounts/moderator_dashboard.html')

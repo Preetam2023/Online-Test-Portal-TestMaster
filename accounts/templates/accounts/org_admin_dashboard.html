@@ -1,343 +1,9 @@
+{% extends 'accounts/org_admin_base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TestMaster - Organization Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #4361ee;
-            --primary-dark: #3a56d4;
-            --secondary: #3f37c9;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gray: #6c757d;
-            --light-gray: #e9ecef;
-        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+{% block content %}
 
-        body {
-            display: flex;
-            min-height: 100vh;
-            background-color: #f5f7fb;
-        }
 
-        /* Sidebar Styles */
-        .sidebar {
-            width: 250px;
-            background: white;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-            position: relative;
-            z-index: 100;
-        }
-
-        .sidebar.collapsed {
-            width: 70px;
-        }
-
-        .sidebar-header {
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .sidebar-header h3 {
-            color: var(--primary);
-            font-weight: 600;
-            white-space: nowrap;
-        }
-
-        .sidebar-header .toggle-btn {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: var(--gray);
-        }
-
-        .sidebar-menu {
-            padding: 15px 0;
-        }
-
-        .menu-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            color: var(--dark);
-            text-decoration: none;
-            transition: all 0.2s;
-            border-left: 3px solid transparent;
-        }
-
-        .menu-item:hover {
-            background-color: var(--light-gray);
-            border-left: 3px solid var(--primary);
-        }
-
-        .menu-item.active {
-            background-color: rgba(67, 97, 238, 0.1);
-            border-left: 3px solid var(--primary);
-            color: var(--primary);
-        }
-
-        .menu-item i {
-            margin-right: 10px;
-            font-size: 1.1rem;
-            width: 24px;
-            text-align: center;
-        }
-
-        .menu-item span {
-            white-space: nowrap;
-        }
-
-        .sidebar.collapsed .menu-item span {
-            display: none;
-        }
-
-        .sidebar.collapsed .sidebar-header h3 {
-            display: none;
-        }
-
-        /* Main Content Styles */
-        .main-content {
-            flex: 1;
-            padding: 20px;
-            transition: all 0.3s;
-        }
-
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .user-profile {
-            display: flex;
-            align-items: center;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 10px;
-            font-weight: bold;
-        }
-
-        .org-logo {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            object-fit: cover;
-            margin-right: 15px;
-        }
-
-        .dashboard-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .card-header i {
-            font-size: 1.5rem;
-            color: var(--primary);
-            margin-right: 10px;
-        }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .card-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin: 10px 0;
-        }
-
-        .card-footer {
-            display: flex;
-            align-items: center;
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        .card-footer i {
-            margin-left: 5px;
-        }
-
-        .recent-tests {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .section-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: var(--dark);
-        }
-
-        .test-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .test-table th, .test-table td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid var(--light-gray);
-        }
-
-        .test-table th {
-            color: var(--gray);
-            font-weight: 500;
-        }
-
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        .status-active {
-            background-color: #d1fae5;
-            color: #065f46;
-        }
-
-        .status-draft {
-            background-color: #e0f2fe;
-            color: #0369a1;
-        }
-
-        .status-closed {
-            background-color: #fee2e2;
-            color: #b91c1c;
-        }
-
-        .action-btn {
-            padding: 5px 10px;
-            border-radius: 5px;
-            border: none;
-            background: var(--light);
-            color: var(--dark);
-            cursor: pointer;
-            margin-right: 5px;
-            transition: all 0.2s;
-        }
-
-        .action-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        @media (max-width: 768px) {
-            .sidebar {
-                position: fixed;
-                left: -250px;
-            }
-            .sidebar.collapsed {
-                left: 0;
-                width: 70px;
-            }
-            .sidebar.active {
-                left: 0;
-                width: 250px;
-            }
-            .main-content {
-                margin-left: 0;
-            }
-            .menu-toggle {
-                display: block;
-            }
-        }
-    </style>
-</head>
-<body>
-    <!-- Sidebar Navigation -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h3>TestMaster</h3>
-            <button class="toggle-btn" id="toggleSidebar">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-        <div class="sidebar-menu">
-            <a href="#" class="menu-item active">
-                <i class="fas fa-tachometer-alt"></i>
-                <span>Dashboard</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-plus-circle"></i>
-                <span>Add Test</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-door-open"></i>
-                <span>Open Tests</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-door-closed"></i>
-                <span>Closed Tests</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-users"></i>
-                <span>Participants</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-chart-bar"></i>
-                <span>Analytics</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fas fa-cog"></i>
-                <span>Settings</span>
-            </a>
-        </div>
-    </div>
 
     <!-- Main Content -->
     <div class="main-content" id="mainContent">
@@ -353,130 +19,867 @@
             </div>
             <div class="user-actions">
                 <button class="action-btn"><i class="fas fa-bell"></i></button>
-                <button class="action-btn"><i class="fas fa-sign-out-alt"></i></button>
             </div>
         </div>
-
-        <!-- Dashboard Cards -->
-        <div class="dashboard-cards">
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-door-open"></i>
-                    <span class="card-title">Active Tests</span>
+        
+        <!-- Stats Cards -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon bg-primary-light">
+                    <i class="fas fa-door-open text-primary"></i>
                 </div>
-                <div class="card-value">12</div>
-                <div class="card-footer">
-                    <span>View all</span>
-                    <i class="fas fa-arrow-right"></i>
+                <div class="stat-info">
+                    <h3 class="stat-value">12</h3>
+                    <p class="stat-title">Active Tests</p>
                 </div>
+                <a href="#" class="stat-link">View all <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-users"></i>
-                    <span class="card-title">Participants</span>
+            
+            <div class="stat-card">
+                <div class="stat-icon bg-success-light">
+                    <i class="fas fa-users text-success"></i>
                 </div>
-                <div class="card-value">1,245</div>
-                <div class="card-footer">
-                    <span>View all</span>
-                    <i class="fas fa-arrow-right"></i>
+                <div class="stat-info">
+                    <h3 class="stat-value">1,245</h3>
+                    <p class="stat-title">Participants</p>
                 </div>
+                <a href="#" class="stat-link">View all <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-check-circle"></i>
-                    <span class="card-title">Completed</span>
+            
+            <div class="stat-card">
+                <div class="stat-icon bg-info-light">
+                    <i class="fas fa-check-circle text-info"></i>
                 </div>
-                <div class="card-value">87%</div>
-                <div class="card-footer">
-                    <span>Average score</span>
+                <div class="stat-info">
+                    <h3 class="stat-value">87%</h3>
+                    <p class="stat-title">Completion Rate</p>
                 </div>
+                <a href="#" class="stat-link">View stats <i class="fas fa-arrow-right"></i></a>
             </div>
-            <div class="card">
-                <div class="card-header">
-                    <i class="fas fa-clock"></i>
-                    <span class="card-title">Pending</span>
+            
+            <div class="stat-card">
+                <div class="stat-icon bg-warning-light">
+                    <i class="fas fa-clock text-warning"></i>
                 </div>
-                <div class="card-value">5</div>
-                <div class="card-footer">
-                    <span>Tests to review</span>
-                    <i class="fas fa-arrow-right"></i>
+                <div class="stat-info">
+                    <h3 class="stat-value">5</h3>
+                    <p class="stat-title">Pending Reviews</p>
                 </div>
+                <a href="#" class="stat-link">Review now <i class="fas fa-arrow-right"></i></a>
             </div>
-        </div>
-
+        </section>
+        
         <!-- Recent Tests Section -->
-        <div class="recent-tests">
-            <h3 class="section-title">Recent Tests</h3>
-            <table class="test-table">
-                <thead>
-                    <tr>
-                        <th>Test Name</th>
-                        <th>Status</th>
-                        <th>Participants</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Midterm Assessment</td>
-                        <td><span class="status-badge status-active">Active</span></td>
-                        <td>324</td>
-                        <td>15 Oct 2023</td>
-                        <td>
-                            <button class="action-btn"><i class="fas fa-eye"></i></button>
-                            <button class="action-btn"><i class="fas fa-edit"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Final Examination</td>
-                        <td><span class="status-badge status-draft">Draft</span></td>
-                        <td>-</td>
-                        <td>20 Dec 2023</td>
-                        <td>
-                            <button class="action-btn"><i class="fas fa-eye"></i></button>
-                            <button class="action-btn"><i class="fas fa-edit"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Weekly Quiz #5</td>
-                        <td><span class="status-badge status-closed">Closed</span></td>
-                        <td>187</td>
-                        <td>05 Oct 2023</td>
-                        <td>
-                            <button class="action-btn"><i class="fas fa-eye"></i></button>
-                            <button class="action-btn"><i class="fas fa-chart-bar"></i></button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
+        <section class="recent-tests">
+            <div class="section-header">
+                <h2>Recent Tests</h2>
+                <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+            </div>
+            
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Test Name</th>
+                            <th>Status</th>
+                            <th>Participants</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="test-info">
+                                    <i class="fas fa-file-alt test-icon"></i>
+                                    <div>
+                                        <div class="test-name">Midterm Assessment</div>
+                                        <div class="test-meta">Mathematics</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge active">Active</span></td>
+                            <td>324</td>
+                            <td>15 Oct 2023</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view-btn" title="View">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn edit-btn" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="test-info">
+                                    <i class="fas fa-file-alt test-icon"></i>
+                                    <div>
+                                        <div class="test-name">Final Examination</div>
+                                        <div class="test-meta">Science</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge draft">Draft</span></td>
+                            <td>-</td>
+                            <td>20 Dec 2023</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view-btn" title="View">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn edit-btn" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="test-info">
+                                    <i class="fas fa-file-alt test-icon"></i>
+                                    <div>
+                                        <div class="test-name">Weekly Quiz #5</div>
+                                        <div class="test-meta">English</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge closed">Closed</span></td>
+                            <td>187</td>
+                            <td>05 Oct 2023</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="action-btn view-btn" title="View">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn stats-btn" title="Statistics">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
 
-    <script>
-        // Toggle Sidebar
-        document.getElementById('toggleSidebar').addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('collapsed');
+<style>
+:root {
+    /* Colors */
+    --primary: #4361ee;
+    --primary-light: #e6ecfe;
+    --primary-dark: #3a56d4;
+    --secondary: #3f37c9;
+    --success: #4ade80;
+    --success-light: #e6f9ee;
+    --info: #38bdf8;
+    --info-light: #e6f7fe;
+    --warning: #f59e0b;
+    --warning-light: #fef3e6;
+    --danger: #f43f5e;
+    --danger-light: #fee6ea;
+    --dark: #1e293b;
+    --light: #f8fafc;
+    --gray: #64748b;
+    --gray-light: #e2e8f0;
+    --white: #ffffff;
+    
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    
+    /* Border radius */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+    --radius-full: 9999px;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    
+    /* Transitions */
+    --transition: all 0.2s ease-in-out;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--light);
+    color: var(--dark);
+    line-height: 1.5;
+}
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.dashboard-sidebar {
+    width: 280px;
+    background: var(--white);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    transition: var(--transition);
+    z-index: 100;
+    position: relative;
+}
+
+.sidebar-header {
+    padding: var(--space-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.brand-icon {
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.brand-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--dark);
+}
+
+.sidebar-toggle {
+    background: none;
+    border: none;
+    color: var(--gray);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+}
+
+.sidebar-toggle:hover {
+    background: var(--gray-light);
+    color: var(--dark);
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: var(--space-md) 0;
+    overflow-y: auto;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: var(--space-sm) var(--space-lg);
+    color: var(--gray);
+    text-decoration: none;
+    transition: var(--transition);
+    margin: 0 var(--space-md);
+    border-radius: var(--radius-md);
+    gap: var(--space-md);
+}
+
+.nav-item:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.nav-item.active {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 500;
+}
+
+.nav-item i {
+    width: 20px;
+    text-align: center;
+    font-size: 1rem;
+}
+
+.sidebar-footer {
+    padding: var(--space-md);
+    border-top: 1px solid var(--gray-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+}
+
+.avatar-placeholder {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    background: var(--primary);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+.user-email {
+    font-size: 0.75rem;
+    color: var(--gray);
+}
+
+.logout-btn {
+    background: none;
+    border: none;
+    color: var(--gray);
+    cursor: pointer;
+    transition: var(--transition);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+}
+
+.logout-btn:hover {
+    background: var(--gray-light);
+    color: var(--dark);
+}
+
+/* Main Content Styles */
+.dashboard-content {
+    flex: 1;
+    padding: var(--space-lg);
+    transition: var(--transition);
+    overflow-x: hidden;
+}
+
+.content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-xl);
+}
+
+.header-title h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+    color: var(--dark);
+}
+
+.header-title p {
+    color: var(--gray);
+    font-size: 0.875rem;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.notification-btn {
+    position: relative;
+    background: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.notification-btn:hover {
+    background: var(--gray-light);
+    color: var(--dark);
+}
+
+.notification-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: var(--danger);
+    color: var(--white);
+    width: 18px;
+    height: 18px;
+    border-radius: var(--radius-full);
+    font-size: 0.65rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.user-menu-btn {
+    background: none;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.user-menu-btn:hover {
+    background: var(--gray-light);
+    color: var(--dark);
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+}
+
+.stat-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-md);
+    font-size: 1.25rem;
+}
+
+.bg-primary-light {
+    background: var(--primary-light);
+}
+
+.bg-success-light {
+    background: var(--success-light);
+}
+
+.bg-info-light {
+    background: var(--info-light);
+}
+
+.bg-warning-light {
+    background: var(--warning-light);
+}
+
+.text-primary {
+    color: var(--primary);
+}
+
+.text-success {
+    color: var(--success);
+}
+
+.text-info {
+    color: var(--info);
+}
+
+.text-warning {
+    color: var(--warning);
+}
+
+.stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: var(--space-xs);
+}
+
+.stat-title {
+    font-size: 0.875rem;
+    color: var(--gray);
+    margin-bottom: var(--space-md);
+}
+
+.stat-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 0.875rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.stat-link:hover {
+    color: var(--primary-dark);
+}
+
+.stat-link i {
+    font-size: 0.75rem;
+}
+
+/* Recent Tests Section */
+.recent-tests {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+}
+
+.section-header h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.view-all {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-size: 0.875rem;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.view-all:hover {
+    color: var(--primary-dark);
+}
+
+.view-all i {
+    font-size: 0.75rem;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    padding: var(--space-sm) var(--space-md);
+    text-align: left;
+    color: var(--gray);
+    font-weight: 500;
+    font-size: 0.875rem;
+    border-bottom: 1px solid var(--gray-light);
+}
+
+.data-table td {
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--gray-light);
+    vertical-align: middle;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tr:hover {
+    background: var(--primary-light);
+}
+
+.test-info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.test-icon {
+    font-size: 1.25rem;
+    color: var(--primary);
+}
+
+.test-name {
+    font-weight: 500;
+    margin-bottom: var(--space-xs);
+}
+
+.test-meta {
+    font-size: 0.75rem;
+    color: var(--gray);
+}
+
+.status-badge {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.status-badge.active {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-badge.draft {
+    background: #e0f2fe;
+    color: #0369a1;
+}
+
+.status-badge.closed {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    cursor: pointer;
+    transition: var(--transition);
+    color: var(--gray);
+}
+
+.action-btn:hover {
+    background: var(--gray-light);
+    color: var(--dark);
+}
+
+.view-btn:hover {
+    color: var(--primary);
+}
+
+.edit-btn:hover {
+    color: var(--info);
+}
+
+.stats-btn:hover {
+    color: var(--success);
+}
+
+/* Collapsed Sidebar */
+.dashboard-sidebar.collapsed {
+    width: 80px;
+}
+
+.dashboard-sidebar.collapsed .brand-name,
+.dashboard-sidebar.collapsed .nav-text,
+.dashboard-sidebar.collapsed .user-info,
+.dashboard-sidebar.collapsed .sidebar-toggle i {
+    display: none;
+}
+
+.dashboard-sidebar.collapsed .sidebar-toggle i.fa-chevron-left {
+    display: block;
+    transform: rotate(180deg);
+}
+
+.dashboard-sidebar.collapsed .sidebar-toggle i.fa-chevron-right {
+    display: none;
+}
+
+.dashboard-sidebar.collapsed .sidebar-header {
+    justify-content: center;
+}
+
+.dashboard-sidebar.collapsed .nav-item {
+    justify-content: center;
+    margin: 0 var(--space-sm);
+    padding: var(--space-sm);
+}
+
+.dashboard-sidebar.collapsed .sidebar-footer {
+    justify-content: center;
+}
+
+.dashboard-sidebar.collapsed .logout-btn {
+    margin-left: 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+    .dashboard-sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+    }
+    
+    .dashboard-sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .dashboard-content {
+        margin-left: 0;
+    }
+    
+    .menu-toggle {
+        position: fixed;
+        top: var(--space-md);
+        left: var(--space-md);
+        z-index: 1000;
+        background: var(--white);
+        width: 40px;
+        height: 40px;
+        border-radius: var(--radius-full);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--shadow-md);
+        cursor: pointer;
+    }
+}
+
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-md);
+    }
+    
+    .header-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 576px) {
+    .dashboard-content {
+        padding: var(--space-md);
+    }
+    
+    .stat-card {
+        padding: var(--space-md);
+    }
+    
+    .recent-tests {
+        padding: var(--space-md);
+    }
+    
+    .data-table th, 
+    .data-table td {
+        padding: var(--space-sm);
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle Sidebar
+    const toggleBtn = document.getElementById('toggleSidebar');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+            document.querySelector('.dashboard-sidebar').classList.toggle('collapsed');
         });
+    }
 
-        // Mobile menu toggle
-        const menuToggle = document.createElement('div');
-        menuToggle.className = 'menu-toggle';
-        menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
-        document.body.appendChild(menuToggle);
+    // Mobile menu toggle
+    const menuToggle = document.createElement('div');
+    menuToggle.className = 'menu-toggle';
+    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    document.body.appendChild(menuToggle);
 
-        menuToggle.addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('active');
+    menuToggle.addEventListener('click', function() {
+        document.querySelector('.dashboard-sidebar').classList.toggle('active');
+    });
+
+    // Active menu item
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', function() {
+            navItems.forEach(i => i.classList.remove('active'));
+            this.classList.add('active');
         });
+    });
 
-        // Active menu item
-        const menuItems = document.querySelectorAll('.menu-item');
-        menuItems.forEach(item => {
-            item.addEventListener('click', function() {
-                menuItems.forEach(i => i.classList.remove('active'));
-                this.classList.add('active');
-            });
+    // Make cards clickable
+    const cards = document.querySelectorAll('.stat-card');
+    cards.forEach(card => {
+        card.style.cursor = 'pointer';
+        card.addEventListener('click', function() {
+            const link = this.querySelector('a');
+            if (link) {
+                window.location.href = link.href;
+            }
         });
-    </script>
-</body>
-</html>
+    });
+});
+</script>
+{% endblock %}
