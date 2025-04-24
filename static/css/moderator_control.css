@@ -1,0 +1,39 @@
+/* Modal styling */
+.modal-backdrop {
+    z-index: 1040 !important;
+}
+.modal {
+    z-index: 1050 !important;
+}
+
+/* Message notification improvements */
+.message-notification {
+    top: 70px;
+    right: 20px;
+}
+
+.notification-bell {
+    font-size: 1.3rem;
+    color: #6c757d;
+    transition: all 0.3s;
+}
+
+.notification-bell:hover {
+    color: #4361ee;
+    transform: scale(1.1);
+}
+
+.message-container {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+/* Table improvements */
+.table-hover tbody tr:hover {
+    background-color: rgba(67, 97, 238, 0.05);
+}
+
+/* Button spacing */
+.btn-sm {
+    margin: 0 3px;
+}

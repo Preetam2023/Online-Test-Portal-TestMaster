@@ -3,52 +3,127 @@
 
 {% block moderator_title %}Moderator Dashboard{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/moderator_dashboard.css' %}">
+{% endblock %}
+
 {% block moderator_content %}
+<div class="dashboard-header">
+    <h2>Welcome, {{ user.moderator_profile.full_name }}</h2>
+    <p>{{ user.moderator_profile.organization.name }}</p>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-clipboard-list"></i>
+        </div>
+        <div class="stat-info">
+            <h3>12</h3>
+            <p>Active Tests</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-info">
+            <h3>248</h3>
+            <p>Participants</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="stat-info">
+            <h3>87%</h3>
+            <p>Completion Rate</p>
+        </div>
+    </div>
+</div>
+
 <div class="dashboard-cards">
     <div class="card" onclick="window.location.href='#'">
         <div class="card-icon">
             <i class="fas fa-plus-circle"></i>
         </div>
-        <h4>Create New Test</h4>
-        <p>Set up a new assessment for your organization</p>
+        <div class="card-content">
+            <h4>Create New Test</h4>
+            <p>Set up a new assessment for your organization</p>
+            <div class="card-badge">New</div>
+        </div>
     </div>
     
     <div class="card" onclick="window.location.href='#'">
         <div class="card-icon">
             <i class="fas fa-clipboard-list"></i>
         </div>
-        <h4>My Tests</h4>
-        <p>View and manage tests you've created</p>
+        <div class="card-content">
+            <h4>My Tests</h4>
+            <p>View and manage tests you've created</p>
+            <div class="card-badge">5 Updated</div>
+        </div>
     </div>
     
     <div class="card" onclick="window.location.href='#'">
         <div class="card-icon">
             <i class="fas fa-chart-bar"></i>
         </div>
-        <h4>View Results</h4>
-        <p>Analyze participant performance</p>
+        <div class="card-content">
+            <h4>View Results</h4>
+            <p>Analyze participant performance</p>
+            <div class="card-badge">3 New</div>
+        </div>
+    </div>
+    
+    <div class="card" onclick="window.location.href='#'">
+        <div class="card-icon">
+            <i class="fas fa-cog"></i>
+        </div>
+        <div class="card-content">
+            <h4>Settings</h4>
+            <p>Update your profile and preferences</p>
+        </div>
     </div>
 </div>
 
 <div class="recent-activity">
-    <h4><i class="fas fa-history"></i> Recent Activity</h4>
+    <div class="section-header">
+        <h3><i class="fas fa-history"></i> Recent Activity</h3>
+        <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+    </div>
     <div class="activity-list">
-        {% for activity in recent_activities %}
         <div class="activity-item">
             <div class="activity-icon">
-                <i class="fas fa-{{ activity.icon }}"></i>
+                <i class="fas fa-user-plus"></i>
             </div>
             <div class="activity-details">
-                <h5>{{ activity.title }}</h5>
-                <p>{{ activity.description }}</p>
-                <small>{{ activity.timestamp }}</small>
+                <h5>New Moderator Added</h5>
+                <p>You were added to {{ user.moderator_profile.organization.name }}</p>
+                <small>{{ user.date_joined|date:"M d, Y" }}</small>
             </div>
         </div>
-        {% empty %}
-        <div class="no-activity">
-            <p>No recent activity found</p>
+        <div class="activity-item">
+            <div class="activity-icon">
+                <i class="fas fa-sign-in-alt"></i>
+            </div>
+            <div class="activity-details">
+                <h5>Login Activity</h5>
+                <p>You logged in to the system</p>
+                <small>Today, {{ user.last_login|time:"g:i A" }}</small>
+            </div>
         </div>
-        {% endfor %}
+        <div class="activity-item">
+            <div class="activity-icon">
+                <i class="fas fa-edit"></i>
+            </div>
+            <div class="activity-details">
+                <h5>Test Updated</h5>
+                <p>You modified "Midterm Assessment"</p>
+                <small>Yesterday, 3:45 PM</small>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
