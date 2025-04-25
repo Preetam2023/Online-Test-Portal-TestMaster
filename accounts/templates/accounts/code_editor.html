@@ -1,6 +1,4 @@
 {% load static %}
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,58 +6,101 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token }}">
     <title>Online Code Editor</title>
-    <!-- Link to the external CSS file -->
-    <link rel="stylesheet" href="{% static 'css/code_editor.css' %}">  
-
+    <link rel="stylesheet" href="{% static 'css/code_editor.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Add these inside the <head> tag -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.css">
 </head>
 <body>
 
-    <div class="container">
-        <div class="header">
-            <img src="{% static 'img/code editor.jpg ' %}" alt="Code Editor Image" style="width: 40px; height: 40px; margin-right: 10px;">
-            <h1>Online Code Editor</h1>
-        </div>
-        <a href="{% url 'user_dashboard' %}"> 
-            <img src="{% static 'img/home icon.png' %}" alt="Home Icon" style="position: absolute; top: 20px; right: 20px; width: 70px; height: 70px; cursor: pointer;">
-        </a>
+        <!-- Header Section -->
+<header class="editor-header">
+    <div class="logo-title">
+        <img src="{% static 'img/code editor.jpg' %}" alt="Editor Logo" class="header-logo">
+        <h1>TestMaster</h1>
+    </div>
+
+    <div class="header-actions-wrapper" style= "display:flex;gap: 20px;">
         
-        <div class="editor-container">
-            <label for="language">Select Language:</label>
-            <div class="custom-select-container">
-                <div class="custom-select-btn">
-                    <img id="selected-logo" src="" alt="Logo"> 
-                    <span id="selected-lang">Select Language</span>
+        
+        <div class="custom-select language-dropdown">
+            <div class="select-trigger">
+                <img id="selected-logo" src="" alt="Language Logo">
+                <span id="selected-lang">Select Language</span>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="select-options">
+                <div data-lang="python3" data-img="{% static 'lang_logo/python-logo.png' %}">
+                    <img src="{% static 'lang_logo/python-logo.png' %}" alt="Python"> Python 3
                 </div>
-        
-                <div class="custom-select-options">
-                    <div data-lang="c" data-img="{% static 'lang_logo/c-logo.png' %}">
-                        <img src="{% static 'lang_logo/c-logo.png' %}" alt="C Logo"> C
-                    </div>
-                    <div data-lang="java" data-img="{% static 'lang_logo/java-logo.png' %}">
-                        <img src="{% static 'lang_logo/java-logo.png' %}" alt="Java Logo"> Java
-                    </div>
-                    <div data-lang="python3" data-img="{% static 'lang_logo/python-logo.png' %}">
-                        <img src="{% static 'lang_logo/python-logo.png' %}" alt="Python Logo"> Python 3
-                    </div>
+                <div data-lang="java" data-img="{% static 'lang_logo/java-logo.png' %}">
+                    <img src="{% static 'lang_logo/java-logo.png' %}" alt="Java"> Java
+                </div>
+                <div data-lang="c" data-img="{% static 'lang_logo/c-logo.png' %}">
+                    <img src="{% static 'lang_logo/c-logo.png' %}" alt="C"> C
                 </div>
             </div>
-            <input type="hidden" id="language" value=""> <!-- Add this hidden input field -->
-            <textarea id="editor" placeholder="Write your code here..."></textarea>
         </div>
-        
-        <div class="button-container">
-            <button id="run">Run</button>
-        </div>
-        
-        <div class="output-container">
-            <h2>Output:</h2>
-            <div id="output"></div>
-        </div>
-    </div>
-    <!-- Link to the external JavaScript file -->
-<script src="{% static 'js/code_editor.js' %}"></script>  
 
-    
-    
+        <a href="{% url 'user_dashboard' %}" class="home-btn">
+            <i class="fas fa-home"></i>
+        </a>
+    </div>
+</header>
+
+
+            <!-- Editor and Output Panels -->
+            <div class="panels-container">
+                <!-- Editor Panel -->
+                <div class="editor-panel">
+                    <div class="panel-header">
+                        <i class="fas fa-file-code"></i>
+                        <span>Editor</span>
+                        <div class="header-actions">
+                            <button id="run-btn" class="run-button">
+                                <i class="fas fa-play"></i> Run Code
+                            </button>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="editor-container">
+                        <div class="line-numbers">
+                        </div>
+                        <textarea id="editor" spellcheck="false" placeholder="// Write your code here..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Output Panel -->
+                 
+                <div class="output-panel">
+                    <div class="panel-header">
+                        <div class="header-left">
+                            <i class="fas fa-terminal"></i>
+                            <span>Output</span>
+                        </div>
+                            <div class="header-actions">
+                                <button id="clear-btn" class="run-button">
+                                    <i class="fas fa-eraser"></i> Clear
+                                </button>
+                            </div>
+                       
+                        
+                    </div>
+                    <div id="output"></div>
+                </div>
+            </div>
+        </main>
+    <!-- Add these before your code_editor.js script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/clike/clike.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/matchbrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/edit/closebrackets.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/anyword-hint.min.js"></script>
+    <script src="{% static 'js/code_editor.js' %}"></script>
 </body>
 </html>
