@@ -307,18 +307,22 @@ def organization_settings(request):
         'active_page': 'settings', 
     })
 
+from django.http import JsonResponse
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+
 @login_required
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
-            update_session_auth_hash(request, user)
-            messages.success(request, 'Your password was successfully updated!')
-            return redirect('organization-settings')
-    else:
-        form = PasswordChangeForm(request.user)
-    return render(request, 'accounts/change_password.html', {'form': form})
+            update_session_auth_hash(request, user)  # Important to keep user logged in
+            return JsonResponse({'success': True})
+        else:
+            errors = form.errors.as_json()
+            return JsonResponse({'success': False, 'error': errors})
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 from django.core.mail import send_mail
 from django.conf import settings
@@ -327,6 +331,22 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.utils.html import strip_tags
 from django.template.loader import render_to_string
+import logging
+
+logger = logging.getLogger(__name__)
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from .models import ModeratorProfile
+from .forms import AddModeratorForm
+import random
+import string
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
 import logging
 
 logger = logging.getLogger(__name__)
@@ -344,7 +364,6 @@ def control_moderators(request):
         if form.is_valid():
             full_name = form.cleaned_data['full_name']
             email = form.cleaned_data['email']
-            # Generate random password
             password = ''.join(random.choices(string.ascii_letters + string.digits, k=12))
             
             try:
@@ -376,7 +395,7 @@ def control_moderators(request):
                 html_message = render_to_string('accounts/email/moderator_welcome.html', email_context)
                 plain_message = strip_tags(html_message)
                 
-                # Send email via Mailtrap
+                # Send email
                 try:
                     send_mail(
                         subject=f'Welcome to {organization.name} as Moderator',
@@ -391,13 +410,11 @@ def control_moderators(request):
                     logger.error(f"Failed to send email to {email}: {str(e)}")
                     email_status = "Email failed to send"
                 
-                # Show success message with password (regardless of email status)
                 messages.success(request, 
                     f'Moderator "{full_name}" added successfully!<br>'
                     f'<strong>Email:</strong> {email}<br>'
                     f'<strong>Password:</strong> {password}<br>'
-                    f'<strong>Email Status:</strong> {email_status}<br><br>'
-                    'Please ensure the moderator receives these credentials.'
+                    f'<strong>Email Status:</strong> {email_status}'
                 )
                 return redirect('control-moderators')
                 
@@ -425,6 +442,22 @@ def delete_moderator(request, moderator_id):
     messages.success(request, 'Moderator deleted successfully!')
     return redirect('control-moderators')
 
+@login_required
+def toggle_moderator_status(request, moderator_id):
+    if not hasattr(request.user, 'org_admin_profile'):
+        return JsonResponse({'success': False, 'error': 'Unauthorized'}, status=401)
+    
+    moderator = get_object_or_404(ModeratorProfile, id=moderator_id, organization=request.user.org_admin_profile.organization)
+    moderator.user.is_active = not moderator.user.is_active
+    moderator.user.save()
+    
+    return JsonResponse({
+        'success': True,
+        'is_active': moderator.user.is_active,
+        'message': f'Moderator {"activated" if moderator.user.is_active else "deactivated"} successfully'
+    })
+    
+    
 def moderator_login(request):
     if request.method == 'POST':
         form = ModeratorLoginForm(request.POST)

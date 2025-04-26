@@ -22,6 +22,7 @@ from .views import (
     delete_moderator,
     moderator_login,
     moderator_dashboard,
+    toggle_moderator_status,
 )
 
 urlpatterns = [
@@ -50,6 +51,7 @@ urlpatterns = [
     path('organization/change-password/', change_password, name='change-password'),
     path('organization/moderators/', control_moderators, name='control-moderators'),
     path('organization/moderators/delete/<int:moderator_id>/', delete_moderator, name='delete-moderator'),
+    path('organization/moderators/toggle-status/<int:moderator_id>/', toggle_moderator_status, name='toggle-moderator-status'),
 
     # Moderator
     path('moderator/login/', moderator_login, name='moderator-login'),
