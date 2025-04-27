@@ -62,3 +62,26 @@ body {
     display: block;
     margin-bottom: 4px;
 }
+/* Add these to your existing CSS */
+
+.password-input-container {
+    position: relative;
+}
+
+.password-input-container input {
+    padding-right: 40px !important; /* Space for the eye icon */
+}
+
+.toggle-password {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+    z-index: 10;
+}
+
+.toggle-password:hover {
+    color: #2e7d32;
+}
