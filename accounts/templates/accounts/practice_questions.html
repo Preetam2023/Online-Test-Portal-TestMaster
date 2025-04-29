@@ -2,579 +2,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Question Bank</title>
-  <link rel="stylesheet" href="{% static 'css/practice_question.css' %}" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <title>Practice Questions</title>
+    <link rel="stylesheet" href="{% static 'css/practice_question.css' %}">
 </head>
 <body>
-  <!-- Header -->
-  <div class="header">
-    <div class="logo">
-      <img src="{% static 'img/testmaster-logo.png' %}" alt="TestMaster Logo" />
-    </div>
-  
-    <h1>Practice Set</h1>
-  
-    <a href="{% url 'user_dashboard' %}" class="home-icon">
-      <i class="fas fa-house-user"></i>
-    </a>
-  </div>
-  
-  <!-- Navigation bar -->
-  <div class="navbar">
-    <div class="subjects">
-      <button onclick="scrollToSection('c-section')">
-        <i class="fas fa-code"></i> C Programming
-      </button>
-      <button onclick="scrollToSection('ds-section')">
-        <i class="fas fa-database"></i> DSA
-      </button>
-      <button onclick="scrollToSection('dbms-section')">
-        <i class="fas fa-server"></i> DBMS
-      </button>
-      <button onclick="scrollToSection('OS-section')">
-        <i class="fas fa-desktop"></i> OS
-      </button>
-      <button onclick="scrollToSection('comp-networks-section')">
-        <i class="fas fa-network-wired"></i> Computer Networks
-      </button>
-      <button onclick="scrollToSection('java-section')">
-        <i class="fab fa-java"></i> Java
-    </button>
-    <button onclick="scrollToSection('python-section')">
-      <i class="fab fa-python"></i> Python
-    </button>
-  </div>
-</div>
 
-  <!-- Subject Sections -->
-  <div class="content">
-    <!-- C -->
-    <section class="subject" id="c-section">
-      <h2>C Programming</h2>
-      <div class="question-card">
-        <p>1. What is the size of `int` in C?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, true)">4 bytes</div>
-          <div class="option" onclick="checkAnswer(this, false)">2 bytes</div>
-          <div class="option" onclick="checkAnswer(this, false)">8 bytes</div>
-          <div class="option" onclick="checkAnswer(this, false)">1 byte</div>
-        </div>
-        <br><hr>
-        <p>2. What will be the output of this code?</p>
-        <pre>
-            int x = 5;
-            printf("%d", x++ + ++x); 
-        </pre>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">11</div>
-          <div class="option" onclick="checkAnswer(this, true)">12</div>
-          <div class="option" onclick="checkAnswer(this, false)">10</div>
-          <div class="option" onclick="checkAnswer(this, false)">undefined</div>
-        </div>
-        <br><hr>
-        <p>3. Which of these is not a valid storage class in C?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">auto</div>
-          <div class="option" onclick="checkAnswer(this, false)">register</div>
-          <div class="option" onclick="checkAnswer(this, false)">static</div>
-          <div class="option" onclick="checkAnswer(this, true)">public</div>
-        </div>
-        <br><hr>
-        <p>4. Which operator has the highest priority in C?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, true)">++</div>
-          <div class="option" onclick="checkAnswer(this, false)">*</div>
-          <div class="option" onclick="checkAnswer(this, false)">&&</div>
-          <div class="option" onclick="checkAnswer(this, false)">=</div>
-        </div>
-        <br><hr>
-        <pre>5. What is the output?
-        printf("%d", sizeof('A'));
-        </pre>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">1</div>
-          <div class="option" onclick="checkAnswer(this, false)">2</div>
-          <div class="option" onclick="checkAnswer(this, true)">4</div>
-          <div class="option" onclick="checkAnswer(this, false)">Depends on os</div>
-        </div>
-        <br><hr>
-        <p>6. How many bytes will be reserved by int arr[10];?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">10</div>
-          <div class="option" onclick="checkAnswer(this, true)">40</div>
-          <div class="option" onclick="checkAnswer(this, false)">20</div>
-          <div class="option" onclick="checkAnswer(this, false)">Depends on Cpu</div>
-        </div>
-        <br><hr>
-        <p>7. What does the volatile keyword mean?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">can't be change</div>
-          <div class="option" onclick="checkAnswer(this, true)">value may change anytime</div>
-          <div class="option" onclick="checkAnswer(this, false)">static memory</div>
-          <div class="option" onclick="checkAnswer(this, false)">constant address</div>
-        </div>
-        <br><hr>
-        <p>8. Which of the following is invalid syntax?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">int *p = &x;</div>
-          <div class="option" onclick="checkAnswer(this, true)">int p* = &x;</div>
-          <div class="option" onclick="checkAnswer(this, false)">int *p;</div>
-          <div class="option" onclick="checkAnswer(this, false)">p = &x;</div>
-        </div>
-        <br><hr>
-        <pre>9. What is the output of this code?
-          int a = 10;
-          printf("%d", a++ + a);
-        </pre>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">20</div>
-          <div class="option" onclick="checkAnswer(this, false)">error</div>
-          <div class="option" onclick="checkAnswer(this, true)">21</div>
-          <div class="option" onclick="checkAnswer(this, false)">19</div>
-        </div>
-        <br><hr>
-        <p>10. Which format specifier is used for printing unsigned int?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, true)">%u</div>
-          <div class="option" onclick="checkAnswer(this, false)">%d</div>
-          <div class="option" onclick="checkAnswer(this, false)">%lu</div>
-          <div class="option" onclick="checkAnswer(this, false)">%i</div>
-        </div>
-        <br><hr>
-        <p>11. Which statement is true about static variables?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">They reset every time the function is called</div>
-          <div class="option" onclick="checkAnswer(this, true)">They keep their value between function calls</div>
-          <div class="option" onclick="checkAnswer(this, false)">They are faster</div>
-          <div class="option" onclick="checkAnswer(this, false)">They are stored in stack</div>
-        </div>
-        <br><hr>
-        <p>12. What is a dangling pointer?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Points to a valid address</div>
-          <div class="option" onclick="checkAnswer(this, true)">Points to freed memory</div>
-          <div class="option" onclick="checkAnswer(this, false)">Always NULL</div>
-          <div class="option" onclick="checkAnswer(this, false)">Unused pointer</div>
-        </div>
-        <br><hr>
-        <p>13. How to allocate dynamic memory for 5 integers?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">malloc(5)</div>
-          <div class="option" onclick="checkAnswer(this, true)">malloc(5 * sizeof(int))</div>
-          <div class="option" onclick="checkAnswer(this, false)">malloc(int, 5)</div>
-          <div class="option" onclick="checkAnswer(this, false)">malloc(5, int)</div>
-        </div>
-        <br><hr>
-        <p>14. Which of these is true about const keyword?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Makes pointer constant</div>
-          <div class="option" onclick="checkAnswer(this, true)">Makes value constant</div>
-          <div class="option" onclick="checkAnswer(this, false)">Makes function constant</div>
-          <div class="option" onclick="checkAnswer(this, false)">Freezes the whole program</div>
-        </div>
-        <br><hr>
-        <pre>15. What is the output?
-          int x = 0;
-          if (x = 5)
-          printf("Hello");
-          else
-          printf("World");
-          </pre>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, true)">hello</div>
-          <div class="option" onclick="checkAnswer(this, false)">world</div>
-          <div class="option" onclick="checkAnswer(this, false)">error</div>
-          <div class="option" onclick="checkAnswer(this, false)">none</div>
-        </div>
-        <br><hr>
-      </div>
-    </section>
+    <!-- Top Navbar for Subjects -->
+    <nav class="navbar">
+        {% for subject in subjects %}
+            <a href="{% url 'practice_questions' subject.name %}">{{ subject.name }}</a>
+        {% endfor %}
+    </nav>
 
-    <!-- Data Structures -->
-    <section class="subject" id="ds-section">
-      <h2>Data Structures</h2>
-      <div class="question-card">
-        <p>1. What is the time complexity of binary search?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, true)">O(log n)</div>
-          <div class="option" onclick="checkAnswer(this, false)">O(n)</div>
-          <div class="option" onclick="checkAnswer(this, false)">O(n log n)</div>
-          <div class="option" onclick="checkAnswer(this, false)">O(1)</div>
-        </div>
-        <br><hr>
-        <p>2. What is the best-case time complexity of QuickSort?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">O(n^2)</div>
-          <div class="option" onclick="checkAnswer(this, false)">O(n)</div>
-          <div class="option" onclick="checkAnswer(this, true)">O(n log n)</div>
-          <div class="option" onclick="checkAnswer(this, false)">O(log n)</div>
-        </div><br><hr>
-        <p>3. Which data structure uses LIFO (Last In First Out)?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Queue</div>
-          <div class="option" onclick="checkAnswer(this, true)">Stack</div>
-          <div class="option" onclick="checkAnswer(this, false)">Array</div>
-          <div class="option" onclick="checkAnswer(this, false)">Linked List</div>
-        </div><br><hr>
-        <p>4. Which of the following is not a linear data structure?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Array</div>
-          <div class="option" onclick="checkAnswer(this, false)">Linked List</div>
-          <div class="option" onclick="checkAnswer(this, true)">Tree</div>
-          <div class="option" onclick="checkAnswer(this, false)">Stack</div>
-        </div><br><hr>
-        <p>5. In which data structure is the "enqueue" and "dequeue" operation used?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Stack</div>
-          <div class="option" onclick="checkAnswer(this, true)">Queue</div>
-          <div class="option" onclick="checkAnswer(this, false)">Tree</div>
-          <div class="option" onclick="checkAnswer(this, false)">Graph</div>
-        </div><br><hr>
-        <p>6. What is the maximum number of children a binary tree node can have?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">1</div>
-          <div class="option" onclick="checkAnswer(this, false)">3</div>
-          <div class="option" onclick="checkAnswer(this, true)">2</div>
-          <div class="option" onclick="checkAnswer(this, false)">Any number</div>
-        </div><br><hr>
-        <p>7. Which traversal method is used in Depth First Search of a tree?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Level Order</div>
-          <div class="option" onclick="checkAnswer(this, true)">Preorder</div>
-          <div class="option" onclick="checkAnswer(this, false)">Breath First</div>
-          <div class="option" onclick="checkAnswer(this, false)">Inorder</div>
-        </div><br><hr>
-        <p>8. Which sorting algorithm has the worst-case time complexity of O(n┬▓)?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, true)">Bubble Sort</div>
-          <div class="option" onclick="checkAnswer(this, false)">Marge Sort</div>
-          <div class="option" onclick="checkAnswer(this, false)">Heap Sort</div>
-          <div class="option" onclick="checkAnswer(this, false)">Quick Sort</div>
-        </div><br><hr>
-        <p>9. What data structure is used in recursion?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Queue</div>
-          <div class="option" onclick="checkAnswer(this, false)">Array</div>
-          <div class="option" onclick="checkAnswer(this, true)">Stack</div>
-          <div class="option" onclick="checkAnswer(this, false)">Graph</div>
-        </div><br><hr>
-        <p>10. What is the space complexity of Merge Sort?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">O(1)</div>
-          <div class="option" onclick="checkAnswer(this, true)">O(n)</div>
-          <div class="option" onclick="checkAnswer(this, false)">O(log n)</div>
-          <div class="option" onclick="checkAnswer(this, false)">O(n^2)</div>
-        </div><br><hr>
-        <p>11. Which of the following is a divide and conquer algorithm?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Bubble Sort</div>
-          <div class="option" onclick="checkAnswer(this, true)">Marge Sort</div>
-          <div class="option" onclick="checkAnswer(this, false)">Insertion Sort</div>
-          <div class="option" onclick="checkAnswer(this, false)">Quick Sort</div>
-        </div><br><hr>
-        <p>12. What is the height of a balanced binary tree with n nodes?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">O(n)</div>
-          <div class="option" onclick="checkAnswer(this, true)">O(log n)</div>
-          <div class="option" onclick="checkAnswer(this, false)">O(n log n)</div>
-          <div class="option" onclick="checkAnswer(this, false)">O(1)</div>
-        </div><br><hr>
-        <p>13. Which data structure is best suited for implementing DijkstraΓÇÖs algorithm?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Queue</div>
-          <div class="option" onclick="checkAnswer(this, false)">Stack</div>
-          <div class="option" onclick="checkAnswer(this, true)">Binary Heap</div>
-          <div class="option" onclick="checkAnswer(this, false)">Hash Table</div>
-        </div><br><hr>
-        <p>14. What is the time complexity of inserting an element into a Binary Search Tree (BST) in the worst case</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">O(1)</div>
-          <div class="option" onclick="checkAnswer(this, false)">O(log n)</div>
-          <div class="option" onclick="checkAnswer(this, true)">O(n)</div>
-          <div class="option" onclick="checkAnswer(this, false)">O(n^2)</div>
-        </div><br><hr>
-        <p>15. Which of the following is a greedy algorithm?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Binary Search</div>
-          <div class="option" onclick="checkAnswer(this, true)">Dijkstra's Algorithm</div>
-          <div class="option" onclick="checkAnswer(this, false)">. Floyd-Warshall Algorithm</div>
-          <div class="option" onclick="checkAnswer(this, false)">Marge Sort</div>
-        </div>
-      </div>
-    </section>
+    <!-- Questions Area -->
+    <div class="questions-container">
+        {% if selected_subject %}
+            <h2>Subject: {{ selected_subject.name }}</h2>
 
-    <!-- Algorithm -->
-    <!--<section class="subject" id="algo-section">
-      <h2>Algorithm</h2>
-      <div class="question-card">
-        <p>1. What is the best-case time complexity of QuickSort?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">O(n^2)</div>
-          <div class="option" onclick="checkAnswer(this, false)">O(n)</div>
-          <div class="option" onclick="checkAnswer(this, true)">O(n log n)</div>
-          <div class="option" onclick="checkAnswer(this, false)">O(log n)</div>
-        </div>
-      </div>
-    </section>-->
+            {% for question in questions %}
+                <div class="question-block" id="question-{{ forloop.counter }}">
+                    <p><strong>{{ forloop.counter }}. {{ question.text }}</strong></p>
+                    
+                    <div class="options">
+                        <button class="option-btn" data-correct="{{ question.correct_option }}">{{ question.option1 }}</button>
+                        <button class="option-btn" data-correct="{{ question.correct_option }}">{{ question.option2 }}</button>
+                        {% if question.option3 %}
+                            <button class="option-btn" data-correct="{{ question.correct_option }}">{{ question.option3 }}</button>
+                        {% endif %}
+                        {% if question.option4 %}
+                            <button class="option-btn" data-correct="{{ question.correct_option }}">{{ question.option4 }}</button>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Please select a subject from the navbar above.</p>
+        {% endif %}
+    </div>
 
-    <!-- DBMS (shortened for brevity, expand like above) -->
-    <section class="subject" id="dbms-section">
-      <h2>DBMS</h2>
-      <div class="question-card">
-        <p>1. What is the ACID property in DBMS?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Accuracy, Consistency, Isolation, Durability</div>
-          <div class="option" onclick="checkAnswer(this, true)">Atomicity, Consistency, Isolation, Durability</div>
-          <div class="option" onclick="checkAnswer(this, false)">Availability, Consistency, Isolation, Durability</div>
-          <div class="option" onclick="checkAnswer(this, false)">Atomicity, Concurrency, Isolation, Durability</div>
-        </div><br><hr>
-        <p>2. Which of the following helps to uniquely identify each row in a table?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Foreign key</div>
-          <div class="option" onclick="checkAnswer(this, false)">Unique key</div>
-          <div class="option" onclick="checkAnswer(this, true)">Primary key</div>
-          <div class="option" onclick="checkAnswer(this, false)">Index</div>
-        </div><br><hr>
-        <p>3. What is normalization mainly used for?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Speed up queries</div>
-          <div class="option" onclick="checkAnswer(this, true)">Remove duplicate data</div>
-          <div class="option" onclick="checkAnswer(this, false)">Create reports</div>
-          <div class="option" onclick="checkAnswer(this, false)">Increase redundency</div>
-        </div><br><hr>
-        <p>4. In a relational database, what does a foreign key do?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, true)"> Links two tables</div>
-          <div class="option" onclick="checkAnswer(this, false)"> Sorts rows</div>
-          <div class="option" onclick="checkAnswer(this, false)">Create backup</div>
-          <div class="option" onclick="checkAnswer(this, false)">Delete rows</div>
-        </div><br><hr>
-        <p>5. What is the output of a SELECT statement called?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Report</div>
-          <div class="option" onclick="checkAnswer(this, false)">Forms</div>
-          <div class="option" onclick="checkAnswer(this, true)">Result set</div>
-          <div class="option" onclick="checkAnswer(this, false)">Row</div>
-        </div><br><hr>
-        <p>6. Which SQL keyword is used to remove duplicates?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">UNIQUE</div>
-          <div class="option" onclick="checkAnswer(this, true)">DISTINCT</div>
-          <div class="option" onclick="checkAnswer(this, false)">REMOVE</div>
-          <div class="option" onclick="checkAnswer(this, false)">DELETE</div>
-        </div><br><hr>
-        <p>7. Which type of join returns only matching rows from both tables?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Full join</div>
-          <div class="option" onclick="checkAnswer(this, true)">Inner join</div>
-          <div class="option" onclick="checkAnswer(this, false)">Left join</div>
-          <div class="option" onclick="checkAnswer(this, false)">Outer join</div>
-        </div><br><hr>
-        <p>8. Which one is NOT a type of normalization?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">1 NF</div>
-          <div class="option" onclick="checkAnswer(this, false)">2 NF</div>
-          <div class="option" onclick="checkAnswer(this, false)">3 NF</div>
-          <div class="option" onclick="checkAnswer(this, true)">7 NF</div>
-        </div><br><hr>
-        <p>9. What does the 'DELETE' command do in SQL? </p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Drops the entire table</div>
-          <div class="option" onclick="checkAnswer(this, true)">Deletes all rows but keeps structure</div>
-          <div class="option" onclick="checkAnswer(this, false)">Deletes table columns</div>
-          <div class="option" onclick="checkAnswer(this, false)">Changes table name</div>
-        </div><br><hr>
-        <p>10. What is the purpose of the COMMIT command?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Restart the database</div>
-          <div class="option" onclick="checkAnswer(this, true)">Save changes permanently</div>
-          <div class="option" onclick="checkAnswer(this, false)">Cancel a query</div>
-          <div class="option" onclick="checkAnswer(this, false)">Close a connection</div>
-        </div><br><hr>
-        <p>11. Which command undoes changes made by the last transaction?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">DELETE</div>
-          <div class="option" onclick="checkAnswer(this, false)">UNDO</div>
-          <div class="option" onclick="checkAnswer(this, true)">ROLLBACK</div>
-          <div class="option" onclick="checkAnswer(this, false)">BACKUP</div>
-        </div><br><hr>
-        <p>12. What is a deadlock in DBMS?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Two queries running fast</div>
-          <div class="option" onclick="checkAnswer(this, false)">No user access allowed</div>
-          <div class="option" onclick="checkAnswer(this, true)">Two processes wait for each other forever</div>
-          <div class="option" onclick="checkAnswer(this, false)">Data is lost permanently</div>
-        </div>
-        <p>13. What kind of index stores a copy of data with pointers?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Unique index</div>
-          <div class="option" onclick="checkAnswer(this, false)">Clustered index</div>
-          <div class="option" onclick="checkAnswer(this, true)">Non-clustered index</div>
-          <div class="option" onclick="checkAnswer(this, false)">Hash index</div>
-        </div>
-        <p>14. Which command is used to give access to a user?</p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, true)">GRANT</div>
-          <div class="option" onclick="checkAnswer(this, false)">PERMIT</div>
-          <div class="option" onclick="checkAnswer(this, false)">AUTHORIZE</div>
-          <div class="option" onclick="checkAnswer(this, false)">ACESS</div>
-        </div>
-        <p>15.In ER model, what does a weak entity need? </p>
-        <div class="options">
-          <div class="option" onclick="checkAnswer(this, false)">Primary key</div>
-          <div class="option" onclick="checkAnswer(this, true)">Relationship with a strong entity</div>
-          <div class="option" onclick="checkAnswer(this, false)">Trigger</div>
-          <div class="option" onclick="checkAnswer(this, false)">View</div>
-        </div>
-      </div>
-    </section>
+    <script>
+        const optionButtons = document.querySelectorAll('.option-btn');
+        optionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const parent = this.parentElement;
+                const allOptions = parent.querySelectorAll('.option-btn');
+                const correctAnswer = this.getAttribute('data-correct');
+                
+                allOptions.forEach(opt => {
+                    opt.disabled = true;  // Disable all options after one click
+                    if (opt.textContent.trim() === correctAnswer.trim()) {
+                        opt.classList.add('correct');
+                    }
+                });
 
-<!-- OS-->
-<section class="subject" id="OS-section">
-  <h2>Operating System</h2>
-  <div class="question-card">
-    <p>1. Which algorithm avoids deadlock by checking the system state before resource allocation?</p>
-    <div class="options">
-      <div class="option" onclick="checkAnswer(this, false)">FIFO</div>
-      <div class="option" onclick="checkAnswer(this, true)">BankerΓÇÖs Algorithm</div>
-      <div class="option" onclick="checkAnswer(this, false)">Round Robin</div>
-      <div class="option" onclick="checkAnswer(this, false)">Shortest Job First</div>
-    </div>
-    <br><hr>
-    <p>2. In paging, what does the page table store?</p>
-    <div class="options">
-      <div class="option" onclick="checkAnswer(this, false)">Process ID</div>
-      <div class="option" onclick="checkAnswer(this, false)">File Nmae</div>
-      <div class="option" onclick="checkAnswer(this, true)">Frame number</div>
-      <div class="option" onclick="checkAnswer(this, false)">Logical Address</div>
-    </div>
-    <br><hr>
-    <p>3. What is the cause of thrashing in virtual memory?</p>
-    <div class="options">
-      <div class="option" onclick="checkAnswer(this, false)">Small page size</div>
-      <div class="option" onclick="checkAnswer(this, false)">High CPU load</div>
-      <div class="option" onclick="checkAnswer(this, true)">Too many page faults</div>
-      <div class="option" onclick="checkAnswer(this, false)">Long job queue</div>
-    </div>
-    <br><hr>
-    <p>4. Which of these is not a condition for deadlock?</p>
-    <div class="options">
-      <div class="option" onclick="checkAnswer(this, false)">Mutual exclusion</div>
-      <div class="option" onclick="checkAnswer(this, false)">Preemption</div>
-      <div class="option" onclick="checkAnswer(this, false)">Circular wait</div>
-      <div class="option" onclick="checkAnswer(this, true)">Safe state</div>
-    </div>
-    <br><hr>
-    <p>5. What is the main idea of multi-threading?</p>
-    <div class="options">
-      <div class="option" onclick="checkAnswer(this, false)">Run different programs</div>
-      <div class="option" onclick="checkAnswer(this, false)">Run multiple CPUs</div>
-      <div class="option" onclick="checkAnswer(this, true)">Run parts of the same program at the same time</div>
-      <div class="option" onclick="checkAnswer(this, false)">Run programs in safe mode</div>
-    </div>
-    <br><hr>
-    <p>6. Which of these is a non-preemptive scheduling algorithm?</p>
-    <div class="options">
-      <div class="option" onclick="checkAnswer(this, false)">Round Robin</div>
-      <div class="option" onclick="checkAnswer(this, true)">FCFS</div>
-      <div class="option" onclick="checkAnswer(this, false)">Priority Scheduling</div>
-      <div class="option" onclick="checkAnswer(this, false)">Multilevel Queue</div>
-    </div>
-    <br><hr>
-    <p>7. What is the critical section in process synchronization?</p>
-    <div class="options">
-      <div class="option" onclick="checkAnswer(this, false)">Memory section</div>
-      <div class="option" onclick="checkAnswer(this, false)">Section of code with no input</div>
-      <div class="option" onclick="checkAnswer(this, true)">Section that accesses shared resources</div>
-      <div class="option" onclick="checkAnswer(this, false)">Backup process section</div>
-    </div>
-    <br><hr>
-    <p>8. What is the main goal of demand paging?</p>
-    <div class="options">
-      <div class="option" onclick="checkAnswer(this, false)">Reduce the size of RAM</div>
-      <div class="option" onclick="checkAnswer(this, true)">Avoid loading unused pages</div>
-      <div class="option" onclick="checkAnswer(this, false)">Avoid CPU scheduling</div>
-      <div class="option" onclick="checkAnswer(this, false)">Stop I/O operations</div>
-    </div>
-    <br><hr>
-    <pre>9. What is the output of this code?
-      int a = 10;
-      printf("%d", a++ + a);
-    </pre>
-    <div class="options">
-      <div class="option" onclick="checkAnswer(this, false)">20</div>
-      <div class="option" onclick="checkAnswer(this, false)">error</div>
-      <div class="option" onclick="checkAnswer(this, true)">21</div>
-      <div class="option" onclick="checkAnswer(this, false)">19</div>
-    </div>
-    <br><hr>
-    <p>10. Which format specifier is used for printing unsigned int?</p>
-    <div class="options">
-      <div class="option" onclick="checkAnswer(this, true)">%u</div>
-      <div class="option" onclick="checkAnswer(this, false)">%d</div>
-      <div class="option" onclick="checkAnswer(this, false)">%lu</div>
-      <div class="option" onclick="checkAnswer(this, false)">%i</div>
-    </div>
-    <br><hr>
-    <p>11. Which statement is true about static variables?</p>
-    <div class="options">
-      <div class="option" onclick="checkAnswer(this, false)">They reset every time the function is called</div>
-      <div class="option" onclick="checkAnswer(this, true)">They keep their value between function calls</div>
-      <div class="option" onclick="checkAnswer(this, false)">They are faster</div>
-      <div class="option" onclick="checkAnswer(this, false)">They are stored in stack</div>
-    </div>
-    <br><hr>
-    <p>12. What is a dangling pointer?</p>
-    <div class="options">
-      <div class="option" onclick="checkAnswer(this, false)">Points to a valid address</div>
-      <div class="option" onclick="checkAnswer(this, true)">Points to freed memory</div>
-      <div class="option" onclick="checkAnswer(this, false)">Always NULL</div>
-      <div class="option" onclick="checkAnswer(this, false)">Unused pointer</div>
-    </div>
-    <br><hr>
-    <p>13. How to allocate dynamic memory for 5 integers?</p>
-    <div class="options">
-      <div class="option" onclick="checkAnswer(this, false)">malloc(5)</div>
-      <div class="option" onclick="checkAnswer(this, true)">malloc(5 * sizeof(int))</div>
-      <div class="option" onclick="checkAnswer(this, false)">malloc(int, 5)</div>
-      <div class="option" onclick="checkAnswer(this, false)">malloc(5, int)</div>
-    </div>
-    <br><hr>
-    <p>14. Which of these is true about const keyword?</p>
-    <div class="options">
-      <div class="option" onclick="checkAnswer(this, false)">Makes pointer constant</div>
-      <div class="option" onclick="checkAnswer(this, true)">Makes value constant</div>
-      <div class="option" onclick="checkAnswer(this, false)">Makes function constant</div>
-      <div class="option" onclick="checkAnswer(this, false)">Freezes the whole program</div>
-    </div>
-    <br><hr>
-    <pre>15. What is the output?
-      int x = 0;
-      if (x = 5)
-      printf("Hello");
-      else
-      printf("World");
-      </pre>
-    <div class="options">
-      <div class="option" onclick="checkAnswer(this, true)">hello</div>
-      <div class="option" onclick="checkAnswer(this, false)">world</div>
-      <div class="option" onclick="checkAnswer(this, false)">error</div>
-      <div class="option" onclick="checkAnswer(this, false)">none</div>
-    </div>
-    <br><hr>
-  </div>
-</section>
+                if (this.textContent.trim() !== correctAnswer.trim()) {
+                    this.classList.add('wrong');
+                }
+            });
+        });
+    </script>
 
-  </div>
-
-  <a href="#" onclick="scrollToTop()" class="top-arrow">
-    <img src="{% static 'img/top arrow.png' %}" alt="Top Arrow"/>
-  </a>
-
-  <script src="{% static 'js/practice_question.js' %}"></script>
 </body>
 </html>
-

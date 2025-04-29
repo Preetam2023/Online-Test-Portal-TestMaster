@@ -42,6 +42,7 @@ urlpatterns = [
     path('user-dashboard/mock-test/', mock_test, name='mock_test'),
     path('user-dashboard/mock-test/mock-test-page/', mock_test_page, name='mock_test_page'),
     path('user-dashboard/question-bank/', practice_questions, name='practice_questions'),
+    path('user-dashboard/question-bank/<str:subject_name>/', practice_questions, name='practice_questions'),  # With subject
 
     # Organization Admin
     path('organization-admin-signup/', organization_admin_signup, name='organization-admin-signup'),

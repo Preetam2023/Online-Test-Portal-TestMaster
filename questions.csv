@@ -1,0 +1,716 @@
+Subject,Question,Option 1,Option 2,Option 3,Option 4,Correct Option,Difficulty Level
+C Programming,What is the size of int in C?,2 Bytes,4 Bytes,8 Bytes,Depends on compiler,4 Bytes,Easy
+C Programming,Which of the following is a correct comment in C?,// comment,/* comment */,# comment,-- comment,/* comment */,Easy
+C Programming,Which keyword is used to prevent modification of a variable in C?,const,static,final,volatile,const,Easy
+C Programming,Which operator is used to get the address of a variable?,*,&,%,/,*,Easy
+C Programming,Which function is used to print output in C?,scanf(),printf(),cin,echo,printf(),Easy
+C Programming,What is the extension of C programming files?,.txt,.c,.cpp,.exe,.c,Easy
+C Programming,Who is the father of C language?,James Gosling,Dennis Ritchie,Bjarne Stroustrup,Guido van Rossum,Dennis Ritchie,Easy
+C Programming,Which format specifier is used to print a float in C?,%d,%f,%s,%c,%f,Easy
+C Programming,Which data type is used to store a character?,int,char,string,float,char,Easy
+C Programming,How do you start a for loop in C?,for (i=0;i<10;i++),for i=0 to 10,for (i<10),foreach i in 0..10,for (i=0;i<10;i++),Easy
+C Programming,Which symbol is used to end a statement in C?,",",;,.,:,;,Easy
+C Programming,Which one is a valid variable name in C?,2variable,_variable,variable_2,2Variable,_variable,Easy
+C Programming,Which of the following is not a keyword in C?,auto,break,case,double,strlength(),Easy
+C Programming,Which function is used to take input in C?,printf(),scanf(),input(),get(),scanf(),Easy
+C Programming,What is the default return type of a function in C if not specified?,float,void,char,bool,int,Easy
+C Programming,Which library is needed to use printf() function?,<math.h>,<stdio.h>,<conio.h>,<string.h>,<stdio.h>,Easy
+C Programming,What will 5/2 return in C (integer division)?,2.5,2,2,3,2,Easy
+C Programming,Which of these is a logical operator in C?,&,&&,|,||,&&,Easy
+C Programming,What does '&&' represent in C?,OR,AND,XOR,NOT,AND,Easy
+C Programming,Which loop checks condition after executing the body?,for,while,do...while,switch,do...while,Easy
+C Programming,Which function is used to find the length of a string in C?,strlen(),strlength(),length(),size(),strlen(),Easy
+C Programming,Which of these is used to allocate memory dynamically?,malloc(),calloc(),realloc(),define(),malloc(),Easy
+C Programming,What is the ASCII value of 'A'?,65,97,66,64,65,Easy
+C Programming,Which function is used to compare two strings?,strcmp(),strcompare(),stringcmp(),equals(),strcmp(),Easy
+C Programming,Which operator is used for multiplication in C?,%,*,/,-,*,Easy
+C Programming,Which keyword is used to define a macro in C?,#define,macro,macrodef,#macro,#define,Easy
+C Programming,Which header file is required for malloc()?,<memory.h>,<stdlib.h>,<stdio.h>,<conio.h>,<stdlib.h>,Medium
+C Programming,What is the result of sizeof(char) in C?,2,1,4,8,1,Easy
+C Programming,Which operator is used for conditional expressions in C?,:,&&,||,0,:,Medium
+C Programming,What is a pointer in C?,A variable,An operator,A function,A constant,A variable,Easy
+C Programming,"What will be the output of printf(""%d"", 10+20/5*2)?",18,14,10,20,18,Easy
+C Programming,What is a dangling pointer?,A pointer pointing to freed memory,A pointer initialized with zero,A pointer pointing to NULL,A pointer pointing to start of array,A pointer pointing to freed memory,Medium
+C Programming,What is the maximum length of an identifier in C?,31,63,255,127,31,Medium
+C Programming,Which function is used to allocate zero-initialized memory?,malloc(),calloc(),realloc(),falloc(),calloc(),Medium
+C Programming,Which of the following is not a storage class in C?,automatic,register,mutable,dynamic,automatic,Medium
+C Programming,Which of these correctly declares an array in C?,int array[10];,array int[10];,int[] array;,arr[10],int array[10];,Easy
+C Programming,What is the purpose of the 'extern' keyword in C?,Defines a variable,Declares a global variable,Provides external linkage,Allocates dynamic memory,Provides external linkage,Medium
+C Programming,"What is the output of printf(""%d"", sizeof(int)); (assuming 4-byte int)?",4,2,1,0,4,Easy
+C Programming,What is recursion in C?,A function calling itself,Multiple functions,Global variable,Array calling itself,A function calling itself,Medium
+C Programming,Which operator has the highest precedence in C?,/,*,%,0,/,Medium
+C Programming,Which looping process is best used when the number of iterations is known?,for loop,while loop,do...while loop,foreach loop,for loop,Easy
+C Programming,How many bytes does a double occupy in C (typically)?,8,4,6,10,8,Easy
+C Programming,What is the full form of 'ASCII'?,American Standard Code for Information Interchange,Associated Standard Code for International Interface,All Standard Characters Inside Internet,Abstract Symbolic Code for Information Intercommunication,American Standard Code for Information Interchange,Easy
+C Programming,Which escape sequence represents a newline in C?,\n,\t,\r,\b,\n,Easy
+C Programming,"What will be the output of printf(""%c"",65);?",A,B,C,D,A,Easy
+C Programming,Which is faster in C: call by value or call by reference?,Call by value,Call by reference,Both same,None,Call by reference,Medium
+C Programming,Which bitwise operator is used to set a particular bit?,|,&,^,~,|,Medium
+C Programming,Which function is used to dynamically deallocate memory?,free(),malloc(),calloc(),realloc(),free(),Medium
+C Programming,What is the result of 1 << 2 in C?,4,2,8,16,4,Medium
+C Programming,What happens if a pointer is freed twice in C?,Program may crash,Nothing happens,Memory leak,Undefined behavior,Program may crash,Hard
+C Programming,Which data structure uses FIFO principle?,Queue,Stack,Array,Heap,Queue,Easy
+C Programming,"What is the output of printf(""%d"", 'A');?",65,66,67,68,65,Easy
+C Programming,How to comment multiple lines in C?,// comment,/* comment */,# comment,-- comment,/* comment */,Easy
+C Programming,What will be the value of a[5] if int a[5] = {0};?,0,Undefined,Garbage,-1,0,Medium
+C Programming,Which standard library function finds the first occurrence of a character in a string?,strchr(),strstr(),strcpy(),strdup(),strchr(),Medium
+C Programming,"What is the output of strcmp(""abc"", ""abc"")?",0,-1,1,2,0,Easy
+C Programming,What happens when you divide by zero in C?,Runtime error,Segmentation fault,Program exits normally,No compilation,Runtime error,Hard
+C Programming,What is an lvalue in C?,Left value,Right value,Middle value,All values,Left value,Medium
+C Programming,What does the 'volatile' keyword mean in C?,It tells compiler value may change anytime,It means variable cannot change,Value will not be optimized,Marks variable for deletion,It tells compiler value may change anytime,Medium
+C Programming,Which header file is used for string operations?,<string.h>,<stdio.h>,<stdlib.h>,<memory.h>,<string.h>,Easy
+C Programming,What is a NULL pointer in C?,A pointer that points nowhere,A garbage pointer,A pointer pointing to memory,Wild pointer,A pointer that points nowhere,Medium
+C Programming,What does static variable mean in C?,Value is preserved between calls,Scope within block,Temporary variable,Accessible only to main,Value is preserved between calls,Easy
+C Programming,How is an infinite loop declared in C?,for(;;),while(1),loop(),while(0),for(;;),Easy
+C Programming,Which operator is used to access structure members via pointer?,->,.,:,!,->,Medium
+C Programming,Which memory is used by malloc()?,Stack,Heap,ROM,Disk,Heap,Hard
+C Programming,Which function is used to copy strings in C?,strcpy(),strncpy(),memcpy(),stringcopy(),strcpy(),Easy
+C Programming,What is the base address of an array?,First element's address,Last element's address,Index address,Pointer address,First element's address,Easy
+C Programming,Which operator is used to perform modulo operation in C?,/,*,-,#ERROR!,%,Medium
+C Programming,Which loop is guaranteed to execute at least once?,do...while,while,for,foreach,do...while,Easy
+C Programming,Which function is used to concatenate two strings in C?,strcat(),strjoin(),stradd(),concat(),strcat(),Hard
+C Programming,What is the size of void pointer in C?,Depends on system,4,8,2,Depends on system,Medium
+C Programming,What is typecasting in C?,Changing data type,Casting function,Changing function type,Changing loop,Changing data type,Easy
+C Programming,Which keyword is used to jump out of a loop?,break,continue,goto,return,break,Medium
+C Programming,What is the return type of malloc()?,void*,char*,int*,short*,void*,Easy
+C Programming,What is the keyword used for defining constants?,const,static,define,constant,const,Easy
+C Programming,Which keyword is used to prevent modification of a variable?,const,static,volatile,register,const,Easy
+C Programming,Which operator accesses structure members through a pointer?,*,.,->,&,->,Easy
+C Programming,What is the result of 2 << 3 in C?,6,8,16,32,16,Medium
+C Programming,What is the meaning of 'static' inside a function?,Global variable,Persistent local variable,Faster execution,None,Persistent local variable,Medium
+C Programming,Which function finds a character in a string?,strchr(),strrchr(),strstr(),strtok(),strchr(),Easy
+C Programming,Which modifier reduces the size of int?,short,long,signed,unsigned,short,Easy
+C Programming,Typical size of double in C?,4 bytes,8 bytes,2 bytes,16 bytes,8 bytes,Easy
+C Programming,Which function copies a string?,strcpy(),strcat(),strcmp(),strlen(),strcpy(),Easy
+C Programming,Which operator is for conditional expressions?,&&,||,?:,0,?:,Medium
+C Programming,Return type of malloc()?,void *,int *,float *,char *,void *,Medium
+C Programming,Which header is needed for printf()?,<stdio.h>,<stdlib.h>,<math.h>,<string.h>,<stdio.h>,Easy
+C Programming,What is a wild pointer?,Uninitialized pointer,NULL pointer,Dangling pointer,Constant pointer,Uninitialized pointer,Medium
+C Programming,Keyword to define inline function?,inline,register,static,extern,inline,Medium
+C Programming,What does (a = b) return?,a,b,TRUE,FALSE,b,Easy
+C Programming,Default storage class for local variables?,auto,static,extern,register,auto,Easy
+C Programming,Which is NOT a valid storage class?,auto,register,dynamic,extern,dynamic,Easy
+C Programming,Which operator cannot be overloaded?,0,sizeof,#ERROR!,[],sizeof,Hard
+C Programming,"Which is faster, recursion or iteration?",Recursion,Iteration,Both,Depends,Iteration,Medium
+C Programming,Purpose of 'volatile' keyword?,Optimization,Unexpected change,Constant,Typecast,Unexpected change,Medium
+C Programming,Which memory allocation function initializes memory to zero?,malloc(),calloc(),realloc(),free(),calloc(),Easy
+C Programming,Allocate memory at runtime?,Dynamic allocation,Static allocation,Automatic,None,Dynamic allocation,Easy
+C Programming,What is a dangling pointer?,Freed memory address,NULL pointer,Memory leak,Stack pointer,Freed memory address,Hard
+C Programming,Keyword for defining macros?,#define,macro,typedef,define,#define,Easy
+C Programming,Operator to get address of a variable?,*,&,%,@,&,Easy
+C Programming,Function to find length of a string?,strlen(),strcmp(),strcat(),strcpy(),strlen(),Easy
+C Programming,NULL pointer points to?,Zero address,Stack,Heap,Code,Zero address,Easy
+C Programming,Which symbol is used for preprocessor directives?,#,@,$,&,#,Easy
+C Programming,What is the default return type of functions in C if not specified?,int,void,float,double,int,Medium
+C Programming,Which operator is used to allocate memory dynamically?,malloc,sizeof,new,calloc,malloc,Easy
+C Programming,Which keyword is used for including libraries in C?,import,include,define,library,include,Easy
+C Programming,Which function deallocates memory in C?,free(),delete(),remove(),clear(),free(),Easy
+C Programming,What is the value of an uninitialized static variable?,0,Garbage,1,NULL,0,Easy
+C Programming,Which is a loop construct in C?,for,do-while,while,All of the above,All of the above,Easy
+C Programming,Which data type is used to store characters?,char,int,float,double,char,Easy
+C Programming,Which format specifier is used to print an integer?,%d,%f,%c,%s,%d,Easy
+C Programming,Which function reads a character from the user?,getchar(),putchar(),scanf(),gets(),getchar(),Easy
+C Programming,Which storage class is used to make a variable available across multiple files?,extern,static,auto,register,extern,Medium
+C Programming,Which function is used to open a file?,fopen(),open(),file(),create(),fopen(),Medium
+C Programming,What is the output of sizeof(char)?,1,2,4,Depends on OS,1,Easy
+C Programming,How to write a comment in C?,// comment,# comment,-- comment,/* comment,// comment,Easy
+C Programming,Which one is a conditional loop?,for,while,do-while,All,All,Easy
+C Programming,Which operator is used for multiplication?,*,&,#ERROR!,-,*,Easy
+C Programming,Which operator is used for division?,/,*,#ERROR!,-,/,Easy
+C Programming,What is a function prototype?,Function declaration,Function call,Function definition,None,Function declaration,Medium
+C Programming,Which keyword is used to terminate a loop immediately?,exit,stop,break,continue,break,Easy
+C Programming,Which function moves the file pointer?,fseek(),ftell(),rewind(),fmove(),fseek(),Medium
+C Programming,Which function returns the current position of file pointer?,ftell(),fseek(),rewind(),fmove(),ftell(),Medium
+C Programming,Which one is a logical operator?,&&,||,!,All,All,Easy
+C Programming,Which one is not a keyword in C?,void,main,auto,register,main,Easy
+C Programming,Which of these is an invalid variable name?,_value,1value,value1,value_,1value,Easy
+C Programming,The process of converting source code into machine code is called?,Compilation,Interpretation,Execution,None,Compilation,Easy
+C Programming,Which header file includes standard input/output functions?,<stdio.h>,<stdlib.h>,<string.h>,<conio.h>,<stdio.h>,Easy
+C Programming,Which operator gives remainder?,%,/,*,#ERROR!,%,Easy
+C Programming,Which memory is used for static variables?,Heap,Stack,Data segment,Code segment,Data segment,Medium
+C Programming,Which function compares two strings?,strcmp(),strcat(),strcpy(),strlen(),strcmp(),Easy
+C Programming,"What will be the output of printf(""%d"", sizeof(int)); on a 32-bit system?",2,4,8,16,4,Medium
+C Programming,Which function copies one string to another?,strcpy(),strcat(),strcmp(),strlen(),strcpy(),Easy
+C Programming,Which function appends one string to another?,strcat(),strcmp(),strcpy(),strlen(),strcat(),Easy
+C Programming,What is the output of 10/4 in C?,2.5,2,3,4,2,Medium
+C Programming,Which type of error is detected at compilation?,Syntax,Logical,Runtime,None,Syntax,Easy
+C Programming,Which loop is guaranteed to execute at least once?,for,while,do-while,None,do-while,Medium
+C Programming,Which keyword is used to create a constant?,const,constant,define,static,const,Easy
+C Programming,Which function reads formatted input?,scanf(),printf(),getchar(),putchar(),scanf(),Easy
+C Programming,Which function writes formatted output?,printf(),scanf(),getchar(),putchar(),printf(),Easy
+C Programming,What is a pointer?,Variable that stores address,Variable that stores value,Data type,Operator,Variable that stores address,Easy
+C Programming,What is the keyword for dynamic memory allocation?,malloc,int,dynamic,memory,malloc,Medium
+C Programming,What is NULL in C?,0 address,1 address,Negative address,None,0 address,Easy
+C Programming,Which operator is used for bitwise AND?,&,|,^,~,&,Medium
+C Programming,Which is not a relational operator?,<,>,<=,&&,&&,Medium
+C Programming,Which one is not a looping statement?,for,while,do,goto,goto,Easy
+C Programming,Where are local variables stored?,Stack,Heap,Data segment,Code segment,Stack,Medium
+C Programming,Which operator is used to increment?,#ERROR!,#ERROR!,#ERROR!,--,#ERROR!,Easy
+C Programming,Which one is a valid format specifier?,%q,%s,%z,%y,%s,Easy
+C Programming,What is the precedence of logical operators?,Higher than relational,Lower than relational,Same as relational,None,Lower than relational,Hard
+C Programming,Which one is a valid control statement?,break,exit,stop,quit,break,Easy
+C Programming,Which of the following correctly declares an array in C?,int arr[10];,array int[10];,int arr;,int[10] arr;,int arr[10];,Easy
+C Programming,What is the correct syntax for a for loop?,for(init; cond; inc),for(cond; init; inc),"for(init, cond, inc)","for(cond, init, inc)",for(init; cond; inc),Easy
+C Programming,What is the size of int typically in C (32-bit system)?,4 bytes,2 bytes,8 bytes,1 byte,4 bytes,Easy
+C Programming,Which keyword is used for defining constants in C?,const,constant,final,immutable,const,Easy
+C Programming,What does ++i do?,Increments then uses,Uses then increments,Decrements then uses,Uses then decrements,Increments then uses,Easy
+C Programming,Which data type can store 10 decimal places accurately?,float,double,int,char,double,Medium
+C Programming,What is the purpose of sizeof operator?,Returns size of variable,Returns value of variable,Deletes variable,Returns address,Returns size of variable,Easy
+C Programming,Which of these is a correct while loop syntax?,while(condition) {},while condition {},while(condition);,while{condition},while(condition) {},Easy
+C Programming,Which format specifier is used for character output?,%c,%s,%d,%f,%c,Easy
+C Programming,How many times will the following loop execute: for(int i=0;i&lt;5;i++)?,5,4,6,0,5,Easy
+Python,Which of the following is used to define a block of code in Python?,Curly braces {},Parentheses (),Indentation,Square brackets [],Indentation,Easy
+Python,Which of the following is a valid variable name in Python?,my-var,my_var,my var,123my_var,my_var,Easy
+Python,How do you start a comment in Python?,//,#,/*,<!--,#,Easy
+Python,What does len() function do in Python?,Returns the length of an object,Returns the data type of an object,Returns the first element of an object,Converts an object to a string,Returns the length of an object,Easy
+Python,Which of the following functions is used to read user input in Python?,input(),raw_input(),read(),scan(),input(),Easy
+Python,Which of these is used to import a module in Python?,import module_name,include module_name,using module_name,require module_name,import module_name,Easy
+Python,What type of object is returned by the range() function?,List,Tuple,Set,Range object,Range object,Easy
+Python,Which of the following is a mutable data type in Python?,Tuple,String,List,Set,List,Easy
+Python,How can you get the current version of Python?,print(python.version()),print(sys.version),print(version()),print(current_version()),print(sys.version),Medium
+Python,Which of these methods can be used to add an item to a list in Python?,append(),add(),insert(),Both A and C,Both A and C,Easy
+Python,Which of the following will print all the items in a dictionary?,print(dict.items()),print(dict),print(dict.values()),print(dict.values()),print(dict.items()),Medium
+Python,Which of the following methods is used to sort a list in Python?,sort(),order(),sorted(),Both A and C,Both A and C,Easy
+Python,What does the enumerate() function do in Python?,Returns an iterator of all the values in a list,Adds index to each item in an iterable,Returns a tuple of key-value pairs from a dictionary,None of the above,Adds index to each item in an iterable,Hard
+Python,Which function can be used to get the remainder of a division?,divmod(),mod(),rem(),%,%,Easy
+Python,Which of the following is the correct way to declare a function in Python?,def myFunction:,function myFunction():,def myFunction():,function myFunction,def myFunction():,Easy
+Python,"What is the result of 5 * ""hello""?",hellohellohellohellohello,hello5,5hello,Error,hellohellohellohellohello,Easy
+Python,What does the del keyword do in Python?,Deletes a file,Deletes a list element or variable,Deletes a dictionary,None of the above,Deletes a list element or variable,Medium
+Python,What is the default value returned by a function that does not have a return statement?,None,0,FALSE,null,None,Medium
+Python,How can you handle exceptions in Python?,Using catch,Using try and except,Using error,Using throw,Using try and except,Easy
+Python,Which of the following is used to check if a value exists in a list in Python?,in,exists(),contains(),index(),in,Medium
+Python,Which of the following statements is used to exit a loop in Python?,break,exit,quit,continue,break,Easy
+Python,What type of object is returned by the range() function?,List,Tuple,Iterator,Set,Iterator,Easy
+Python,How do you declare a string variable in Python?,"str x = ""hello""","string x = ""hello""","x = ""hello""","x : str = ""hello""","x = ""hello""",Easy
+Python,How do you concatenate two lists in Python?,list1 + list2,list1.append(list2),list1.concat(list2),list1.extend(list2),list1 + list2,Easy
+Python,Which of the following is true about the while loop in Python?,It runs indefinitely unless a break condition is met,It runs a fixed number of times,It runs at least once,It runs only if the condition is True at the beginning,It runs indefinitely unless a break condition is met,Easy
+Python,Which of the following is used to convert an object into a string?,str(),to_string(),string(),convert(),str(),Easy
+Python,How do you create a tuple in Python?,"(1, 2, 3)","[1, 2, 3]","{1, 2, 3}","tuple(1, 2, 3)","(1, 2, 3)",Easy
+Python,What is the result of print(2 == 2)?,TRUE,FALSE,None,Error,TRUE,Easy
+Python,Which of the following is an immutable data type in Python?,List,Dictionary,Set,Tuple,Tuple,Easy
+Python,Which of the following statements creates a shallow copy of a list a?,b = a,b = a.copy(),b = list(a),All of the above,All of the above,Easy
+Python,Which of the following will NOT raise an error?,"a = ""Hello"" + 5","a = 5 + ""Hello""","a = ""Hello"" + ""World""",a = 3 + 4.5,"a = ""Hello"" + ""World""",Medium
+Python,Which of the following methods will convert a string to a list of characters?,list(),split(),splitlines(),join(),list(),Easy
+Python,Which of the following is the correct way to declare a dictionary in Python?,"d = {1, 2, 3}","d = [1: 'a', 2: 'b']","d = {1: 'a', 2: 'b'}","d = (1: 'a', 2: 'b')","d = {1: 'a', 2: 'b'}",Easy
+Python,Which of the following methods can be used to read an entire file in Python?,read(),readline(),input(),get(),read(),Easy
+Python,Which of the following is true about Python's global keyword?,It declares a variable that can be accessed globally,It is used to access global variables inside a function,It declares a global variable inside a function,None of the above,It is used to access global variables inside a function,Easy
+Python,What is the correct syntax to check the type of a variable in Python?,type(x),type x,check(x),isinstance(x),type(x),Easy
+Python,Which of the following expressions is a valid dictionary comprehension in Python?,{x: x**2 for x in range(5)},{x for x in range(5)},"{x: y for x, y in range(5)}",[{x: x**2 for x in range(5)}],{x: x**2 for x in range(5)},Hard
+Python,Which of the following is used for string formatting in Python?,format(),% operator,f-strings,All of the above,All of the above,Easy
+Python,What does the os module do in Python?,Deals with operating system-specific functionality,Provides file and directory handling functions,Works with environment variables,All of the above,All of the above,Easy
+Python,Which of the following is true about a Python set?,Sets are unordered collections of elements,Sets can contain duplicates,Sets are ordered collections of elements,None of the above,Sets are unordered collections of elements,Easy
+Python,Which of the following is the correct way to handle a custom exception in Python?,raise Exception('message'),raise Exception('message'),catch Exception('message'),throw new Exception('message'),raise Exception('message'),Medium
+Python,Which method can be used to remove whitespace characters from the beginning and end of a string?,strip(),trim(),cut(),whitespace(),strip(),Easy
+Python,Which of the following is the correct way to define a class in Python?,class MyClass(),class MyClass:,class MyClass(object):,def MyClass:,class MyClass(object):,Easy
+Python,What is the purpose of the __init__() method in a Python class?,It initializes the class,It initializes the object,It initializes the instance variables,Both b and c,Both b and c,Medium
+Python,Which of the following is the correct way to create an empty set in Python?,set = {},set = set(),set = [],set = (),set = set(),Easy
+Python,What does the zip() function do in Python?,Merges two lists,Combines two iterables element-wise,Adds elements of two lists,Creates a generator,Combines two iterables element-wise,Medium
+Python,Which method would you use to convert a string to lowercase in Python?,lower(),tolower(),lowercase(),convert(),lower(),Easy
+Python,Which method would you use to check if a key exists in a dictionary?,in,has_key(),contains(),exists(),in,Easy
+Python,Which of the following is the correct way to use a lambda function in Python?,"lambda x, y: x + y","lambda x, y => x + y","function(lambda x, y: x + y)","lambda(x, y) = x + y","lambda x, y: x + y",Medium
+Python,Which function is used to obtain the current system time in Python?,current_time(),time.now(),get_time(),time(),time.now(),Easy
+Python,Which of the following can be used to check if a string contains only digits?,isdigit(),isnumeric(),isdecimal(),All of the above,All of the above,Easy
+Python,What does the join() method do in Python?,Joins two strings,Joins multiple strings into one string,Joins elements of an iterable into a string,Joins a string and a list,Joins elements of an iterable into a string,Easy
+Python,Which of the following is the correct way to define a class method in Python?,def method(self):,def method(cls):,@staticmethod def method(self):,@classmethod def method(cls):,@classmethod def method(cls):,Hard
+Python,Which of the following will add a new item at the beginning of a list?,list.append(item),"list.insert(0, item)",list.add(item),list.push(item),"list.insert(0, item)",Medium
+Python,What is the purpose of the self parameter in Python class methods?,It is a reference to the class itself,It is used to access the instance of the class,It is used for inheritance,It is a default parameter,It is used to access the instance of the class,Easy
+Python,Which of the following is used to reverse a list in Python?,list.reverse(),list[::-1],reversed(list),All of the above,All of the above,Easy
+Python,Which of the following is the correct way to remove a specific item from a list by value in Python?,list.remove(item),list.delete(item),list.pop(item),list.remove_at(item),list.remove(item),Medium
+Python,Which of the following is the correct way to convert a string to an integer in Python?,"int(""10"")","convert(""10"")","to_int(""10"")","string_to_int(""10"")","int(""10"")",Easy
+Python,What is the time complexity of appending an element to a list in Python?,O(1),O(n),O(log n),O(n log n),O(1),Easy
+Python,Which of the following will result in a MemoryError?,Allocating a large list,Allocating a very small list,Allocating a string,None of the above,Allocating a large list,Easy
+Python,Which Python module provides support for multi-threading?,threading,multiprocessing,asyncio,concurrent.futures,threading,Easy
+Python,Which of the following will return a list of values in a dictionary?,dict.values(),dict.items(),dict.keys(),dict,dict.values(),Easy
+Python,What is the purpose of the yield keyword in Python?,It creates a generator function.,It pauses the function execution and allows the state to be saved.,It returns a value from a function.,All of the above,All of the above,Easy
+Python,Which of the following is true about Python's set data structure?,It allows duplicate values.,It allows indexing.,It is unordered.,It maintains insertion order.,It is unordered.,Easy
+Python,Which of the following is NOT a key feature of OOP in Python?,Encapsulation,Inheritance,Polymorphism,Compilation,Compilation,Easy
+Python,What is the purpose of the __init__() method in Python?,To initialize a class variable,To initialize an instance of the class,To define a class method,To define the main program execution,To initialize an instance of the class,Easy
+Python,Which of the following is the correct syntax for creating an object in Python?,object = ClassName(),object = ClassName[],object = ClassName{},None of the above,object = ClassName(),Easy
+Python,What is inheritance in Python?,A method that creates multiple instances of a class,The ability to define methods with the same name but different arguments.,A mechanism by which one class can inherit attributes and methods from another class.,The ability to store data inside a class,A mechanism by which one class can inherit attributes and methods from another class.,Easy
+Python,Which of the following is the correct way to call a parent class method in Python?,parent.method(),super().method(),self.parent.method(),this.method(),super().method(),Easy
+Python,What is polymorphism in Python?,A method in a class that can be overridden by its subclasses.,The ability of one object to behave in multiple forms.,A type of inheritance.,The ability to call one method in multiple ways.,The ability of one object to behave in multiple forms.,Easy
+Python,Which of the following methods is automatically called when an object is deleted in Python?,__del__(),__delete__(),__destroy__(),__remove__(),__del__(),Easy
+Python,What is the purpose of super() function in Python?,To access the attributes of the parent class.,To call a parent class constructor.,To call a method of the parent class.,All of the above,All of the above,Easy
+Python,Which of the following methods in Python is called when a class object is called as a function?,__call__(),__func__(),__new__(),__init__(),__call__(),Easy
+Python,Which of the following is an example of an abstract method in Python?,def abstract_method(self):,@abstractmethod def method(self):,def method(self): pass,def method(self): pass,def abstract(self): pass,Easy
+Python,What is the result of using the is operator in Python?,It compares values of objects.,It compares the memory addresses of objects.,It compares data types.,It checks for identity.,It compares the memory addresses of objects.,Easy
+Python,How do you create a private variable in Python?,By using the __ prefix before the variable name.,By using the private keyword,By using the self keyword.,Python does not support private variables.,By using the __ prefix before the variable name.,Easy
+Python,What is the purpose of the @property decorator in Python?,It allows a method to be accessed like an attribute.,It makes a method private.,It defines a class method.,It defines a static method.,It allows a method to be accessed like an attribute.,Easy
+Python,Which of the following is an example of encapsulation in Python?,Using private variables.,Using public methods.,Defining methods in the class.,All of the above.,Using private variables.,Easy
+Python,Which method in Python helps define behavior when you compare two objects of a class?,__eq__(),__cmp__(),__compare__(),__compare_equal__(),__eq__(),Easy
+Python,What is the purpose of __repr__() in Python?,To initialize an instance.,To return a string that is an unambiguous representation of the object.,To return a string representation of the instance.,To compare two instances of the class.,To return a string that is an unambiguous representation of the object.,Easy
+Python,Which method in Python can be used to remove the last item from a list?,remove(),pop(),del,clear(),pop(),Easy
+Python,Which of the following will remove the element from the list at index 2?,del list[2],list.remove(2),list.pop(2),Both a and c,Both a and c,Easy
+Python,"What is the difference between range(5) and range(0, 5)?",There is no difference.,"range(5) starts from 0 while range(0, 5) starts from 1","range(5) does not include 5, while range(0, 5) includes 5.",None of the above.,There is no difference.,Easy
+Python,What is the use of *args in function definitions?,It allows passing a list as an argument.,It allows passing a variable number of arguments to a function.,It makes the argument optional.,None of the above.,It allows passing a variable number of arguments to a function.,Easy
+Python,Which of the following will return a new dictionary with key-value pairs swapped?,dict(reversed()),dict.swap(),dict(items()),"dict(zip(keys, values))",dict(items()),Easy
+Python,Which of the following data structures does Python provide?,List,Dictionary,Set,All of the above,All of the above,Easy
+Python,What does the break statement do in Python?,It terminates the loop and proceeds to the next statement after the loop.,It stops the program completely.,It causes the loop to execute indefinitely.,It returns a value from a function.,It terminates the loop and proceeds to the next statement after the loop.,Easy
+Python,Which of the following is a built-in data type in Python?,Integer,Float,String,All of the above,All of the above,Easy
+Python,What does the continue statement do in a loop?,It breaks out of the loop.,It terminates the entire program.,It skips the current iteration and moves to the next iteration of the loop.,It terminates the current function.,It skips the current iteration and moves to the next iteration of the loop.,Easy
+Python,Which of the following is used to create a new line in the print() function?,\n,\t,\r,\\,\n,Easy
+Python,What is the result of the following operation? 10 == '10',TRUE,FALSE,Error,None,FALSE,Easy
+Python,Which function in Python is used to get the length of an object?,length(),get_length(),len(),size(),len(),Easy
+Python,Which of the following is not a valid keyword in Python?,if,else,then,for,then,Easy
+Python,Which of the following is the correct syntax for a while loop in Python?,while x > 10 do:,while x > 10:,while (x > 10),while x > 10 do {},while x > 10:,Easy
+Python,What is the output of print(type([])) in Python?,<class 'list'>,<class 'dict'>,<class 'tuple'>,<class 'set'>,<class 'list'>,Easy
+Python,What is the difference between is and == in Python?,"is compares values, while == compares memory addresses.","is compares memory addresses, while == compares values.",Both are the same,"is is used for primitive types only, while == is used for objects.","is compares memory addresses, while == compares values.",Easy
+Python,What does the extend() method do in Python?,Adds a single element to the end of a list.,Removes an element from the list.,Adds multiple elements to the list.,Returns the length of the list.,Adds multiple elements to the list.,Easy
+Python,Which of the following methods is used to add a key-value pair to a dictionary?,add(),insert(),setitem(),update(),update(),Easy
+Python,Which of the following can be used to check if a key exists in a dictionary?,key in dict,key exists in dict,key.isin(dict),key.get(dict),key in dict,Easy
+Python,Which of the following is not a valid method of a list object in Python?,append(),remove(),insert(),delete(),delete(),Easy
+Python,Which of the following is not a valid way to open a file in Python?,"open(""file.txt"", ""r"")","open(""file.txt"", ""w"")","open(""file.txt"", ""rb"")","open(""file.txt"", ""zip"")","open(""file.txt"", ""zip"")",Easy
+Python,What is the output of print('abc'[::-1])?,abc,cba,Error,None,cba,Easy
+Python,What is the output of print(3 == 3.0) in Python?,TRUE,FALSE,Error,None,TRUE,Easy
+Python,What does the dir() function do in Python?,Lists the directory of a module.,Lists the attributes and methods of an object.,,Creates a directory in the filesystem.,Lists the attributes and methods of an object.,Easy
+Python,Which method is used to remove all elements from a list?,clear(),pop(),delete(),remove(),clear(),Easy
+Python,Which of the following methods can be used to remove an item from a set?,remove(),del,discard(),Both a and c,Both a and c,Easy
+Python,Which of the following functions is used to convert a list to a tuple?,list(),tuple(),set(),dict(),tuple(),Easy
+Python,What is the output of print(2 ** 3)?,5,6,8,Error,8,Easy
+Python,Which of the following statements will raise a ZeroDivisionError in Python?,x = 10 / 2,x = 10 // 2,x = 10 / 0,x = 10 % 2,x = 10 / 0,Easy
+Python,What does the list() function do?,Converts a tuple to a list.,Converts a string to a list.,Converts a set to a list.,All of the above.,All of the above.,Easy
+Python,Which of the following is the correct way to import the math module in Python?,import math,from math import *,import math as m,All of the above,All of the above,Easy
+Python,Which function can be used to remove leading and trailing spaces from a string in Python?,strip(),trim(),remove(),cut(),strip(),Easy
+Python,Which method can be used to check whether a string starts with a specific substring?,startswith(),endswith(),contains(),beginswith(),startswith(),Easy
+Python,"What will be the output of print(""Hello"".lower())?",hello,Hello,HELLO,error,hello,Easy
+Python,Which of the following will return the number of occurrences of a substring in a string?,count(),find(),index(),search(),count(),Easy
+Python,Which of the following methods is used to merge two lists in Python?,extend(),merge(),combine(),concat(),extend(),Easy
+Python,Which function can be used to round a number to a specific number of decimal places in Python?,round(),decimal(),floor(),ceil(),round(),Easy
+Python,Which of the following methods is used to find the index of an element in a list in Python?,find(),index(),locate(),get(),index(),Easy
+Python,What does the map() function do in Python?,Applies a function to each item in an iterable.,Maps keys to values in a dictionary,Merges two lists together.,Filters out unwanted items from a list.,Applies a function to each item in an iterable.,Easy
+Python,Which of the following is the correct syntax for defining a default argument in a Python function?,"def func(arg1, arg2=5):","def func(arg1=5, arg2):","def func(arg1, 5=arg2):","def func(5, arg2):","def func(arg1, arg2=5):",Easy
+Python,What is the function used to get the absolute value of a number in Python?,abs(),value(),absolute(),fabs(),abs(),Easy
+Python,Which of the following is a valid way to check if a number is divisible by 3 in Python?,num % 3 == 0,num / 3 == 0,num % 3,num == 3,num % 3 == 0,Easy
+Python,Which of the following will not result in an error in Python?,"2 * ""abc""","""abc"" * 2","""abc"" + 2","""abc"" / 2","""abc"" * 2",Easy
+Python,Which of the following is not a built-in function in Python?,min(),max(),sum(),average(),average(),Easy
+Python,Which of the following functions can be used to get a substring from a string in Python?,substring(),slice(),split(),find(),slice(),Easy
+Python,Which of the following is not a valid data type in Python?,int,float,string,character,character,Easy
+Python,Which of the following methods is used to get the first element of a list?,first(),get(0),list[0],list.begin(),list[0],Easy
+Python,Which mode is used for reading a file in Python?,r,w,a,r+,r,Easy
+Python,What does the flush() method do in Python?,It deletes the content of a file.,It closes the file.,It writes the buffered content to the file.,It removes a file from the system.,It writes the buffered content to the file.,Easy
+Python,Which method is used to read a single line from a file in Python?,read(),readline(),readlines(),fetchline(),readline(),Easy
+Python,Which function can be used to delete a file in Python?,delete(),del(),remove(),os.remove(),os.remove(),Easy
+Python,What does the with open() statement do in Python?,Opens a file and ensures it is closed after the block of code is executed.,Opens a file without checking for errors.,Opens the file in append mode.,Reads the entire file into memory.,Opens a file and ensures it is closed after the block of code is executed.,Easy
+Python,Which method is used to write a list of strings to a file in Python?,file.write(),file.writelines(),file.writeall(),file.writearray(),file.writelines(),Easy
+Python,What will happen if you open a file with mode 'r+' in Python and the file does not exist?,A new file will be created.,Python will raise a FileNotFoundError.,The program will exit silently.,It will write an empty file.,Python will raise a FileNotFoundError.,Easy
+Python,Which of the following modules provides functions for interacting with the file system in Python?,os,sys,filehandler,fs,os,Easy
+Python,What does the os.path.exists() function do?,Checks if a file exists at the given path.,Creates a new file at the given path.,Deletes a file at the given path.,Renames a file at the given path.,Checks if a file exists at the given path.,Easy
+Python,Which of the following statements about the seek() function is true?,It resets the pointer to the beginning of the file.,It moves the file pointer to the end of the file.,It moves the file pointer to a specific position.,It rewinds the file.,It moves the file pointer to a specific position.,Easy
+Python,Which of the following is used to create a new directory in Python?,os.make(),os.mkdir(),os.create(),os.path.create(),os.mkdir(),Easy
+Python,What will happen if you try to open a file in write mode ('w') and the file does not exist?,Python will raise a FileNotFoundError.,Python will create a new file and open it.,The program will fail silently.,Python will return a None object.,Python will create a new file and open it.,Easy
+Python,What will be the output of os.getcwd() in Python?,The current working directory of the Python script.,The directory in which a file is saved.,The directory where Python is installed.,The name of the current file.,The current working directory of the Python script.,Easy
+Python,What is the use of os.path.join() in Python?,To join two strings.,To join file paths in a platform-independent way.,To merge two files.,To add two directories.,To join file paths in a platform-independent way.,Easy
+Python,Which of the following is the correct way to open a file in binary mode in Python?,b',binary',rb',rb+',rb',Easy
+Python,Which of the following is used to remove a directory in Python?,os.delete(),os.rmdir(),os.remove(),os.path.rmdir(),os.rmdir(),Easy
+Python,Which of the following modules is used for high-level file operations like copying and moving files in Python?,os,sys,shutil,pathlib,shutil,Easy
+Python,What is the correct way to check whether a file is empty in Python?,os.isempty(file),os.path.getsize(file) == 0,file.size() == 0,file.empty(),os.path.getsize(file) == 0,Easy
+Python,Which of the following will automatically close the file after completing the block of code?,with statement,open() function,close() method,finally block,with statement,Easy
+Python,Which of the following is true about Python decorators?,A decorator is a function that modifies the behavior of another function.,A decorator is a class used to modify other classes.,"Decorators can only be applied to functions, not methods.",Decorators can only be used in Python 3.6 and later versions.,A decorator is a function that modifies the behavior of another function.,Easy
+Python,What is a generator in Python?,A function that returns a list of values.,A function that uses yield to return an iterator.,A built-in function for handling large files.,A class that returns an iterable.,A function that uses yield to return an iterator.,Easy
+Python,Which of the following is the correct syntax for multiple inheritance in Python?,"class DerivedClass(BaseClass1, BaseClass2):",class DerivedClass(BaseClass1):,class DerivedClass(BaseClass1 and BaseClass2):,class DerivedClass(BaseClass1 or BaseClass2):,"class DerivedClass(BaseClass1, BaseClass2):",Easy
+Python,What is the purpose of the filter() function in Python?,To filter a list based on a condition and return the modified list.,To filter a list and return a new list with elements that satisfy a condition.,To filter out unwanted elements from a dictionary.,To filter out duplicate elements from a list.,To filter a list and return a new list with elements that satisfy a condition.,Easy
+DSA,Which data structure uses FIFO (First In First Out) method?,Stack,Queue,Tree,Graph,Queue,Easy
+DSA,What is the time complexity of binary search algorithm?,O(n),O(log n),O(n log n),O(1) ,O(log n),Easy
+DSA,Which of the following is not a linear data structure?,Array,Linked List ,Stack,Tree,Tree,Easy
+DSA,Which of the following is a data structure?,int ,float,array ,char,Array,Easy
+DSA, A stack follows which order?,FIFO,LIFO,LILO,FILO,LIFO,Easy
+DSA,An array starts indexing from:,-1,1,2,0,0,Easy
+DSA,What is used to store a group of elements of the same type?,float,array,int ,char,array,Easy
+DSA,Which data structure works like a line at a ticket counter?,Stack,Tree,Queue,Graph,Queue,Easy
+DSA,Which data structure is like a chain of nodes?,Array,Linked List,Stack,Tree,Linked List,Easy
+DSA,Which is faster for searching: Binary search or Linear search (in a sorted array)?,Linear,Binary,Both,None,Binary,Easy
+DSA,A queue removes items from:,Top,Rear,Middle,Front,Front,Easy
+DSA,How many children can a binary tree node have at most?,1,2,3,4,2,Easy
+DSA,Which of the following is used to represent hierarchical data?,Stack,Queue,Array,Tree,Tree,Easy
+DSA,Which data structure can you think of as a “list of lists”?,Tree,Graph,Array,Matrix,Matrix,Easy
+DSA,What is the key idea of sorting?,Joining data,Splitting data,Arranging data in order,Searching data,Arranging data in order,Easy
+DSA,A linear search checks elements:,Randomly,Backward,In a straight line,Only first element,In a straight line,Easy
+DSA,What is the name of the first element in an array?,Header,Root,Index 0,Tail,Index 0,Easy
+DSA,What kind of data structure is a stack?,Linear,Non-linear,Circular,None,Linear,Easy
+DSA,Which of these can grow and shrink dynamically?,Static array,Linked list,Constant,Float,Linked list,Easy
+DSA,What does a null pointer indicate in a linked list?,Error,Start,End,Middle,End,Easy
+DSA,Which is used to traverse trees?,BFS,DFS,Both,None,Both,Easy
+DSA,Which data structure uses nodes and edges?,Array,Graph,Queue,Stack,Graph,Easy
+DSA,Which data structure is used in recursive function calls?,Queue,Stack,Heap,Tree,Stack,Easy
+DSA,What is the worst-case time complexity of linear search?,O(n),O(log n),O(1),O(n²),O(n),Easy
+DSA,Which sorting algorithm is the simplest to implement?,Quick Sort,Merge Sort,Bubble Sort,Heap Sort,Bubble Sort,Easy
+DSA,Which data structure is used in Breadth-First Search (BFS)?,Stack,Queue,Priority Queue,Hash Map,Queue,Easy
+DSA,Which one of these is a non-primitive data structure?,Float,Integer,Char,Array,Array,Easy
+DSA,What is the time complexity of accessing an element in an array?,O(n),O(log n),O(1),O(n log n),O(1),Easy
+DSA,Which algorithm is best for finding the shortest path in a weighted graph?,DFS,BFS,Dijkstra’s algorithm,Prim’s algorithm,Dijkstra’s algorithm,Easy
+DSA,Which traversal method is used for Depth First Search (DFS)?,Level-order,Pre-order,Post-order,In-order,Pre-order,Easy
+DSA,Which of the following data structures allows insertions and deletions from both ends?,Stack,Queue,Deque,Priority Queue,Deque,Easy
+DSA,Which data structure allows fast lookup using keys?,Queue,Array,Hash Table,Stack,Hash Table,Easy
+DSA,What is the worst-case time complexity of quicksort?,O(n²),O(n),O(log n),O(n log n),O(n²),Easy
+DSA,Which of the following is a divide and conquer algorithm?,Linear Search,Bubble Sort,Merge Sort,Insertion Sort,Merge Sort,Easy
+DSA,What is the minimum number of nodes in a binary search tree of height 3?,3,7,4,15,4,Easy
+DSA,Which data structure is most suitable for implementing LRU cache?,Queue,Deque,Linked List,HashMap + Doubly Linked List,HashMap + Doubly Linked List,Easy
+DSA,Which operation is the fastest in a singly linked list?,Insert at beginning,Insert at end,Delete from end,Search,Insert at end,Easy
+DSA,Which notation describes the best-case complexity?,Big-O,Theta,Omega,None,Omega,Easy
+DSA,What does “null” in a linked list node represent?,An empty value,End of the list,Start of the list,Middle of the list,End of the list,Easy
+DSA,Which data structure uses key-value pairs?,Array,Stack,HashMap,Queue,HashMap,Easy
+DSA,Which of these is not a type of linked list?,Singly Linked List,Circular Linked List,Triple Linked List,Doubly Linked List,Triple Linked List,Easy
+DSA,Which sorting algorithm is best for small datasets?,Bubble Sort,Merge Sort,Quick Sort,Radix Sort,Bubble Sort,Easy
+DSA,What is the best case time complexity of Bubble Sort?,O(n log n),O(n²),O(n),O(log n),O(n),Easy
+DSA,Which of the following is used to implement a priority queue?,Stack,Heap,Linked List,Queue,Heap,Easy
+DSA,Which data structure is used to perform undo operations in most text editors?,Queue,Array,Stack,Tree,Stack,Easy
+DSA,Which traversal of a binary tree visits nodes in left-root-right order?,Preorder,Postorder,Inorder,Level Order,Inorder,Easy
+DSA,"In a max-heap, which node contains the largest value?",Leftmost leaf,Rightmost leaf,Root,Middle,Root,Easy
+DSA,Which of the following data structures is used for backtracking?,Stack,Queue,Array,Tree,Stack,Easy
+DSA,Which sorting algorithm is based on the divide-and-conquer strategy?,Selection Sort,Bubble Sort,Merge Sort,Insertion Sort,Merge Sort,Easy
+DSA,Which graph representation is more space efficient for sparse graphs?,Adjacency Matrix,Adjacency List,Edge List,Incidence Matrix,Adjacency List,Easy
+DSA,Which graph traversal algorithm uses a queue?,DFS,BFS,Topological Sort,Dijkstra,BFS,Easy
+DSA,A complete binary tree of height h has how many nodes at most?,2^h,2^h - 1,h,2^(h+1) - 1,2^(h+1) - 1,Easy
+DSA,"In a max-heap, the smallest element is found at:",The root,A leaf node,Leftmost node,Rightmost node,A leaf node,Easy
+DSA,What is the time complexity to search an element in a balanced binary search tree (BST)?,O(1),O(log n),O(n),O(n log n),O(log n),Easy
+DSA,What is the maximum number of nodes at level ‘l’ in a binary tree?,2^l,l,l^2,2^(l-1),2^(l-1),Easy
+DSA,Which algorithm is used for finding the shortest path in a weighted graph (without negative weights)?,Dijkstra’s,Bellman-Ford,Kruskal’s,Prim’s,Dijkstra’s,Easy
+DSA,In which case does a hash table have collisions?,When two different keys hash to the same index,When a key is deleted,When a key is not found,When a key is updated,When two different keys hash to the same index,Easy
+DSA,Which traversal technique uses a stack (either explicit or implicit)?,BFS,DFS,Level Order,Tree Sort,DFS,Easy
+DSA,What data structure is used in recursion?,Stack,Queue,Linked List,Array,Stack,Easy
+DSA,The time complexity to insert a node into a Binary Search Tree on average is:,O(1),O(log n),O(n),O(n log n),O(log n),Easy
+DSA,Which of these graph algorithms can detect cycles?,Dijkstra’s,Kruskal’s,Prim’s,DFS,DFS,Easy
+DSA,What is the height of a complete binary tree with n nodes?,log n,n,n/2,2n,log n,Easy
+DSA,Which of the following is an application of a priority queue?,Huffman Encoding,Breadth-First Search,Depth-First Search,Tree Traversal,Huffman Encoding,Easy
+DSA,Which data structure is used for evaluating expressions and syntax parsing?,Queue,Stack,Tree,Graph,Stack,Easy
+DSA,"In a circular queue, if the rear is just before front, the queue is:",Empty,Full,Overflow,Underflow,Full,Easy
+DSA,Which algorithm solves the problem of finding the minimum spanning tree?,Dijkstra’s ,Floyd-Warshall,Kruskal’s,Bellman-Ford,Kruskal’s,Easy
+DSA,Which one of the following is not a stable sorting algorithm?,Bubble Sort,Insertion Sort,Quick Sort,Merge Sort,Quick Sort,Easy
+DSA,Which of the following traversals outputs the nodes of a binary search tree in sorted order?,Preorder,Postorder,Inorder,Level order,Inorder,Easy
+DSA,What is the auxiliary space complexity of Merge Sort?,O(n),O(1),O(log n),O(n log n),O(n),Easy
+DSA,"In a binary search algorithm, the array must be:",Unsorted,Sorted in ascending order,Sorted in descending order,Random,Sorted in ascending order,Easy
+DSA,Which tree traversal would be used to print the nodes at each level of a binary tree?,Inorder,Preorder,Postorder,Level Order,Level Order,Easy
+DSA,In which of the following sorting algorithms is the number of swaps minimized?,Selection Sort,Bubble Sort,Quick Sort,Heap Sort,Selection Sort,Easy
+DSA,What is the space complexity of Depth First Search (DFS)?,O(1),O(n),O(log n),O(n^2),O(n),Easy
+DSA,The number of edges in a complete graph with n vertices is:,n(n-1)/2,n^2,n(n+1)/2,2n,n(n-1)/2,Easy
+DSA,Which of the following operations is the fastest for a hash table?,Insertion,Deletion,Search,All of the above,All of the above,Easy
+DSA,What data structure efficiently supports checking for duplicates within a large list?,Array,Linked List,Hash Set,Stack,Hash Set,Easy
+DSA,Which traversal of a binary tree is useful to create a copy of the tree?,Level Order,Postorder,Preorder,Inorder,Preorder,Easy
+DSA,What is the minimum number of nodes in an AVL tree of height h?,2^(h+1) - 1,Fibonacci(h+2) - 1,2^h,h^2,Fibonacci(h+2) - 1,Easy
+DSA,A node with no children in a tree is called:,Root,Parent,Leaf,Branch,Leaf,Easy
+DSA,Which of the following graph algorithms works correctly with negative edge weights?,Dijkstra’s,Kruskal’s,Bellman-Ford,Prim’s,Bellman-Ford,Easy
+DSA,Which type of binary tree is used in Heap Sort?,Binary Search Tree,Complete Binary Tree,AVL Tree,B-Tree,Complete Binary Tree,Easy
+DSA,"Which algorithm uses ""greedy"" method?",Dijkstra’s,Bellman-Ford,Floyd-Warshall,DFS,Dijkstra’s,Easy
+DSA,Which one of the following is not an application of stack?,Balancing symbols,Backtracking,Syntax parsing,BFS traversal,BFS traversal,Easy
+DSA,"In backtracking, which technique is primarily used to explore all possible options?",DFS,BFS,Greedy Method,Dynamic Programming,DFS,Easy
+DSA,Which of the following problems is best solved using Dynamic Programming?,Sorting a list,Binary Search,Fibonacci sequence,DFS,Fibonacci sequence,Easy
+DSA,The Greedy algorithm guarantees the optimal solution for:,All problems,Some specific problems,No problems,Dynamic problems,Some specific problems,Easy
+DSA,What is the space complexity for storing a matrix of size n x n?,O(1),O(log n),O(n²),O(n),O(n²),Easy
+DSA,How many base cases are usually needed in recursion?,One or more,Only one,None,Two always,One or more,Easy
+DSA,Which approach is commonly used in solving the 0/1 Knapsack problem?,Greedy,Recursion,Dynamic Programming,Stack,Dynamic Programming,Easy
+DSA,Which of the following problems can be solved using backtracking?,Matrix Multiplication,Sudoku Solver,Binary Search,Merge Sort,Sudoku Solver,Easy
+DSA,What is the main advantage of Dynamic Programming over recursion?,a) Less memory usage,Avoids recomputation,Faster compilation,Simpler code,Avoids recomputation,Easy
+DSA,Which of the following is true for a matrix?,It can have only 1 row,It must be a square,It is a 2-dimensional array,It stores only characters,It is a 2-dimensional array,Easy
+DSA,"In an array, the time complexity to access an element is:",O(n),O(1),O(log n),O(n log n),O(1),Easy
+DSA,Which of the following is NOT a problem typically solved using backtracking?,N-Queens Problem,Rat in a Maze,Dijkstra’s Algorithm,Crossword Puzzle Solver,Dijkstra’s Algorithm,Easy
+DSA,"In Greedy algorithms, the decision made must be:",Globally optimal,Locally optimal,Random,Predefined,Locally optimal,Easy
+DSA,"In recursion, if the base condition is missing, what problem occurs?",Stack Overflow,Memory Leak,Stack Underflow,Compilation Error,Stack Overflow,Easy
+DSA,The minimum number of moves needed to solve Tower of Hanoi with n disks is:,2ⁿ,2ⁿ - 1, n log n,n²,2ⁿ - 1,Easy
+DSA,"In the Fractional Knapsack Problem, what technique gives the optimal solution?",Dynamic Programming,Greedy Method,Backtracking,Divide and Conquer,Greedy Method,Easy
+DSA,How many queens are placed on an 8x8 chessboard in the standard 8-Queen problem?,4,6,8,10,8,Easy
+DSA,Which of the following sorting algorithms has the best-case time complexity of O(n)?,Quick Sort,Insertion Sort,Merge Sort,Heap Sort,Insertion Sort,Easy
+DSA,"In a linked list, what does each node contain?",Only data,Data and address of next node,Address of previous node,Only address,Data and address of next node,Easy
+DSA,Which data structure is best for checking balanced parentheses in an expression?,Array,Stack,Queue,HashMap,Stack,Easy
+DSA,Which sorting algorithm is the simplest but inefficient for large datasets?,Quick Sort,Merge Sort,Bubble Sort,Heap Sort,Bubble Sort,Easy
+DSA,"In a min-heap, the parent node is:",Smaller than its children,Larger than its children,Equal to its children,Unrelated to its children,Smaller than its children,Easy
+DSA,How many edges does a tree with n nodes have?,n,n-1,n+1,2n,n-1,Easy
+DSA,"In a Trie data structure, each node typically represents:",A full word,A prefix,A suffix,A character,A character,Easy
+DSA,Which graph traversal algorithm can be used to detect a cycle in a directed graph?,BFS,DFS,Dijkstra,Kruskal,DFS,Easy
+DSA,"In dynamic programming, what is used to store the results of subproblems?",Stack,Queue,Table or Memoization,Tree,Table or Memoization,Easy
+DSA,What is the best time complexity for comparison-based sorting algorithms?,O(n),O(n log n),O(n^2),O(log n),O(n log n),Easy
+DSA,Which traversal technique uses a queue?,Inorder,Preorder,Postorder,Level Order,Level Order,Easy
+DSA,Which of the following is NOT a self-balancing binary search tree?,AVL Tree,Red-Black Tree,B-Tree,Binary Heap,Binary Heap,Easy
+DSA,What is the time complexity of inserting an element at the beginning of a linked list?,O(1),O(log n),O(n),O(n log n),O(1),Easy
+DSA," In a B-Tree of order m, a non-leaf node can have at most how many children?",m,m-1,m+1,2m,m,Easy
+DSA,In which of the following algorithms do we relax all edges repeatedly?,Dijkstra’s,Bellman-Ford,Kruskal’s,Prim’s,Bellman-Ford,Easy
+DSA,"In graph theory, a cycle in a tree is:",Always present,Never present,Sometimes present,Depends on nodes,Never present,Easy
+DSA,Which of the following is used in Prim's Algorithm?,Stack,Queue,Priority Queue / Min-Heap,HashMap,Priority Queue / Min-Heap,Easy
+DSA,"In an undirected graph with n vertices and m edges, what is the sum of degrees of all vertices?",2m,m,n+m,n-1,2m,Easy
+DSA,Which traversal algorithm visits all the nodes of a graph?,DFS only,BFS only,Both,None,Both,Easy
+DSA,Which of these sorting algorithms is an example of in-place sorting?,Merge Sort,Quick Sort,Counting Sort,Counting Sort,Quick Sort,Easy
+DSA,"In an adjacency matrix for a graph with n vertices, the space complexity is:",O(n),O(n^2),O(log n),O(2n),O(n^2),Easy
+DSA,In which case is linear search preferred over binary search?,Large datasets,Unsorted datasets,Sorted datasets,Never,Unsorted datasets,Easy
+DSA,Hashing is used to perform:,Sorting,Searching,Traversing,Recursion,Searching,Easy
+DSA,Which operation is performed faster in a doubly linked list compared to singly linked list?,Traversing backward,Traversing forward,Insertion at beginning,Insertion at end,Traversing backward,Easy
+DSA,The minimum number of nodes in a binary tree of height h is:,h,h+1,2^h - 1,h/2,h+1,Easy
+DSA,"In an array, elements are stored in:",Non-contiguous memory locations,Contiguous memory locations,Random memory locations,Linked memory locations,Contiguous memory locations,Easy
+DSA,What is the data structure behind function call management?,Queue,Array,Stack,Linked List,Stack,Easy
+DSA,"In a queue, elements are added at:",Front,Rear,Middle,None,Rear,Easy
+DSA,"In a stack, elements are inserted using which operation?",Insert,Append,Push,Add,Push,Easy
+DSA,Which of the following is a recursive data structure?,Array,Linked List,Queue,Stack,Linked List,Easy
+DSA,A hash table uses which technique to handle collisions?,Sorting,Chaining,Recursion,Searching,Chaining,Easy
+DSA,Which of the following is not an application of stack?,Undo feature,Function call,Expression evaluation,Scheduling processes,Scheduling processes,Easy
+DSA,Which one is not a property of a min-heap?,Complete binary tree,Each parent is smaller than children,Root is minimum,Root is maximum,Root is maximum,Easy
+DSA,"In which tree, keys are compared against intervals instead of individual values?",AVL Tree,Segment Tree,B-Tree,Trie,Segment Tree,Easy
+DSA,The number of internal nodes in a full binary tree with n leaf nodes is:,n,n-1,n+1,n/2,n-1,Easy
+DSA,The recurrence relation for merge sort is:,T(n) = T(n/2) + O(1),T(n) = 2T(n/2) + O(n),T(n) = 2T(n) + O(n),T(n) = T(n-1) + O(1),T(n) = 2T(n/2) + O(n),Easy
+DSA,"In Kruskal’s algorithm, to detect cycles we use:",Hash Table,BFS,Disjoint Set,Stack,Disjoint Set,Easy
+DSA,"In a hash table, the load factor is defined as:",Number of keys / Table size,Number of collisions,Table size / Number of keys,Number of probes,Number of keys / Table size,Easy
+DSA,"In a binary tree, maximum number of nodes at level l is:",2^l,2^(l-1),l^2,I,2^(l-1),Easy
+DSA,Which of the following is not a Divide and Conquer algorithm?,Merge Sort,Binary Search,Quick Sort,Prim’s Algorithm,Prim’s Algorithm,Easy
+DSA,What is the space complexity of an adjacency list representation of a graph with V vertices and E edges?,O(V),O(E),"
+O(V + E)",O(V * E),O(V + E),Easy
+DSA,"In a trie data structure, what is the time complexity of inserting a word of length m?",O(1),O(m),O(log m),O(m log m),O(m),Easy
+DSA,What is the time complexity of the Floyd-Warshall algorithm for finding all-pairs shortest paths?,O(V²),O(V³),O(V log V),O(V + E),O(V³),Easy
+DSA,"In a Red-Black Tree, what is the maximum height of a tree with n nodes?",O(n),O(log n),O(n log n),O(2 log n),O(log n),Easy
+DSA,What is the time complexity of deleting the minimum element from a min-heap?,O(1),O(log n),O(n),O(n log n),O(log n),Easy
+DSA,Which of the following data structures is best suited for implementing a dictionary?,Stack,Queue,Hash table,Array,Hash table,Easy
+DSA,Which sorting algorithm repeatedly selects the smallest element and places it at the beginning?,Bubble Sort,Selection Sort,Insertion Sort,Merge Sort,Selection Sort,Easy
+DSA,Which of the following is true for an AVL tree?,It allows duplicate keys,It is not self-balancing,The height difference between subtrees is at most 1,It has O(n) search time,The height difference between subtrees is at most 1,Easy
+DSA,Which algorithm is used to detect a cycle in an undirected graph?,Dijkstra’s,Union-Find,Bellman-Ford,Floyd-Warshall,Union-Find,Easy
+DSA,Which of the following is a property of a circular queue?,It has a fixed size,It follows LIFO,It cannot reuse empty spaces,It has no front or rear,It has a fixed size,Easy
+DSA,What is the time complexity of searching for a key in a balanced binary search tree with n nodes?,O(1),O(log n),O(n),O(n log n),O(log n),Easy
+DSA,Which algorithm is used to find the longest common substring of two strings?,KMP Algorithm,Rabin-Karp,Suffix Tree,Boyer-Moore,Suffix Tree,Easy
+DSA,"What is the time complexity of the A search algorithm in the worst case, assuming a consistent heuristic?",O(b^d),O(n log n),O(n²),O(log n),O(b^d),Easy
+Operating System,Which of the following is an example of an operating system?,MS Word,Linux,Oracle,Google Chrome,Linux,
+Operating System,The primary purpose of an operating system is to:,Provide entertainment,Manage computer resources,Perform calculations,Connect to the Internet,Manage computer resources,
+Operating System,Which part of the operating system is responsible for process scheduling?,Compiler,Loader,Kernel,Assembler,Kernel,
+Operating System,Which of the following is NOT a type of operating system?,Real-Time OS,Time-Sharing OS,Batch OS,Python OS,Python OS,
+Operating System,"In a multi-tasking OS, programs are executed:",One after another,Only when the CPU is idle,Simultaneously,Randomly,Simultaneously,
+Operating System,Which of these is a mobile operating system?,Windows,Android,Unix,Ubuntu,Android,
+Operating System,Which component manages hardware communication in OS?,User Interface,Device Driver,Compiler,Loader,Device Driver,
+Operating System,Which memory is non-volatile?,RAM,Cache,ROM,Stack,ROM,
+Operating System,In which memory does the operating system reside during computer booting?,ROM,RAM,Cache,Hard disk,ROM,
+Operating System,Which among these is NOT a function of the Operating System?,File Management,Process Management,Compiler Design,Memory Management,Compiler Design,
+Operating System,Which of the following scheduling algorithms gives minimum average waiting time?,FCFS,SJF,Round Robin,Priority Scheduling,SJF,
+Operating System,What is thrashing in operating systems?,High CPU utilization,High paging activity,High memory usage,Low disk I/O,High paging activity,
+Operating System,Which of these is used to manage deadlocks?,Spooling,Banker’s Algorithm,Bootstrapping,Dispatching,Banker’s Algorithm,
+Operating System,"In demand paging, when a page fault occurs:",The operating system immediately terminates the process,CPU is halted permanently,The page is brought into memory,None of the above,The page is brought into memory,
+Operating System,What is the technique used to run multiple programs simultaneously on a single processor?,Multithreading,Time-sharing,Virtualization,Multitasking,Multitasking,
+Operating System,Which of the following is NOT an advantage of multiprogramming?,Increased CPU utilization,Increased job throughput,Increased waiting time,Efficient memory use,Increased waiting time,
+Operating System,Page replacement algorithms are used for:,Swapping processes,Managing secondary memory,Managing cache memory,Managing main memory,Managing main memory,
+Operating System,What does the bootloader do?,Loads operating system into RAM,Formats the hard disk,Compiles device drivers,Manages CPU scheduling,Loads operating system into RAM,
+Operating System,Semaphore is used to solve problems related to:,Race condition,Process scheduling,Paging,Memory leaks,Race condition,
+Operating System,A process can be in all of the following states EXCEPT:,Running,Ready,Waiting,Deleting,Waiting,
+Operating System,Which one of the following is a deadlock avoidance algorithm?,FIFO,Banker’s algorithm,LRU,SSTF,Banker’s algorithm,
+Operating System,Which of the following conditions is necessary for deadlock to occur?,Mutual Exclusion,Preemption,Race condition,Priority Inversion,Mutual Exclusion,
+Operating System,Which of the following is used to keep track of processes waiting for some resource?,Allocation graph,Semaphore graph,Resource Allocation Graph,Process table,Resource Allocation Graph,
+Operating System,Which page replacement algorithm suffers from Belady’s Anomaly?,Optimal,LRU,FIFO,LFU,FIFO,
+Operating System,"In UNIX, which system call is used to create a new process?",exec(),fork(),spawn(),create(),fork(),
+Operating System,Which of the following is the core part of an operating system?,Shell,Kernel,Command Line Interface,System Call,Kernel,
+Operating System,Which scheduling algorithm is designed especially for time-sharing systems?,FCFS,SJF,Round Robin,Priority Scheduling,Round Robin,
+Operating System,Which of the following is a method for handling deadlocks?,Ignore them,Detect and recover,Prevent them,All of the above,All of the above,
+Operating System,Which file system is primarily used by Windows operating systems?,ext3,FAT32,NTFS,HFS+,NTFS,
+Operating System,"In multithreading, each thread shares:",Code section,Data section,Files,All of the above,All of the above,
+Operating System,Which memory management technique limits each process to a partition of memory?,Segmentation,Swapping,Partitioning,Paging,Partitioning,
+Operating System,What is the maximum number of processes that can be in a ready queue?,Only one,Two,Limited by memory,Unlimited theoretically,Unlimited theoretically,
+Operating System,Which of these is a type of system call used for device management?,open(),write(),ioctl(),fork(),ioctl(),
+Operating System,Which of the following is true about Virtual Memory?,It is a part of RAM,It is a section of the hard drive,It increases CPU speed,It disables disk storage,It is a section of the hard drive,
+Operating System,Which of these is responsible for managing the file system in an OS?,Device Manager,Process Manager,File Manager,Memory Manager,File Manager,
+Operating System,Which of the following is a type of Real-Time Operating System?,Linux,Windows,VxWorks,MS-DOS,VxWorks,
+Operating System,Which system call is used to terminate a process in UNIX?,kill(),fork(),exit(),exec(),exit(),
+Operating System,What is the name of the program that loads the operating system into memory?,Compiler,Assembler,Loader,Bootstrap,Bootstrap,
+Operating System,"In contiguous memory allocation, memory is divided into:",Pages,Frames,Fixed-sized partitions,Random blocks,Fixed-sized partitions,
+Operating System,Which of the following algorithms is used for page replacement?,FCFS,Round Robin,LRU,Preemptive Scheduling,LRU,
+Operating System,"In a system, processes P1 and P2 are executing concurrently. This situation can lead to:",Deadlock,Swapping,Fragmentation,Paging,Deadlock,
+Operating System,Which one is NOT a disk scheduling algorithm?,FCFS,SSTF,SCAN,LRU,LRU,
+Operating System,Which of these is not a valid state of a process?,New,Old,Waiting,Terminated,Old,
+Operating System,Which mechanism allows the CPU to communicate with peripherals without involving the CPU directly?,Polling,Spooling,DMA,Interrupts,DMA,
+Operating System,Which is the first program that runs when a computer is powered on?,Operating System,Application Program,BIOS,Compiler,BIOS,
+Operating System,Fragmentation in memory occurs when:,The memory is full,Memory is allocated and freed in an inefficient way,Pages are replaced,Processes terminate abruptly,Memory is allocated and freed in an inefficient way,
+Operating System,Which of the following is a method of interprocess communication (IPC)?,Sockets,Paging,Context switching,Segmentation,Sockets,
+Operating System,Which is NOT a goal of an operating system?,Convenience,Efficiency,Resource management,Increase cost,Increase cost,
+Operating System,"Which of the following best defines ""context switching""?",Saving and loading the state of a process,Executing two processes at the same time,Switching from RAM to ROM,Running a program without an OS,Saving and loading the state of a process,
+Operating System,Which of the following is an advantage of multiprogramming?,Increased CPU idle time,Higher throughput,Lower memory utilization,More frequent context switching,Higher throughput,
+Operating System,Which of the following is a non-preemptive scheduling algorithm?,Round Robin,SJF,FCFS,Priority Scheduling,FCFS,
+Operating System,Which OS structure has the least functionality in the kernel and puts most services in user space?,Monolithic Kernel,Microkernel,Layered OS,Exokernel,Microkernel,
+Operating System,Which of the following is not a valid synchronization tool?,Semaphore,Mutex,Thread,Monitor,Thread,
+Operating System,"In paging, what does each process have?",A page table,A frame table,A buffer,A segment table, A page table,
+Operating System,Which scheduling algorithm could cause starvation?,FCFS,Round Robin,Priority Scheduling,Multilevel Queue,Priority Scheduling,
+Operating System,Which of the following is not a valid process state?,New,Ready,Executing,Terminated,Executing,
+Operating System,Which of these is a preemptive scheduling algorithm?,FCFS,SJF,Round Robin,Priority Scheduling,Round Robin,
+Operating System,Which of the following is a disk scheduling algorithm?,LRU,FCFS,SCAN,FIFO,SCAN,
+Operating System,Which directory structure allows files to be shared between users?,Single-level,Two-level,Tree-structured,Acyclic Graph,Acyclic Graph,
+Operating System,Which of the following is used to prevent deadlock?,Mutual Exclusion,Hold and Wait,Circular Wait,Resource Allocation Graph,Resource Allocation Graph,
+Operating System,Which method is used to free up memory by moving pages between main memory and disk storage?,Spooling,Swapping,Scheduling,Segmentation,Swapping,
+Operating System,Which of the following is not an advantage of multiprogramming?,Increased CPU utilization,Increased throughput,Decreased response time,Efficient memory utilization,Decreased response time,
+Operating System,Which of the following causes internal fragmentation?,Fixed-sized memory allocation,Paging,Variable-sized memory allocation,External allocation,Fixed-sized memory allocation,
+Operating System,Which of the following is not a type of operating system?,Batch Operating System,Time-Sharing Operating System,Real-Time Operating System,Compiler-Based Operating System,Compiler-Based Operating System,
+Operating System,Which page replacement algorithm is optimal but difficult to implement in practice?,FIFO,LRU,Optimal Page Replacement,Random Page Replacement,Optimal Page Replacement,
+Operating System,Which of the following is not a function of the operating system?,Memory Management,Process Management,Virus Protection,File Management,Virus Protection,
+Operating System,Which of these systems allows multiple users to use the system at the same time?,Batch System,Time-sharing System,Single-user System,Real-Time System,Time-sharing System,
+Operating System,Which of the following is a characteristic of a real-time operating system?,High throughput,Predictable response time,User-friendly interface,Support for multitasking,Predictable response time,
+Operating System,The part of the OS that loads and starts the OS is called:,BIOS,Bootstrap loader,Kernel,Shell,Bootstrap loader,
+Operating System,Which of the following is not a valid page replacement algorithm?,FIFO,LRU,Optimal,SCAN,SCAN,
+Operating System,Which of the following scheduling algorithms allows a process to move between queues?,Multilevel Queue,Multilevel Feedback Queue,Priority Scheduling,FCFS,Multilevel Feedback Queue,
+Operating System,Which of the following is used to handle interrupts?,Scheduler,Dispatcher,Interrupt Handler,Loader,Interrupt Handler,
+Operating System,"Which of the following best defines ""critical section""?",The portion of a program where multiple processes interact,The last line of a program,A scheduling queue,A memory leak,The portion of a program where multiple processes interact,
+Operating System,Which of the following is not a component of the operating system?,Kernel,Shell,Compiler,File System,Compiler,
+Operating System,"In UNIX, how is a zombie process created?",By terminating abruptly,When a parent process doesn’t collect a terminated child’s exit status,By using fork() repeatedly,By resource leakage,When a parent process doesn’t collect a terminated child’s exit status,
+Operating System,Which of the following is not a type of system call?,Process Control,File Management,Device Management,Compilation,Compilation,
+Operating System,What is the main role of a device driver?,Manage CPU Scheduling,Control hardware devices,Allocate memory,Create processes,Control hardware devices,
+Operating System,Which of the following is not a valid inter-process communication method?,Pipes,Shared Memory,Signals,Paging,Paging,
+Operating System,Which system program is responsible for interpreting user commands?,Shell,Compiler,Kernel,Loader,Shell,
+Operating System,Which technique allows the CPU to run another process while waiting for I/O operations?,Spooling,Direct Memory Access,Interrupts,Multiprogramming,Multiprogramming,
+Operating System,Which mechanism is used to ensure the correctness of operations in concurrent processing?,Paging,Deadlock,Semaphore,Thrashing,Semaphore,
+Operating System,Which of the following is NOT a part of process control block (PCB)?,Program counter,Stack pointer,Scheduling information,Cache memory,Cache memory,
+Operating System,What is the main objective of time-sharing systems?,Minimize response time,Maximize memory usage,Minimize swapping,Improve file management,Minimize response time,
+Operating System,Which of the following is an example of a distributed operating system?,MS-DOS,UNIX,Windows 10,Amoeba,Amoeba,
+Operating System,Which command is used to list all files and directories in Linux?,list,ls,show,dir,ls,
+Operating System,Which of the following causes external fragmentation?,Fixed-size memory blocks,Paging,Variable-size memory blocks,Segmentation,Variable-size memory blocks,
+Operating System,Which term is used when an OS executes more than one task simultaneously?,Multiprogramming,Multiprocessing,Multitasking,Multithreading,Multitasking,
+Operating System,"In the context of Operating Systems, FAT stands for:",File Allocation Table,File Access Type,Fixed Allocation Table,Folder Access Table,File Allocation Table,
+Operating System,Which of the following is a characteristic of a real-time operating system?,High throughput,High response time,Predictable timing behavior,High storage capacity,Predictable timing behavior,
+Operating System,"In OS, what does virtual memory use to create the illusion of a large main memory?",RAM,Hard disk,CPU cache,ROM,Hard disk,
+Operating System,Which part of the OS communicates directly with the hardware?,Compiler,Kernel,Application,Shell,Kernel,
+Operating System,Which of the following is used to keep track of the status of each process?,Ready queue,Process Control Block,Page table,I/O table,Process Control Block,
+Operating System,Which of the following is used to prevent thrashing?,Increasing CPU scheduling,Using FIFO,Local page replacement,Working set model,Working set model,
+Operating System,Which command is used to check memory usage in Linux?,df,ps,Is,free,free,
+Operating System,Which of the following file allocation methods suffers from external fragmentation?,Contiguous allocation,Linked allocation,Indexed allocation,Hashed allocation,Contiguous allocation,
+Operating System,Which of the following best describes a daemon process?,A virus,A background process,A user-interactive program,A shell script, A background process,
+Operating System,Which of the following is not an advantage of multithreading?,Improved responsiveness,Resource sharing,Slower execution,Better CPU utilization,Slower execution,
+Operating System,"In paging, the page table is stored in:",Secondary storage,RAM,TLU,CPU,RAM,
+Operating System,Which of the following is a valid state of a process?,Running,Compiling,Executing,Starting,Running,
+Operating System,The time taken to switch from one process to another is called:,Switching time,Waiting time,Context switching time,Response time,Context switching time,
+Operating System,Which of the following is used for file protection in OS?,Access control lists,Paging,Semaphores,Schedulers,Access control lists,
+Operating System,Which OS component schedules CPU time?,Dispatcher,File system,Memory manager,Device driver,Dispatcher,
+Operating System,Which of these causes the most overhead during CPU scheduling?,Round Robin,SJF,FCFS,Priority Scheduling,Round Robin,
+Operating System,Which type of file access allows data to be read in any order?,Sequential access,Direct access,Indexed access,Random access,Direct access,
+Operating System,Which of the following is true about segmentation?,It uses fixed-size blocks,Logical memory is divided into pages,Segments are of equal length,Segments are of variable length,Segments are of variable length,
+Operating System,"In multilevel queue scheduling, processes are divided into:",Threads,Pages,Groups based on priority,Queues based on file size,Groups based on priority,
+Operating System,Which disk scheduling algorithm gives the best performance in general?,FCFS,SSTF,SCAN,C-SCAN,SSTF,
+Operating System,What is the maximum number of processes that can be in the ready queue?,1,Limited by the scheduler,Unlimited,Limited by system memory,Limited by system memory,
+Operating System,Which one of these Linux file types represents a symbolic link?,-,d,l,s,l,
+Operating System,The aging technique in scheduling is used to:,Increase context switching,Prevent starvation,Avoid thrashing,Improve throughput,Prevent starvation,
+Operating System,Which type of OS is designed for embedded systems?,General-purpose OS,Real-time OS,Time-sharing OS,Batch OS,Real-time OS,
+Operating System,Which of the following statements about semaphores is FALSE?,They are used for mutual exclusion,They can prevent race conditions,They are used in paging,They can be binary or counting,They are used in paging,
+Operating System,"The process state ""Ready"" means:",Waiting for I/O,Currently executing,Ready to run but waiting for CPU,Being terminated,Ready to run but waiting for CPU,
+Operating System,Which command in Linux shows currently running processes?,top,cd,kill,Is,top,
+Operating System,Which system resource is managed by the long-term scheduler?,CPU cycles,Memory pages,Degree of multiprogramming,Interrupt requests,Degree of multiprogramming,
+Operating System,What is the role of a spooler in OS?,Memory swapping,File encryption,Managing I/O requests,Preventing deadlock,Managing I/O requests,
+Operating System,Which replacement policy may result in Belady’s Anomaly?,LRU,FIFO,Optimal,Optimal,FIFO,
+Operating System,The TLB (Translation Lookaside Buffer) is associated with:,Disk access,Page table caching,CPU scheduling,File handling,Page table caching,
+Operating System,Which of these is a valid example of a real-time operating system?,Android,Windows,QNX,Ubuntu,QNX,
+Operating System,Which of the following is true for non-blocking I/O?,The process waits until I/O completes,I/O is handled in kernel space only,The process continues and checks later,It causes more context switches,The process continues and checks later,
+Operating System,Which file system is primarily used in macOS?,NTFS,ext4,HFS+,FAT32,HFS+,
+Operating System,The main disadvantage of linked allocation is:,External fragmentation,Slow direct access,High memory usage,Incompatibility with FAT,Slow direct access,
+Operating System,Which OS uses a command interpreter as a user interface?,Windows 10,Android,UNIX,macOS,UNIX,
+Operating System,"In a multi-threaded environment, which of these is shared among threads?",Program counter,Stack,Registers,Address space,Address space,
+Operating System,What does the term “swapping” refer to in an operating system?,Exchanging data between registers,Replacing pages in memory,Moving processes between memory and disk,Scheduling CPU time,Moving processes between memory and disk,
+Operating System,Which system call is used to create a new process in Windows?,exec(),CreateProcess(),fork(),spawn(),CreateProcess(),
+Operating System,Which condition is necessary for deadlock but can be broken to prevent it?,Mutual exclusion,Circular wait,Hold and wait,No preemption,Circular wait,
+Operating System,Which OS concept allows execution of different parts of a program simultaneously?,Pipelining,Multiprocessing,Threading,Multilevel Queue,Threading,
+Operating System,Which type of system is most likely to use a non-preemptive kernel?,Desktop OS,Real-time OS,Batch processing OS,Time-sharing OS,Real-time OS,
+Operating System,Which of these is NOT a valid CPU scheduling criterion?,Throughput,Turnaround time,Deadlock detection,Response time,Deadlock detection,
+Operating System,Which memory allocation strategy allocates the smallest available block that is large enough,First fit,Best fit,Worst fit,Quick fit,Best fit,
+Operating System,Which Linux command shows the last system boot time?,top,reboot,last,uptime,last,
+Operating System,Which of the following is responsible for context switching?,Loader,Scheduler,Compiler,Shell,Scheduler,
+Operating System,What does the exec() system call do?,Creates a new process,Replaces current process memory with a new program,Terminates a process,Spawns a child thread,Replaces current process memory with a new program,
+Operating System,What does the fork() system call return to the parent process?,Process ID of child,Process ID of parent,Memory address of the child,0,Process ID of child,
+Operating System,Which OS type is specifically designed for minimal response time and high reliability?,Batch OS,Time-sharing OS,General-purpose OS,Real-time OS,Real-time OS,
+Operating System,"The term ""zombie process"" refers to:",A virus,A terminated process still in the process table,A process that never dies,A system crash,A terminated process still in the process table,
+Operating System,Which of the following is a system call used to remove a file?,rmdir(),delete(),unlink(),removefile(),unlink(),
+Operating System,Which OS concept allows multiple users to work on the system at the same time?,Multitasking,Multi-access,Multi-user,Multi-threading,Multi-user,
+Operating System,Which of the following uses the SCAN algorithm logic?,Disk scheduling,CPU scheduling,Paging,Interrupt handling,Disk scheduling,
+Operating System,Which file system is journaled and commonly used by Linux?,FAT32,ext4,exFAT,NTFS,ext4,
+Operating System,Which of the following is not a function of the kernel?,Process management,Memory management,User interface,Device management,User interface,
+Operating System,Which of these is true about the Master Boot Record (MBR)?,It contains BIOS instructions,It resides in RAM,It stores partition information,It holds device drivers,It stores partition information,
+Operating System,What is the function of the nice command in UNIX/Linux?,Rename files,Modify file permissions,Change process priority,Terminate a process,Change process priority,
+Operating System,Which technique is used to bind a user-level thread to a kernel-level thread?,One-to-one model,Many-to-one model,Many-to-many model,Hybrid model,One-to-one model,
+Operating System,Which type of memory is non-volatile and can be electrically erased?,RAM,Cache,ROM,Flash,Flash,
+Operating System,"In UNIX, what is the init process?",Last process to terminate,First process started by the kernel,A user-level application,Used for scheduling,First process started by the kernel,
+Operating System,Which of the following is NOT an inter-process communication mechanism?,Pipes,Shared memory,Semaphores,Stack,Stack,
+Operating System,Which register contains the address of the next instruction to be executed?,Accumulator,Stack Pointer,Program Counter,Instruction Register,Program Counter,
+Operating System,Which part of the OS manages file directories and permissions?,Shell,Kernel,File system,Command line,File system,
+Operating System,A trap is a type of:,Hardware interrupt,User-level thread,Software interrupt,Device driver,Software interrupt,
+Computer Network,"What does the acronym ""IP"" stand for?",Internet Protocol,Internet Program,Internal Protocol,Internal Program,Internet Protocol,Easy
+Computer Network,Which device is used to connect multiple devices in a local area network (LAN)?,Switch,Router,Modem,Hub,Switch,Easy
+Computer Network,What does HTTP stand for?,HyperText Transfer Protocol,HyperText Transport Protocol,Hyper Transfer Text Protocol,HyperTag Transfer Protocol,HyperText Transfer Protocol,Easy
+Computer Network,Which of these protocols operates at the transport layer of the OSI model?,HTTP,TCP,IP,Ethernet,TCP,Easy
+Computer Network,What is the default port number for HTTP?,80,21,443,25,80,Easy
+Computer Network,What is the main function of the Network Layer in the OSI model?,Error detection,Data transmission,Routing and addressing,Data encryption,Routing and addressing,Easy
+Computer Network,What does DNS stand for?,Domain Name System,Data Network System,Dynamic Network Server,Domain Name Service,Domain Name System,Easy
+Computer Network,What does a Hub do in a network?,Routes packets to their destination,Provides wireless connectivity,Connects multiple devices but does not filter data,Encrypts data,Connects multiple devices but does not filter data,Easy
+Computer Network,Which protocol is used to send emails?,HTTP,FTP,SMTP,POP3,SMTP,Easy
+Computer Network,What is an IPv6 address length?,32 bits,64 bits,128 bits,256 bits,128 bits,Easy
+Computer Network,Which of the following is a private IP address range?,10.0.0.0 to 10.255.255.255,192.168.1.0 to 192.168.1.255,172.16.0.0 to 172.31.255.255,All of the above,All of the above,Easy
+Computer Network,What is the purpose of NAT in networking?,To assign IP addresses,To route packets,To translate private IP addresses to public ones,To encrypt data,To translate private IP addresses to public ones,Easy
+Computer Network,Which protocol is used to retrieve email from a mail server?,HTTP,SMTP,IMAP,FTP,IMAP,Easy
+Computer Network,Which of these is an example of a network security protocol?,HTTP,SSL/TLS,FTP,ICMP,SSL/TLS,Easy
+Computer Network,What type of cable is commonly used for high-speed networking?,Coaxial cable,Fiber optic cable,Twisted pair cable,HDMI cable,Fiber optic cable,Easy
+Computer Network,Which of the following is a connectionless protocol?,TCP,UDP,HTTP,FTP,UDP,Easy
+Computer Network,What is the purpose of a firewall in networking?,To prevent unauthorized access to a network,To assign IP addresses,To speed up data transfer,To route data packets,To prevent unauthorized access to a network,Easy
+Computer Network,"What does the term ""latency"" refer to in networking?",The time it takes to send data from source to destination,The bandwidth of a connection,The number of devices connected to a network,The maximum distance a signal can travel,The time it takes to send data from source to destination,Easy
+Computer Network,"Which of the following best describes a ""subnet mask""?",A network address that determines how data is routed in a network,A tool used to divide an IP network into smaller subnetworks,A device that filters network traffic,A protocol used to assign IP addresses,A tool used to divide an IP network into smaller subnetworks,Easy
+Computer Network,"What does the term ""throughput"" refer to in networking?",The time it takes for a packet to travel,The amount of data successfully delivered,The number of devices on the network,The bandwidth of the connection,The amount of data successfully delivered,Easy
+Computer Network,Which of the following protocols is responsible for error detection and correction in TCP?,ARP,ICMP,UDP,Checksum,Checksum,Easy
+Computer Network,What is the primary purpose of the ICMP protocol?,Establish a connection between devices,Provide reliable data delivery,Send error messages and operational information,Route packets between different networks,Send error messages and operational information,Easy
+Computer Network,"In TCP, what does the ""three-way handshake"" involve?","Acknowledge, Retransmit, and Confirm","SYN, SYN-ACK, and ACK","Request, Response, and Acknowledge","Open, Close, and Terminate","SYN, SYN-ACK, and ACK",Easy
+Computer Network,Which layer of the OSI model is responsible for end-to-end communication and error recovery?,Data Link Layer,Transport Layer,Network Layer,Session Layer,Transport Layer,Easy
+Computer Network,"Which of the following describes the purpose of the ""sliding window"" in TCP?",It manages the flow of data by limiting the number of packets that can be sent at a time,It encrypts the data before transmission,It checks the integrity of the data,It routes packets through the network,It manages the flow of data by limiting the number of packets that can be sent at a time,Easy
+Computer Network,What is the purpose of the DHCP protocol?,To assign IP addresses automatically to devices on a network,To route traffic between networks,To ensure data reliability during transmission,To manage the flow of data between sender and receiver,To assign IP addresses automatically to devices on a network,Easy
+Computer Network,"What is the primary advantage of using a ""gateway"" in a network?",It encrypts traffic to secure data,It connects networks that use different protocols,It assigns IP addresses to devices on a network,It increases network throughput,It connects networks that use different protocols,Easy
+Computer Network,Which topology uses a central hub?,Star,Bus,Mesh,Ring,Star,Easy
+Computer Network,Which of the following topology is multipoint?,Bus,Star,Ring,Mesh,Bus,Easy
+Computer Network,CRC stands for?,Cyclic Redundancy Check,Code Redundancy Check,Code Repeat Check,Cyclic Repeat Check,Cyclic Redundancy Check,Easy
+Computer Network,Application layer protocol defines?,Types of messages exchanged,"Message format, syntax, and semantics",Rules for when and how processes send and respond to messages,All of these answers,All of these answers,Easy
+Computer Network,TCP/IP model does not have _________ layer but OSI model has this layer.,Physical layer,Data link layer,Transport layer,Internet layer,Data link layer,Easy
+Computer Network,Which of the following is the default subnet mask for a Class B IP address?,255.0.0.0,255.255.0.0,255.255.255.0,255.255.255.255,255.255.0.0,Easy
+Computer Network,Which protocol is used to assign IP addresses dynamically to devices on a network?,DNS,DHCP,ARP,RARP,DHCP,Easy
+Computer Network,Which of the following is a characteristic of a full-duplex communication system?,Data can flow in both directions simultaneously,Data can flow in only one direction at a time,Only one device can transmit at a time,None of the above,Data can flow in both directions simultaneously,Easy
+Computer Network,Which of the following is a characteristic of a star topology?,All devices are connected to a central hub or switch,Data travels in a circular path,Devices are connected in a linear fashion,None of the above,All devices are connected to a central hub or switch,Easy
+Computer Network,Which of the following is a characteristic of a mesh topology?,Every device is connected to every other device,It requires less cabling than other topologies,It is easy to install and configure,None of the above,Every device is connected to every other device,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy
+Computer Network,,,,,,,Easy

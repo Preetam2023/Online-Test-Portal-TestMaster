@@ -87,3 +87,31 @@ class ModeratorProfile(models.Model):
     
     def __str__(self):
         return f"{self.full_name} ({self.user.email})"
+
+
+from django.db import models
+
+class Subject(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    icon_class = models.CharField(max_length=50, blank=True)  # For Font Awesome icons (e.g., "fa-code")
+
+    def __str__(self):
+        return self.name
+
+class Question(models.Model):
+    DIFFICULTY_CHOICES = [
+        ('Easy', 'Easy'),
+        ('Medium', 'Medium'),
+        ('Hard', 'Hard'),
+    ]
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    text = models.TextField()
+    option1 = models.CharField(max_length=200)
+    option2 = models.CharField(max_length=200)
+    option3 = models.CharField(max_length=200, blank=True, null=True)
+    option4 = models.CharField(max_length=200, blank=True, null=True)
+    correct_option = models.CharField(max_length=200)  # Store like "option1", "option2", etc.
+    difficulty = models.CharField(max_length=10, choices=DIFFICULTY_CHOICES)
+
+    def __str__(self):
+        return f"{self.subject}: {self.text[:50]}..."

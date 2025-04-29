@@ -105,9 +105,29 @@ def user_profile(request):
         'user': request.user,
         'test_history': test_history
     })
+
+
+from django.shortcuts import render, get_object_or_404
+from .models import Subject, Question
+from django.db.models import Count
+import random
+
 @login_required
-def practice_questions(request):
-    return render(request, 'accounts/practice_questions.html')
+def practice_questions(request, subject_name=None):
+    subjects = Subject.objects.all()
+
+    selected_subject = None
+    questions = None
+    if subject_name:
+        selected_subject = get_object_or_404(Subject, name=subject_name)
+        all_questions = list(Question.objects.filter(subject=selected_subject))
+        questions = random.sample(all_questions, min(30, len(all_questions)))  # Pick 30 or less if not enough
+
+    return render(request, 'accounts/practice_questions.html', {
+        'subjects': subjects,
+        'selected_subject': selected_subject,
+        'questions': questions,
+    })
 
 
 
