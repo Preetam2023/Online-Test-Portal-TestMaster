@@ -13,7 +13,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 3rem;
-  background-color: #d4f0d2;
+  background-color: #005d02;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
@@ -32,7 +32,7 @@
   }
   nav a {
   text-decoration: none;
-  color: #2e7d32;
+  color: #fff;
   font-weight: 600;
   font-size: 1.1rem;
   transition: color 0.3s ease;
@@ -187,10 +187,10 @@
 
 
   footer {
-    background-color: #d4f0d2;
+    background-color: #005d02;
     padding: 2rem 2rem 3rem;
     margin-top: 2rem;
-    color: #2e7d32;
+    color: #fff;
     min-height: 250px;
     display: flex;
     align-items: center;
@@ -224,7 +224,7 @@
   }
   .footer-section ul li a {
     text-decoration: none;
-    color: #2e7d32;
+    color:#fff;
     transition: color 0.3s ease;
   }
   .footer-section ul li a:hover {
