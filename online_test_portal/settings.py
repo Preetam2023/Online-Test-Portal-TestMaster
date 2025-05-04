@@ -87,8 +87,8 @@ DATABASES = {
         'NAME': 'Project_data',
         'USER': 'Project_data',
         'PASSWORD': 'Prtm@9093',
-        'HOST': 'localhost',  # Or the IP address of your database server
-        'PORT': '3306',  # MySQL default port
+        'HOST': 'localhost', 
+        'PORT': '3306',  
     }
 }
 

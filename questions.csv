@@ -462,157 +462,157 @@ DSA,Which of the following is a property of a circular queue?,It has a fixed siz
 DSA,What is the time complexity of searching for a key in a balanced binary search tree with n nodes?,O(1),O(log n),O(n),O(n log n),O(log n),Easy
 DSA,Which algorithm is used to find the longest common substring of two strings?,KMP Algorithm,Rabin-Karp,Suffix Tree,Boyer-Moore,Suffix Tree,Easy
 DSA,"What is the time complexity of the A search algorithm in the worst case, assuming a consistent heuristic?",O(b^d),O(n log n),O(n²),O(log n),O(b^d),Easy
-Operating System,Which of the following is an example of an operating system?,MS Word,Linux,Oracle,Google Chrome,Linux,
-Operating System,The primary purpose of an operating system is to:,Provide entertainment,Manage computer resources,Perform calculations,Connect to the Internet,Manage computer resources,
-Operating System,Which part of the operating system is responsible for process scheduling?,Compiler,Loader,Kernel,Assembler,Kernel,
-Operating System,Which of the following is NOT a type of operating system?,Real-Time OS,Time-Sharing OS,Batch OS,Python OS,Python OS,
-Operating System,"In a multi-tasking OS, programs are executed:",One after another,Only when the CPU is idle,Simultaneously,Randomly,Simultaneously,
-Operating System,Which of these is a mobile operating system?,Windows,Android,Unix,Ubuntu,Android,
-Operating System,Which component manages hardware communication in OS?,User Interface,Device Driver,Compiler,Loader,Device Driver,
-Operating System,Which memory is non-volatile?,RAM,Cache,ROM,Stack,ROM,
-Operating System,In which memory does the operating system reside during computer booting?,ROM,RAM,Cache,Hard disk,ROM,
-Operating System,Which among these is NOT a function of the Operating System?,File Management,Process Management,Compiler Design,Memory Management,Compiler Design,
-Operating System,Which of the following scheduling algorithms gives minimum average waiting time?,FCFS,SJF,Round Robin,Priority Scheduling,SJF,
-Operating System,What is thrashing in operating systems?,High CPU utilization,High paging activity,High memory usage,Low disk I/O,High paging activity,
-Operating System,Which of these is used to manage deadlocks?,Spooling,Banker’s Algorithm,Bootstrapping,Dispatching,Banker’s Algorithm,
-Operating System,"In demand paging, when a page fault occurs:",The operating system immediately terminates the process,CPU is halted permanently,The page is brought into memory,None of the above,The page is brought into memory,
-Operating System,What is the technique used to run multiple programs simultaneously on a single processor?,Multithreading,Time-sharing,Virtualization,Multitasking,Multitasking,
-Operating System,Which of the following is NOT an advantage of multiprogramming?,Increased CPU utilization,Increased job throughput,Increased waiting time,Efficient memory use,Increased waiting time,
-Operating System,Page replacement algorithms are used for:,Swapping processes,Managing secondary memory,Managing cache memory,Managing main memory,Managing main memory,
-Operating System,What does the bootloader do?,Loads operating system into RAM,Formats the hard disk,Compiles device drivers,Manages CPU scheduling,Loads operating system into RAM,
-Operating System,Semaphore is used to solve problems related to:,Race condition,Process scheduling,Paging,Memory leaks,Race condition,
-Operating System,A process can be in all of the following states EXCEPT:,Running,Ready,Waiting,Deleting,Waiting,
-Operating System,Which one of the following is a deadlock avoidance algorithm?,FIFO,Banker’s algorithm,LRU,SSTF,Banker’s algorithm,
-Operating System,Which of the following conditions is necessary for deadlock to occur?,Mutual Exclusion,Preemption,Race condition,Priority Inversion,Mutual Exclusion,
-Operating System,Which of the following is used to keep track of processes waiting for some resource?,Allocation graph,Semaphore graph,Resource Allocation Graph,Process table,Resource Allocation Graph,
-Operating System,Which page replacement algorithm suffers from Belady’s Anomaly?,Optimal,LRU,FIFO,LFU,FIFO,
-Operating System,"In UNIX, which system call is used to create a new process?",exec(),fork(),spawn(),create(),fork(),
-Operating System,Which of the following is the core part of an operating system?,Shell,Kernel,Command Line Interface,System Call,Kernel,
-Operating System,Which scheduling algorithm is designed especially for time-sharing systems?,FCFS,SJF,Round Robin,Priority Scheduling,Round Robin,
-Operating System,Which of the following is a method for handling deadlocks?,Ignore them,Detect and recover,Prevent them,All of the above,All of the above,
-Operating System,Which file system is primarily used by Windows operating systems?,ext3,FAT32,NTFS,HFS+,NTFS,
-Operating System,"In multithreading, each thread shares:",Code section,Data section,Files,All of the above,All of the above,
-Operating System,Which memory management technique limits each process to a partition of memory?,Segmentation,Swapping,Partitioning,Paging,Partitioning,
-Operating System,What is the maximum number of processes that can be in a ready queue?,Only one,Two,Limited by memory,Unlimited theoretically,Unlimited theoretically,
-Operating System,Which of these is a type of system call used for device management?,open(),write(),ioctl(),fork(),ioctl(),
-Operating System,Which of the following is true about Virtual Memory?,It is a part of RAM,It is a section of the hard drive,It increases CPU speed,It disables disk storage,It is a section of the hard drive,
-Operating System,Which of these is responsible for managing the file system in an OS?,Device Manager,Process Manager,File Manager,Memory Manager,File Manager,
-Operating System,Which of the following is a type of Real-Time Operating System?,Linux,Windows,VxWorks,MS-DOS,VxWorks,
-Operating System,Which system call is used to terminate a process in UNIX?,kill(),fork(),exit(),exec(),exit(),
-Operating System,What is the name of the program that loads the operating system into memory?,Compiler,Assembler,Loader,Bootstrap,Bootstrap,
-Operating System,"In contiguous memory allocation, memory is divided into:",Pages,Frames,Fixed-sized partitions,Random blocks,Fixed-sized partitions,
-Operating System,Which of the following algorithms is used for page replacement?,FCFS,Round Robin,LRU,Preemptive Scheduling,LRU,
-Operating System,"In a system, processes P1 and P2 are executing concurrently. This situation can lead to:",Deadlock,Swapping,Fragmentation,Paging,Deadlock,
-Operating System,Which one is NOT a disk scheduling algorithm?,FCFS,SSTF,SCAN,LRU,LRU,
-Operating System,Which of these is not a valid state of a process?,New,Old,Waiting,Terminated,Old,
-Operating System,Which mechanism allows the CPU to communicate with peripherals without involving the CPU directly?,Polling,Spooling,DMA,Interrupts,DMA,
-Operating System,Which is the first program that runs when a computer is powered on?,Operating System,Application Program,BIOS,Compiler,BIOS,
-Operating System,Fragmentation in memory occurs when:,The memory is full,Memory is allocated and freed in an inefficient way,Pages are replaced,Processes terminate abruptly,Memory is allocated and freed in an inefficient way,
-Operating System,Which of the following is a method of interprocess communication (IPC)?,Sockets,Paging,Context switching,Segmentation,Sockets,
-Operating System,Which is NOT a goal of an operating system?,Convenience,Efficiency,Resource management,Increase cost,Increase cost,
-Operating System,"Which of the following best defines ""context switching""?",Saving and loading the state of a process,Executing two processes at the same time,Switching from RAM to ROM,Running a program without an OS,Saving and loading the state of a process,
-Operating System,Which of the following is an advantage of multiprogramming?,Increased CPU idle time,Higher throughput,Lower memory utilization,More frequent context switching,Higher throughput,
-Operating System,Which of the following is a non-preemptive scheduling algorithm?,Round Robin,SJF,FCFS,Priority Scheduling,FCFS,
-Operating System,Which OS structure has the least functionality in the kernel and puts most services in user space?,Monolithic Kernel,Microkernel,Layered OS,Exokernel,Microkernel,
-Operating System,Which of the following is not a valid synchronization tool?,Semaphore,Mutex,Thread,Monitor,Thread,
-Operating System,"In paging, what does each process have?",A page table,A frame table,A buffer,A segment table, A page table,
-Operating System,Which scheduling algorithm could cause starvation?,FCFS,Round Robin,Priority Scheduling,Multilevel Queue,Priority Scheduling,
-Operating System,Which of the following is not a valid process state?,New,Ready,Executing,Terminated,Executing,
-Operating System,Which of these is a preemptive scheduling algorithm?,FCFS,SJF,Round Robin,Priority Scheduling,Round Robin,
-Operating System,Which of the following is a disk scheduling algorithm?,LRU,FCFS,SCAN,FIFO,SCAN,
-Operating System,Which directory structure allows files to be shared between users?,Single-level,Two-level,Tree-structured,Acyclic Graph,Acyclic Graph,
-Operating System,Which of the following is used to prevent deadlock?,Mutual Exclusion,Hold and Wait,Circular Wait,Resource Allocation Graph,Resource Allocation Graph,
-Operating System,Which method is used to free up memory by moving pages between main memory and disk storage?,Spooling,Swapping,Scheduling,Segmentation,Swapping,
-Operating System,Which of the following is not an advantage of multiprogramming?,Increased CPU utilization,Increased throughput,Decreased response time,Efficient memory utilization,Decreased response time,
-Operating System,Which of the following causes internal fragmentation?,Fixed-sized memory allocation,Paging,Variable-sized memory allocation,External allocation,Fixed-sized memory allocation,
-Operating System,Which of the following is not a type of operating system?,Batch Operating System,Time-Sharing Operating System,Real-Time Operating System,Compiler-Based Operating System,Compiler-Based Operating System,
-Operating System,Which page replacement algorithm is optimal but difficult to implement in practice?,FIFO,LRU,Optimal Page Replacement,Random Page Replacement,Optimal Page Replacement,
-Operating System,Which of the following is not a function of the operating system?,Memory Management,Process Management,Virus Protection,File Management,Virus Protection,
-Operating System,Which of these systems allows multiple users to use the system at the same time?,Batch System,Time-sharing System,Single-user System,Real-Time System,Time-sharing System,
-Operating System,Which of the following is a characteristic of a real-time operating system?,High throughput,Predictable response time,User-friendly interface,Support for multitasking,Predictable response time,
-Operating System,The part of the OS that loads and starts the OS is called:,BIOS,Bootstrap loader,Kernel,Shell,Bootstrap loader,
-Operating System,Which of the following is not a valid page replacement algorithm?,FIFO,LRU,Optimal,SCAN,SCAN,
-Operating System,Which of the following scheduling algorithms allows a process to move between queues?,Multilevel Queue,Multilevel Feedback Queue,Priority Scheduling,FCFS,Multilevel Feedback Queue,
-Operating System,Which of the following is used to handle interrupts?,Scheduler,Dispatcher,Interrupt Handler,Loader,Interrupt Handler,
-Operating System,"Which of the following best defines ""critical section""?",The portion of a program where multiple processes interact,The last line of a program,A scheduling queue,A memory leak,The portion of a program where multiple processes interact,
-Operating System,Which of the following is not a component of the operating system?,Kernel,Shell,Compiler,File System,Compiler,
-Operating System,"In UNIX, how is a zombie process created?",By terminating abruptly,When a parent process doesn’t collect a terminated child’s exit status,By using fork() repeatedly,By resource leakage,When a parent process doesn’t collect a terminated child’s exit status,
-Operating System,Which of the following is not a type of system call?,Process Control,File Management,Device Management,Compilation,Compilation,
-Operating System,What is the main role of a device driver?,Manage CPU Scheduling,Control hardware devices,Allocate memory,Create processes,Control hardware devices,
-Operating System,Which of the following is not a valid inter-process communication method?,Pipes,Shared Memory,Signals,Paging,Paging,
-Operating System,Which system program is responsible for interpreting user commands?,Shell,Compiler,Kernel,Loader,Shell,
-Operating System,Which technique allows the CPU to run another process while waiting for I/O operations?,Spooling,Direct Memory Access,Interrupts,Multiprogramming,Multiprogramming,
-Operating System,Which mechanism is used to ensure the correctness of operations in concurrent processing?,Paging,Deadlock,Semaphore,Thrashing,Semaphore,
-Operating System,Which of the following is NOT a part of process control block (PCB)?,Program counter,Stack pointer,Scheduling information,Cache memory,Cache memory,
-Operating System,What is the main objective of time-sharing systems?,Minimize response time,Maximize memory usage,Minimize swapping,Improve file management,Minimize response time,
-Operating System,Which of the following is an example of a distributed operating system?,MS-DOS,UNIX,Windows 10,Amoeba,Amoeba,
-Operating System,Which command is used to list all files and directories in Linux?,list,ls,show,dir,ls,
-Operating System,Which of the following causes external fragmentation?,Fixed-size memory blocks,Paging,Variable-size memory blocks,Segmentation,Variable-size memory blocks,
-Operating System,Which term is used when an OS executes more than one task simultaneously?,Multiprogramming,Multiprocessing,Multitasking,Multithreading,Multitasking,
-Operating System,"In the context of Operating Systems, FAT stands for:",File Allocation Table,File Access Type,Fixed Allocation Table,Folder Access Table,File Allocation Table,
-Operating System,Which of the following is a characteristic of a real-time operating system?,High throughput,High response time,Predictable timing behavior,High storage capacity,Predictable timing behavior,
-Operating System,"In OS, what does virtual memory use to create the illusion of a large main memory?",RAM,Hard disk,CPU cache,ROM,Hard disk,
-Operating System,Which part of the OS communicates directly with the hardware?,Compiler,Kernel,Application,Shell,Kernel,
-Operating System,Which of the following is used to keep track of the status of each process?,Ready queue,Process Control Block,Page table,I/O table,Process Control Block,
-Operating System,Which of the following is used to prevent thrashing?,Increasing CPU scheduling,Using FIFO,Local page replacement,Working set model,Working set model,
-Operating System,Which command is used to check memory usage in Linux?,df,ps,Is,free,free,
-Operating System,Which of the following file allocation methods suffers from external fragmentation?,Contiguous allocation,Linked allocation,Indexed allocation,Hashed allocation,Contiguous allocation,
-Operating System,Which of the following best describes a daemon process?,A virus,A background process,A user-interactive program,A shell script, A background process,
-Operating System,Which of the following is not an advantage of multithreading?,Improved responsiveness,Resource sharing,Slower execution,Better CPU utilization,Slower execution,
-Operating System,"In paging, the page table is stored in:",Secondary storage,RAM,TLU,CPU,RAM,
-Operating System,Which of the following is a valid state of a process?,Running,Compiling,Executing,Starting,Running,
-Operating System,The time taken to switch from one process to another is called:,Switching time,Waiting time,Context switching time,Response time,Context switching time,
-Operating System,Which of the following is used for file protection in OS?,Access control lists,Paging,Semaphores,Schedulers,Access control lists,
-Operating System,Which OS component schedules CPU time?,Dispatcher,File system,Memory manager,Device driver,Dispatcher,
-Operating System,Which of these causes the most overhead during CPU scheduling?,Round Robin,SJF,FCFS,Priority Scheduling,Round Robin,
-Operating System,Which type of file access allows data to be read in any order?,Sequential access,Direct access,Indexed access,Random access,Direct access,
-Operating System,Which of the following is true about segmentation?,It uses fixed-size blocks,Logical memory is divided into pages,Segments are of equal length,Segments are of variable length,Segments are of variable length,
-Operating System,"In multilevel queue scheduling, processes are divided into:",Threads,Pages,Groups based on priority,Queues based on file size,Groups based on priority,
-Operating System,Which disk scheduling algorithm gives the best performance in general?,FCFS,SSTF,SCAN,C-SCAN,SSTF,
-Operating System,What is the maximum number of processes that can be in the ready queue?,1,Limited by the scheduler,Unlimited,Limited by system memory,Limited by system memory,
-Operating System,Which one of these Linux file types represents a symbolic link?,-,d,l,s,l,
-Operating System,The aging technique in scheduling is used to:,Increase context switching,Prevent starvation,Avoid thrashing,Improve throughput,Prevent starvation,
-Operating System,Which type of OS is designed for embedded systems?,General-purpose OS,Real-time OS,Time-sharing OS,Batch OS,Real-time OS,
-Operating System,Which of the following statements about semaphores is FALSE?,They are used for mutual exclusion,They can prevent race conditions,They are used in paging,They can be binary or counting,They are used in paging,
-Operating System,"The process state ""Ready"" means:",Waiting for I/O,Currently executing,Ready to run but waiting for CPU,Being terminated,Ready to run but waiting for CPU,
-Operating System,Which command in Linux shows currently running processes?,top,cd,kill,Is,top,
-Operating System,Which system resource is managed by the long-term scheduler?,CPU cycles,Memory pages,Degree of multiprogramming,Interrupt requests,Degree of multiprogramming,
-Operating System,What is the role of a spooler in OS?,Memory swapping,File encryption,Managing I/O requests,Preventing deadlock,Managing I/O requests,
-Operating System,Which replacement policy may result in Belady’s Anomaly?,LRU,FIFO,Optimal,Optimal,FIFO,
-Operating System,The TLB (Translation Lookaside Buffer) is associated with:,Disk access,Page table caching,CPU scheduling,File handling,Page table caching,
-Operating System,Which of these is a valid example of a real-time operating system?,Android,Windows,QNX,Ubuntu,QNX,
-Operating System,Which of the following is true for non-blocking I/O?,The process waits until I/O completes,I/O is handled in kernel space only,The process continues and checks later,It causes more context switches,The process continues and checks later,
-Operating System,Which file system is primarily used in macOS?,NTFS,ext4,HFS+,FAT32,HFS+,
-Operating System,The main disadvantage of linked allocation is:,External fragmentation,Slow direct access,High memory usage,Incompatibility with FAT,Slow direct access,
-Operating System,Which OS uses a command interpreter as a user interface?,Windows 10,Android,UNIX,macOS,UNIX,
-Operating System,"In a multi-threaded environment, which of these is shared among threads?",Program counter,Stack,Registers,Address space,Address space,
-Operating System,What does the term “swapping” refer to in an operating system?,Exchanging data between registers,Replacing pages in memory,Moving processes between memory and disk,Scheduling CPU time,Moving processes between memory and disk,
-Operating System,Which system call is used to create a new process in Windows?,exec(),CreateProcess(),fork(),spawn(),CreateProcess(),
-Operating System,Which condition is necessary for deadlock but can be broken to prevent it?,Mutual exclusion,Circular wait,Hold and wait,No preemption,Circular wait,
-Operating System,Which OS concept allows execution of different parts of a program simultaneously?,Pipelining,Multiprocessing,Threading,Multilevel Queue,Threading,
-Operating System,Which type of system is most likely to use a non-preemptive kernel?,Desktop OS,Real-time OS,Batch processing OS,Time-sharing OS,Real-time OS,
-Operating System,Which of these is NOT a valid CPU scheduling criterion?,Throughput,Turnaround time,Deadlock detection,Response time,Deadlock detection,
-Operating System,Which memory allocation strategy allocates the smallest available block that is large enough,First fit,Best fit,Worst fit,Quick fit,Best fit,
-Operating System,Which Linux command shows the last system boot time?,top,reboot,last,uptime,last,
-Operating System,Which of the following is responsible for context switching?,Loader,Scheduler,Compiler,Shell,Scheduler,
-Operating System,What does the exec() system call do?,Creates a new process,Replaces current process memory with a new program,Terminates a process,Spawns a child thread,Replaces current process memory with a new program,
-Operating System,What does the fork() system call return to the parent process?,Process ID of child,Process ID of parent,Memory address of the child,0,Process ID of child,
-Operating System,Which OS type is specifically designed for minimal response time and high reliability?,Batch OS,Time-sharing OS,General-purpose OS,Real-time OS,Real-time OS,
-Operating System,"The term ""zombie process"" refers to:",A virus,A terminated process still in the process table,A process that never dies,A system crash,A terminated process still in the process table,
-Operating System,Which of the following is a system call used to remove a file?,rmdir(),delete(),unlink(),removefile(),unlink(),
-Operating System,Which OS concept allows multiple users to work on the system at the same time?,Multitasking,Multi-access,Multi-user,Multi-threading,Multi-user,
-Operating System,Which of the following uses the SCAN algorithm logic?,Disk scheduling,CPU scheduling,Paging,Interrupt handling,Disk scheduling,
-Operating System,Which file system is journaled and commonly used by Linux?,FAT32,ext4,exFAT,NTFS,ext4,
-Operating System,Which of the following is not a function of the kernel?,Process management,Memory management,User interface,Device management,User interface,
-Operating System,Which of these is true about the Master Boot Record (MBR)?,It contains BIOS instructions,It resides in RAM,It stores partition information,It holds device drivers,It stores partition information,
-Operating System,What is the function of the nice command in UNIX/Linux?,Rename files,Modify file permissions,Change process priority,Terminate a process,Change process priority,
-Operating System,Which technique is used to bind a user-level thread to a kernel-level thread?,One-to-one model,Many-to-one model,Many-to-many model,Hybrid model,One-to-one model,
-Operating System,Which type of memory is non-volatile and can be electrically erased?,RAM,Cache,ROM,Flash,Flash,
-Operating System,"In UNIX, what is the init process?",Last process to terminate,First process started by the kernel,A user-level application,Used for scheduling,First process started by the kernel,
-Operating System,Which of the following is NOT an inter-process communication mechanism?,Pipes,Shared memory,Semaphores,Stack,Stack,
-Operating System,Which register contains the address of the next instruction to be executed?,Accumulator,Stack Pointer,Program Counter,Instruction Register,Program Counter,
-Operating System,Which part of the OS manages file directories and permissions?,Shell,Kernel,File system,Command line,File system,
-Operating System,A trap is a type of:,Hardware interrupt,User-level thread,Software interrupt,Device driver,Software interrupt,
+Operating System,Which of the following is an example of an operating system?,MS Word,Linux,Oracle,Google Chrome,Linux,Easy
+Operating System,The primary purpose of an operating system is to:,Provide entertainment,Manage computer resources,Perform calculations,Connect to the Internet,Manage computer resources,Easy
+Operating System,Which part of the operating system is responsible for process scheduling?,Compiler,Loader,Kernel,Assembler,Kernel,Easy
+Operating System,Which of the following is NOT a type of operating system?,Real-Time OS,Time-Sharing OS,Batch OS,Python OS,Python OS,Easy
+Operating System,"In a multi-tasking OS, programs are executed:",One after another,Only when the CPU is idle,Simultaneously,Randomly,Simultaneously,Easy
+Operating System,Which of these is a mobile operating system?,Windows,Android,Unix,Ubuntu,Android,Easy
+Operating System,Which component manages hardware communication in OS?,User Interface,Device Driver,Compiler,Loader,Device Driver,Easy
+Operating System,Which memory is non-volatile?,RAM,Cache,ROM,Stack,ROM,Easy
+Operating System,In which memory does the operating system reside during computer booting?,ROM,RAM,Cache,Hard disk,ROM,Easy
+Operating System,Which among these is NOT a function of the Operating System?,File Management,Process Management,Compiler Design,Memory Management,Compiler Design,Easy
+Operating System,Which of the following scheduling algorithms gives minimum average waiting time?,FCFS,SJF,Round Robin,Priority Scheduling,SJF,Easy
+Operating System,What is thrashing in operating systems?,High CPU utilization,High paging activity,High memory usage,Low disk I/O,High paging activity,Easy
+Operating System,Which of these is used to manage deadlocks?,Spooling,Banker’s Algorithm,Bootstrapping,Dispatching,Banker’s Algorithm,Easy
+Operating System,"In demand paging, when a page fault occurs:",The operating system immediately terminates the process,CPU is halted permanently,The page is brought into memory,None of the above,The page is brought into memory,Easy
+Operating System,What is the technique used to run multiple programs simultaneously on a single processor?,Multithreading,Time-sharing,Virtualization,Multitasking,Multitasking,Easy
+Operating System,Which of the following is NOT an advantage of multiprogramming?,Increased CPU utilization,Increased job throughput,Increased waiting time,Efficient memory use,Increased waiting time,Easy
+Operating System,Page replacement algorithms are used for:,Swapping processes,Managing secondary memory,Managing cache memory,Managing main memory,Managing main memory,Easy
+Operating System,What does the bootloader do?,Loads operating system into RAM,Formats the hard disk,Compiles device drivers,Manages CPU scheduling,Loads operating system into RAM,Easy
+Operating System,Semaphore is used to solve problems related to:,Race condition,Process scheduling,Paging,Memory leaks,Race condition,Easy
+Operating System,A process can be in all of the following states EXCEPT:,Running,Ready,Waiting,Deleting,Waiting,Easy
+Operating System,Which one of the following is a deadlock avoidance algorithm?,FIFO,Banker’s algorithm,LRU,SSTF,Banker’s algorithm,Easy
+Operating System,Which of the following conditions is necessary for deadlock to occur?,Mutual Exclusion,Preemption,Race condition,Priority Inversion,Mutual Exclusion,Easy
+Operating System,Which of the following is used to keep track of processes waiting for some resource?,Allocation graph,Semaphore graph,Resource Allocation Graph,Process table,Resource Allocation Graph,Easy
+Operating System,Which page replacement algorithm suffers from Belady’s Anomaly?,Optimal,LRU,FIFO,LFU,FIFO,Easy
+Operating System,"In UNIX, which system call is used to create a new process?",exec(),fork(),spawn(),create(),fork(),Easy
+Operating System,Which of the following is the core part of an operating system?,Shell,Kernel,Command Line Interface,System Call,Kernel,Easy
+Operating System,Which scheduling algorithm is designed especially for time-sharing systems?,FCFS,SJF,Round Robin,Priority Scheduling,Round Robin,Easy
+Operating System,Which of the following is a method for handling deadlocks?,Ignore them,Detect and recover,Prevent them,All of the above,All of the above,Easy
+Operating System,Which file system is primarily used by Windows operating systems?,ext3,FAT32,NTFS,HFS+,NTFS,Easy
+Operating System,"In multithreading, each thread shares:",Code section,Data section,Files,All of the above,All of the above,Easy
+Operating System,Which memory management technique limits each process to a partition of memory?,Segmentation,Swapping,Partitioning,Paging,Partitioning,Easy
+Operating System,What is the maximum number of processes that can be in a ready queue?,Only one,Two,Limited by memory,Unlimited theoretically,Unlimited theoretically,Easy
+Operating System,Which of these is a type of system call used for device management?,open(),write(),ioctl(),fork(),ioctl(),Easy
+Operating System,Which of the following is true about Virtual Memory?,It is a part of RAM,It is a section of the hard drive,It increases CPU speed,It disables disk storage,It is a section of the hard drive,Easy
+Operating System,Which of these is responsible for managing the file system in an OS?,Device Manager,Process Manager,File Manager,Memory Manager,File Manager,Easy
+Operating System,Which of the following is a type of Real-Time Operating System?,Linux,Windows,VxWorks,MS-DOS,VxWorks,Easy
+Operating System,Which system call is used to terminate a process in UNIX?,kill(),fork(),exit(),exec(),exit(),Easy
+Operating System,What is the name of the program that loads the operating system into memory?,Compiler,Assembler,Loader,Bootstrap,Bootstrap,Easy
+Operating System,"In contiguous memory allocation, memory is divided into:",Pages,Frames,Fixed-sized partitions,Random blocks,Fixed-sized partitions,Easy
+Operating System,Which of the following algorithms is used for page replacement?,FCFS,Round Robin,LRU,Preemptive Scheduling,LRU,Easy
+Operating System,"In a system, processes P1 and P2 are executing concurrently. This situation can lead to:",Deadlock,Swapping,Fragmentation,Paging,Deadlock,Easy
+Operating System,Which one is NOT a disk scheduling algorithm?,FCFS,SSTF,SCAN,LRU,LRU,Easy
+Operating System,Which of these is not a valid state of a process?,New,Old,Waiting,Terminated,Old,Easy
+Operating System,Which mechanism allows the CPU to communicate with peripherals without involving the CPU directly?,Polling,Spooling,DMA,Interrupts,DMA,Easy
+Operating System,Which is the first program that runs when a computer is powered on?,Operating System,Application Program,BIOS,Compiler,BIOS,Easy
+Operating System,Fragmentation in memory occurs when:,The memory is full,Memory is allocated and freed in an inefficient way,Pages are replaced,Processes terminate abruptly,Memory is allocated and freed in an inefficient way,Easy
+Operating System,Which of the following is a method of interprocess communication (IPC)?,Sockets,Paging,Context switching,Segmentation,Sockets,Easy
+Operating System,Which is NOT a goal of an operating system?,Convenience,Efficiency,Resource management,Increase cost,Increase cost,Easy
+Operating System,"Which of the following best defines ""context switching""?",Saving and loading the state of a process,Executing two processes at the same time,Switching from RAM to ROM,Running a program without an OS,Saving and loading the state of a process,Easy
+Operating System,Which of the following is an advantage of multiprogramming?,Increased CPU idle time,Higher throughput,Lower memory utilization,More frequent context switching,Higher throughput,Easy
+Operating System,Which of the following is a non-preemptive scheduling algorithm?,Round Robin,SJF,FCFS,Priority Scheduling,FCFS,Easy
+Operating System,Which OS structure has the least functionality in the kernel and puts most services in user space?,Monolithic Kernel,Microkernel,Layered OS,Exokernel,Microkernel,Easy
+Operating System,Which of the following is not a valid synchronization tool?,Semaphore,Mutex,Thread,Monitor,Thread,Easy
+Operating System,"In paging, what does each process have?",A page table,A frame table,A buffer,A segment table, A page table,Easy
+Operating System,Which scheduling algorithm could cause starvation?,FCFS,Round Robin,Priority Scheduling,Multilevel Queue,Priority Scheduling,Easy
+Operating System,Which of the following is not a valid process state?,New,Ready,Executing,Terminated,Executing,Easy
+Operating System,Which of these is a preemptive scheduling algorithm?,FCFS,SJF,Round Robin,Priority Scheduling,Round Robin,Easy
+Operating System,Which of the following is a disk scheduling algorithm?,LRU,FCFS,SCAN,FIFO,SCAN,Easy
+Operating System,Which directory structure allows files to be shared between users?,Single-level,Two-level,Tree-structured,Acyclic Graph,Acyclic Graph,Easy
+Operating System,Which of the following is used to prevent deadlock?,Mutual Exclusion,Hold and Wait,Circular Wait,Resource Allocation Graph,Resource Allocation Graph,Easy
+Operating System,Which method is used to free up memory by moving pages between main memory and disk storage?,Spooling,Swapping,Scheduling,Segmentation,Swapping,Easy
+Operating System,Which of the following is not an advantage of multiprogramming?,Increased CPU utilization,Increased throughput,Decreased response time,Efficient memory utilization,Decreased response time,Easy
+Operating System,Which of the following causes internal fragmentation?,Fixed-sized memory allocation,Paging,Variable-sized memory allocation,External allocation,Fixed-sized memory allocation,Easy
+Operating System,Which of the following is not a type of operating system?,Batch Operating System,Time-Sharing Operating System,Real-Time Operating System,Compiler-Based Operating System,Compiler-Based Operating System,Easy
+Operating System,Which page replacement algorithm is optimal but difficult to implement in practice?,FIFO,LRU,Optimal Page Replacement,Random Page Replacement,Optimal Page Replacement,Easy
+Operating System,Which of the following is not a function of the operating system?,Memory Management,Process Management,Virus Protection,File Management,Virus Protection,Easy
+Operating System,Which of these systems allows multiple users to use the system at the same time?,Batch System,Time-sharing System,Single-user System,Real-Time System,Time-sharing System,Easy
+Operating System,Which of the following is a characteristic of a real-time operating system?,High throughput,Predictable response time,User-friendly interface,Support for multitasking,Predictable response time,Easy
+Operating System,The part of the OS that loads and starts the OS is called:,BIOS,Bootstrap loader,Kernel,Shell,Bootstrap loader,Easy
+Operating System,Which of the following is not a valid page replacement algorithm?,FIFO,LRU,Optimal,SCAN,SCAN,Easy
+Operating System,Which of the following scheduling algorithms allows a process to move between queues?,Multilevel Queue,Multilevel Feedback Queue,Priority Scheduling,FCFS,Multilevel Feedback Queue,Easy
+Operating System,Which of the following is used to handle interrupts?,Scheduler,Dispatcher,Interrupt Handler,Loader,Interrupt Handler,Easy
+Operating System,"Which of the following best defines ""critical section""?",The portion of a program where multiple processes interact,The last line of a program,A scheduling queue,A memory leak,The portion of a program where multiple processes interact,Easy
+Operating System,Which of the following is not a component of the operating system?,Kernel,Shell,Compiler,File System,Compiler,Easy
+Operating System,"In UNIX, how is a zombie process created?",By terminating abruptly,When a parent process doesn’t collect a terminated child’s exit status,By using fork() repeatedly,By resource leakage,When a parent process doesn’t collect a terminated child’s exit status,Easy
+Operating System,Which of the following is not a type of system call?,Process Control,File Management,Device Management,Compilation,Compilation,Easy
+Operating System,What is the main role of a device driver?,Manage CPU Scheduling,Control hardware devices,Allocate memory,Create processes,Control hardware devices,Easy
+Operating System,Which of the following is not a valid inter-process communication method?,Pipes,Shared Memory,Signals,Paging,Paging,Easy
+Operating System,Which system program is responsible for interpreting user commands?,Shell,Compiler,Kernel,Loader,Shell,Easy
+Operating System,Which technique allows the CPU to run another process while waiting for I/O operations?,Spooling,Direct Memory Access,Interrupts,Multiprogramming,Multiprogramming,Easy
+Operating System,Which mechanism is used to ensure the correctness of operations in concurrent processing?,Paging,Deadlock,Semaphore,Thrashing,Semaphore,Easy
+Operating System,Which of the following is NOT a part of process control block (PCB)?,Program counter,Stack pointer,Scheduling information,Cache memory,Cache memory,Easy
+Operating System,What is the main objective of time-sharing systems?,Minimize response time,Maximize memory usage,Minimize swapping,Improve file management,Minimize response time,Easy
+Operating System,Which of the following is an example of a distributed operating system?,MS-DOS,UNIX,Windows 10,Amoeba,Amoeba,Easy
+Operating System,Which command is used to list all files and directories in Linux?,list,ls,show,dir,ls,Easy
+Operating System,Which of the following causes external fragmentation?,Fixed-size memory blocks,Paging,Variable-size memory blocks,Segmentation,Variable-size memory blocks,Easy
+Operating System,Which term is used when an OS executes more than one task simultaneously?,Multiprogramming,Multiprocessing,Multitasking,Multithreading,Multitasking,Easy
+Operating System,"In the context of Operating Systems, FAT stands for:",File Allocation Table,File Access Type,Fixed Allocation Table,Folder Access Table,File Allocation Table,Easy
+Operating System,Which of the following is a characteristic of a real-time operating system?,High throughput,High response time,Predictable timing behavior,High storage capacity,Predictable timing behavior,Easy
+Operating System,"In OS, what does virtual memory use to create the illusion of a large main memory?",RAM,Hard disk,CPU cache,ROM,Hard disk,Easy
+Operating System,Which part of the OS communicates directly with the hardware?,Compiler,Kernel,Application,Shell,Kernel,Easy
+Operating System,Which of the following is used to keep track of the status of each process?,Ready queue,Process Control Block,Page table,I/O table,Process Control Block,Easy
+Operating System,Which of the following is used to prevent thrashing?,Increasing CPU scheduling,Using FIFO,Local page replacement,Working set model,Working set model,Easy
+Operating System,Which command is used to check memory usage in Linux?,df,ps,Is,free,free,Easy
+Operating System,Which of the following file allocation methods suffers from external fragmentation?,Contiguous allocation,Linked allocation,Indexed allocation,Hashed allocation,Contiguous allocation,Easy
+Operating System,Which of the following best describes a daemon process?,A virus,A background process,A user-interactive program,A shell script, A background process,Easy
+Operating System,Which of the following is not an advantage of multithreading?,Improved responsiveness,Resource sharing,Slower execution,Better CPU utilization,Slower execution,Easy
+Operating System,"In paging, the page table is stored in:",Secondary storage,RAM,TLU,CPU,RAM,Easy
+Operating System,Which of the following is a valid state of a process?,Running,Compiling,Executing,Starting,Running,Easy
+Operating System,The time taken to switch from one process to another is called:,Switching time,Waiting time,Context switching time,Response time,Context switching time,Easy
+Operating System,Which of the following is used for file protection in OS?,Access control lists,Paging,Semaphores,Schedulers,Access control lists,Easy
+Operating System,Which OS component schedules CPU time?,Dispatcher,File system,Memory manager,Device driver,Dispatcher,Easy
+Operating System,Which of these causes the most overhead during CPU scheduling?,Round Robin,SJF,FCFS,Priority Scheduling,Round Robin,Easy
+Operating System,Which type of file access allows data to be read in any order?,Sequential access,Direct access,Indexed access,Random access,Direct access,Easy
+Operating System,Which of the following is true about segmentation?,It uses fixed-size blocks,Logical memory is divided into pages,Segments are of equal length,Segments are of variable length,Segments are of variable length,Easy
+Operating System,"In multilevel queue scheduling, processes are divided into:",Threads,Pages,Groups based on priority,Queues based on file size,Groups based on priority,Easy
+Operating System,Which disk scheduling algorithm gives the best performance in general?,FCFS,SSTF,SCAN,C-SCAN,SSTF,Easy
+Operating System,What is the maximum number of processes that can be in the ready queue?,1,Limited by the scheduler,Unlimited,Limited by system memory,Limited by system memory,Easy
+Operating System,Which one of these Linux file types represents a symbolic link?,-,d,l,s,l,Easy
+Operating System,The aging technique in scheduling is used to:,Increase context switching,Prevent starvation,Avoid thrashing,Improve throughput,Prevent starvation,Easy
+Operating System,Which type of OS is designed for embedded systems?,General-purpose OS,Real-time OS,Time-sharing OS,Batch OS,Real-time OS,Easy
+Operating System,Which of the following statements about semaphores is FALSE?,They are used for mutual exclusion,They can prevent race conditions,They are used in paging,They can be binary or counting,They are used in paging,Easy
+Operating System,"The process state ""Ready"" means:",Waiting for I/O,Currently executing,Ready to run but waiting for CPU,Being terminated,Ready to run but waiting for CPU,Easy
+Operating System,Which command in Linux shows currently running processes?,top,cd,kill,Is,top,Easy
+Operating System,Which system resource is managed by the long-term scheduler?,CPU cycles,Memory pages,Degree of multiprogramming,Interrupt requests,Degree of multiprogramming,Easy
+Operating System,What is the role of a spooler in OS?,Memory swapping,File encryption,Managing I/O requests,Preventing deadlock,Managing I/O requests,Easy
+Operating System,Which replacement policy may result in Belady’s Anomaly?,LRU,FIFO,Optimal,Optimal,FIFO,Easy
+Operating System,The TLB (Translation Lookaside Buffer) is associated with:,Disk access,Page table caching,CPU scheduling,File handling,Page table caching,Easy
+Operating System,Which of these is a valid example of a real-time operating system?,Android,Windows,QNX,Ubuntu,QNX,Easy
+Operating System,Which of the following is true for non-blocking I/O?,The process waits until I/O completes,I/O is handled in kernel space only,The process continues and checks later,It causes more context switches,The process continues and checks later,Easy
+Operating System,Which file system is primarily used in macOS?,NTFS,ext4,HFS+,FAT32,HFS+,Easy
+Operating System,The main disadvantage of linked allocation is:,External fragmentation,Slow direct access,High memory usage,Incompatibility with FAT,Slow direct access,Easy
+Operating System,Which OS uses a command interpreter as a user interface?,Windows 10,Android,UNIX,macOS,UNIX,Easy
+Operating System,"In a multi-threaded environment, which of these is shared among threads?",Program counter,Stack,Registers,Address space,Address space,Easy
+Operating System,What does the term “swapping” refer to in an operating system?,Exchanging data between registers,Replacing pages in memory,Moving processes between memory and disk,Scheduling CPU time,Moving processes between memory and disk,Easy
+Operating System,Which system call is used to create a new process in Windows?,exec(),CreateProcess(),fork(),spawn(),CreateProcess(),Easy
+Operating System,Which condition is necessary for deadlock but can be broken to prevent it?,Mutual exclusion,Circular wait,Hold and wait,No preemption,Circular wait,Easy
+Operating System,Which OS concept allows execution of different parts of a program simultaneously?,Pipelining,Multiprocessing,Threading,Multilevel Queue,Threading,Easy
+Operating System,Which type of system is most likely to use a non-preemptive kernel?,Desktop OS,Real-time OS,Batch processing OS,Time-sharing OS,Real-time OS,Easy
+Operating System,Which of these is NOT a valid CPU scheduling criterion?,Throughput,Turnaround time,Deadlock detection,Response time,Deadlock detection,Easy
+Operating System,Which memory allocation strategy allocates the smallest available block that is large enough,First fit,Best fit,Worst fit,Quick fit,Best fit,Easy
+Operating System,Which Linux command shows the last system boot time?,top,reboot,last,uptime,last,Easy
+Operating System,Which of the following is responsible for context switching?,Loader,Scheduler,Compiler,Shell,Scheduler,Easy
+Operating System,What does the exec() system call do?,Creates a new process,Replaces current process memory with a new program,Terminates a process,Spawns a child thread,Replaces current process memory with a new program,Easy
+Operating System,What does the fork() system call return to the parent process?,Process ID of child,Process ID of parent,Memory address of the child,0,Process ID of child,Easy
+Operating System,Which OS type is specifically designed for minimal response time and high reliability?,Batch OS,Time-sharing OS,General-purpose OS,Real-time OS,Real-time OS,Easy
+Operating System,"The term ""zombie process"" refers to:",A virus,A terminated process still in the process table,A process that never dies,A system crash,A terminated process still in the process table,Easy
+Operating System,Which of the following is a system call used to remove a file?,rmdir(),delete(),unlink(),removefile(),unlink(),Easy
+Operating System,Which OS concept allows multiple users to work on the system at the same time?,Multitasking,Multi-access,Multi-user,Multi-threading,Multi-user,Easy
+Operating System,Which of the following uses the SCAN algorithm logic?,Disk scheduling,CPU scheduling,Paging,Interrupt handling,Disk scheduling,Easy
+Operating System,Which file system is journaled and commonly used by Linux?,FAT32,ext4,exFAT,NTFS,ext4,Easy
+Operating System,Which of the following is not a function of the kernel?,Process management,Memory management,User interface,Device management,User interface,Easy
+Operating System,Which of these is true about the Master Boot Record (MBR)?,It contains BIOS instructions,It resides in RAM,It stores partition information,It holds device drivers,It stores partition information,Easy
+Operating System,What is the function of the nice command in UNIX/Linux?,Rename files,Modify file permissions,Change process priority,Terminate a process,Change process priority,Easy
+Operating System,Which technique is used to bind a user-level thread to a kernel-level thread?,One-to-one model,Many-to-one model,Many-to-many model,Hybrid model,One-to-one model,Easy
+Operating System,Which type of memory is non-volatile and can be electrically erased?,RAM,Cache,ROM,Flash,Flash,Easy
+Operating System,"In UNIX, what is the init process?",Last process to terminate,First process started by the kernel,A user-level application,Used for scheduling,First process started by the kernel,Easy
+Operating System,Which of the following is NOT an inter-process communication mechanism?,Pipes,Shared memory,Semaphores,Stack,Stack,Easy
+Operating System,Which register contains the address of the next instruction to be executed?,Accumulator,Stack Pointer,Program Counter,Instruction Register,Program Counter,Easy
+Operating System,Which part of the OS manages file directories and permissions?,Shell,Kernel,File system,Command line,File system,Easy
+Operating System,A trap is a type of:,Hardware interrupt,User-level thread,Software interrupt,Device driver,Software interrupt,Easy
 Computer Network,"What does the acronym ""IP"" stand for?",Internet Protocol,Internet Program,Internal Protocol,Internal Program,Internet Protocol,Easy
 Computer Network,Which device is used to connect multiple devices in a local area network (LAN)?,Switch,Router,Modem,Hub,Switch,Easy
 Computer Network,What does HTTP stand for?,HyperText Transfer Protocol,HyperText Transport Protocol,Hyper Transfer Text Protocol,HyperTag Transfer Protocol,HyperText Transfer Protocol,Easy
@@ -650,67 +650,117 @@ Computer Network,Which protocol is used to assign IP addresses dynamically to de
 Computer Network,Which of the following is a characteristic of a full-duplex communication system?,Data can flow in both directions simultaneously,Data can flow in only one direction at a time,Only one device can transmit at a time,None of the above,Data can flow in both directions simultaneously,Easy
 Computer Network,Which of the following is a characteristic of a star topology?,All devices are connected to a central hub or switch,Data travels in a circular path,Devices are connected in a linear fashion,None of the above,All devices are connected to a central hub or switch,Easy
 Computer Network,Which of the following is a characteristic of a mesh topology?,Every device is connected to every other device,It requires less cabling than other topologies,It is easy to install and configure,None of the above,Every device is connected to every other device,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
-Computer Network,,,,,,,Easy
+Computer Network,Which protocol is used for transferring files over the internet?,FTP,HTTP,SMTP,DNS,FTP,Easy
+Computer Network,Which of the following is a characteristic of a ring topology?,Data travels in a circular path,Each device has two neighbors for communication purposes,It is easy to install and configure,All of the above,All of the above,Easy
+Computer Network,Which of the following is a function of the Transport layer?,End-to-end communication,Error detection and correction,Data compression,Data encryption,End-to-end communication,Easy
+Computer Network,Which of the following is a private IP address range?,192.168.1.1,172.16.0.1,10.0.0.1,All of the above,All of the above,Easy
+Computer Network,Which protocol is used to assign IP addresses dynamically to devices on a network?,DNS,DHCP,ARP,RARP,DHCP,Easy
+Computer Network,Which of the following is a valid Class B IP address?,10.0.0.1,172.16.0.1,192.168.1.1,224.0.0.1,172.16.0.1,Easy
+Computer Network,Which of the following is a valid Class C IP address?,10.0.0.1,172.16.0.1,192.168.1.1,224.0.0.1,192.168.1.1,Easy
+Computer Network,What does TCP stand for?,Transmission Control Protocol,Transmission Communication Protocol,Total Control Protocol,None of the above,Transmission Control Protocol,Easy
+Computer Network,What is the primary purpose of ARP?,To find the MAC address of a device,To find the IP address of a device,To resolve domain names,To establish a secure connection,To find the MAC address of a device,Easy
+Computer Network,What is the maximum length of an Ethernet frame?,1500 bytes,1518 bytes,1600 bytes,2048 bytes,1518 bytes,Easy
+Computer Network,Which protocol is used for email retrieval?,SMTP,POP3,IMAP,Both b and c,Both b and c,Easy
+Computer Network,What does NAT stand for?,Network Address Translation,Network Access Translation,Network Allocation Translation,None of the above,Network Address Translation,Easy
+Computer Network,Which of the following is a type of network topology?,Star,Ring,Bus,All of the above,All of the above,Easy
+Computer Network,What is the primary function of a router?,To forward data packets between networks,To amplify signals,To connect devices within a network,To filter network traffic,To forward data packets between networks,Easy
+Computer Network,Which of the following is a private IP address range?,192.168.0.0/16,172.16.0.0/12,10.0.0.0/8,All of the above,All of the above,Easy
+Computer Network,What is the purpose of the ICMP protocol?,To provide error messages and operational information,To establish secure connections,To transfer files,To resolve domain names,To provide error messages and operational information,Easy
+Computer Network,Which of the following is an example of a hybrid topology?,Star-Bus,Star-Ring,Bus-Ring,All of the above,Star-Bus,Easy
+Computer Network,Which of the following is a type of wireless communication?,Wi-Fi,Bluetooth,Infrared,All of the above,All of the above,Easy
+Computer Network,What does LAN stand for?,Long Area Network,Local Area Network,Large Area Network,Light Area Network,Local Area Network,Easy
+Computer Network,Which of the following is NOT a type of computer network?,WAN,LAN,SAN,PAN,SAN,Easy
+Computer Network,Which layer in the OSI model is responsible for logical addressing?,Data Link,Network,Session,Transport,Network,Easy
+Computer Network,Which of the following uses packet switching?,Telephone Network,Internet,Telegraph,Satellite TV,Internet,Easy
+Computer Network,Which protocol translates domain names to IP addresses?,DHCP,ARP,DNS,ICMP,DNS,Easy
+Computer Network,What is the function of ARP?,IP to MAC translation,MAC to IP translation,IP to domain name translation,DNS to IP translation,IP to MAC translation,Easy
+Computer Network,Which of these is NOT an application layer protocol?,HTTP,FTP,TCP,SMTP,TCP,Easy
+Computer Network,Which of the following operates at the Data Link Layer?,Router,Switch,Hub,Firewall,Switch,Easy
+Computer Network,Which OSI layer is responsible for encryption and compression?,Session,Presentation,Transport,Application,Presentation,Easy
+Computer Network,Which class of IP address provides the most hosts per network?,Class A,Class B,Class C,Class D,Class A,Easy
+Computer Network,DHCP is used to:,Assign IP addresses automatically,Encrypt data,Translate domain names,Block websites,Assign IP addresses automatically,Easy
+Computer Network,Which protocol does HTTPS use for encryption?,SSL/TLS,FTP,SNMP,UDP,SSL/TLS,Easy
+Computer Network,Which of the following is a loopback IP address?,255.255.255.0,0.0.0.0,127.0.0.1,1.1.1.1,127.0.0.1,Easy
+Computer Network,Which port is used by DNS?,53,25,80,110,53,Easy
+Computer Network,FTP operates on which ports?,21 & 22,20 & 21,23 & 24,80 & 443,20 & 21,Easy
+Computer Network,The protocol used for secure web browsing is:,FTP,HTTP,SSH,HTTPS,HTTPS,Easy
+Computer Network,Which address is used in the destination field of a broadcast packet?,255.255.255.255,127.0.0.1,0.0.0.0,192.0.2.1,255.255.255.255,Easy
+Computer Network,Which of the following is not a valid private IP range?,10.0.0.0 – 10.255.255.255,172.16.0.0 – 172.31.255.255,192.168.0.0 – 192.168.255.255,192.0.2.0 – 192.0.2.255,192.0.2.0 – 192.0.2.255,Easy
+Computer Network,Which of the following protocols is used to receive emails?,SMTP,POP3,FTP,SNMP,POP3,Easy
+Computer Network,What does CIDR stand for?,Classless Inter-Domain Routing,Central Internet Data Router,Connectionless Internet Device Routing,Cyber Internet Domain Regulation,Classless Inter-Domain Routing,Easy
+Computer Network,Which of these is NOT a function of the transport layer?,Segmentation,Error recovery,Path determination,Flow control,Path determination,Easy
+Computer Network,Which of the following port numbers is used for Telnet?,23,25,22,21,23,Easy
+Computer Network,Which protocol is used by ping command?,UDP,TCP,ICMP,HTTP,ICMP,Easy
+Computer Network,Which port is used by SMTP?,21,25,110,443,25,Easy
+Computer Network,Which layer of the OSI model ensures error-free delivery?,Data Link,Network,Transport,Application,Transport,Easy
+Computer Network,Which of these is a session layer protocol?,FTP,NetBIOS,TCP,IP,NetBIOS,Easy
+Computer Network,Which device works at Layer 3 (Network Layer)?,Switch,Router,Bridge,Hub,Router,Easy
+Computer Network,A switch operates at which OSI layer?,Physical,Data Link,Network,Transport,Data Link,Easy
+Computer Network,Which of the following provides MAC addressing?,IP,DNS,NIC,DHCP,NIC,Easy
+Computer Network,Which layer is responsible for physical transmission of data?,Network,Transport,Data Link,Physical,Physical,Easy
+Computer Network,Which device is used to regenerate a weak signal in a network?,Switch,Router,Repeater,Firewall,Repeater,Easy
+Computer Network,Which of these devices can work on multiple layers?,Router,Switch,Gateway,Hub,Gateway,Easy
+Computer Network,"The term ""store and forward"" is related to which device?",Switch,Repeater,Router,Hub,Switch,Easy
+Computer Network,What is the default port for SSH?,21,22,23,443,22,Easy
+Computer Network,UDP is best suited for:,Email,File Transfer,Live streaming,Web browsing,Live streaming,Easy
+Computer Network,Which of the following protocols uses three-way handshaking?,UDP,TCP,ICMP,FTP,TCP,Easy
+Computer Network,Which layer breaks the data into segments?,Network,Transport,Data Link,Application,Transport,Easy
+Computer Network,Which of the following works on the Physical layer?,NIC,Switch,Router,Bridge,NIC,Easy
+Computer Network,What is the maximum length of a CAT6 cable?,10 meters,50 meters,100 meters,500 meters,100 meters,Easy
+Computer Network,"In TCP/IP, which layer is equivalent to the OSI network layer?",Link,Transport,Internet,Application,Internet,Easy
+Computer Network,Which topology has a central controller or hub?,Bus,Ring,Star,Mesh,Star,Easy
+Computer Network,Which of the following protocols is used for remote login?,HTTP,FTP,Telnet,POP3,Telnet,Easy
+Computer Network,Which of the following is a secure alternative to Telnet?,SSH,FTP,RDP,HTTP,SSH,Easy
+Computer Network,Which firewall type inspects traffic at all OSI layers?,Packet-filtering firewall,Application firewall,Stateful firewall,Next-generation firewall,Next-generation firewall,Easy
+Computer Network,WPA2 is used to secure which type of network?,LAN,WAN,Wireless,VPN,Wireless,Easy
+Computer Network,What does SSL stand for?,Secure Sockets Layer,Secure System Login,System Socket Layer,Safe Server Login,Secure Sockets Layer,Easy
+Computer Network,Which of the following is NOT a VPN protocol?,PPTP,L2TP,IPSec,FTP,FTP,Easy
+Computer Network,Which of these is a wireless communication protocol?,Ethernet,Wi-Fi,USB,SATA,Wi-Fi,Easy
+Computer Network,"In wireless networks, which frequency bands are commonly used?",2.4 GHz & 5 GHz,900 MHz & 1.8 GHz,700 MHz & 3.2 GHz,1 GHz & 6 GHz,2.4 GHz & 5 GHz,Easy
+Computer Network,What is the maximum data rate of IEEE 802.11ac?,100 Mbps,600 Mbps,1.3 Gbps,10 Gbps,1.3 Gbps,Easy
+Computer Network,Which of the following provides confidentiality in a network?,Authentication,Integrity,Encryption,Hashing,Encryption,Easy
+Computer Network,Which of the following is NOT a type of network attack?,Phishing,Spoofing,Sniffing,Routing,Routing,Easy
+Computer Network,Which protocol uses port 3389?,SSH,FTP,RDP,SMTP,RDP,Easy
+Computer Network,Which one is NOT a valid wireless standard?,802.11a,802.11n,802.11x,802.11ac,802.11x,Easy
+Computer Network,Which of the following uses tunneling for secure connections?,HTTP,FTP,VPN,Telnet,VPN,Easy
+Computer Network,What is a proxy server primarily used for?,Encrypting files,Speeding up emails,Acting as an intermediary between user and server,Hosting DNS records,Acting as an intermediary between user and server,Easy
+Computer Network,What does SSID stand for in wireless networking?,Secure Set Identifier,Service Set Identifier,Single Security ID,Standard Station ID,Service Set Identifier,Easy
+Computer Network,Which device connects different networks together?,Switch,Router,Hub,Repeater,Router,Easy
+Computer Network,Which of the following topologies offers the best fault tolerance?,Bus,Star,Ring,Mesh,Mesh,Easy
+Computer Network,Which switching technique is used in traditional telephone networks?,Packet switching,Message switching,Circuit switching,Frequency switching,Circuit switching,Easy
+Computer Network,Which of the following is true about packet switching?,Dedicated path is required,More efficient for data,Used in traditional phone systems,No packet loss,More efficient for data,Easy
+Computer Network,Which cloud service provides virtualized computing resources over the Internet?,SaaS,PaaS,IaaS,DaaS,IaaS,Easy
+Computer Network,Which of the following is an example of SaaS?,Google Docs,Microsoft Azure,Amazon EC2,Docker,Google Docs,Easy
+Computer Network,Which of the following is a Layer 7 device?,Hub,Router,Web Application Firewall (WAF),Switch,Web Application Firewall (WAF),Easy
+Computer Network,What is the full form of MAN in networking?,Main Area Network,Medium Access Network,Metropolitan Area Network,Machine Area Network,Metropolitan Area Network,Easy
+Computer Network,Which device connects similar network segments at the data link layer?,Switch,Router,Repeater,Bridge,Bridge,Easy
+Computer Network,Which is the fastest transmission medium among the following?,Twisted pair cable,Coaxial cable,Fiber optic cable,Wireless,Fiber optic cable,Easy
+Computer Network,"In P2P networks, each computer acts as:",Only a server,Only a client,Both client and server,Just a router,Both client and server,Easy
+Computer Network,What is the use of the TTL field in an IP packet?,Identifies the sender,Time synchronization,Prevents routing loops,Packet fragmentation,Prevents routing loops,Easy
+Computer Network,What is the maximum length of an IPv6 address in hexadecimal characters?,32,64,128,39,39,Easy
+Computer Network,The maximum number of hosts in a Class C network is:,128,254,256,512,254,Easy
+Computer Network,What is the role of the ISP in a network?,Provide local area access,Assign MAC addresses,Offer internet connectivity,Manage IP routing inside routers,Offer internet connectivity,Easy
+Computer Network,Which port does DNS typically use for queries?,25,53,80,110,53,Easy
+Computer Network,Which command is used to check network connectivity between two devices?,nslookup,ping,ftp,telnet,ping,Easy
+Computer Network,Which protocol helps automate the configuration of devices on IP networks,SNMP,ICMP,DHCP,DNS,DHCP,Easy
+Computer Network,Which layer in OSI model handles token management?,Session,Network,Transport,Presentation,Session,Easy
+Computer Network,What is the primary function of SNMP?,Email transfer,Network monitoring,IP assignment,File transfer,Network monitoring,Easy
+Computer Network,Which tool is used to diagnose DNS-related problems?,ping,traceroute,ipconfig,nslookup,nslookup,Easy
+Computer Network,The process of mapping private IPs to a public IP is called:,Routing,Bridging,NAT,Tunneling,NAT,Easy
+Computer Network,Which of the following uses label-switching instead of IP routing?,OSPF,MPLS,BGP,RIP,MPLS,Easy
+Computer Network,"In networking, MTU stands for:",Maximum Transfer Unit,Minimum Transmission Unit,Maximum Transmission Unit,Managed Tunnel Utility,Maximum Transmission Unit,Easy
+Computer Network,What is the primary function of a Layer 3 switch?,MAC address filtering,Signal amplification,Routing packets,Managing encryption,Routing packets,Easy
+Computer Network,Which protocol supports dynamic routing and link-state information?,RIP,OSPF,BGP,EIGRP,OSPF,Easy
+Computer Network,"In SDN, which plane makes forwarding decisions?",Control plane,Data plane,Management plane,Application plane,Control plane,Easy
+Computer Network,IoT devices typically use which kind of network for short-range communication?,MPLS,Wi-Fi,Zigbee,Ethernet,Zigbee,Easy
+Computer Network,Which command can show current TCP/UDP connections on a host?,ping,ipconfig,netstat,tracert,netstat,Easy
+Computer Network,Which IPv6 address type is used for one-to-one communication?,Multicast,Broadcast,Anycast,Unicast,Unicast,Easy
+Computer Network,Which of these uses asymmetric encryption?,WPA2,SSL/TLS,WEP,MAC filtering,SSL/TLS,Easy
+Computer Network,Which layer handles retransmission in case of packet loss?,Transport,Network,Data Link,Physical,Transport,Easy
+Computer Network,Which protocol is used for sending system logs over IP networks?,Syslog,SNMP,SMTP,TFTP,Syslog,Easy
+Computer Network,Which command would you use to trace the path to a host?,ping,traceroute/tracert,netstat,nslookup,traceroute/tracert,Easy
+Computer Network,Which of these is used in IPv6 instead of NAT?,DHCPv6,SLAAC,MAC filtering,OSPF,SLAAC,Easy
+Computer Network,What does QoS stand for in networking?,Queue of Services,Quality of Service,Quick Output Switching,Query of Server,Quality of Service,Easy
+Computer Network,Which of the following represents a Layer 2 attack?,ARP Spoofing,DNS Poisoning,SQL Injection,SYN Flood,ARP Spoofing,Easy
+Computer Network,Which part of an IP address identifies the network portion?,Subnet mask,Host bits,TTL,MAC address,Subnet mask,Easy
+Computer Network,The process of reducing routing table size by summarizing routes is called:,Supernetting,Subnetting,Addressing,NAT,Supernetting,Easy

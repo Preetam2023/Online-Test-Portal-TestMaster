@@ -5,7 +5,6 @@
     --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
     --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
     --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
-    --danger-gradient: linear-gradient(135deg, #ff0844 0%, #ffb199 100%);
     
     /* Modern Color Scheme */
     --dark: #1a1a2e;
@@ -265,6 +264,26 @@ body {
 }
 
 /* Management Content */
+.management-flex {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+    flex-wrap: wrap; /* for responsiveness on smaller screens */
+}
+
+.add-moderator-card,
+.moderators-list-card {
+    flex: 1;
+    min-width: 350px;
+}
+
+.section-card {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
 .management-content {
     display: grid;
     grid-template-columns: 1fr;
@@ -279,31 +298,14 @@ body {
 
 /* Add Moderator Card */
 .add-moderator-card {
-    position: relative;
-    overflow: hidden;
+    min-width: 350px;
 }
 
-.add-moderator-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: var(--primary-gradient);
-    opacity: 0.1;
-    z-index: -1;
-    animation: rotate 15s linear infinite;
-}
 
-@keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
 
 .add-moderator-card .card-header {
     padding: 1.5rem;
-    border-bottom: 1px solid rgba(110, 69, 226, 0.1);
+    border-bottom: 1px solid rgba(10, 2, 31, 0.1);
 }
 
 .add-moderator-card .card-header h2 {
@@ -626,30 +628,29 @@ input:checked + .slider:before {
     display: flex;
     gap: 0.75rem;
 }
-
+/* Delete Button Styles */
 .btn-delete {
-    padding: 0.75rem 1.25rem;
-    border-radius: var(--radius-md);
-    font-size: 0.9rem;
-    font-weight: 500;
+    padding: 0.5rem 1rem;
+    background: #ff4444; /* Red background */
     color: white;
-    background: var(--danger-gradient);
     border: none;
+    border-radius: 4px;
     cursor: pointer;
-    transition: var(--transition);
-    display: flex;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background 0.2s ease;
+    display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    box-shadow: 0 4px 10px rgba(255, 8, 68, 0.2);
+    gap: 0.4rem;
 }
 
 .btn-delete:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 15px rgba(255, 8, 68, 0.3);
+    background: #cc0000; /* Deep red on hover */
+    text-decoration: none;
 }
 
 .btn-delete i {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 }
 
 /* Empty Table State */

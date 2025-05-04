@@ -1,33 +1,20 @@
-// scripts.js
+const optionButtons = document.querySelectorAll('.option-btn');
 
-// Function to check answer and update background colors
-// scripts.js
+optionButtons.forEach(button => {
+    button.addEventListener('click', function () {
+        const parent = this.parentElement;
+        const allOptions = parent.querySelectorAll('.option-btn');
+        const correctAnswer = this.getAttribute('data-correct').trim();
 
-// Check answer and color code
-function checkAnswer(selectedOption, isCorrect) {
-    const options = selectedOption.parentElement.children;
-    let correctOption;
-
-    for (let option of options) {
-        option.onclick = null; // disable all
-    }
-
-    if (isCorrect) {
-        selectedOption.classList.add('correct');
-    } else {
-        selectedOption.classList.add('incorrect');
-        for (let option of options) {
-            if (option.getAttribute('onclick')?.includes('true')) {
-                correctOption = option;
-                break;
+        allOptions.forEach(opt => {
+            opt.disabled = true;
+            if (opt.textContent.trim() === correctAnswer) {
+                opt.classList.add('correct');
             }
-        }
-        if (correctOption) correctOption.classList.add('correct');
-    }
-}
+        });
 
-// Scroll to section (if needed)
-function scrollToSection(sectionId) {
-    const section = document.getElementById(sectionId);
-    section.scrollIntoView({ behavior: 'smooth' });
-}
+        if (this.textContent.trim() !== correctAnswer) {
+            this.classList.add('wrong');
+        }
+    });
+});

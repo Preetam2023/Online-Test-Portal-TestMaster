@@ -8,22 +8,31 @@
 </head>
 <body>
 
-    <!-- Top Navbar for Subjects -->
+    <!-- Tagline -->
+    <div class="tagline">
+        <h1>Select a Subject to Start Practicing</h1>
+    </div>
+
+    <!-- Top Navbar with Subject Cards -->
     <nav class="navbar">
-        {% for subject in subjects %}
-            <a href="{% url 'practice_questions' subject.name %}">{{ subject.name }}</a>
-        {% endfor %}
+        <div class="subject-cards">
+            {% for subject in subjects %}
+                <a class="subject-card" href="{% url 'practice_questions' subject.name %}">
+                    {{ subject.name }}
+                </a>
+            {% endfor %}
+        </div>
     </nav>
 
     <!-- Questions Area -->
     <div class="questions-container">
         {% if selected_subject %}
-            <h2>Subject: {{ selected_subject.name }}</h2>
+            <h2 class="subject-heading">Subject: {{ selected_subject.name }}</h2>
 
             {% for question in questions %}
                 <div class="question-block" id="question-{{ forloop.counter }}">
                     <p><strong>{{ forloop.counter }}. {{ question.text }}</strong></p>
-                    
+
                     <div class="options">
                         <button class="option-btn" data-correct="{{ question.correct_option }}">{{ question.option1 }}</button>
                         <button class="option-btn" data-correct="{{ question.correct_option }}">{{ question.option2 }}</button>
@@ -37,31 +46,10 @@
                 </div>
             {% endfor %}
         {% else %}
-            <p>Please select a subject from the navbar above.</p>
         {% endif %}
     </div>
 
-    <script>
-        const optionButtons = document.querySelectorAll('.option-btn');
-        optionButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const parent = this.parentElement;
-                const allOptions = parent.querySelectorAll('.option-btn');
-                const correctAnswer = this.getAttribute('data-correct');
-                
-                allOptions.forEach(opt => {
-                    opt.disabled = true;  // Disable all options after one click
-                    if (opt.textContent.trim() === correctAnswer.trim()) {
-                        opt.classList.add('correct');
-                    }
-                });
-
-                if (this.textContent.trim() !== correctAnswer.trim()) {
-                    this.classList.add('wrong');
-                }
-            });
-        });
-    </script>
+    <script src="{% static 'js/practice_question.js' %}"></script>
 
 </body>
 </html>

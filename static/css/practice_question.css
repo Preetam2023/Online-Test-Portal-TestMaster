@@ -1,70 +1,121 @@
-/* Navbar Styling */
-.navbar {
-  background-color: #004080;
-  padding: 10px;
+/* General */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #e1e9f6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Tagline */
+.tagline {
   text-align: center;
+  background-color: #0a3970;
+  color: #ffffff;
+  padding: 10px 10px;
 }
 
-.navbar a {
-  color: white;
-  margin: 0 15px;
-  text-decoration: none;
-  font-weight: bold;
+.tagline h1 {
+  margin: 0;
+  font-size: 24px;
 }
 
-.navbar a:hover {
-  text-decoration: underline;
-}
-
-/* Question Area Styling */
-.questions-container {
-  margin: 20px;
+/* Navbar */
+.navbar {
   padding: 20px;
+  background-color: #b2ceeb;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.subject-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.subject-card {
+  display: inline-block;
+  background: #ffffff;
+  border: 2px solid #004080;
+  padding: 12px 20px;
+  border-radius: 10px;
+  color: #004080;
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  display: flex;
+   
+}
+
+.subject-card:hover {
+  background-color: #004080;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+/* Questions Container */
+.questions-container {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.subject-heading {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #003366;
+}
+
+/* Question Block */
 .question-block {
-  margin-bottom: 30px;
-  padding: 15px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #f9f9f9;
+  background: #ffffff;
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
 }
 
 /* Option Buttons */
 .options {
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 .option-btn {
   display: block;
-  margin: 8px 0;
-  padding: 10px;
   width: 100%;
-  border: 1px solid #ccc;
-  background-color: #ffffff;
-  cursor: pointer;
-  border-radius: 5px;
+  padding: 12px 10px;
+  margin-bottom: 10px;
   font-size: 16px;
+  background: #ffffff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
   text-align: left;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.option-btn:hover:not(:disabled) {
+  background-color: #a4f8b8;
 }
 
 /* Correct Answer Style */
 .correct {
-  background-color: #d4edda; /* light green */
-  color: #155724; /* dark green */
+  background-color: #d0f1d7;
+  color: #155724;
   border: 1px solid #28a745;
 }
 
 /* Wrong Answer Style */
 .wrong {
-  background-color: #f8d7da; /* light red */
-  color: #721c24; /* dark red */
+  background-color: #f8d7da;
+  color: #721c24;
   border: 1px solid #dc3545;
 }
 
-/* Disable Pointer */
+/* Disabled */
 .option-btn:disabled {
   cursor: not-allowed;
-  opacity: 0.7;
+  opacity: 0.75;
 }
