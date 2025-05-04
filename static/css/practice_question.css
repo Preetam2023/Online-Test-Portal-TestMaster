@@ -8,17 +8,34 @@ body {
 
 /* Tagline */
 .tagline {
-  text-align: center;
+  display: flex;
+  justify-content: center;
   background-color: #0a3970;
   color: #ffffff;
   padding: 10px 10px;
 }
 
+
 .tagline h1 {
   margin: 0;
-  font-size: 24px;
+  font-size: 1.5rem;
 }
 
+.home-button {
+  position: absolute;
+  right: 20px;
+  color: white;
+  font-size: 1.5rem;
+  text-decoration: none;
+  padding: 1px 12px;
+  border-radius: 60%;
+  transition: all 0.3s ease;
+}
+
+.home-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
 /* Navbar */
 .navbar {
   padding: 20px;
@@ -97,7 +114,7 @@ body {
 }
 
 .option-btn:hover:not(:disabled) {
-  background-color: #a4f8b8;
+  background-color: rgb(211, 208, 208);
 }
 
 /* Correct Answer Style */
@@ -118,4 +135,31 @@ body {
 .option-btn:disabled {
   cursor: not-allowed;
   opacity: 0.75;
+}
+.home-btn {
+  background-color: #ffffff;
+  color: #0a3970;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: bold;
+  border: 2px solid #ffffff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.home-btn:hover {
+  background-color: #ffffff;
+  color: #0a3970;
+  text-decoration: underline;
+}
+
+.home-btn {
+    color: white;
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: transform 0.2s;
+}
+
+.home-btn:hover {
+    transform: scale(1.1);
 }

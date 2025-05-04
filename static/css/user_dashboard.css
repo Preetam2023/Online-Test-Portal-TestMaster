@@ -25,18 +25,23 @@ body {
 }
 
 .dashboard-container {
-    display: grid;
+    display: flex;
     grid-template-columns: 280px 1fr;
     min-height: 100vh;
+    overflow: hidden;
 }
 
-/* Sidebar Styles */
+ 
 .sidebar {
     background-color: var(--dark);
     color: var(--white);
     padding: 30px 20px;
     position: relative;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+    height: 100vh;
+    top: 0;
+    overflow-y: auto;
 }
 
 .logo {
@@ -162,6 +167,11 @@ body {
 /* Main Content Styles */
 .main-content {
     padding: 30px;
+    flex: 1;
+    overflow-y: auto;
+    height: 100vh;
+    padding: 20px;
+    background-color: #f5f7fa;
 }
 
 .main-header {

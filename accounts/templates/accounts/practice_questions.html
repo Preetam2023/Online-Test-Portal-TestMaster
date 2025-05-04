@@ -5,12 +5,17 @@
     <meta charset="UTF-8">
     <title>Practice Questions</title>
     <link rel="stylesheet" href="{% static 'css/practice_question.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
-    <!-- Tagline -->
-    <div class="tagline">
-        <h1>Select a Subject to Start Practicing</h1>
+    
+        <div class="tagline">
+            <h1>Select a Subject to Start Practicing</h1>
+        
+        <a href="{% url 'user_dashboard' %}" class="home-button">
+            <i class="fas fa-home"></i>
+        </a>
     </div>
 
     <!-- Top Navbar with Subject Cards -->
