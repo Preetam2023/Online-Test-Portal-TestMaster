@@ -49,6 +49,7 @@
     font-weight: 700;
     color: var(--dark);
     display: flex;
+    justify-content: center;
     align-items: center;
     gap: 1rem;
     margin-bottom: 0.5rem;
@@ -63,6 +64,8 @@
     color: var(--dark-light);
     font-size: 1rem;
     max-width: 600px;
+    display: flex;
+    justify-content: center;
 }
 
 /* Layout */

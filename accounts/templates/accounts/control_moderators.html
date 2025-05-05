@@ -11,7 +11,6 @@
 
 {% block content %}
 <div class="moderator-management">
-
     <!-- Notification System -->
     <div class="notification-wrapper">
         {% if messages %}
@@ -43,115 +42,105 @@
 
     <!-- Header -->
     <div class="management-header">
-        <h1><i class="fas fa-users-cog"></i> Moderator Management
-            <div>
-                <p>Manage your organization's moderators and permissions</p>
-            </div>
-        </h1>
+        <h1><i class="fas fa-users-cog"></i> Moderator Management</h1>
+        <p>Manage your organization's moderators and permissions</p>
     </div>
 
-    <!-- Management Content -->
+    <!-- Single Column Content -->
     <div class="management-content">
-        <div class="management-content">
-            <div class="management-flex">
-        
-                <!-- Add Moderator Card -->
-                <div class="section-card add-moderator-card">
-                    <div class="card-header">
-                        <h2><i class="fas fa-user-plus"></i> Add New Moderator</h2>
-                        <p>Invite new moderators to help manage your organization</p>
-                    </div>
-        
-                    <form method="POST" class="moderator-form">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="full_name">Full Name</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-user"></i>
-                                <input type="text" name="full_name" id="full_name" placeholder="Enter full name" required>
-                            </div>
-                        </div>
-        
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <div class="input-with-icon">
-                                <i class="fas fa-envelope"></i>
-                                <input type="email" name="email" id="email" placeholder="Enter email address" required>
-                            </div>
-                        </div>
-        
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-plus-circle"></i> Add Moderator
-                        </button>
-                    </form>
-                </div>
-        
-                <!-- Moderators List Card -->
-                <div class="section-card moderators-list-card">
-                    <div class="card-header">
-                        <h2><i class="fas fa-users"></i> Current Moderators</h2>
-                        <p>Manage existing moderators and their permissions</p>
-                    </div>
-        
-                    <div class="table-container">
-                        <table class="moderators-table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Added On</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for moderator in moderators %}
-                                <tr data-mod-id="{{ moderator.id }}">
-                                    <td>
-                                        <div class="user-info">
-                                            <div class="user-avatar" style="background-color: #{{ moderator.user.email|slice:'3:9'|default:'4f46e5' }}">
-                                                {{ moderator.full_name|first|upper }}
-                                            </div>
-                                            <div class="user-details">
-                                                <span class="user-name">{{ moderator.full_name }}</span>
-                                                <span class="user-added">Added by {{ moderator.added_by.email }}</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>{{ moderator.user.email }}</td>
-                                    <td>{{ moderator.created_at|date:"M d, Y" }}</td>
-                                    <td>
-                                        <label class="status-toggle">
-                                            <input type="checkbox" {% if moderator.user.is_active %}checked{% endif %}
-                                                   data-mod-id="{{ moderator.id }}">
-                                            <span class="slider round"></span>
-                                            <span class="status-text">{% if moderator.user.is_active %}Active{% else %}Inactive{% endif %}</span>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        <div class="action-buttons">
-                                            <a href="{% url 'delete-moderator' moderator.id %}" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this moderator?')">
-                                                <i class="fas fa-trash-alt"></i> Delete
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="5" class="empty-table">
-                                        <i class="fas fa-users-slash"></i>
-                                        <p>No moderators added yet</p>
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+        <!-- Add Moderator Card -->
+        <div class="section-card add-moderator-card">
+            <div class="card-header">
+                <h2><i class="fas fa-user-plus"></i> Add New Moderator</h2>
+                <p>Invite new moderators to help manage your organization</p>
+            </div>
+            
+            <form method="POST" class="moderator-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="full_name">Full Name</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" name="full_name" id="full_name" placeholder="Enter full name" required>
                     </div>
                 </div>
-        
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" name="email" id="email" placeholder="Enter email address" required>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-plus-circle"></i> Add Moderator
+                </button>
+            </form>
+        </div>
+        <br>
+        <!-- Moderators List Card -->
+        <div class="section-card moderators-list-card">
+            <div class="card-header">
+                <h2><i class="fas fa-users"></i> Current Moderators</h2>
+                <p>Manage existing moderators and their permissions</p>
+            </div>
+            
+            <div class="table-container">
+                <table class="moderators-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Added On</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for moderator in moderators %}
+                        <tr data-mod-id="{{ moderator.id }}">
+                            <td>
+                                <div class="user-info">
+                                    <div class="user-avatar" style="background-color: #{{ moderator.user.email|slice:'3:9'|default:'4f46e5' }}">
+                                        {{ moderator.full_name|first|upper }}
+                                    </div>
+                                    <div class="user-details">
+                                        <span class="user-name">{{ moderator.full_name }}</span>
+                                        <span class="user-added">Added by {{ moderator.added_by.email }}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ moderator.user.email }}</td>
+                            <td>{{ moderator.created_at|date:"M d, Y" }}</td>
+                            <td>
+                                <label class="status-toggle">
+                                    <input type="checkbox" {% if moderator.user.is_active %}checked{% endif %}
+                                           data-mod-id="{{ moderator.id }}">
+                                    <span class="slider round"></span>
+                                    <span class="status-text">{% if moderator.user.is_active %}Active{% else %}Inactive{% endif %}</span>
+                                </label>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="{% url 'delete-moderator' moderator.id %}" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this moderator?')">
+                                        <i class="fas fa-trash-alt"></i> Delete
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="empty-table">
+                                <i class="fas fa-users-slash"></i>
+                                <p>No moderators added yet</p>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-        
     </div>
 </div>
 {% endblock %}
