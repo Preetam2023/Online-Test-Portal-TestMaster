@@ -1,49 +1,44 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Toggle Sidebar
+    // Toggle sidebar collapse
     const toggleBtn = document.getElementById('toggleSidebar');
     const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+    const menuToggle = document.getElementById('menuToggle');
     
     if (toggleBtn && sidebar) {
         toggleBtn.addEventListener('click', function() {
             sidebar.classList.toggle('collapsed');
-            
-            // Store state in localStorage
-            const isCollapsed = sidebar.classList.contains('collapsed');
-            localStorage.setItem('sidebarCollapsed', isCollapsed);
+            mainContent.classList.toggle('collapsed');
         });
     }
     
     // Mobile menu toggle
-    const menuToggle = document.getElementById('menuToggle');
-    
     if (menuToggle && sidebar) {
         menuToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('active');
+            sidebar.classList.toggle('show');
         });
     }
     
     // Close sidebar when clicking outside on mobile
-    document.addEventListener('click', function(e) {
-        if (window.innerWidth <= 1024) {
-            if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
-                sidebar.classList.remove('active');
+    document.addEventListener('click', function(event) {
+        if (window.innerWidth <= 992) {
+            const isClickInsideSidebar = sidebar.contains(event.target);
+            const isClickOnMenuToggle = event.target === menuToggle || menuToggle.contains(event.target);
+            
+            if (!isClickInsideSidebar && !isClickOnMenuToggle) {
+                sidebar.classList.remove('show');
             }
         }
     });
     
-    // Load sidebar state from localStorage
-    const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
-    if (isCollapsed && sidebar) {
-        sidebar.classList.add('collapsed');
-    }
-    
-    // Highlight active menu item based on current URL
-    const currentPath = window.location.pathname;
+    // Add active class to clicked menu items (optional)
     const menuItems = document.querySelectorAll('.menu-item');
-    
     menuItems.forEach(item => {
-        if (item.getAttribute('href') === currentPath) {
-            item.classList.add('active');
-        }
+        item.addEventListener('click', function() {
+            // Remove active class from all items
+            menuItems.forEach(i => i.classList.remove('active'));
+            // Add active class to clicked item
+            this.classList.add('active');
+        });
     });
 });

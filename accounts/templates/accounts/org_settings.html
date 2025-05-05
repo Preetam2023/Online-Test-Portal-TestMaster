@@ -11,30 +11,36 @@
 
 {% block content %}
 <div class="settings-container">
-    <!-- Header Section -->
+    <!-- Header Section with Gradient Background -->
     <div class="settings-header">
-        <h1>Organization Settings</h1>
-        <p class="subtitle">Manage your organization's profile and security settings</p>
+        <div class="header-content">
+            <h1><i class="fas fa-cog"></i> Organization Settings</h1>
+            <p class="subtitle">Manage your organization's profile, security, and preferences</p>
+        </div>
+        <div class="header-illustration">
+            <img src="{% static 'images/settings-illustration.svg' %}" alt="Settings Illustration">
+        </div>
     </div>
 
+    <!-- Settings Grid with Cards -->
     <div class="settings-grid">
         <!-- Profile Card -->
-        <div class="profile-card">
+        <div class="settings-card profile-card">
             <div class="card-header">
                 <div class="header-icon">
                     <i class="fas fa-building"></i>
                 </div>
                 <h2>Organization Profile</h2>
-                <p>Update your organization's name and logo</p>
+                <p>Update your organization's public information</p>
             </div>
             
             <form method="POST" enctype="multipart/form-data" class="profile-form">
                 {% csrf_token %}
-                <div class="form-group">
-                    <label for="orgName">Organization Name</label>
+                <div class="form-group floating-label">
                     <div class="input-with-icon">
                         <i class="fas fa-font"></i>
-                        <input type="text" name="name" value="{{ organization.name }}" id="orgName" required>
+                        <input type="text" name="name" value="{{ organization.name }}" id="orgName" required placeholder=" ">
+                        <label for="orgName">Organization Name</label>
                     </div>
                 </div>
                 
@@ -55,7 +61,7 @@
                             </div>
                         </div>
                         <input type="file" name="logo" id="logoInput" accept="image/*" class="file-input">
-                        <div class="upload-hint">Recommended size: 500×500px (Max 2MB)</div>
+                        <div class="upload-hint">Recommended: 500×500px (Max 2MB)</div>
                     </div>
                 </div>
                 
@@ -66,13 +72,13 @@
         </div>
 
         <!-- Security Card -->
-        <div class="security-card">
+        <div class="settings-card security-card">
             <div class="card-header">
                 <div class="header-icon">
                     <i class="fas fa-shield-alt"></i>
                 </div>
-                <h2>Security</h2>
-                <p>Manage your account security settings</p>
+                <h2>Security Settings</h2>
+                <p>Manage your account security</p>
             </div>
             
             <div class="security-actions">
@@ -81,34 +87,63 @@
                         <i class="fas fa-key"></i>
                     </div>
                     <div class="security-content">
-                        <h3>Password</h3>
-                        <p>Change your account password</p>
+                        <h3>Change Password</h3>
+                        <p>Update your account password</p>
                     </div>
                     <button class="btn btn-outline" id="changePasswordBtn">
-                        Change
+                        Change <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="security-item">
+                    <div class="security-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <div class="security-content">
+                        <h3>Two-Factor Authentication</h3>
+                        <p>Add an extra layer of security</p>
+                    </div>
+                    <button class="btn btn-outline">
+                        Enable <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                
+                <div class="security-item">
+                    <div class="security-icon">
+                        <i class="fas fa-clock-rotate-left"></i>
+                    </div>
+                    <div class="security-content">
+                        <h3>Login History</h3>
+                        <p>View recent account activity</p>
+                    </div>
+                    <button class="btn btn-outline">
+                        View <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
             </div>
         </div>
 
         <!-- Danger Zone Card -->
-        <div class="danger-card">
+        <div class="settings-card danger-card">
             <div class="card-header">
                 <div class="header-icon">
                     <i class="fas fa-exclamation-triangle"></i>
                 </div>
                 <h2>Danger Zone</h2>
-                <p>Irreversible and destructive actions</p>
+                <p>Actions that cannot be undone</p>
             </div>
             
             <div class="danger-actions">
                 <div class="danger-item">
+                    <div class="danger-icon">
+                        <i class="fas fa-trash"></i>
+                    </div>
                     <div class="danger-content">
                         <h3>Delete Organization</h3>
-                        <p>Permanently delete your organization and all associated data</p>
+                        <p>Permanently delete your organization and all data</p>
                     </div>
                     <button class="btn btn-danger" id="deleteOrgBtn">
-                        Delete Organization
+                        Delete <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
             </div>
@@ -120,42 +155,42 @@
 <div class="modal" id="passwordModal">
     <div class="modal-dialog">
         <div class="modal-header">
-            <h3>Change Password</h3>
-            <button class="modal-close" id="closePasswordModal">
+            <h3><i class="fas fa-key"></i> Change Password</h3>
+            <button class="modal-close" id="closePasswordModal" aria-label="Close">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <form id="passwordForm" method="POST" action="{% url 'change-password' %}">
             {% csrf_token %}
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="currentPassword">Current Password</label>
+                <div class="form-group floating-label">
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>
-                        <input type="password" name="old_password" id="currentPassword" required>
-                        <button type="button" class="toggle-password" data-target="currentPassword">
+                        <input type="password" name="old_password" id="currentPassword" required placeholder=" " autocomplete="current-password">
+                        <label for="currentPassword">Current Password</label>
+                        <button type="button" class="toggle-password" data-target="currentPassword" aria-label="Show password">
                             <i class="fas fa-eye"></i>
                         </button>
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="newPassword">New Password</label>
+                <div class="form-group floating-label">
                     <div class="input-with-icon">
                         <i class="fas fa-key"></i>
-                        <input type="password" name="new_password1" id="newPassword" required>
-                        <button type="button" class="toggle-password" data-target="newPassword">
+                        <input type="password" name="new_password1" id="newPassword" required placeholder=" " autocomplete="new-password">
+                        <label for="newPassword">New Password</label>
+                        <button type="button" class="toggle-password" data-target="newPassword" aria-label="Show password">
                             <i class="fas fa-eye"></i>
                         </button>
                     </div>
                 </div>
                 
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm New Password</label>
+                <div class="form-group floating-label">
                     <div class="input-with-icon">
                         <i class="fas fa-key"></i>
-                        <input type="password" name="new_password2" id="confirmPassword" required>
-                        <button type="button" class="toggle-password" data-target="confirmPassword">
+                        <input type="password" name="new_password2" id="confirmPassword" required placeholder=" " autocomplete="new-password">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <button type="button" class="toggle-password" data-target="confirmPassword" aria-label="Show password">
                             <i class="fas fa-eye"></i>
                         </button>
                     </div>
@@ -180,7 +215,7 @@
     </div>
     <div class="toast-content">
         <h4>Success!</h4>
-        <p>Your password has been changed successfully</p>
+        <p id="toast-message">Your changes have been saved</p>
     </div>
     <button class="toast-close">
         <i class="fas fa-times"></i>

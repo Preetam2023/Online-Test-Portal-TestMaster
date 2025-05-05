@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (file) {
                 // Check file size (max 2MB)
                 if (file.size > 2 * 1024 * 1024) {
-                    alert('File size exceeds 2MB limit');
+                    showToast('File size exceeds 2MB limit', 'error');
                     return;
                 }
                 
@@ -37,98 +37,90 @@ document.addEventListener('DOMContentLoaded', function() {
             const confirmed = confirm('WARNING: This will permanently delete your organization and all associated data. This action cannot be undone.\n\nAre you sure you want to proceed?');
             if (confirmed) {
                 // Add deletion logic or redirection here
-                alert("Organization deletion requested.");
+                showToast("Organization deletion requested.", 'warning');
             }
         });
     }
 
-    // Password Change Modal
-    const changePasswordBtn = document.getElementById('changePasswordBtn');
-    const passwordModal = document.getElementById('passwordModal');
-    const closePasswordModal = document.getElementById('closePasswordModal');
-    const cancelPasswordChange = document.getElementById('cancelPasswordChange');
-    const toast = document.getElementById('toast');
+ // Password Change Modal
+const changePasswordBtn = document.getElementById('changePasswordBtn');
+const passwordModal = document.getElementById('passwordModal');
+const modalDialog = document.querySelector('.modal-dialog');
+const closePasswordModal = document.getElementById('closePasswordModal');
+const cancelPasswordChange = document.getElementById('cancelPasswordChange');
 
-    // Toggle modal
-    function toggleModal(show) {
-        if (show) {
-            passwordModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        } else {
-            passwordModal.classList.remove('active');
-            document.body.style.overflow = '';
-        }
+// Toggle modal
+function toggleModal(show) {
+    if (show) {
+        passwordModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        // Focus on first input when modal opens
+        setTimeout(() => {
+            document.getElementById('currentPassword').focus();
+        }, 100);
+    } else {
+        passwordModal.classList.remove('active');
+        document.body.style.overflow = '';
     }
+}
 
-    // Show toast
-    function showToast() {
-        toast.classList.add('show');
-        
-        setTimeout(function() {
-            toast.classList.remove('show');
-        }, 5000);
-    }
-
-    // Close toast
-    const toastClose = document.querySelector('.toast-close');
-    if (toastClose) {
-        toastClose.addEventListener('click', function() {
-            toast.classList.remove('show');
-        });
-    }
-
-    // Toggle password visibility
-    const togglePasswordBtns = document.querySelectorAll('.toggle-password');
-    togglePasswordBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const targetId = this.getAttribute('data-target');
-            const input = document.getElementById(targetId);
-            const icon = this.querySelector('i');
-            
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.replace('fa-eye', 'fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.replace('fa-eye-slash', 'fa-eye');
-            }
-        });
+// Modal event listeners
+if (changePasswordBtn) {
+    changePasswordBtn.addEventListener('click', function() {
+        toggleModal(true);
     });
+}
 
-    // Modal event listeners
-    if (changePasswordBtn) {
-        changePasswordBtn.addEventListener('click', function() {
-            toggleModal(true);
-        });
-    }
-
-    if (closePasswordModal) {
-        closePasswordModal.addEventListener('click', function() {
-            toggleModal(false);
-        });
-    }
-
-    if (cancelPasswordChange) {
-        cancelPasswordChange.addEventListener('click', function() {
-            toggleModal(false);
-        });
-    }
-
-    // Close modal when clicking outside
-    passwordModal.addEventListener('click', function(e) {
-        if (e.target === passwordModal) {
-            toggleModal(false);
-        }
+if (closePasswordModal) {
+    closePasswordModal.addEventListener('click', function() {
+        toggleModal(false);
     });
+}
 
-    // Password form submission
+if (cancelPasswordChange) {
+    cancelPasswordChange.addEventListener('click', function() {
+        toggleModal(false);
+    });
+}
+
+// Close modal when clicking outside (but not inside the dialog)
+passwordModal.addEventListener('click', function(e) {
+    if (e.target === passwordModal) {
+        toggleModal(false);
+    }
+});
+
+// Prevent clicks inside the dialog from closing the modal
+if (modalDialog) {
+    modalDialog.addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+}
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && passwordModal.classList.contains('active')) {
+        toggleModal(false);
+    }
+});
+
+    // Enhanced password form submission with validation
     const passwordForm = document.getElementById('passwordForm');
     if (passwordForm) {
         passwordForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
+            // Disable submit button during request
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Updating...';
+            
             const formData = new FormData(this);
             const url = this.getAttribute('action');
+            
+            // Clear previous errors
+            document.querySelectorAll('.error-message').forEach(el => el.remove());
+            document.querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
             
             fetch(url, {
                 method: 'POST',
@@ -142,16 +134,41 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 if (data.success) {
                     toggleModal(false);
-                    showToast();
+                    showToast('Password changed successfully!');
                     passwordForm.reset();
                 } else {
-                    // Handle errors
-                    alert(data.error || 'Error changing password');
+                    // Handle form errors
+                    if (data.error) {
+                        try {
+                            const errors = JSON.parse(data.error);
+                            Object.keys(errors).forEach(field => {
+                                const input = document.getElementById(field === 'old_password' ? 'currentPassword' : 
+                                                                   field === 'new_password1' ? 'newPassword' : 
+                                                                   'confirmPassword');
+                                if (input) {
+                                    input.classList.add('input-error');
+                                    const errorDiv = document.createElement('div');
+                                    errorDiv.className = 'error-message';
+                                    errorDiv.textContent = errors[field][0].message;
+                                    input.parentNode.insertBefore(errorDiv, input.nextSibling);
+                                }
+                            });
+                            showToast('Please fix the errors in the form', 'error');
+                        } catch (e) {
+                            showToast(data.error || 'Error changing password', 'error');
+                        }
+                    } else {
+                        showToast('Error changing password', 'error');
+                    }
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred while changing password');
+                showToast('An error occurred while changing password', 'error');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Update Password';
             });
         });
     }
