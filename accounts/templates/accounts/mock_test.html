@@ -4,33 +4,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mock Test</title>
+    <title>Mock Test Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/mock_test.css' %}"> 
 </head>
 <body>
-
-<div class="container">
-    <h1>Mock Test</h1>
-    <a href="{% url 'user_dashboard' %}"> 
-        <img src="{% static 'img/home icon.png' %}" alt="Home Icon" style="position: absolute; top: 20px; right: 20px; width: 70px; height: 70px; cursor: pointer;">
-    </a>
-    <h2>Select a Subject to give test</h2>
-    <div class="subject-list">
-        {% for subject in subjects %}
-            <div class="subject-box">
-                <h3>{{ subject.name }}</h3>
-                <p>Total questions - 15</p>
-                <p>Total time - 20 minutes</p>
-                <a href="{% url 'mock_test_page' subject.name %}">
-                    <button type="button">Start Test</button>
-                </a>
-            </div>
-        {% endfor %}
-    </div>
+    <div class="background-animation"></div>
     
-</div>
+    <div class="container">
+        <header class="header">
+            <h1 class="title">Mock Test Portal</h1>
+            <div class="subtitle">Test Your Knowledge, Boost Your Confidence</div>
+            
+            <a href="{% url 'user_dashboard' %}" class="home-btn">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+        </header>
 
-<script src="{% static 'js/mock_test.js' %}"></script>  
+        <main class="main-content">
+            <div class="test-info-card">
+                <div class="info-item">
+                    <i class="fas fa-question-circle"></i>
+                    <span>15 Questions Each</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <span>20 Minutes Duration</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-award"></i>
+                    <span>Instant Results</span>
+                </div>
+            </div>
 
+            <h2 class="section-title">Choose Your Subject</h2>
+            
+            <div class="subject-grid">
+                {% for subject in subjects %}
+                <div class="subject-card" data-aos="fade-up">
+                    <div class="subject-icon">
+                        {% if subject.name == "C Programming" %}
+                            <i class="fab fa-cuttlefish"></i>
+                        {% elif subject.name == "DSA" %}
+                            <i class="fas fa-project-diagram"></i>
+                        {% elif subject.name == "Python" %}
+                            <i class="fab fa-python"></i>
+                        {% elif subject.name == "Operating System" %}
+                            <i class="fas fa-desktop"></i>
+                        {% elif subject.name == "Computer Network" %}
+                            <i class="fas fa-network-wired"></i>
+                        {% elif subject.name == "Java" %}
+                            <i class="fab fa-java"></i>
+                        {% elif subject.name == "DBMS" %}
+                            <i class="fas fa-database"></i>
+                        {% else %}
+                            <i class="fas fa-book-open"></i>
+                        {% endif %}
+                    </div>
+                    <h3 class="subject-name">{{ subject.name }}</h3>
+                    <a href="{% url 'mock_test_page' subject.name %}" class="start-btn">
+                        Start Test <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+    </script>
 </body>
 </html>
