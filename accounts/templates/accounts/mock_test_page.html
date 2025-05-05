@@ -1,65 +1,61 @@
 {% load static %}
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mock Test</title>
-    <!-- Link to the external CSS file -->
-    <link rel="stylesheet" href="{% static 'css/mock_test_page.css' %}">  
-
+    <link rel="stylesheet" href="{% static 'css/mock_test_page.css' %}">
 </head>
 <body>
-
 <div class="container">
-    <h1 id="test-subject">Mock Test</h1>
-    
+    <h1 id="test-subject">Mock Test - {{ subject.name }}</h1>
+
     <div class="instructions">
         <p><strong>Instructions:</strong></p>
-        <p>Please read the instructions carefully before starting the test.<p>
+        <ul>
+            <li>Ensure a stable internet connection.</li>
+            <li>Read each question carefully.</li>
+            <li>Do not refresh or close the window during the test.</li>
+            <li>This test is time-bound (20 minutes).</li>
+            <li>Do not use external help.</li>
+            <li>Once submitted, answers cannot be changed.</li>
+        </ul>
+        <p><strong>Declaration:</strong> I understand and agree to follow the above rules.</p>
+        <label><input type="checkbox" id="declaration" onchange="toggleStartButton()"> I agree</label>
+        <br>
+        <button id="start-button" onclick="startTest()" style="display: none;">Start Test</button>
+    </div>
 
-            <p>Instructions Before Starting the Test: <p>
+    <div id="timer" class="timer" style="display: none;">Time Left: <span id="time">20:00</span></div>
 
-                <p> 1.Ensure you have a stable internet connection to avoid interruptions.<p>
-                <p> 2.Read each question carefully before answering.<p>
-                <p> 3.Do not refresh or close the test window during the session.
-                    <p>4.Use only the provided navigation buttons to move between questions.
-                        <p>5.This test is time-bound. Keep track of the timer displayed on your screen.
-                            <p>6.Avoid using any external help or resources; the test must be completed independently.
-                                <p>7. Once submitted, answers cannot be changed.
-                                    <p>Good luck!
-        </p>
-        <p>Declaration: I understand all the rules mentioned in the instructions.</p>
-        <div class="declaration">
-            <input type="checkbox" id="declaration" onchange="toggleStartButton()"> I agree
+    <form id="test-form" style="display: none;">
+        <div class="questions" id="questions">
+            {% for question in questions %}
+            <div class="question-block" data-correct="{{ question.correct_option }}">
+                <p><strong>{{ forloop.counter }}. {{ question.text }}</strong></p>
+                <div class="options">
+                    <label><input type="radio" name="q{{ forloop.counter }}" value="{{ question.option1 }}"> {{ question.option1 }}</label><br>
+                    <label><input type="radio" name="q{{ forloop.counter }}" value="{{ question.option2 }}"> {{ question.option2 }}</label><br>
+                    {% if question.option3 %}
+                        <label><input type="radio" name="q{{ forloop.counter }}" value="{{ question.option3 }}"> {{ question.option3 }}</label><br>
+                    {% endif %}
+                    {% if question.option4 %}
+                        <label><input type="radio" name="q{{ forloop.counter }}" value="{{ question.option4 }}"> {{ question.option4 }}</label><br>
+                    {% endif %}
+                </div>
+            </div>
+            
+            {% endfor %}
         </div>
-        <button class="start-button" id="start-button" onclick="showQuestions()">Start Test</button>
+        <button type="button" id="submit-button" onclick="submitTest()">Submit Test</button>
+    </form>
+
+    <div class="result" id="result" style="display: none;"></div>
+    <div id="more-tests" style="display: none;">
+        <button onclick="window.location.href='{% url 'mock_test' %}'">More Mock Tests</button>
     </div>
-    
-    <div class="timer" id="timer">Time Left: <span id="time">20:00</span></div>
-    
-    <div class="questions" id="questions"></div>
-    
-    <button class="submit-button" id="submit-button" onclick="submitTest()">Submit Test</button>
-    
-    <div class="result" id="result"></div>
-    
-    <div class="more-tests" id="more-tests">
-        <button data-url="{% url 'mock_test' %}" onclick="goBack(this)">More Mock Tests</button>
-    </div>
-    
 </div>
 
-<!-- Link to the external JavaScript file -->
-<script src="{% static 'js/mock_test_page.js' %}"></script> 
-
-
+<script src="{% static 'js/mock_test_page.js' %}"></script>
 </body>
 </html>
-
-
-
-
-

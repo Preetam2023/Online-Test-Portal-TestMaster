@@ -16,25 +16,18 @@
     </a>
     <h2>Select a Subject to give test</h2>
     <div class="subject-list">
-        <div class="subject-box">
-            <h3>C Programming</h3>
-            <p>Total questions - 15</p>
-            <p>Total time - 20 minutes</p>
-            <button data-url="{% url 'mock_test_page' %}" onclick="startTest(this, 'C Programming')">Start Test</button>
-        </div>
-        <div class="subject-box">
-            <h3>Data Structures</h3>
-            <p>Total questions - 15</p>
-            <p>Total time - 20 minutes</p>
-            <button data-url="{% url 'mock_test_page' %}" onclick="startTest(this, 'Data Structures')">Start Test</button>
-        </div>
-        <div class="subject-box">
-            <h3>DBMS</h3>
-            <p>Total questions - 15</p>
-            <p>Total time - 20 minutes</p>
-            <button data-url="{% url 'mock_test_page' %}" onclick="startTest(this, 'DBMS')">Start Test</button>
-        </div>
+        {% for subject in subjects %}
+            <div class="subject-box">
+                <h3>{{ subject.name }}</h3>
+                <p>Total questions - 15</p>
+                <p>Total time - 20 minutes</p>
+                <a href="{% url 'mock_test_page' subject.name %}">
+                    <button type="button">Start Test</button>
+                </a>
+            </div>
+        {% endfor %}
     </div>
+    
 </div>
 
 <script src="{% static 'js/mock_test.js' %}"></script>  

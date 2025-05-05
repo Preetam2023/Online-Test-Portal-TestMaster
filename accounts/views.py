@@ -247,21 +247,33 @@ def run_code(request):
         
 from django.shortcuts import render
 from django.http import HttpResponse
-@login_required
-def mock_test(request):
-    return render(request, 'accounts/mock_test.html')
-# accounts/views.py
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from accounts.models import Subject, Question
+import random
+
 
 @login_required
-def mock_test_page(request):
-    subject = request.GET.get('subject', '')
-    return render(request, 'accounts/mock_test_page.html', {'subject': subject})
+def mock_test(request):
+    subjects = Subject.objects.all()
+    return render(request, 'accounts/mock_test.html', {'subjects': subjects})
+
+@login_required
+def mock_test_page(request, subject):
+    subject_obj = get_object_or_404(Subject, name=subject)
+    questions = list(Question.objects.filter(subject=subject_obj))
+    selected_questions = random.sample(questions, min(15, len(questions)))  # 15 or less
+
+    return render(request, 'accounts/mock_test_page.html', {
+        'subject': subject_obj,
+        'questions': selected_questions
+    })
+
 
 @login_required
 def submit_test(request):
-    # Handle test submission logic here
+    # Handle submission logic here
     return HttpResponse('Test submitted!')
+
 
 from django.contrib.auth import logout
 from django.shortcuts import redirect

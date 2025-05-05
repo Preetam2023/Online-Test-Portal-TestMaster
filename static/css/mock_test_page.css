@@ -46,7 +46,7 @@ h1 {
     margin-right: 10px;
 }
 
-.start-button {
+#start-button {
     padding: 12px 20px;
     background-color: #34C759;
     color: white;
@@ -54,9 +54,7 @@ h1 {
     border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
-    display: none;
-    margin: 0 auto;
-    display: block;
+    margin-top: 15px;
 }
 
 .timer {
@@ -64,15 +62,14 @@ h1 {
     color: red;
     text-align: center;
     margin-top: 10px;
-    display: none;
 }
 
 .questions {
     margin-top: 30px;
-    display: none;
+    display: block; /* Make sure it's visible */
 }
 
-.question {
+.question-block {
     background-color: #f9f9f9;
     padding: 20px;
     border-radius: 10px;
@@ -80,46 +77,67 @@ h1 {
     border: 1px solid #ddd;
 }
 
-.question p {
+.question-block p {
     font-size: 18px;
     margin-bottom: 15px;
 }
 
-.question input {
+.question-block input {
     margin-right: 10px;
 }
 
-.submit-button {
+.question-block label {
+    display: block;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 6px;
+    transition: all 0.3s ease;
+}
+
+/* Correct answer */
+.correct-answer {
+    background-color: #d4edda;
+    border: 1px solid #28a745;
+}
+
+/* Wrong selected answer */
+.wrong-answer {
+    background-color: #f8d7da;
+    border: 1px solid #dc3545;
+}
+
+#submit-button {
     padding: 12px 20px;
     background-color: #34C759;
     color: white;
     border: none;
     border-radius: 8px;
     cursor: pointer;
-    display: none;
     font-size: 16px;
+    display: block;
     margin: 30px auto;
 }
 
-.submit-button[disabled] {
+#submit-button[disabled] {
     background-color: #ccc;
     cursor: not-allowed;
 }
 
-.result {
+#result {
     text-align: center;
     font-size: 20px;
     margin-top: 30px;
     display: none;
 }
 
-.more-tests {
+#more-tests {
     text-align: center;
     margin-top: 20px;
     display: none;
 }
 
-.more-tests button {
+#more-tests button {
     padding: 10px 20px;
     background-color: #007aff;
     color: white;
