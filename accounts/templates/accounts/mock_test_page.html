@@ -3,56 +3,174 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mock Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock Test - {{ subject.name }}</title>
     <link rel="stylesheet" href="{% static 'css/mock_test_page.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto+Slab:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-<div class="container">
-    <h1 id="test-subject">Mock Test - {{ subject.name }}</h1>
-
-    <div class="instructions">
-        <p><strong>Instructions:</strong></p>
-        <ul>
-            <li>Ensure a stable internet connection.</li>
-            <li>Read each question carefully.</li>
-            <li>Do not refresh or close the window during the test.</li>
-            <li>This test is time-bound (20 minutes).</li>
-            <li>Do not use external help.</li>
-            <li>Once submitted, answers cannot be changed.</li>
-        </ul>
-        <p><strong>Declaration:</strong> I understand and agree to follow the above rules.</p>
-        <label><input type="checkbox" id="declaration" onchange="toggleStartButton()"> I agree</label>
-        <br>
-        <button id="start-button" onclick="startTest()" style="display: none;">Start Test</button>
+<div class="test-container">
+    <!-- Floating Timer -->
+    <div id="timer" class="timer" style="display: none;">
+        <div class="timer-header">
+            <i class="fas fa-clock"></i>
+            <span>Test Timer</span>
+            <button class="timer-close" onclick="minimizeTimer()">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>
+        <div class="base-timer">
+            <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <g class="base-timer__circle">
+                    <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45"></circle>
+                    <path
+                        id="base-timer-path-remaining"
+                        stroke-dasharray="283"
+                        class="base-timer__path-remaining safe"
+                        d="
+                            M 50, 50
+                            m -45, 0
+                            a 45,45 0 1,0 90,0
+                            a 45,45 0 1,0 -90,0
+                        "
+                    ></path>
+                </g>
+            </svg>
+            <span id="base-timer-label" class="base-timer__label">20:00</span>
+        </div>
+        <div class="timer-footer">
+            <span class="timer-status">Time Remaining</span>
+        </div>
     </div>
+      
 
-    <div id="timer" class="timer" style="display: none;">Time Left: <span id="time">20:00</span></div>
+    <div class="test-content">
+        <h1 id="test-subject"><i class="fas fa-book-open"></i> Mock Test - {{ subject.name }}</h1>
 
-    <form id="test-form" style="display: none;">
-        <div class="questions" id="questions">
-            {% for question in questions %}
-            <div class="question-block" data-correct="{{ question.correct_option }}">
-                <p><strong>{{ forloop.counter }}. {{ question.text }}</strong></p>
-                <div class="options">
-                    <label><input type="radio" name="q{{ forloop.counter }}" value="{{ question.option1 }}"> {{ question.option1 }}</label><br>
-                    <label><input type="radio" name="q{{ forloop.counter }}" value="{{ question.option2 }}"> {{ question.option2 }}</label><br>
-                    {% if question.option3 %}
-                        <label><input type="radio" name="q{{ forloop.counter }}" value="{{ question.option3 }}"> {{ question.option3 }}</label><br>
-                    {% endif %}
-                    {% if question.option4 %}
-                        <label><input type="radio" name="q{{ forloop.counter }}" value="{{ question.option4 }}"> {{ question.option4 }}</label><br>
-                    {% endif %}
+        <div class="instructions-card">
+            <div class="card-header">
+                <i class="fas fa-info-circle"></i>
+                <h2>Test Instructions</h2>
+            </div>
+            <div class="card-body">
+                <ul class="instruction-list">
+                    <li><i class="fas fa-wifi"></i> Ensure a stable internet connection</li>
+                    <li><i class="fas fa-search"></i> Read each question carefully</li>
+                    <li><i class="fas fa-sync-alt"></i> Don't refresh or close the window</li>
+                    <li><i class="fas fa-stopwatch"></i> Time-bound (20 minutes)</li>
+                    <li><i class="fas fa-user-secret"></i> No external help allowed</li>
+                    <li><i class="fas fa-lock"></i> Answers can't be changed after submission</li>
+                </ul>
+                <div class="declaration">
+                    <label class="declaration-checkbox">
+                        <input type="checkbox" id="declaration" onchange="toggleStartButton()">
+                        <span class="checkmark"></span>
+                        I understand and agree to follow the rules
+                    </label>
+                </div>
+                <button id="start-button" class="start-btn" onclick="startTest()" disabled>
+                    <i class="fas fa-play"></i> Start Test
+                </button>
+            </div>
+        </div>
+
+        <form id="test-form" style="display: none;">
+            <div class="questions-container" id="questions">
+                {% for question in questions %}
+                <div class="question-card" data-correct="{{ question.correct_option }}" data-qid="{{ forloop.counter }}">
+                    <div class="question-header">
+                        <span class="question-number">Q{{ forloop.counter }}</span>
+                        <div class="question-text-container">
+                            <p class="question-text">{{ question.text }}</p>
+                        </div>
+                    </div>
+                    <div class="options-container">
+                        <label class="option">
+                            <input type="radio" name="q{{ forloop.counter }}" value="{{ question.option1 }}">
+                            <span class="option-content">
+                                <span class="option-letter">A</span>
+                                <span class="option-text">{{ question.option1 }}</span>
+                            </span>
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q{{ forloop.counter }}" value="{{ question.option2 }}">
+                            <span class="option-content">
+                                <span class="option-letter">B</span>
+                                <span class="option-text">{{ question.option2 }}</span>
+                            </span>
+                        </label>
+                        {% if question.option3 %}
+                        <label class="option">
+                            <input type="radio" name="q{{ forloop.counter }}" value="{{ question.option3 }}">
+                            <span class="option-content">
+                                <span class="option-letter">C</span>
+                                <span class="option-text">{{ question.option3 }}</span>
+                            </span>
+                        </label>
+                        {% endif %}
+                        {% if question.option4 %}
+                        <label class="option">
+                            <input type="radio" name="q{{ forloop.counter }}" value="{{ question.option4 }}">
+                            <span class="option-content">
+                                <span class="option-letter">D</span>
+                                <span class="option-text">{{ question.option4 }}</span>
+                            </span>
+                        </label>
+                        {% endif %}
+                        <br>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="test-controls">
+                <button type="button" id="submit-button" class="submit-btn" onclick="submitTest()">
+                    <i class="fas fa-paper-plane"></i> Submit Test
+                </button>
+            </div>
+        </form>
+
+        <div class="result-card" id="result" style="display: none;">
+            <div class="result-header">
+                <i class="fas fa-trophy"></i>
+                <h2>Test Results</h2>
+            </div>
+            <div class="result-body">
+                <div class="score-display">
+                    <div class="score-circle">
+                        <svg class="progress-ring" width="120" height="120">
+                            <circle class="progress-ring-circle" stroke-width="8" fill="transparent" r="52" cx="60" cy="60"/>
+                        </svg>
+                        <div class="score-text">
+                            <span class="score-percentage" id="score-percentage">0%</span>
+                            <span class="score-label">Score</span>
+                        </div>
+                    </div>
+                    <div class="score-details">
+                        <div class="detail correct">
+                            <i class="fas fa-check-circle"></i>
+                            <span id="correct-count">0</span> Correct
+                        </div>
+                        <div class="detail incorrect">
+                            <i class="fas fa-times-circle"></i>
+                            <span id="incorrect-count">0</span> Incorrect
+                        </div>
+                        <div class="detail total">
+                            <i class="fas fa-list-ol"></i>
+                            <span id="total-questions">{{ questions|length }}</span> Total
+                        </div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button class="review-btn" onclick="reviewAnswers()">
+                        <i class="fas fa-search"></i> Review Answers
+                    </button>
+                    <button class="more-tests-btn" onclick="window.location.href='{% url 'mock_test' %}'">
+                        <i class="fas fa-graduation-cap"></i> More Mock Tests
+                    </button>
                 </div>
             </div>
-            
-            {% endfor %}
         </div>
-        <button type="button" id="submit-button" onclick="submitTest()">Submit Test</button>
-    </form>
-
-    <div class="result" id="result" style="display: none;"></div>
-    <div id="more-tests" style="display: none;">
-        <button onclick="window.location.href='{% url 'mock_test' %}'">More Mock Tests</button>
     </div>
 </div>
 
