@@ -105,13 +105,14 @@ class Question(models.Model):
         ('Hard', 'Hard'),
     ]
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    qid = models.CharField(max_length=20, unique=True, null=True, blank=True)
     text = models.TextField()
     option1 = models.CharField(max_length=200)
     option2 = models.CharField(max_length=200)
     option3 = models.CharField(max_length=200, blank=True, null=True)
     option4 = models.CharField(max_length=200, blank=True, null=True)
-    correct_option = models.CharField(max_length=200)  # Store like "option1", "option2", etc.
+    correct_option = models.CharField(max_length=200)
     difficulty = models.CharField(max_length=10, choices=DIFFICULTY_CHOICES)
 
     def __str__(self):
-        return f"{self.subject}: {self.text[:50]}..."
+        return f"{self.qid} - {self.subject.name}"
