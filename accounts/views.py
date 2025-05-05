@@ -129,6 +129,26 @@ def practice_questions(request, subject_name=None):
         'questions': questions,
     })
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+from .models import Question, QuestionReport
+
+@csrf_exempt
+def report_question(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        question_id = data.get('question_id')
+        reason = data.get('reason')
+        question = Question.objects.get(id=question_id)
+
+        QuestionReport.objects.create(
+            question=question,
+            user=request.user if request.user.is_authenticated else None,
+            reason=reason
+        )
+        return JsonResponse({'success': True})
+    return JsonResponse({'error': 'Invalid request'}, status=400)
 
 
 

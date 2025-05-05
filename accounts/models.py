@@ -50,6 +50,19 @@ class User(AbstractUser):
         verbose_name = 'User'
         verbose_name_plural = 'Users'
 
+from django.db import models
+from django.contrib.auth.models import User
+from django.conf import settings
+
+
+class QuestionReport(models.Model):
+    question = models.ForeignKey('Question', on_delete=models.CASCADE, related_name='reports')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    reason = models.TextField()
+    reported_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Report on {self.question.qid} by {self.user}"
 
 
 class Organization(models.Model):

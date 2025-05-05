@@ -48,7 +48,17 @@
                             <button class="option-btn" data-correct="{{ question.correct_option }}">{{ question.option4 }}</button>
                         {% endif %}
                     </div>
+
+                    <div class="report-section">
+                        <button class="report-toggle"><i class="fas fa-flag"></i> Report</button>
+                        <div class="report-form" style="display: none;">
+                            <textarea placeholder="Describe the issue..."></textarea>
+                            <button class="report-submit" data-question-id="{{ question.id }}">Submit Report</button>
+                        </div>
+                    </div>
                 </div>
+
+                
             {% endfor %}
         {% else %}
         {% endif %}
