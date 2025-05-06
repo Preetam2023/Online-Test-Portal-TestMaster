@@ -1,33 +1,84 @@
 {% load static %}
 
 {% block content %}
-<div class="test-container">
+<div class="test-app">
     <div class="test-header">
-        <h2>{{ test.title }}</h2>
+        <div class="test-badge">{{ test.organization.name }}</div>
+        <h1>{{ test.title }}</h1>
         <div class="test-meta">
-            <span>Organization: {{ test.organization.name }}</span>
-            <span>Subject: {{ test.subject.name }}</span>
-            <span>Code: {{ test.test_code }}</span>
+            <span><i class="fas fa-book"></i> {{ test.subject.name }}</span>
+            <span><i class="fas fa-hashtag"></i> {{ test.test_code }}</span>
         </div>
     </div>
 
-    <div class="test-instructions">
-        <h3>Instructions:</h3>
-        <ul>
-            <li>Total Questions: {{ test.total_questions }}</li>
-            <li>Time Limit: {{ test.total_time }} minutes</li>
-            <li>Read each question carefully before answering</li>
-            <li>You cannot go back to previous questions</li>
-        </ul>
+    <div class="test-instructions" id="instructionsSection">
+        <div class="instructions-card">
+            <div class="card-header">
+                <i class="fas fa-info-circle"></i>
+                <h2>Test Instructions</h2>
+            </div>
+            <div class="card-body">
+                <ul class="instruction-list">
+                    <li><i class="fas fa-check-circle"></i> Total Questions: {{ test.total_questions }}</li>
+                    <li><i class="fas fa-clock"></i> Time Limit: {{ test.total_time }} minutes</li>
+                    <li><i class="fas fa-book-reader"></i> Read each question carefully before answering</li>
+                    <li><i class="fas fa-lock"></i> You cannot go back to previous questions</li>
+                </ul>
+                
+                <div class="declaration-section">
+                    <label class="declaration-checkbox">
+                        <input type="checkbox" id="startTestCheckbox">
+                        <span class="checkmark"></span>
+                        <span class="declaration-text">I declare that I will complete this test honestly and follow all instructions.</span>
+                    </label>
+                    <button id="startTestBtn" class="start-btn" disabled>
+                        <i class="fas fa-play"></i> Start Test
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <form method="POST" class="test-form">
+    <div class="timer" id="timerContainer">
+        <div class="timer-header">
+            <i class="fas fa-clock"></i>
+            <span>Time Remaining</span>
+            <button class="timer-close"><i class="fas fa-chevron-down"></i></button>
+        </div>
+        <div class="base-timer">
+            <svg class="base-timer__svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <g class="base-timer__circle">
+                    <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45" />
+                    <path
+                        id="base-timer-path-remaining"
+                        stroke-dasharray="283"
+                        class="base-timer__path-remaining"
+                        d="
+                            M 50, 50
+                            m -45, 0
+                            a 45,45 0 1,0 90,0
+                            a 45,45 0 1,0 -90,0
+                        "
+                    ></path>
+                </g>
+            </svg>
+            <span class="base-timer__label" id="timerDisplay"></span>
+        </div>
+        <div class="timer-footer">
+            <span class="timer-status">Time Left</span>
+            <span class="timer-progress-text safe" id="timerProgressText"></span>
+        </div>
+    </div>
+
+    <form method="POST" class="test-form" id="testForm">
         {% csrf_token %}
         {% for tq in test_questions %}
         <div class="question-card">
             <div class="question-header">
                 <span class="question-number">Q{{ forloop.counter }}</span>
-                <p class="question-text">{{ tq.question.text }}</p>
+                <div class="question-text-container">
+                    <p class="question-text">{{ tq.question.text }}</p>
+                </div>
             </div>
             <div class="options-container">
                 <label class="option">
@@ -61,8 +112,15 @@
             </div>
         </div>
         {% endfor %}
-        <button type="submit" class="submit-test-btn">Submit Test</button>
+        <div class="test-controls">
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-paper-plane"></i> Submit Test
+            </button>
+        </div>
     </form>
-    
 </div>
+
+<link rel="stylesheet" href="{% static 'css/org_test_page.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<script src="{% static 'js/org_test_page.js' %}"></script>
 {% endblock %}

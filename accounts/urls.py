@@ -32,6 +32,7 @@ from .views import (
     organization_tests_view,
     start_org_test_view,
     verify_org_test_code,
+    submit_org_test_view,
 )
 
 urlpatterns = [
@@ -52,6 +53,7 @@ urlpatterns = [
     path('user-dashboard/organization-tests/', organization_tests_view, name='organization_tests'),
     path('user-dashboard/organization-tests/start-org-test/<str:test_code>/', start_org_test_view, name='start_org_test'),
     path('user-dashboard/organization-tests/verify-org-test-code/<int:test_id>/', verify_org_test_code, name='verify_org_test_code'),
+    path('user-dashboard/organization-tests/submit-org-test/', submit_org_test_view, name='submit_org_test'),
 
     path('user-dashboard/mock-test/<str:subject>/', mock_test_page, name='mock_test_page'),
     path('user-dashboard/question-bank/', practice_questions, name='practice_questions'),

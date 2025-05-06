@@ -777,6 +777,19 @@ def start_org_test_view(request, test_code):
     except OrganizationTest.DoesNotExist:
         return redirect(reverse('organization_tests'))
 
+# accounts/views.py
+
+from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def submit_org_test_view(request):
+    if request.method == "POST":
+        # Placeholder logic
+        return render(request, 'org_test_submitted.html')
+    else:
+        return redirect('dashboard')  # or some fallback
+
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
