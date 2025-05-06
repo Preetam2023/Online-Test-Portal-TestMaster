@@ -1,0 +1,68 @@
+{% load static %}
+
+{% block content %}
+<div class="test-container">
+    <div class="test-header">
+        <h2>{{ test.title }}</h2>
+        <div class="test-meta">
+            <span>Organization: {{ test.organization.name }}</span>
+            <span>Subject: {{ test.subject.name }}</span>
+            <span>Code: {{ test.test_code }}</span>
+        </div>
+    </div>
+
+    <div class="test-instructions">
+        <h3>Instructions:</h3>
+        <ul>
+            <li>Total Questions: {{ test.total_questions }}</li>
+            <li>Time Limit: {{ test.total_time }} minutes</li>
+            <li>Read each question carefully before answering</li>
+            <li>You cannot go back to previous questions</li>
+        </ul>
+    </div>
+
+    <form method="POST" class="test-form">
+        {% csrf_token %}
+        {% for tq in test_questions %}
+        <div class="question-card">
+            <div class="question-header">
+                <span class="question-number">Q{{ forloop.counter }}</span>
+                <p class="question-text">{{ tq.question.text }}</p>
+            </div>
+            <div class="options-container">
+                <label class="option">
+                    <input type="radio" name="q{{ tq.question.id }}" value="{{ tq.question.option1 }}" required>
+                    <span class="option-content">
+                        <span class="option-letter">A</span>
+                        <span class="option-text">{{ tq.question.option1 }}</span>
+                    </span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q{{ tq.question.id }}" value="{{ tq.question.option2 }}">
+                    <span class="option-content">
+                        <span class="option-letter">B</span>
+                        <span class="option-text">{{ tq.question.option2 }}</span>
+                    </span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q{{ tq.question.id }}" value="{{ tq.question.option3 }}">
+                    <span class="option-content">
+                        <span class="option-letter">C</span>
+                        <span class="option-text">{{ tq.question.option3 }}</span>
+                    </span>
+                </label>
+                <label class="option">
+                    <input type="radio" name="q{{ tq.question.id }}" value="{{ tq.question.option4 }}">
+                    <span class="option-content">
+                        <span class="option-letter">D</span>
+                        <span class="option-text">{{ tq.question.option4 }}</span>
+                    </span>
+                </label>
+            </div>
+        </div>
+        {% endfor %}
+        <button type="submit" class="submit-test-btn">Submit Test</button>
+    </form>
+    
+</div>
+{% endblock %}

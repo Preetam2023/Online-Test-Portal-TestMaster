@@ -38,13 +38,14 @@
             
             <div class="menu-section">
                 <span class="section-label">TESTS</span>
-                <a href="#" class="menu-item">
+                <a href="{% url 'add-test' %}" class="menu-item {% if request.path == '/organization/add-test/' %}active{% endif %}">
                     <div class="menu-icon">
                         <i class="fas fa-plus-circle"></i>
                     </div>
                     <span class="menu-text">Add Test</span>
                 </a>
-                <a href="#" class="menu-item">
+                <a href="{% url 'view-tests' %}" class="menu-item {% if request.path == '/organization/view-tests/' %}active{% endif %}">
+
                     <div class="menu-icon">
                         <i class="fas fa-door-open"></i>
                     </div>

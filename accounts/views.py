@@ -92,10 +92,53 @@ def login_view(request):
 
 
 
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Organization, OrganizationTest
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .models import Organization, OrganizationTest
+
 @login_required
 def user_dashboard(request):
     user = request.user
-    return render(request, 'accounts/user_dashboard.html', {'user': user})  
+    
+    if request.method == 'POST':
+        # Check if form fields are present
+        org_name = request.POST.get('organization_name')
+        user_id = request.POST.get('user_id')
+        
+        if not org_name or not user_id:
+            messages.error(request, "Please fill in both the Organization Name and User ID.")
+            return render(request, 'accounts/user_dashboard.html', {'user': user})
+
+        org_name = org_name.strip().lower()  # Safely apply strip() after checking for None
+        user_id = user_id.strip()  # Same for user_id
+
+        # Query organization and tests based on form data
+        try:
+            organization = Organization.objects.get(name__iexact=org_name)
+            tests = OrganizationTest.objects.filter(organization=organization)
+
+            if tests.exists():
+                # Render the page with the tests found for the organization
+                return render(request, 'accounts/user_dashboard.html', {'user': user, 'organization': organization, 'tests': tests})
+            else:
+                # If no tests are found, show a message
+                messages.error(request, "No tests available for this organization.")
+                return render(request, 'accounts/user_dashboard.html', {'user': user, 'organization_name': org_name, 'user_id': user_id})
+
+        except Organization.DoesNotExist:
+            messages.error(request, f"No organization named '{org_name}' found.")
+            return render(request, 'accounts/user_dashboard.html', {'user': user, 'organization_name': org_name, 'user_id': user_id})
+
+    else:
+        return render(request, 'accounts/user_dashboard.html', {'user': user})
+
+
 
 @login_required
 def user_profile(request):
@@ -527,6 +570,245 @@ def moderator_login(request):
         form = ModeratorLoginForm()
     
     return render(request, 'accounts/moderator_login.html', {'form': form})
+
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.shortcuts import render, redirect
+from .forms import AddTestForm
+from .models import TestQuestion, Question, OrganizationTest
+
+from .models import Subject  # Add if not already imported
+from django.contrib import messages
+
+# views.py
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import Subject, Question, TestQuestion, OrganizationTest
+from .forms import AddTestForm
+def is_org_admin_or_moderator(user):
+    return user.is_authenticated and user.role in ['ORG_ADMIN', 'MODERATOR']
+@login_required
+@user_passes_test(is_org_admin_or_moderator)
+
+
+def add_test(request):
+    subjects = Subject.objects.all()
+
+    if request.method == 'POST':
+        form = AddTestForm(request.POST)
+
+        if form.is_valid():
+            test = form.save(commit=False)
+            test.organization = request.user.org_admin_profile.organization
+            test.created_by = request.user
+
+            # Handle subject selection or new subject creation
+            subject_id = request.POST.get('subject')
+            subject_name = request.POST.get('subject_name')
+
+            if subject_id and subject_id != "new":
+                try:
+                    test.subject = Subject.objects.get(id=subject_id)
+                except Subject.DoesNotExist:
+                    messages.error(request, "Selected subject not found.")
+                    return redirect('add-test')
+            elif subject_name:
+                new_subject, created = Subject.objects.get_or_create(name=subject_name.strip())
+                test.subject = new_subject
+            else:
+                messages.error(request, "Please select a subject or enter a new one.")
+                return redirect('add-test')
+
+            test.save()
+
+            # Handle selected questions
+            selected_ids = request.POST.getlist('selected_questions')
+            if selected_ids:
+                for qid in selected_ids:
+                    try:
+                        question = Question.objects.get(id=qid)
+                        TestQuestion.objects.create(test=test, question=question)
+                    except Question.DoesNotExist:
+                        continue
+
+            messages.success(
+                request,
+                f"Test added successfully!<br>Test Name: <strong>{test.title}</strong><br>Test Password: <strong>{test.test_code}</strong>"
+            )
+            return redirect('view-tests')
+
+        else:
+            messages.error(request, "Failed to add test. Please correct the errors below.")
+
+    else:
+        form = AddTestForm()
+
+    return render(request, 'accounts/add_test.html', {
+        'form': form,
+        'subjects': subjects,
+    })
+
+
+
+
+from django.http import JsonResponse
+from .models import Question
+import random
+import json
+
+@login_required
+@user_passes_test(is_org_admin_or_moderator)
+def get_random_questions(request, subject_id):
+    count = int(request.GET.get('count', 0))
+    questions = list(Question.objects.filter(subject_id=subject_id))
+    selected = random.sample(questions, min(count, len(questions)))
+
+    return JsonResponse({
+        'questions': [{
+            'id': q.id,
+            'text': q.text,
+            'option1': q.option1,
+            'option2': q.option2,
+            'option3': q.option3,
+            'option4': q.option4,
+        } for q in selected]
+    })
+
+
+@login_required
+@user_passes_test(is_org_admin_or_moderator)
+def get_questions_by_subject(request, subject_id):
+    questions = Question.objects.filter(subject_id=subject_id)
+    return JsonResponse({
+        'questions': [{
+            'id': q.id,
+            'text': q.text,
+            'option1': q.option1,
+            'option2': q.option2,
+            'option3': q.option3,
+            'option4': q.option4,
+        } for q in questions]
+    })
+
+
+@login_required
+@user_passes_test(is_org_admin_or_moderator)
+def get_questions_by_ids(request):
+    data = json.loads(request.body)
+    ids = data.get('ids', [])
+    questions = Question.objects.filter(id__in=ids)
+    return JsonResponse({
+        'questions': [{
+            'id': q.id,
+            'text': q.text,
+            'option1': q.option1,
+            'option2': q.option2,
+            'option3': q.option3,
+            'option4': q.option4,
+        } for q in questions]
+    })
+
+from .models import OrganizationTest
+
+def view_tests(request):
+    tests = OrganizationTest.objects.filter(organization=request.user.org_admin_profile.organization).order_by('-date_created')
+    return render(request, 'accounts/view_tests.html', {'tests': tests})
+
+
+
+from django.shortcuts import render, redirect
+from django.urls import reverse  # Add this import
+from django.contrib.auth.decorators import login_required
+from .models import Organization, OrganizationTest
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from .models import Organization, OrganizationTest
+from django.db.models import Q
+from django.contrib import messages
+
+
+@login_required
+
+def organization_tests_view(request):
+    user = request.user
+
+    if request.method == 'POST':
+        org_name = request.POST.get('organization_name', '').strip()
+        user_id = request.POST.get('user_id', '').strip()
+
+        if not org_name or not user_id:
+            messages.error(request, "Please fill in both fields.")
+            return redirect('user_dashboard')
+
+        try:
+            organization = Organization.objects.get(name__iexact=org_name)
+            tests = OrganizationTest.objects.filter(organization=organization)
+
+            if tests.exists():
+                return render(request, 'accounts/org_test_list.html', {
+                    'organization': organization,
+                    'tests': tests,
+                })
+            else:
+                # No tests found, show a message
+                messages.error(request, f"No tests found for the organization '{org_name}'.")
+                return redirect('user_dashboard')
+
+        except Organization.DoesNotExist:
+            messages.error(request, f"No organization named '{org_name}' found.")
+            return redirect('user_dashboard')
+
+    # If not POST, fallback to user dashboard
+    return redirect('user_dashboard')
+
+
+
+
+
+@login_required
+def start_org_test_view(request, test_code):
+    try:
+        test = OrganizationTest.objects.get(test_code=test_code)
+        test_questions = TestQuestion.objects.filter(test=test).select_related('question')
+        return render(request, 'accounts/org_test_page.html', {
+            'test': test,
+            'test_questions': test_questions
+        })
+    except OrganizationTest.DoesNotExist:
+        return redirect(reverse('organization_tests'))
+
+
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from .models import OrganizationTest  # or your relevant modelfrom django.shortcuts import redirect, get_object_or_404
+from django.contrib import messages
+
+def verify_org_test_code(request, test_id):
+    test = get_object_or_404(OrganizationTest, id=test_id)
+
+    if request.method == 'POST':
+        entered_code = request.POST.get('test_code', '').strip()
+
+        if entered_code == test.test_code:
+            return redirect('start_org_test', test_code=test.test_code)
+        else:
+            
+            messages.error(request, "❌ Incorrect test code. Please try again.")
+            
+            # Get all tests and the organization again
+            all_tests = OrganizationTest.objects.filter(organization=test.organization)
+            organization = test.organization
+
+            return render(request, 'accounts/org_test_list.html', {
+                'tests': all_tests,
+                'organization': organization,
+            })
+
+
+
+
+    
+    
 
 @login_required
 def moderator_dashboard(request):

@@ -100,69 +100,90 @@ body {
     color: var(--white);
 }
 
+/* Sidebar org-section container */
 .org-section {
-    position: absolute;
-    bottom: 30px;
-    left: 20px;
-    right: 20px;
+    padding: 1rem;
+    border-top: 1px solid var(--border-color);
+    margin-top: 1rem;
 }
 
+/* Organization button */
 .org-btn {
     width: 100%;
-    padding: 12px;
-    background-color: var(--primary);
+    background: green;
     color: white;
     border: none;
-    border-radius: var(--radius);
-    font-weight: 500;
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
     cursor: pointer;
+    text-align: left;
     display: flex;
     align-items: center;
-    justify-content: center;
-    transition: var(--transition);
-}
-
-.org-btn i {
-    margin-right: 10px;
+    gap: 0.5rem;
+    transition: background 0.3s ease;
 }
 
 .org-btn:hover {
-    background-color: var(--primary-dark);
+    background: var(--primary-dark);
 }
 
+/* Organization form container */
 .org-form {
     display: none;
-    background-color: var(--white);
-    padding: 20px;
-    border-radius: var(--radius);
-    margin-top: 15px;
-    box-shadow: var(--shadow);
+    margin-top: 0.8rem;
+    background: #f9f9f9;
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    animation: fadeIn 0.3s ease-in-out;
 }
 
-.org-form input {
+.org-form.show {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form styling inside sidebar */
+.org-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.org-form .form-group label {
+    display: block;
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.org-form .form-group input {
     width: 100%;
-    padding: 10px 15px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+    padding: 0.6rem 0.8rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid #ccc;
     font-size: 0.9rem;
 }
 
-.org-form button {
+.org-form .submit-btn {
     width: 100%;
-    padding: 10px;
-    background-color: var(--primary);
+    background: var(--accent-color, #28a745); /* optional accent override */
     color: white;
+    padding: 0.6rem;
     border: none;
-    border-radius: 6px;
-    font-weight: 500;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
     cursor: pointer;
-    transition: var(--transition);
+    transition: background 0.3s;
 }
 
-.org-form button:hover {
-    background-color: var(--primary-dark);
+.org-form .submit-btn:hover {
+    background: #218838;
 }
+
 
 /* Main Content Styles */
 .main-content {
@@ -419,6 +440,186 @@ body {
     border-radius: 20px;
     font-weight: 600;
     font-size: 0.9rem;
+}
+
+/* Organization Test Section */
+.tests-section {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-top: 2rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.test-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.test-card {
+    background: white;
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.test-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.test-header h4 {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.test-code {
+    background: var(--primary-light);
+    color: var(--primary-color);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.test-details p {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.test-meta {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.test-meta i {
+    margin-right: 0.3rem;
+}
+
+.start-test-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-color);
+    color: white;
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    margin-top: auto;
+    width: 100%;
+}
+
+.start-test-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.start-test-btn i {
+    margin-left: 0.5rem;
+    transition: transform 0.3s ease;
+}
+
+.start-test-btn:hover i {
+    transform: translateX(3px);
+}
+
+.no-tests {
+    background: var(--light-bg);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.no-tests i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.no-tests p {
+    margin: 0;
+    color: var(--text-muted);
+}
+/* Organization Test Form */
+.org-form {
+    display: none;
+    padding: 1.5rem;
+    background: white;
+    border-radius: var(--radius-md);
+    margin-top: 1rem;
+    box-shadow: var(--shadow-sm);
+}
+
+.org-form.show {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+}
+
+.submit-btn {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.submit-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Test Cards */
+.test-subject {
+    background: var(--accent-light);
+    color: var(--accent-dark);
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.test-details p {
+    min-height: 60px;
 }
 
 /* Responsive Design */

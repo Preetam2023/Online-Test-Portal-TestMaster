@@ -1,14 +1,21 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Organization Test Toggle
+document.addEventListener('DOMContentLoaded', function () {
     const orgBtn = document.getElementById('orgBtn');
     const orgForm = document.getElementById('orgForm');
-    
+
     if (orgBtn && orgForm) {
-        orgBtn.addEventListener('click', function(e) {
+        // Toggle on button click
+        orgBtn.addEventListener('click', function (e) {
             e.preventDefault();
-            orgForm.style.display = orgForm.style.display === 'block' ? 'none' : 'block';
+            orgForm.classList.toggle('show');
         });
+
+        // Show the form if organization_name is present (from Django)
+        const orgName = "{{ organization_name|default:'' }}";
+        if (orgName.trim() !== "") {
+            orgForm.classList.add('show');
+        }
     }
+
 
     // Time-based Greeting
     const welcomeHeading = document.querySelector('.header-title h2');
@@ -52,3 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+
+

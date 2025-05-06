@@ -1,7 +1,9 @@
-from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.models import AbstractUser
+
+# -------------------- User & Managers --------------------
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -15,11 +17,11 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('role', User.Role.SUPERADMIN)  # optional but useful
+        extra_fields.setdefault('role', User.Role.SUPERADMIN)
 
-        if extra_fields.get('is_staff') is not True:
+        if not extra_fields.get('is_staff'):
             raise ValueError('Superuser must have is_staff=True.')
-        if extra_fields.get('is_superuser') is not True:
+        if not extra_fields.get('is_superuser'):
             raise ValueError('Superuser must have is_superuser=True.')
 
         return self.create_user(email, password, **extra_fields)
@@ -45,71 +47,19 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
 
-    
     class Meta:
         verbose_name = 'User'
         verbose_name_plural = 'Users'
 
-from django.db import models
-from django.contrib.auth.models import User
-from django.conf import settings
 
-
-class QuestionReport(models.Model):
-    question = models.ForeignKey('Question', on_delete=models.CASCADE, related_name='reports')
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    reason = models.TextField()
-    reported_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Report on {self.question.qid} by {self.user}"
-
-
-class Organization(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    logo = models.ImageField(upload_to='organization_logos/', null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    def __str__(self):
-        return self.name
-
-class StudentProfile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='student_profile')
-    # Add student-specific fields
-    enrollment_number = models.CharField(max_length=50, blank=True, null=True)
-    institution = models.CharField(max_length=100, blank=True, null=True)
-
-class OrganizationAdminProfile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='org_admin_profile')
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    is_approved = models.BooleanField(default=False)
-    # Add org admin-specific fields
-    contact_number = models.CharField(max_length=20, blank=True, null=True)
-    designation = models.CharField(max_length=100, blank=True, null=True)
-    
-from django.contrib.auth.models import BaseUserManager
-
-class ModeratorProfile(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='moderator_profile')
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
-    added_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='added_moderators')
-    is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    full_name = models.CharField(max_length=100)
-
-    
-    def __str__(self):
-        return f"{self.full_name} ({self.user.email})"
-
-
-from django.db import models
-
+# -------------------- Subject & Question Models --------------------
 class Subject(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    icon_class = models.CharField(max_length=50, blank=True)  # For Font Awesome icons (e.g., "fa-code")
+    icon_class = models.CharField(max_length=50, blank=True)
 
     def __str__(self):
         return self.name
+
 
 class Question(models.Model):
     DIFFICULTY_CHOICES = [
@@ -129,3 +79,79 @@ class Question(models.Model):
 
     def __str__(self):
         return f"{self.qid} - {self.subject.name}"
+
+
+class QuestionReport(models.Model):
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='reports')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    reason = models.TextField()
+    reported_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Report on {self.question.qid} by {self.user}"
+
+
+# -------------------- Organization & Profiles --------------------
+class Organization(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    logo = models.ImageField(upload_to='organization_logos/', null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
+class StudentProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='student_profile')
+    enrollment_number = models.CharField(max_length=50, blank=True, null=True)
+    institution = models.CharField(max_length=100, blank=True, null=True)
+
+
+class OrganizationAdminProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='org_admin_profile')
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    is_approved = models.BooleanField(default=False)
+    contact_number = models.CharField(max_length=20, blank=True, null=True)
+    designation = models.CharField(max_length=100, blank=True, null=True)
+
+
+class ModeratorProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='moderator_profile')
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    added_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='added_moderators')
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    full_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.full_name} ({self.user.email})"
+
+
+# -------------------- Tests & Test Questions --------------------
+class OrganizationTest(models.Model):
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    total_questions = models.PositiveIntegerField()
+    total_marks = models.PositiveIntegerField()  # Add total_marks field
+    total_time = models.PositiveIntegerField()  # Add total_time field
+    test_code = models.CharField(max_length=20, unique=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    use_random_questions = models.BooleanField(default=False)
+    advanced_features = models.BooleanField(default=False)
+    allow_negative_marking = models.BooleanField(default=False)
+    star_questions_enabled = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.title} ({self.organization.name})"
+
+
+class TestQuestion(models.Model):
+    test = models.ForeignKey(OrganizationTest, on_delete=models.CASCADE, related_name='questions')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    is_star_question = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Q: {self.question.qid} | Test: {self.test.title}"

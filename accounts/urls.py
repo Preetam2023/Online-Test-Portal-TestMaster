@@ -24,6 +24,14 @@ from .views import (
     moderator_login,
     moderator_dashboard,
     toggle_moderator_status,
+    add_test,
+    get_questions_by_subject,
+    get_random_questions,
+    get_questions_by_ids,
+    view_tests,
+    organization_tests_view,
+    start_org_test_view,
+    verify_org_test_code,
 )
 
 urlpatterns = [
@@ -41,6 +49,10 @@ urlpatterns = [
     path('user-dashboard/code-editor/', TemplateView.as_view(template_name='accounts/code_editor.html'), name='code_editor'),
     path('user-dashboard/code-editor/run-code/', run_code, name='run_code'),
     path('user-dashboard/mock-test/', mock_test, name='mock_test'),
+    path('user-dashboard/organization-tests/', organization_tests_view, name='organization_tests'),
+    path('user-dashboard/organization-tests/start-org-test/<str:test_code>/', start_org_test_view, name='start_org_test'),
+    path('user-dashboard/organization-tests/verify-org-test-code/<int:test_id>/', verify_org_test_code, name='verify_org_test_code'),
+
     path('user-dashboard/mock-test/<str:subject>/', mock_test_page, name='mock_test_page'),
     path('user-dashboard/question-bank/', practice_questions, name='practice_questions'),
     path('user-dashboard/question-bank/<str:subject_name>/', practice_questions, name='practice_questions'),
@@ -56,6 +68,15 @@ urlpatterns = [
     path('organization/moderators/', control_moderators, name='control-moderators'),
     path('organization/moderators/delete/<int:moderator_id>/', delete_moderator, name='delete-moderator'),
     path('organization/moderators/toggle-status/<int:moderator_id>/', toggle_moderator_status, name='toggle-moderator-status'),
+    path('organization/add-test/', add_test, name='add-test'),
+    path('organization/view-tests/', view_tests, name='view-tests'),
+
+
+    # API endpoints for dynamic question loading
+    path('api/get-random-questions/<int:subject_id>/', get_random_questions, name='get-random-questions'),
+    path('api/get-questions/<int:subject_id>/', get_questions_by_subject, name='get-questions-by-subject'),
+    path('api/get-questions-by-ids/', get_questions_by_ids, name='get-questions-by-ids'),
+
 
     # Moderator
     path('moderator/login/', moderator_login, name='moderator-login'),

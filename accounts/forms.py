@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
-from .models import User, Organization, OrganizationAdminProfile
+from .models import User, Organization, OrganizationAdminProfile,OrganizationTest
 
 User = get_user_model()
 
@@ -163,3 +163,36 @@ class ModeratorLoginForm(forms.Form):
         
         return cleaned_data
     
+# accounts/forms.py
+
+from django import forms
+from .models import OrganizationTest
+
+from django import forms
+from .models import OrganizationTest, Subject
+
+# forms.py
+from django import forms
+from .models import OrganizationTest, Subject
+
+class AddTestForm(forms.ModelForm):
+    subject_name = forms.CharField(max_length=100, required=False, label='New Subject (optional)')
+
+    class Meta:
+        model = OrganizationTest
+        fields = ['title', 'subject', 'total_questions', 'total_marks', 'total_time', 'test_code']
+
+    def clean_subject(self):
+        subject_name = self.cleaned_data.get('subject_name')
+        subject = self.cleaned_data.get('subject')
+
+        # If no subject is selected and a new subject name is provided, create the new subject
+        if not subject and subject_name:
+            # Create the new subject if it doesn't exist
+            subject, created = Subject.objects.get_or_create(name=subject_name)
+
+        # If neither a subject is selected nor a new subject name is provided, raise an error
+        if not subject:
+            raise forms.ValidationError("This field is required.")
+
+        return subject

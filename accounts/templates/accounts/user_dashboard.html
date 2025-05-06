@@ -53,13 +53,24 @@
                     <span>Organization Test</span>
                 </button>
                 <div class="org-form" id="orgForm">
-                    <form method="POST">
+                    <form method="POST" action="{% url 'organization_tests' %}">
                         {% csrf_token %}
-                        <input type="text" placeholder="Organization Name" required>
-                        <input type="text" placeholder="Your ID" required>
-                        <button type="submit">Access Test</button>
+                        <div class="form-group">
+                            <label for="organization_name">Organization Name</label>
+                            <input type="text" id="organization_name" name="organization_name" 
+                                   value="{{ organization_name|default:'' }}" placeholder="Enter your organization name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="user_id">Your ID</label>
+                            <input type="text" id="user_id" name="user_id" 
+                                   value="{{ user_id|default:'' }}" placeholder="Enter your assigned user ID" required>
+                        </div>
+                        <button type="submit" class="submit-btn">
+                            <i class="fas fa-search"></i> Access Test
+                        </button>
                     </form>
                 </div>
+                
             </div>
         </aside>
 
@@ -81,6 +92,16 @@
                     </div>
                 </div>
             </header>
+            <!-- Messages (for pop-up or alerts) -->
+            {% if messages %}
+                <div class="message-popup">
+                    {% for message in messages %}
+                        <div class="message {{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
             <div class="content-grid">
                 <!-- Hero Section -->
@@ -121,6 +142,64 @@
                         <p>Practice coding in multiple languages</p>
                     </div>
                 </section>
+
+<!-- Inside your user_dashboard.html 
+{% if tests %}
+<section class="tests-section">
+    <div class="section-header">
+        <h3><i class="fas fa-clipboard-list"></i> Available Tests for {{ organization.name }}</h3>
+    </div>
+    <div class="test-grid">
+        {% for test in tests %}
+        <div class="test-card">
+            <div class="test-header">
+                <h4>{{ test.title }}</h4>
+                <span class="test-subject">{{ test.subject.name }}</span>
+            </div>
+            <div class="test-details">
+                <p>{{ test.description|default:"No description provided" }}</p>
+                <div class="test-meta">
+                    <span><i class="fas fa-question-circle"></i> {{ test.total_questions }} Questions</span>
+                    <span><i class="fas fa-clock"></i> {{ test.total_time }} mins</span>
+                    <span><i class="fas fa-key"></i> {{ test.test_code }}</span>
+                </div>
+            </div>
+            <a href="{% url 'start_org_test' test_code=test.test_code %}" class="start-test-btn">
+                Start Test <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% elif organization_name %}
+<div class="no-tests">
+    <i class="fas fa-info-circle"></i>
+    <h4>No tests found for "{{ organization_name }}"</h4>
+    <p>Possible reasons:</p>
+    <ul>
+        <li>The organization name might be misspelled</li>
+        <li>No tests have been created for this organization</li>
+        <li>Your ID ({{ user_id }}) might not be registered with this organization</li>
+    </ul>
+    <p>Please verify the organization name or contact your administrator.</p>
+</div>
+{% endif %}
+
+<!-- Debug information (remove in production) 
+{% if debug %}
+<div class="debug-info">
+    <h4>Debug Information:</h4>
+    <p>Organization Name: {{ organization_name }}</p>
+    <p>User ID: {{ user_id }}</p>
+    {% if organization %}
+        <p>Organization Found: {{ organization.name }} (ID: {{ organization.id }})</p>
+        <p>Test Count: {{ tests.count }}</p>
+    {% else %}
+        <p>No organization found matching "{{ organization_name }}"</p>
+    {% endif %}
+</div>
+{% endif %}
+   -->             
 
                 <!-- Recent Activity -->
                 <section class="activity-section">

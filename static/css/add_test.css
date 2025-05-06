@@ -1,0 +1,32 @@
+/* add_test.css */
+
+#testQuestions {
+    min-height: 100px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 15px;
+}
+
+.question-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+.question-item .question-text {
+    font-weight: bold;
+}
+
+.question-item .options {
+    margin-top: 5px;
+}
+
+.question-item .option {
+    margin-left: 15px;
+}
+
+
+#subject_name {
+    display: none;
+}

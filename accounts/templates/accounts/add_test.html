@@ -1,0 +1,135 @@
+{% extends 'accounts/org_admin_base.html' %}
+{% load static %}
+
+{% block title %}Add Test{% endblock %}
+{% block extra_css %} 
+<link rel="stylesheet" href="{% static 'css/add_test.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Create a New Test</h2>
+    <form id="addTestForm" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="testName">Test Name</label>
+            <input type="text" class="form-control" id="testName" name="title" required>
+        </div>
+        <div class="form-group">
+
+            <select class="form-control" id="subject" name="subject">
+                <option value="">-- Select a Subject --</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject.id }}">{{ subject.name }}</option>
+                {% empty %}
+                    <option disabled>No subjects available</option>
+                {% endfor %}
+                <option value="new">Add New Subject</option>
+            </select>
+            
+
+              
+          
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="totalQuestions">Total Questions</label>
+                <input type="number" class="form-control" id="totalQuestions" name="total_questions" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="totalMarks">Total Marks</label>
+                <input type="number" class="form-control" id="totalMarks" name="total_marks" required>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="totalTime">Total Time (minutes)</label>
+                <input type="number" class="form-control" id="totalTime" name="total_time" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="testPassword">Test Password</label>
+            <input type="text" class="form-control" id="testPassword" name="test_code" required>
+        </div>
+
+        <div class="form-group">
+            <label>Test Questions</label>
+            <div id="testQuestions" class="border rounded p-3">
+                <button type="button" class="btn btn-outline-primary mt-2" id="addQuestionBtn">Add Questions</button>
+              </div>
+              
+            
+        </div>
+
+        <button type="submit" class="btn btn-success">Create Test</button>
+    </form>
+</div>
+
+<!-- Question Source Modal -->
+<div class="modal fade" id="questionSourceModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Choose How to Add Questions</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <button class="btn btn-info btn-block" id="fromBankBtn">From Question Bank</button>
+        <button class="btn btn-secondary btn-block" disabled>Add Manually (Coming Soon)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Question Bank Modal -->
+<div class="modal fade" id="questionBankModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Select Subject & Questions</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="subjectSelect">Subject</label>
+          <select class="form-control" id="subjectSelect">
+            {% for subject in subjects %}
+                <option value="{{ subject.id }}">{{ subject.name }}</option>
+            {% empty %}
+                <option disabled>No subjects available</option>
+            {% endfor %}
+        </select>
+        
+        
+        </div>
+        <div class="btn-group w-100 mb-3">
+          <button class="btn btn-outline-primary w-50" id="randomSelectBtn">Randomly Select</button>
+          <button class="btn btn-outline-dark w-50" id="manualPickBtn">Manually Pick</button>
+        </div>
+
+        <div id="randomQuestionInput" class="d-none">
+          <label for="randomCount">How many questions?</label>
+          <input type="number" class="form-control" id="randomCount" min="1">
+          <button class="btn btn-success mt-2" id="randomAddBtn">Add Random Questions</button>
+        </div>
+
+        <div id="manualQuestionList" class="d-none">
+          <!-- Questions with checkboxes will be dynamically injected here -->
+        </div>
+        <button class="btn btn-success d-none mt-2" id="addSelectedManualBtn">Add Selected Questions</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% if messages %}
+  <div class="messages">
+    {% for message in messages %}
+      <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+        {{ message|safe }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% block extra_js %}
+<script src="{% static 'js/add_test.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% block content %}
+<div class="org-tests-container">
+
+    <h2>Available Tests for {{ organization.name }}</h2>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert {{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% for test in tests %}
+        <div class="test-card">
+            <h3>{{ test.title }}</h3>
+            <p><strong>Subject:</strong> {{ test.subject.name }}</p>
+            <p><strong>Questions:</strong> {{ test.total_questions }}</p>
+            <p><strong>Time:</strong> {{ test.total_time }} mins</p>
+            <p><strong>Total Marks:</strong> {{ test.total_marks }}</p>
+            
+            <!-- Hidden form for test code -->
+            <form method="post" action="{% url 'verify_org_test_code' test_id=test.id %}" class="test-access-form">
+                {% csrf_token %}
+                <label for="test_code_{{ test.id }}">Enter Test Code:</label>
+                <input type="password" name="test_code" id="test_code_{{ test.id }}" placeholder="Enter test code" required>
+                <button type="submit" class="btn">Start Test</button>
+            </form>
+        </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
