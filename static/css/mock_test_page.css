@@ -275,7 +275,7 @@
   }
   
   .card-header {
-    background: linear-gradient(135deg, #338b35 39%, #58f243 99%);
+    background: rgb(15, 151, 15);
     color: var(--white);
     padding: 15px 25px;
     display: flex;
@@ -388,7 +388,7 @@
   }
   
   .start-btn {
-    background: linear-gradient(135deg, #58f243 20%, #338b35 69%);
+    background:  #258e27 ;
     color: var(--white);
     width: 100%;
     margin-top: 10px;
@@ -409,7 +409,6 @@
   .submit-btn {
     background: linear-gradient(135deg, #65ef71 14%, #13920a 100%);
     color: var(--white);
-    width: 100%;
     margin-top: 20px;
   }
   

@@ -35,8 +35,16 @@
             <h2 class="subject-heading">Subject: {{ selected_subject.name }}</h2>
 
             {% for question in questions %}
-                <div class="question-block" id="question-{{ forloop.counter }}">
+                <div class="question-block" id="question-{{ forloop.counter }}" >
+                    <div class="report-section">
+                        <button class="report-toggle"><i class="fas fa-flag"></i> Report</button>
+                        <div class="report-form" style="display: none;">
+                            <textarea placeholder="Describe the issue..."></textarea>
+                            <button class="report-submit" data-question-id="{{ question.id }}">Submit Report</button>
+                        </div>
+                    </div>
                     <p><strong>{{ forloop.counter }}. {{ question.text }}</strong></p>
+                    
 
                     <div class="options">
                         <button class="option-btn" data-correct="{{ question.correct_option }}">{{ question.option1 }}</button>
@@ -49,13 +57,7 @@
                         {% endif %}
                     </div>
 
-                    <div class="report-section">
-                        <button class="report-toggle"><i class="fas fa-flag"></i> Report</button>
-                        <div class="report-form" style="display: none;">
-                            <textarea placeholder="Describe the issue..."></textarea>
-                            <button class="report-submit" data-question-id="{{ question.id }}">Submit Report</button>
-                        </div>
-                    </div>
+                    
                 </div>
 
                 
