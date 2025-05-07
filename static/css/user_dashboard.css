@@ -622,6 +622,77 @@ body {
     min-height: 60px;
 }
 
+/* Alert Message Styles */
+.alert-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    width: 300px;
+}
+
+.alert-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    animation: slideIn 0.5s ease-out;
+}
+
+.alert-icon {
+    margin-right: 10px;
+    font-size: 1.4rem;
+}
+
+.alert-content p {
+    margin: 0;
+    font-size: 0.95rem;
+    flex-grow: 1;
+}
+
+.alert-close {
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.alert-close i {
+    font-size: 1rem;
+}
+
+/* Alert Type Styles */
+.alert-box.success {
+    background-color: #28a745;
+}
+
+.alert-box.error {
+    background-color: #dc3545;
+}
+
+.alert-box.warning {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.alert-box.info {
+    background-color: #17a2b8;
+}
+
+/* Slide-in animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        right: -100px;
+    }
+    to {
+        opacity: 1;
+        right: 20px;
+    }
+}
+
+
 /* Responsive Design */
 @media (max-width: 992px) {
     .dashboard-container {

@@ -1,0 +1,153 @@
+{% extends 'accounts/org_admin_base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/closed_tests.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/closed_tests.js' %}" defer></script>
+{% endblock %}
+
+{% block content %}
+<div class="closed-tests-container">
+    <div class="closed-tests-header">
+        <h2><i class="fas fa-archive"></i> Closed Tests</h2>
+        <div class="header-actions">
+            <button id="export-btn" class="btn-export">
+                <i class="fas fa-file-export"></i> Export to CSV
+            </button>
+        </div>
+    </div>
+
+    {% if tests %}
+    <div class="table-responsive">
+        <table class="closed-tests-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Subject</th>
+                    <th>Questions</th>
+                    <th>Test Code</th>
+                    <th>Date Created</th>
+                    <th>Created By</th>
+                    <th>Deleted By</th>
+                    <th>Deletion Time</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for test in tests %}
+                <tr class="closed-test-row">
+                    <td data-label="Title">
+                        <div class="test-title">
+                            <i class="fas fa-file-alt"></i> 
+                            <span>{{ test.title }}</span>
+                        </div>
+                    </td>
+                    <td data-label="Subject">
+                        <span class="subject-badge">{{ test.subject.name }}</span>
+                    </td>
+                    <td data-label="Questions">
+                        {{ test.total_questions }}
+                    </td>
+                    <td data-label="Test Code">
+                        <code>{{ test.test_code }}</code>
+                    </td>
+                    <td data-label="Date Created">
+                        {{ test.date_created|date:"M d, Y" }}
+                    </td>
+                    <td data-label="Created By">
+                        {% if test.created_by %}
+                            {% if test.created_by.role == "ORG_ADMIN" %}
+                                <span class="admin-badge"><i class="fas fa-user-shield"></i> Admin</span>
+                            {% elif test.created_by.role == "MODERATOR" %}
+                                <span class="moderator-badge"><i class="fas fa-user-tie"></i> {{ test.created_by.moderator_profile.full_name }}</span>
+                            {% else %}
+                                <span class="user-badge"><i class="fas fa-user"></i> {{ test.created_by.get_full_name|default:test.created_by.email }}</span>
+                            {% endif %}
+                        {% else %}
+                            <span class="unknown-badge">Unknown</span>
+                        {% endif %}
+                    </td>
+                    <td data-label="Deleted By">
+                        {% if test.cancelled_by %}
+                            {% if test.cancelled_by.role == "ORG_ADMIN" %}
+                                <span class="admin-badge"><i class="fas fa-user-shield"></i> Admin</span>
+                            {% elif test.cancelled_by.role == "MODERATOR" %}
+                                <span class="moderator-badge"><i class="fas fa-user-tie"></i> {{ test.cancelled_by.moderator_profile.full_name }}</span>
+                            {% else %}
+                                <span class="user-badge"><i class="fas fa-user"></i> {{ test.cancelled_by.get_full_name|default:test.cancelled_by.email }}</span>
+                            {% endif %}
+                        {% else %}
+                            <span class="na-badge">N/A</span>
+                        {% endif %}
+                    </td>
+                    <td data-label="Deletion Time">
+                        {% if test.cancelled_at %}
+                            <span class="deletion-time">
+                                <i class="far fa-clock"></i> {{ test.cancelled_at|date:"M d, Y H:i" }}
+                            </span>
+                        {% else %}
+                            <span class="na-badge">N/A</span>
+                        {% endif %}
+                    </td>
+                    <td data-label="Actions" class="actions-cell">
+                        <div class="action-buttons">
+                            <button class="btn-restore" data-test-id="{{ test.id }}" title="Restore">
+                                <i class="fas fa-trash-restore"></i>
+                            </button>
+                            <button class="btn-permanent-delete" data-test-id="{{ test.id }}" title="Permanently Delete">
+                                <i class="fas fa-fire"></i>
+                            </button>
+
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="pagination-container">
+        <div class="pagination-info">
+            Showing <span class="current-count">{{ tests|length }}</span> of <span class="total-count">{{ tests.paginator.count }}</span> closed tests
+        </div>
+        <div class="pagination-controls">
+            {% if tests.has_previous %}
+                <a href="?page=1" class="pagination-btn first-page"><i class="fas fa-angle-double-left"></i></a>
+                <a href="?page={{ tests.previous_page_number }}" class="pagination-btn prev-page"><i class="fas fa-angle-left"></i></a>
+            {% endif %}
+            
+            <span class="current-page">Page {{ tests.number }} of {{ tests.paginator.num_pages }}</span>
+            
+            {% if tests.has_next %}
+                <a href="?page={{ tests.next_page_number }}" class="pagination-btn next-page"><i class="fas fa-angle-right"></i></a>
+                <a href="?page={{ tests.paginator.num_pages }}" class="pagination-btn last-page"><i class="fas fa-angle-double-right"></i></a>
+            {% endif %}
+        </div>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-ban"></i>
+        <h3>No Closed Tests Found</h3>
+        <p>There are currently no tests in the closed/archived section.</p>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Confirmation Modal -->
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h3 id="modalTitle">Confirm Action</h3>
+        <p id="modalMessage">Are you sure you want to perform this action?</p>
+        <div class="modal-actions">
+            <button id="modalCancel" class="btn-modal-cancel">Cancel</button>
+            <button id="modalConfirm" class="btn-modal-confirm">Confirm</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

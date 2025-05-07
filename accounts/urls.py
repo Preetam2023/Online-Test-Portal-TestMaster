@@ -33,6 +33,9 @@ from .views import (
     start_org_test_view,
     verify_org_test_code,
     submit_org_test_view,
+    edit_test,
+    cancel_test,
+    closed_tests_view,
 )
 
 urlpatterns = [
@@ -72,6 +75,9 @@ urlpatterns = [
     path('organization/moderators/toggle-status/<int:moderator_id>/', toggle_moderator_status, name='toggle-moderator-status'),
     path('organization/add-test/', add_test, name='add-test'),
     path('organization/view-tests/', view_tests, name='view-tests'),
+    path('organization/view-tests/edit-test/<int:test_id>/', edit_test, name='edit_test'),
+    path('organization/view-tests/cancel-test/<int:test_id>/', cancel_test, name='cancel_test'),
+    path('organization/closed-tests/', closed_tests_view, name='closed_tests'),
 
 
     # API endpoints for dynamic question loading

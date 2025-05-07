@@ -60,6 +60,16 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const alerts = document.querySelectorAll('.alert-box');
+    alerts.forEach(alert => {
+        setTimeout(() => {
+            alert.remove();
+        }, 5000); // Auto-dismiss after 5 seconds
+    });
+});
+
+
 
 
 

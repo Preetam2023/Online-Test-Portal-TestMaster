@@ -94,14 +94,34 @@
             </header>
             <!-- Messages (for pop-up or alerts) -->
             {% if messages %}
-                <div class="message-popup">
-                    {% for message in messages %}
-                        <div class="message {{ message.tags }}">
-                            {{ message }}
+            <div class="alert-container">
+                {% for message in messages %}
+                    {% if 'org_test' in message.extra_tags %}
+                    <div class="alert-box {{ message.tags }}">
+                        <div class="alert-icon">
+                            {% if message.tags == 'success' %}
+                                <i class="fas fa-check-circle"></i>
+                            {% elif message.tags == 'error' %}
+                                <i class="fas fa-exclamation-circle"></i>
+                            {% elif message.tags == 'warning' %}
+                                <i class="fas fa-exclamation-triangle"></i>
+                            {% else %}
+                                <i class="fas fa-info-circle"></i>
+                            {% endif %}
                         </div>
-                    {% endfor %}
-                </div>
+                        <div class="alert-content">
+                            <p>{{ message }}</p>
+                        </div>
+                        <div class="alert-close" onclick="this.parentElement.remove();">
+                            <i class="fas fa-times"></i>
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
             {% endif %}
+            
+            
 
             <div class="content-grid">
                 <!-- Hero Section -->

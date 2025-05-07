@@ -126,3 +126,159 @@ document.addEventListener("DOMContentLoaded", function () {
     toggleNewSubjectField();
     subjectSelect.addEventListener("change", toggleNewSubjectField);
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const subjectDropdown = document.getElementById('subject');
+    const newSubjectContainer = document.getElementById('newSubjectContainer');
+
+    subjectDropdown.addEventListener('change', function () {
+        if (this.value === 'new') {
+            newSubjectContainer.classList.remove('d-none');
+        } else {
+            newSubjectContainer.classList.add('d-none');
+            document.getElementById('subjectName').value = '';
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Show/hide new subject input
+    const subjectSelect = document.getElementById('subject');
+    const newSubjectContainer = document.getElementById('newSubjectContainer');
+    
+    if (subjectSelect && newSubjectContainer) {
+      subjectSelect.addEventListener('change', function() {
+        if (this.value === 'new') {
+          newSubjectContainer.classList.remove('d-none');
+        } else {
+          newSubjectContainer.classList.add('d-none');
+        }
+      });
+    }
+  
+    // Question source modal
+    const addQuestionBtn = document.getElementById('addQuestionBtn');
+    const questionSourceModal = new bootstrap.Modal(document.getElementById('questionSourceModal'));
+    const questionBankModal = new bootstrap.Modal(document.getElementById('questionBankModal'));
+    
+    if (addQuestionBtn) {
+      addQuestionBtn.addEventListener('click', function() {
+        questionSourceModal.show();
+      });
+    }
+  
+    // From question bank button
+    const fromBankBtn = document.getElementById('fromBankBtn');
+    if (fromBankBtn) {
+      fromBankBtn.addEventListener('click', function() {
+        questionSourceModal.hide();
+        questionBankModal.show();
+      });
+    }
+  
+    // Question bank modal functionality
+    const randomSelectBtn = document.getElementById('randomSelectBtn');
+    const manualPickBtn = document.getElementById('manualPickBtn');
+    const randomQuestionInput = document.getElementById('randomQuestionInput');
+    const manualQuestionList = document.getElementById('manualQuestionList');
+    const addSelectedManualBtn = document.getElementById('addSelectedManualBtn');
+    
+    if (randomSelectBtn && manualPickBtn) {
+      randomSelectBtn.addEventListener('click', function() {
+        randomQuestionInput.classList.remove('d-none');
+        manualQuestionList.classList.add('d-none');
+        addSelectedManualBtn.classList.add('d-none');
+      });
+      
+      manualPickBtn.addEventListener('click', function() {
+        randomQuestionInput.classList.add('d-none');
+        manualQuestionList.classList.remove('d-none');
+        addSelectedManualBtn.classList.remove('d-none');
+        
+        // In a real implementation, you would fetch questions for the selected subject here
+        // and populate the manualQuestionList div
+        manualQuestionList.innerHTML = `
+          <div class="question-item mb-3 p-3 border rounded">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="question1" checked>
+              <label class="form-check-label" for="question1">
+                What is the capital of France?
+              </label>
+            </div>
+          </div>
+          <div class="question-item mb-3 p-3 border rounded">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="question2">
+              <label class="form-check-label" for="question2">
+                Solve for x: 2x + 5 = 15
+              </label>
+            </div>
+          </div>
+          <div class="question-item mb-3 p-3 border rounded">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="question3" checked>
+              <label class="form-check-label" for="question3">
+                Who wrote "Romeo and Juliet"?
+              </label>
+            </div>
+          </div>
+        `;
+      });
+    }
+  
+    // Form validation
+    const addTestForm = document.getElementById('addTestForm');
+    if (addTestForm) {
+      addTestForm.addEventListener('submit', function(e) {
+        // Basic validation - in a real app you'd add more comprehensive validation
+        const testName = document.getElementById('testName');
+        const subject = document.getElementById('subject');
+        
+        if (!testName.value.trim()) {
+          e.preventDefault();
+          alert('Please enter a test name');
+          testName.focus();
+          return;
+        }
+        
+        if (!subject.value) {
+          e.preventDefault();
+          alert('Please select a subject');
+          subject.focus();
+          return;
+        }
+        
+        if (subject.value === 'new') {
+          const subjectName = document.getElementById('subjectName');
+          if (!subjectName.value.trim()) {
+            e.preventDefault();
+            alert('Please enter a new subject name');
+            subjectName.focus();
+            return;
+          }
+        }
+      });
+    }
+  
+    // Add ripple effect to buttons
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+      button.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple-effect';
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 1000);
+      });
+    });
+  });
+  

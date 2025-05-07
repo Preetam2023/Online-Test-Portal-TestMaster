@@ -121,7 +121,7 @@ def user_dashboard(request):
         # Query organization and tests based on form data
         try:
             organization = Organization.objects.get(name__iexact=org_name)
-            tests = OrganizationTest.objects.filter(organization=organization)
+            tests = OrganizationTest.objects.filter(organization=organization, is_cancelled=False)
 
             if tests.exists():
                 # Render the page with the tests found for the organization
@@ -632,12 +632,13 @@ def add_test(request):
 
             messages.success(
                 request,
-                f"Test added successfully!<br>Test Name: <strong>{test.title}</strong><br>Test Password: <strong>{test.test_code}</strong>"
-            )
+                f"Test added successfully!<br>Test Name: <strong>{test.title}</strong><br>Test Password: <strong>{test.test_code}</strong>",
+                extra_tags='admin')
+
             return redirect('view-tests')
 
         else:
-            messages.error(request, "Failed to add test. Please correct the errors below.")
+            messages.error(request, "Failed to add test. Please correct the errors below.", extra_tags='admin')
 
     else:
         form = AddTestForm()
@@ -710,8 +711,12 @@ def get_questions_by_ids(request):
 from .models import OrganizationTest
 
 def view_tests(request):
-    tests = OrganizationTest.objects.filter(organization=request.user.org_admin_profile.organization).order_by('-date_created')
+    tests = OrganizationTest.objects.filter(
+        organization=request.user.org_admin_profile.organization,
+        is_cancelled=False 
+    ).order_by('-date_created')
     return render(request, 'accounts/view_tests.html', {'tests': tests})
+
 
 
 
@@ -737,12 +742,13 @@ def organization_tests_view(request):
         user_id = request.POST.get('user_id', '').strip()
 
         if not org_name or not user_id:
-            messages.error(request, "Please fill in both fields.")
+            messages.error(request, "Please fill in both fields.", extra_tags='org_test')
             return redirect('user_dashboard')
 
         try:
             organization = Organization.objects.get(name__iexact=org_name)
-            tests = OrganizationTest.objects.filter(organization=organization)
+            tests = OrganizationTest.objects.filter(organization=organization, is_cancelled=False)
+
 
             if tests.exists():
                 return render(request, 'accounts/org_test_list.html', {
@@ -751,15 +757,58 @@ def organization_tests_view(request):
                 })
             else:
                 # No tests found, show a message
-                messages.error(request, f"No tests found for the organization '{org_name}'.")
+                messages.error(request, f"No tests found for the organization '{org_name}'.", extra_tags='org_test')
                 return redirect('user_dashboard')
 
         except Organization.DoesNotExist:
-            messages.error(request, f"No organization named '{org_name}' found.")
+            messages.error(request, f"No organization named '{org_name}' found.", extra_tags='org_test')
             return redirect('user_dashboard')
 
     # If not POST, fallback to user dashboard
     return redirect('user_dashboard')
+
+# views.py
+def edit_test(request, test_id):
+    test = get_object_or_404(OrganizationTest, id=test_id)
+
+    if request.method == 'POST':
+        test.title = request.POST.get('title')
+        test.test_code = request.POST.get('test_code')
+        test.total_questions = request.POST.get('total_questions')
+        # Update subject if changed
+        subject_id = request.POST.get('subject')
+        test.subject_id = subject_id
+        test.save()
+        messages.success(request, "Test updated successfully.", extra_tags='admin')
+        return redirect('view-tests')
+
+    subjects = Subject.objects.all()
+    return render(request, 'accounts/edit_test.html', {'test': test, 'subjects': subjects})
+
+from django.utils import timezone
+
+def cancel_test(request, test_id):
+    test = get_object_or_404(OrganizationTest, id=test_id)
+    test.is_cancelled = True
+    test.cancelled_by = request.user
+    test.cancelled_at = timezone.now()
+    test.save()
+    messages.success(request, f"Test '{test.title}' has been canceled.", extra_tags='admin')
+    return redirect('view-tests')
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from .models import OrganizationTest
+
+@login_required
+def closed_tests_view(request):
+    closed_tests = OrganizationTest.objects.filter(
+        is_cancelled=True
+    ).select_related('subject', 'created_by', 'cancelled_by')
+
+    return render(request, 'accounts/closed_tests.html', {
+        'tests': closed_tests
+    })
 
 
 

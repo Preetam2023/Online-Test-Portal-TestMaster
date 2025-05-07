@@ -16,16 +16,6 @@
         <div class="decoration-circle"></div>
     </div>
 
-    {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-                <div class="alert {{ message.tags }}">
-                    {{ message }}
-                    <span class="close-btn">&times;</span>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
 
     <div class="tests-grid">
         {% for test in tests %}

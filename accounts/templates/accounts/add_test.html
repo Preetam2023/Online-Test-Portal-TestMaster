@@ -6,6 +6,9 @@
 <link rel="stylesheet" href="{% static 'css/add_test.css' %}">
 {% endblock %}
 {% block content %}
+
+
+
 <div class="container mt-5">
     <h2 class="mb-4">Create a New Test</h2>
     <form id="addTestForm" method="POST">
@@ -15,6 +18,8 @@
             <input type="text" class="form-control" id="testName" name="title" required>
         </div>
         <div class="form-group">
+          
+          <label for="subject">Subject</label>
 
             <select class="form-control" id="subject" name="subject">
                 <option value="">-- Select a Subject --</option>
@@ -25,6 +30,12 @@
                 {% endfor %}
                 <option value="new">Add New Subject</option>
             </select>
+
+            <div class="form-group mt-2 d-none" id="newSubjectContainer">
+              <label for="subjectName">New Subject Name</label>
+              <input type="text" class="form-control" id="subjectName" name="subject_name" placeholder="Enter new subject name">
+          </div>
+          
             
 
               

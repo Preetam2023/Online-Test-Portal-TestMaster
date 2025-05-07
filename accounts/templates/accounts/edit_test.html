@@ -1,0 +1,25 @@
+{% extends 'accounts/org_admin_base.html' %}
+{% block content %}
+<h2>Edit Test</h2>
+<form method="post">
+    {% csrf_token %}
+    <label>Title:</label>
+    <input type="text" name="title" value="{{ test.title }}"><br>
+
+    <label>Test Code:</label>
+    <input type="text" name="test_code" value="{{ test.test_code }}"><br>
+
+    <label>Total Questions:</label>
+    <input type="number" name="total_questions" value="{{ test.total_questions }}"><br>
+
+    <label>Subject:</label>
+    <select name="subject">
+        {% for subject in subjects %}
+            <option value="{{ subject.id }}" {% if subject == test.subject %}selected{% endif %}>{{ subject.name }}</option>
+        {% endfor %}
+    </select><br>
+
+    <button type="submit">Save Changes</button>
+    <a href="{% url 'organization_tests' %}">❌ Cancel</a>
+</form>
+{% endblock %}

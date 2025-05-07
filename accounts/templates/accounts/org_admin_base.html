@@ -51,7 +51,7 @@
                     </div>
                     <span class="menu-text">Open Tests</span>
                 </a>
-                <a href="#" class="menu-item">
+                <a href="{% url 'closed_tests' %}" class="menu-item {% if request.path == '/organization/closed-tests/' %}active{% endif %}">
                     <div class="menu-icon">
                         <i class="fas fa-door-closed"></i>
                     </div>
