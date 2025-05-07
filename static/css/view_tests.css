@@ -1,0 +1,149 @@
+.test-container {
+    padding: 2rem;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-weight: bold;
+}
+
+.test-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.test-table th, .test-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.test-table th {
+    background-color: #f5f5f5;
+    color: #444;
+}
+
+.actions button {
+    margin-right: 0.5rem;
+    border: none;
+    background: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.edit-btn:hover {
+    color: #2196F3;
+}
+
+.cancel-btn:hover {
+    color: #f44336;
+}
+
+.no-tests {
+    font-size: 1.2rem;
+    color: #777;
+}
+
+/* Modal */
+.modal-content {
+    background: #fefefe;
+    padding: 2rem;
+    width: 450px;
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.modal-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.modal-form label {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+}
+
+.modal-form input, .modal-form select {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    transition: border 0.3s;
+}
+
+.modal-form input:focus, .modal-form select:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+}
+
+.save-btn {
+    background: #4CAF50;
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.cancel-edit-btn {
+    background: #f44336;
+    color: white;
+    padding: 0.5rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+
+.save-btn {
+    margin-top: 1.5rem;
+    padding: 0.7rem 1.5rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.close {
+    position: absolute;
+    top: 10px; right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}

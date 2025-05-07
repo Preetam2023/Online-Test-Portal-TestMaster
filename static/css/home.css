@@ -146,8 +146,9 @@
     transition: background 0.3s ease, transform 0.3s ease;
   }
   .org:hover {
-    background: linear-gradient(135deg, #63a465, #ffff);
+    background: rgb(35, 144, 35);
     transform: translateY(-2px);
+    color: #fff;
   }
   footer {
     background-color: #1e7222;
