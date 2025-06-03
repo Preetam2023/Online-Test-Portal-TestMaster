@@ -165,3 +165,35 @@ class TestQuestion(models.Model):
 
     def __str__(self):
         return f"Q: {self.question.qid} | Test: {self.test.title}"
+
+
+from django.db import models
+from django.conf import settings
+
+class TestProgress(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    test_id = models.IntegerField()
+    answers = models.JSONField(default=dict)
+    time_left = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.user.username} - Test {self.test_id}'
+    
+class OrganizationTestResult(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    test = models.ForeignKey(OrganizationTest, on_delete=models.CASCADE)
+    total_questions = models.PositiveIntegerField()
+    correct_answers = models.PositiveIntegerField()
+    percentage = models.FloatField()
+    answers = models.JSONField(default=dict)  # key: qID, value: selected option
+    time_taken = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.test.title} ({self.percentage}%)"
+
+
+
+
+
+

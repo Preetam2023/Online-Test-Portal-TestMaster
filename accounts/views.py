@@ -814,30 +814,146 @@ def closed_tests_view(request):
 
 
 
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from .models import OrganizationTest, TestQuestion, OrganizationTestResult
+from django.contrib.auth.decorators import login_required
+
 @login_required
 def start_org_test_view(request, test_code):
     try:
-        test = OrganizationTest.objects.get(test_code=test_code)
-        test_questions = TestQuestion.objects.filter(test=test).select_related('question')
-        return render(request, 'accounts/org_test_page.html', {
-            'test': test,
-            'test_questions': test_questions
-        })
+        test = OrganizationTest.objects.get(test_code=test_code, is_cancelled=False)
     except OrganizationTest.DoesNotExist:
-        return redirect(reverse('organization_tests'))
+        return redirect('organization_tests')
+
+    # 🔒 Prevent access if already submitted
+    existing_result = OrganizationTestResult.objects.filter(user=request.user, test=test).first()
+    if existing_result:
+        return redirect('org_test_result', result_id=existing_result.id)
+
+    test_questions = TestQuestion.objects.filter(test=test).select_related('question')
+    return render(request, 'accounts/org_test_page.html', {
+        'test': test,
+        'test_questions': test_questions
+    })
+
 
 # accounts/views.py
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import OrganizationTest, OrganizationTestResult, TestQuestion, Question
 
-from django.shortcuts import render, redirect
-from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
-@csrf_exempt
+@login_required
 def submit_org_test_view(request):
-    if request.method == "POST":
-        # Placeholder logic
-        return render(request, 'org_test_submitted.html')
-    else:
-        return redirect('dashboard')  # or some fallback
+    if request.method == 'POST':
+        test_id = request.POST.get('test_id')
+        test = get_object_or_404(OrganizationTest, id=test_id)
+        questions = TestQuestion.objects.filter(test=test)
+
+        total_questions = questions.count()
+        correct_answers = 0
+        user_answers = {}
+
+        for tq in questions:
+            qid = f"q{tq.question.id}"
+            selected = request.POST.get(qid)
+            user_answers[qid] = selected
+            if selected and selected.strip() == tq.question.correct_option.strip():
+                correct_answers += 1
+
+        percentage = round((correct_answers / total_questions) * 100, 2)
+
+        result = OrganizationTestResult.objects.create(
+            user=request.user,
+            test=test,
+            total_questions=total_questions,
+            correct_answers=correct_answers,
+            percentage=percentage,
+            answers=user_answers,
+            time_taken = test.total_time * 60 - int(test.time_left)
+
+        )
+
+        return redirect('org_test_result', result_id=result.id)
+    return redirect('organization_tests')
+
+
+from django.shortcuts import get_object_or_404, render
+from django.contrib.auth.decorators import login_required
+from .models import OrganizationTestResult, TestQuestion
+
+@login_required
+def organization_test_result_view(request, result_id):
+    result = get_object_or_404(OrganizationTestResult, id=result_id, user=request.user)
+    test = result.test
+    questions = TestQuestion.objects.filter(test=test).select_related('question')
+
+    # Prepare detailed question-answer review
+    question_data = []
+    for tq in questions:
+        q = tq.question
+        qid = f"q{q.id}"
+        user_answer = result.answers.get(qid)
+        correct = q.correct_option.strip() == (user_answer or "").strip()
+        question_data.append({
+            'text': q.text,
+            'option1': q.option1,
+            'option2': q.option2,
+            'option3': q.option3,
+            'option4': q.option4,
+            'correct': q.correct_option,
+            'selected': user_answer,
+            'is_correct': correct,
+        })
+
+    # Leaderboard: all results for this test
+    leaderboard = OrganizationTestResult.objects.filter(test=test).select_related('user').order_by('-correct_answers', 'created_at')
+
+    # Calculate user rank
+    user_rank = list(leaderboard).index(result) + 1
+
+    return render(request, 'accounts/test_result.html', {
+        'result': result,
+        'test': test,
+        'question_data': question_data,
+        'leaderboard': leaderboard[:10],  # top 10
+        'user_rank': user_rank,
+    })
+
+from .models import OrganizationTestResult
+
+from django.db.models import Q
+from .models import OrganizationTestResult, Subject
+
+@login_required
+def organization_test_history_view(request):
+    subject_id = request.GET.get('subject')
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    results = OrganizationTestResult.objects.filter(user=request.user).select_related('test', 'test__subject')
+
+    # Filter by subject
+    if subject_id:
+        results = results.filter(test__subject__id=subject_id)
+
+    # Filter by date
+    if start_date:
+        results = results.filter(created_at__date__gte=start_date)
+    if end_date:
+        results = results.filter(created_at__date__lte=end_date)
+
+    subjects = Subject.objects.all()
+
+    return render(request, 'accounts/test_history.html', {
+        'results': results.order_by('-created_at'),
+        'subjects': subjects,
+        'selected_subject': subject_id,
+        'start_date': start_date,
+        'end_date': end_date,
+    })
+
+
 
 
 from django.shortcuts import render, redirect, get_object_or_404
@@ -866,11 +982,150 @@ def verify_org_test_code(request, test_id):
                 'organization': organization,
             })
 
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from django.conf import settings
+import json
+from .models import TestProgress
+
+@csrf_exempt
+def save_test_progress(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        data = json.loads(request.body)
+        test_id = data.get('test_id')
+        answers = data.get('answers', {})
+        time_left = data.get('time_left', 0)
+
+        if test_id:
+            TestProgress.objects.update_or_create(
+                user=request.user,
+                test_id=test_id,
+                defaults={'answers': answers, 'time_left': time_left}
+            )
+            return JsonResponse({'status': 'saved'})
+    return JsonResponse({'status': 'error'}, status=400)
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import TestProgress  
+
+def get_test_progress(request, test_id):
+    if request.user.is_authenticated:
+        try:
+            progress = TestProgress.objects.get(user=request.user, test_id=test_id)
+            return JsonResponse({
+                'answers': progress.answers,
+                'time_left': progress.time_left
+            })
+        except TestProgress.DoesNotExist:
+            pass
+    return JsonResponse({}, status=404)
 
 
 
+
+from django.http import JsonResponse
+from .models import OrganizationTest, TestQuestion
+
+def test_details(request, test_id):
+    try:
+        test = OrganizationTest.objects.get(id=test_id)
+        questions = TestQuestion.objects.filter(test=test).select_related('question')
+
+        question_list = []
+        for tq in questions:
+            q = tq.question
+            question_list.append({
+                'text': q.text,
+                'option1': q.option1,
+                'option2': q.option2,
+                'option3': q.option3,
+                'option4': q.option4
+            })
+
+        data = {
+            'organization_name': test.organization.name, 
+            'title': test.title,
+            'code': test.test_code,
+            'duration': test.total_time,
+            'marks': test.total_marks,
+            'questions': question_list,
+        }
+        return JsonResponse(data)
+    except OrganizationTest.DoesNotExist:
+        return JsonResponse({'error': 'Test not found'}, status=404)
     
+def format_duration(seconds):
+    minutes = seconds // 60
+    secs = seconds % 60
+    return f"{minutes}m {secs}s"
+
+from django.contrib.admin.views.decorators import staff_member_required
+from django.http import HttpResponse
+from openpyxl import Workbook
+from reportlab.pdfgen import canvas
+from .models import OrganizationTestResult, OrganizationTest
+
+@login_required
+def org_test_results_admin_view(request, test_id):
+    test = get_object_or_404(OrganizationTest, id=test_id)
+    results = OrganizationTestResult.objects.filter(test=test).select_related('user').order_by('-correct_answers', 'created_at')
     
+    for r in results:
+        r.time_taken_formatted = format_duration(r.time_taken or 0)
+        
+    return render(request, 'accounts/admin_test_results.html', {
+        'test': test,
+        'results': results,
+    })
+
+@login_required
+def export_test_results_excel(request, test_id):
+    test = get_object_or_404(OrganizationTest, id=test_id)
+    results = OrganizationTestResult.objects.filter(test=test).select_related('user')
+
+    wb = Workbook()
+    ws = wb.active
+    ws.append(['Name', 'Score', 'Time Taken (sec)', 'Percentage', 'Date'])
+
+    for res in results:
+        ws.append([
+            res.user.get_full_name() or res.user.email,
+            res.correct_answers,
+            res.time_taken,
+            res.percentage,
+            res.created_at.strftime("%Y-%m-%d %H:%M")
+        ])
+
+    response = HttpResponse(content_type='application/ms-excel')
+    response['Content-Disposition'] = f'attachment; filename="{test.title}_results.xlsx"'
+    wb.save(response)
+    return response
+
+@login_required
+def export_test_results_pdf(request, test_id):
+    test = get_object_or_404(OrganizationTest, id=test_id)
+    results = OrganizationTestResult.objects.filter(test=test).select_related('user')
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{test.title}_results.pdf"'
+
+    p = canvas.Canvas(response)
+    p.setFont("Helvetica-Bold", 14)
+    p.drawString(50, 800, f"Results for {test.title}")
+    p.setFont("Helvetica", 10)
+
+    y = 770
+    for res in results:
+        p.drawString(50, y, f"{res.user.get_full_name() or res.user.email} | Score: {res.correct_answers} | %: {res.percentage} | Time: {res.time_taken}s | Date: {res.created_at.strftime('%Y-%m-%d %H:%M')}")
+        y -= 15
+        if y < 50:
+            p.showPage()
+            y = 800
+
+    p.save()
+    return response
+
 
 @login_required
 def moderator_dashboard(request):

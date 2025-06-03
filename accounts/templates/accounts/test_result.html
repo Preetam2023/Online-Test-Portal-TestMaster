@@ -1,0 +1,75 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Result</title>
+    <link rel="stylesheet" href="{% static 'css/test_result.css' %}">
+</head>
+<body>
+    <div class="result-container">
+        <h1>{{ result.test.title }} - Result</h1>
+        <p><strong>Organization:</strong> {{ result.test.organization.name }}</p>
+
+        <div class="score-summary">
+            <div class="score-value">{{ result.percentage }}%</div>
+            <p>Correct: {{ result.correct_answers }} / {{ result.total_questions }}</p>
+        </div>
+
+        <h2>Question-wise Breakdown</h2>
+        <div class="question-breakdown">
+            {% for q in question_data %}
+                <div class="question-card {% if q.is_correct %}correct{% else %}incorrect{% endif %}">
+                    <p><strong>Q:</strong> {{ q.text }}</p>
+                    <ul>
+                        <li {% if q.selected == q.option1 %}class="selected"{% endif %}>
+                            A. {{ q.option1 }} {% if q.correct == q.option1 %}(Correct){% endif %}
+                        </li>
+                        <li {% if q.selected == q.option2 %}class="selected"{% endif %}>
+                            B. {{ q.option2 }} {% if q.correct == q.option2 %}(Correct){% endif %}
+                        </li>
+                        <li {% if q.option3 %}{% if q.selected == q.option3 %}class="selected"{% endif %}>
+                            C. {{ q.option3 }} {% if q.correct == q.option3 %}(Correct){% endif %}
+                        </li>{% endif %}
+                        <li {% if q.option4 %}{% if q.selected == q.option4 %}class="selected"{% endif %}>
+                            D. {{ q.option4 }} {% if q.correct == q.option4 %}(Correct){% endif %}
+                        </li>{% endif %}
+                    </ul>
+                    <p><strong>Your Answer:</strong> {{ q.selected|default:"Not answered" }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        
+
+    <div class="leaderboard-section">
+    <h2><i class="fas fa-trophy"></i> Leaderboard</h2>
+    <p>Your Rank: <strong>#{{ user_rank }}</strong></p>
+
+    <table class="leaderboard-table">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>User</th>
+                <th>Marks</th>
+                <th>Percentage</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in leaderboard %}
+            <tr class="{% if entry.id == result.id %}highlight-row{% endif %}">
+                <td>{{ forloop.counter }}</td>
+                <td>{{ entry.user.get_full_name|default:entry.user.email }}</td>
+                <td>{{ entry.correct_answers }}/{{ test.total_marks }}</td>
+                <td>{{ entry.percentage }}%</td>
+                <td>{{ entry.created_at|date:"M d, Y H:i" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+        <a href="{% url 'organization_tests' %}" class="btn-back">Back to Tests</a>
+    </div>
+</body>
+</html>

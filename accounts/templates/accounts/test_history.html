@@ -1,0 +1,74 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test History</title>
+    <link rel="stylesheet" href="{% static 'css/test_history.css' %}">
+</head>
+<body>
+    <div class="test-history-container">
+        <h1>My Test History</h1>
+
+        <!-- 🔍 FILTER FORM -->
+        <form method="get" class="filter-form">
+            <label>
+                Subject:
+                <select name="subject">
+                    <option value="">-- All Subjects --</option>
+                    {% for subject in subjects %}
+                        <option value="{{ subject.id }}" {% if selected_subject == subject.id|stringformat:"s" %}selected{% endif %}>
+                            {{ subject.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </label>
+
+            <label>
+                Start Date:
+                <input type="date" name="start_date" value="{{ start_date }}">
+            </label>
+
+            <label>
+                End Date:
+                <input type="date" name="end_date" value="{{ end_date }}">
+            </label>
+
+            <button type="submit" class="filter-btn">Filter</button>
+            <a href="{% url 'org_test_history' %}" class="clear-btn">Clear</a>
+        </form>
+
+        <!-- 📊 RESULTS TABLE -->
+        {% if results %}
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Test Title</th>
+                    <th>Total Marks</th>
+                    <th>Obtained</th>
+                    <th>Percentage</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                <tr>
+                    <td>{{ result.test.title }}</td>
+                    <td>{{ result.test.total_marks }}</td>
+                    <td>{{ result.correct_answers }}</td>
+                    <td>{{ result.percentage }}%</td>
+                    <td>{{ result.created_at|date:"M d, Y H:i" }}</td>
+                    <td>
+                        <a href="{% url 'org_test_result' result.id %}" class="view-btn">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+            <p class="no-results">You haven't completed any tests yet.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

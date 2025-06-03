@@ -305,3 +305,304 @@ body {
         padding: 0.75rem;
     }
 }
+
+/* Test Details Modal Styles */
+#testDetailModal .modal-content {
+  border-radius: 8px;
+  overflow: hidden;
+  border: none;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+#testDetailModal .modal-header {
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+  padding: 15px 20px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#testDetailModal .modal-title {
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+#testDetailModal .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#testDetailModal .btn-close {
+  padding: 0.5rem;
+  margin: 0;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+#testDetailModal .btn-close:hover {
+  opacity: 1;
+}
+
+#testDetailModal .btn-download-pdf {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+#testDetailModal .btn-download-pdf:hover {
+  background: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#testDetailModal .btn-download-pdf i {
+  font-size: 1rem;
+}
+
+#testDetailModal .modal-body {
+  padding: 0;
+  position: relative;
+  background: #fff;
+}
+
+/* Question Paper Styling */
+.question-paper {
+  position: relative;
+  background: white;
+  padding: 40px;
+  min-height: 100%;
+}
+
+.question-paper::before {
+  content: attr(data-watermark);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 4rem;
+  font-weight: 700;
+  color: rgba(0,0,0,0.05);
+  pointer-events: none;
+  z-index: 0;
+  white-space: nowrap;
+  font-family: 'Poppins', sans-serif;
+}
+
+.paper-header {
+  text-align: center;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 1;
+}
+
+.org-logo {
+  max-height: 80px;
+  margin-bottom: 15px;
+}
+
+.paper-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.paper-meta {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+  color: #555;
+  flex-wrap: wrap;
+}
+
+.paper-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.paper-meta-item i {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.divider {
+  border-top: 2px solid #e0e0e0;
+  margin: 25px 0;
+}
+
+.instructions {
+  background: #f8f9fa;
+  padding: 15px;
+  border-left: 4px solid #3498db;
+  margin-bottom: 25px;
+  font-size: 0.95rem;
+  border-radius: 0 4px 4px 0;
+}
+
+.instructions-title {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #2c3e50;
+  font-size: 1.1rem;
+}
+
+.instructions ol {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.instructions ol li {
+  margin-bottom: 5px;
+}
+
+.question-block {
+  margin-bottom: 25px;
+  position: relative;
+  z-index: 1;
+  page-break-inside: avoid;
+}
+
+.question-text {
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #2c3e50;
+  font-size: 1.05rem;
+}
+
+.options-list {
+  list-style-type: none;
+  padding-left: 25px;
+  margin: 10px 0;
+}
+
+.options-list li {
+  margin-bottom: 8px;
+  position: relative;
+  font-size: 0.95rem;
+}
+
+.options-list li::before {
+  content: attr(data-option);
+  position: absolute;
+  left: -25px;
+  font-weight: 600;
+  color: #3498db;
+}
+
+.paper-footer {
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px dashed #ddd;
+  font-size: 0.9rem;
+  color: #777;
+  text-align: center;
+  font-style: italic;
+}
+/* Watermark Styles */
+.question-paper {
+  position: relative;
+  overflow: hidden;
+  min-height: 100%;
+}
+
+.watermark-layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.watermark {
+  position: absolute;
+  font-size: 5rem;
+  font-weight: 800;
+  color: rgba(0, 0, 0, 0.219);
+  transform: rotate(-30deg);
+  white-space: nowrap;
+  font-family: 'Poppins', sans-serif;
+  opacity: 13;
+}
+
+/* Positions for multiple watermarks */
+.watermark-1 {
+  top: 15%;
+  left: 5%;
+}
+
+.watermark-2 {
+  top: 45%;
+  left: 35%;
+}
+
+.watermark-3 {
+  top: 75%;
+  left: 65%;
+}
+
+/* Close Button Styles */
+.btn-close {
+  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%236c757d'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+  border: none;
+  opacity: 0.7;
+  width: 1em;
+  height: 1em;
+  padding: 0.5em;
+  margin-left: 0.5rem;
+  transition: all 0.2s;
+}
+
+.btn-close:hover {
+  opacity: 1;
+  transform: rotate(90deg);
+}
+
+/* Ensure Bootstrap modal is properly styled */
+.modal {
+  z-index: 1060; /* Higher than default if needed */
+}
+
+.modal-backdrop {
+  z-index: 1050; /* Just below modal */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .question-paper {
+    padding: 25px 15px;
+  }
+  
+  .paper-title {
+    font-size: 1.5rem;
+  }
+  
+  .paper-meta {
+    gap: 15px;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .question-paper::before {
+    font-size: 3rem;
+  }
+}

@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
 <script src="{% static 'js/view_tests.js' %}" defer></script>
 {% endblock %}
 
@@ -47,7 +48,9 @@
                 {% for test in tests %}
                 <tr class="test-row">
                     <td data-label="Title">
-                        <i class="fas fa-file-alt"></i> {{ test.title }}
+                        <a href="#" class="test-title-link" data-test-id="{{ test.id }}">
+                            <i class="fas fa-file-alt"></i> {{ test.title }}
+                        </a>
                     </td>
                     <td data-label="Subject">
                         <span class="subject-badge">{{ test.subject.name }}</span>
@@ -89,12 +92,32 @@
             </tbody>
         </table>
     </div>
+
+<!-- Modal for Test Details -->
+<div class="modal fade" id="testDetailModal" tabindex="-1" aria-labelledby="testDetailModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="testDetailModalLabel">Test Details</h5>
+        <div class="header-actions">
+          <button class="btn-download-pdf" id="downloadPdfBtn">
+            <i class="fas fa-file-pdf"></i> Download PDF
+          </button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      </div>
+      <div class="modal-body" id="testDetailContent">
+        <!-- Content will be injected here by JS -->
+      </div>
+    </div>
+  </div>
+</div>
+
     {% else %}
     <div class="empty-state">
         <i class="fas fa-clipboard"></i>
         <h3>No Tests Available</h3>
         <p>You haven't created any tests yet. Click the button below to create your first test.</p>
-
     {% endif %}
 </div>
 {% endblock %}

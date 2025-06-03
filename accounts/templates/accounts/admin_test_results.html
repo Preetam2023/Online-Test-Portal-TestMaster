@@ -1,0 +1,50 @@
+{% extends 'accounts/org_admin_base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/admin_test_results.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="admin-results-container">
+    <h2>Results for: {{ test.title }}</h2>
+
+    <div class="actions">
+        <a href="{% url 'export_results_excel' test.id %}" class="btn-export">Export to Excel</a>
+        <a href="{% url 'export_results_pdf' test.id %}" class="btn-export">Download as PDF</a>
+    </div>
+
+    {% if results %}
+    <table class="results-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Score</th>
+                <th>Time Taken (sec)</th>
+                <th>Percentage</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in results %}
+            <tr>
+                <td>{{ r.user.get_full_name|default:r.user.email }}</td>
+                <td>{{ r.correct_answers }}/{{ test.total_marks }}</td>
+                <td>
+                    {% if result.time_taken %}
+                    {{ result.time_taken_formatted }}
+                    {% else %}
+                    <span class="na-text">N/A</span>
+                    {% endif %}
+                </td>
+                <td>{{ r.percentage }}%</td>
+                <td>{{ r.created_at|date:"M d, Y H:i" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p>No participants yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

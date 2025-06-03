@@ -70,8 +70,11 @@
         </div>
     </div>
 
-    <form method="POST" class="test-form" id="testForm">
+    <!-- ✅ Updated form with action and test_id -->
+    <form method="POST" action="{% url 'submit_org_test' %}" class="test-form" id="testForm">
         {% csrf_token %}
+        <input type="hidden" name="test_id" value="{{ test.id }}">
+        
         {% for tq in test_questions %}
         <div class="question-card">
             <div class="question-header">
@@ -82,7 +85,7 @@
             </div>
             <div class="options-container">
                 <label class="option">
-                    <input type="radio" name="q{{ tq.question.id }}" value="{{ tq.question.option1 }}" required>
+                    <input type="radio" name="q{{ tq.question.id }}" value="{{ tq.question.option1 }}">
                     <span class="option-content">
                         <span class="option-letter">A</span>
                         <span class="option-text">{{ tq.question.option1 }}</span>
@@ -112,6 +115,7 @@
             </div>
         </div>
         {% endfor %}
+        
         <div class="test-controls">
             <button type="submit" class="submit-btn">
                 <i class="fas fa-paper-plane"></i> Submit Test
@@ -122,5 +126,8 @@
 
 <link rel="stylesheet" href="{% static 'css/org_test_page.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<script>
+    const testDurationInMinutes = {{ test.total_time|default:20 }};
+</script>
 <script src="{% static 'js/org_test_page.js' %}"></script>
 {% endblock %}

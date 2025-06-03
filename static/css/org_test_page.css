@@ -223,23 +223,19 @@ body {
     cursor: pointer;
     transition: var(--transition);
     box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
-    opacity: 0.7;
-    pointer-events: none;
+    opacity: 0.7; /* Default opacity */
 }
 
 .start-btn.enabled {
-    opacity: 1;
-    pointer-events: auto;
+    opacity: 1; /* Full opacity when enabled */
+    pointer-events: auto; /* Allow pointer events */
 }
 
-.start-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(67, 97, 238, 0.4);
+.start-btn.disabled {
+    opacity: 0.7; /* Reduced opacity when disabled */
+    pointer-events: none; /* Prevent pointer events */
 }
 
-.start-btn:active {
-    transform: translateY(0);
-}
 
 .submit-btn {
     display: inline-flex;

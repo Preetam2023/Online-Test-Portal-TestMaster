@@ -1,0 +1,30 @@
+.admin-results-container {
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+}
+
+.actions {
+    margin-bottom: 15px;
+}
+
+.btn-export {
+    margin-right: 10px;
+    background-color: #4CAF50;
+    padding: 8px 12px;
+    border-radius: 5px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.results-table th, .results-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}

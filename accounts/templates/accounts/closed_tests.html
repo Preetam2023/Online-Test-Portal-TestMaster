@@ -35,6 +35,7 @@
                     <th>Created By</th>
                     <th>Deleted By</th>
                     <th>Deletion Time</th>
+                    <th>Result</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -93,6 +94,11 @@
                         {% else %}
                             <span class="na-badge">N/A</span>
                         {% endif %}
+                    </td>
+                    <td data-label="Result">
+                        <a href="{% url 'admin_test_results' test.id %}" class="btn btn-sm btn-results" title="View Results">
+                            <i class="fas fa-poll"></i> View
+                        </a>
                     </td>
                     <td data-label="Actions" class="actions-cell">
                         <div class="action-buttons">
