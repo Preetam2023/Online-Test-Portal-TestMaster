@@ -21,6 +21,19 @@
         <div class="col-md-6 bg-white p-5">
             <h2 class="pb-3" style="color: #2e7d32; font-weight:bold; text-align: center;">User Login</h2>
             <div class="form-style">
+                {% if messages %}
+    <div class="alert-container mb-3">
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
                 <form method="post" action="">
                     {% csrf_token %}
                     <div class="form-group pb-3 mb-4">

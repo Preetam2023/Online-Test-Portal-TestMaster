@@ -4,72 +4,238 @@
 <head>
     <title>Test Result</title>
     <link rel="stylesheet" href="{% static 'css/test_result.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-box-and-violin-plot/build/Chart.BoxPlot.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-chart-matrix@1.1.0/dist/chartjs-chart-matrix.min.js"></script>
 </head>
 <body>
-    <div class="result-container">
-        <h1>{{ result.test.title }} - Result</h1>
-        <p><strong>Organization:</strong> {{ result.test.organization.name }}</p>
+<div class="result-container">
+    <div class="result-header">
+        <h1 class="test-title">{{ result.test.title }} - Result</h1>
+        <p class="test-meta"><i class="fas fa-building"></i> {{ result.test.organization.name }}</p>
+        <p class="test-meta"><i class="fas fa-calendar-alt"></i> {{ result.created_at|date:"M d, Y H:i" }}</p>
+    </div>
 
-        <div class="score-summary">
-            <div class="score-value">{{ result.percentage }}%</div>
-            <p>Correct: {{ result.correct_answers }} / {{ result.total_questions }}</p>
+    <div class="performance-summary">
+        <div class="score-display">
+            <div class="score-circle">
+                <svg class="progress-ring" width="160" height="160">
+                    <circle class="progress-ring-circle" stroke="#e0e0e0" stroke-width="8" fill="transparent" r="72" cx="80" cy="80"/>
+                    <circle class="progress-ring-circle progress-ring-percentage" stroke="#4CAF50" stroke-width="8" stroke-dasharray="0 1000" fill="transparent" r="72" cx="80" cy="80"/>
+                </svg>
+                <div class="score-value">{{ result.percentage }}%</div>
+            </div>
+            <div class="score-details">
+                <h3>Your Score</h3>
+                <p><span class="correct">{{ result.correct_answers }}</span> out of <span class="total">{{ result.total_questions }}</span> correct</p>
+                <div class="time-taken">
+                    <i class="fas fa-clock"></i> Time Taken: {{ time_taken_formatted }}
+                </div>
+            </div>
         </div>
 
-        <h2>Question-wise Breakdown</h2>
+        <div class="legend-section">
+            <h3>Answer Key</h3>
+            <div class="legend-item"><span class="legend-color correct-legend"></span>Correct Answer</div>
+            <div class="legend-item"><span class="legend-color incorrect-legend"></span>Incorrect Answer</div>
+            <div class="legend-item"><span class="legend-color unattempted-legend"></span>Unattempted</div>
+        </div>
+    </div>
+
+    <div class="analysis-section">
+        <button class="toggle-analysis-btn">
+            <i class="fas fa-chart-pie"></i> Detailed Analysis 
+            <i class="fas fa-chevron-down toggle-icon"></i>
+        </button>
+
+        <div class="analysis-content">
+            <div class="charts-container">
+                <div class="chart-box">
+                    <canvas id="scoreDistributionChart"></canvas>
+                    <h4>Score Distribution</h4>
+                </div>
+                <div class="chart-box">
+                    <canvas id="comparisonChart" height="200"></canvas>
+                    <h4>Marks Comparison</h4>
+                    <canvas id="timeComparisonChart" height="200"></canvas>
+                    <h4>Time Comparison</h4>
+                </div>
+                <div class="chart-box">
+                    <canvas id="difficultyChart"></canvas>
+                    <h4>Difficulty-wise Performance</h4>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon accuracy"><i class="fas fa-bullseye"></i></div>
+                    <h3>{{ result.percentage }}%</h3>
+                    <p>Accuracy</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon rank"><i class="fas fa-trophy"></i></div>
+                    <h3>#{{ user_rank }}</h3>
+                    <p>Your Rank</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon time"><i class="fas fa-stopwatch"></i></div>
+                    <h3>{{ time_taken_formatted }}</h3>
+                    <p>Time Taken</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon speed"><i class="fas fa-tachometer-alt"></i></div>
+                    <h3>{{ speed|floatformat:1 }} Q/min</h3>
+                    <p>Speed</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="question-section">
+        <button class="toggle-questions-btn">
+            <i class="fas fa-question-circle"></i> Question-wise Breakdown 
+            <i class="fas fa-chevron-down toggle-icon"></i>
+        </button>
+
         <div class="question-breakdown">
             {% for q in question_data %}
-                <div class="question-card {% if q.is_correct %}correct{% else %}incorrect{% endif %}">
-                    <p><strong>Q:</strong> {{ q.text }}</p>
-                    <ul>
-                        <li {% if q.selected == q.option1 %}class="selected"{% endif %}>
-                            A. {{ q.option1 }} {% if q.correct == q.option1 %}(Correct){% endif %}
-                        </li>
-                        <li {% if q.selected == q.option2 %}class="selected"{% endif %}>
-                            B. {{ q.option2 }} {% if q.correct == q.option2 %}(Correct){% endif %}
-                        </li>
-                        <li {% if q.option3 %}{% if q.selected == q.option3 %}class="selected"{% endif %}>
-                            C. {{ q.option3 }} {% if q.correct == q.option3 %}(Correct){% endif %}
-                        </li>{% endif %}
-                        <li {% if q.option4 %}{% if q.selected == q.option4 %}class="selected"{% endif %}>
-                            D. {{ q.option4 }} {% if q.correct == q.option4 %}(Correct){% endif %}
-                        </li>{% endif %}
-                    </ul>
-                    <p><strong>Your Answer:</strong> {{ q.selected|default:"Not answered" }}</p>
+            <div class="question-card {% if q.is_correct %}correct{% elif q.selected %}incorrect{% else %}unattempted{% endif %}">
+                <div class="question-header">
+                    <span class="q-number">Q{{ forloop.counter }}</span>
+                    <span class="q-difficulty">{{ q.difficulty }}</span>
+                    <span class="q-status">
+                        {% if q.is_correct %}
+                            <i class="fas fa-check-circle correct-icon"></i> Correct
+                        {% elif q.selected %}
+                            <i class="fas fa-times-circle incorrect-icon"></i> Incorrect
+                        {% else %}
+                            <i class="fas fa-minus-circle unattempted-icon"></i> Unattempted
+                        {% endif %}
+                    </span>
                 </div>
+                <p class="question-text">{{ q.text }}</p>
+<ul class="options-list">
+    {% if q.option1 %}
+    <li class="option {% if q.correct == q.option1 %}correct-option{% endif %} {% if q.selected == q.option1 %}selected-option{% endif %}">
+        <span class="option-letter">A</span> {{ q.option1 }}
+        {% if q.correct == q.option1 %}<span class="correct-mark"><i class="fas fa-check"></i></span>{% endif %}
+    </li>
+    {% endif %}
+    {% if q.option2 %}
+    <li class="option {% if q.correct == q.option2 %}correct-option{% endif %} {% if q.selected == q.option2 %}selected-option{% endif %}">
+        <span class="option-letter">B</span> {{ q.option2 }}
+        {% if q.correct == q.option2 %}<span class="correct-mark"><i class="fas fa-check"></i></span>{% endif %}
+    </li>
+    {% endif %}
+    {% if q.option3 %}
+    <li class="option {% if q.correct == q.option3 %}correct-option{% endif %} {% if q.selected == q.option3 %}selected-option{% endif %}">
+        <span class="option-letter">C</span> {{ q.option3 }}
+        {% if q.correct == q.option3 %}<span class="correct-mark"><i class="fas fa-check"></i></span>{% endif %}
+    </li>
+    {% endif %}
+    {% if q.option4 %}
+    <li class="option {% if q.correct == q.option4 %}correct-option{% endif %} {% if q.selected == q.option4 %}selected-option{% endif %}">
+        <span class="option-letter">D</span> {{ q.option4 }}
+        {% if q.correct == q.option4 %}<span class="correct-mark"><i class="fas fa-check"></i></span>{% endif %}
+    </li>
+    {% endif %}
+</ul>
+
+                <div class="answer-summary">
+                    <p><strong>Your Answer:</strong> 
+                        <span class="{% if q.is_correct %}correct-answer{% elif q.selected %}incorrect-answer{% else %}unattempted-answer{% endif %}">
+                            {{ q.selected|default:"Not answered" }}
+                        </span>
+                    </p>
+                    {% if not q.is_correct and q.correct %}
+                    <p><strong>Correct Answer:</strong> <span class="correct-answer">{{ q.correct }}</span></p>
+                    {% endif %}
+                </div>
+            </div>
             {% endfor %}
         </div>
-        
+    </div>
 
     <div class="leaderboard-section">
-    <h2><i class="fas fa-trophy"></i> Leaderboard</h2>
-    <p>Your Rank: <strong>#{{ user_rank }}</strong></p>
+        <h2><i class="fas fa-trophy"></i> Leaderboard</h2>
+        <div class="leaderboard-container">
+            <div class="leaderboard-header">
+                <div class="your-rank"><i class="fas fa-user-tie"></i> Your Rank: <strong>#{{ user_rank }}</strong></div>
+                <div class="leaderboard-stats">
+                    <span><i class="fas fa-users"></i> Total Participants: {{ leaderboard|length }}</span>
+                    <span><i class="fas fa-crown"></i> Topper Score: {{ leaderboard.0.percentage }}%</span>
+                </div>
+            </div>
+            <div class="leaderboard-table-container">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>User</th>
+                            <th>Score</th>
+                            <th>Time</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for entry in leaderboard %}
+                        <tr class="{% if entry.id == result.id %}highlight-row{% endif %}">
+                            <td>{{ forloop.counter }}</td>
+                            <td>
+                                <div class="user-info">
+                                    <span class="user-avatar">{{ entry.user.get_full_name|default:entry.user.email|slice:":1"|upper }}</span>
+                                    {{ entry.user.get_full_name|default:entry.user.email }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="score-bar-container">
+                                    <div class="score-bar" style="width: {{ entry.percentage }}%"></div>
+                                    <span class="score-text">{{ entry.correct_answers }}/{{ entry.total_questions }} ({{ entry.percentage }}%)</span>
+                                </div>
+                            </td>
+                            <td>{{ entry.time_taken }}</td>
+                            <td>{{ entry.created_at|date:"M d, Y" }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-    <table class="leaderboard-table">
-        <thead>
-            <tr>
-                <th>Rank</th>
-                <th>User</th>
-                <th>Marks</th>
-                <th>Percentage</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for entry in leaderboard %}
-            <tr class="{% if entry.id == result.id %}highlight-row{% endif %}">
-                <td>{{ forloop.counter }}</td>
-                <td>{{ entry.user.get_full_name|default:entry.user.email }}</td>
-                <td>{{ entry.correct_answers }}/{{ test.total_marks }}</td>
-                <td>{{ entry.percentage }}%</td>
-                <td>{{ entry.created_at|date:"M d, Y H:i" }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="action-buttons">
+        <a href="{% url 'organization_tests' %}" class="btn btn-back"><i class="fas fa-arrow-left"></i> Back to Tests</a>
+        <button class="btn btn-download"><i class="fas fa-download"></i> Download Result</button>
+        <button class="btn btn-share"><i class="fas fa-share-alt"></i> Share Result</button>
+    </div>
 </div>
 
+<!-- Hidden spans for JS -->
+<span id="youScore" style="display:none;">{{ result.percentage }}</span>
+<span id="topperScore" style="display:none;">{{ leaderboard.0.percentage }}</span>
+<span id="avgScore" style="display:none;">{{ average_percentage }}</span>
+<span id="yourTime" style="display:none;">{{ result.time_taken }}</span>
+<span id="topperTime" style="display:none;">{{ leaderboard.0.time_taken_seconds }}</span>
+<span id="avgTime" style="display:none;">{{ average_time_taken|default:0 }}</span>
 
-        <a href="{% url 'organization_tests' %}" class="btn-back">Back to Tests</a>
-    </div>
+<span id="yourEasy" style="display:none;">{{ easy_percentage }}</span>
+<span id="yourMedium" style="display:none;">{{ medium_percentage }}</span>
+<span id="yourHard" style="display:none;">{{ hard_percentage }}</span>
+<span id="avgEasy" style="display:none;">{{ average_easy_percentage }}</span>
+<span id="avgMedium" style="display:none;">{{ average_medium_percentage }}</span>
+<span id="avgHard" style="display:none;">{{ average_hard_percentage }}</span>
+<span id="timeData" style="display:none;">{{ time_data_json }}</span>
+<span id="topicData" style="display:none;">{{ topic_data_json }}</span>
+
+{% for level, data in difficulty_breakdown.items %}
+<span id="{{ level }}_total" style="display:none;">{{ data.total }}</span>
+<span id="{{ level }}_correct" style="display:none;">{{ data.correct }}</span>
+<span id="{{ level }}_incorrect" style="display:none;">{{ data.incorrect }}</span>
+<span id="{{ level }}_unattempted" style="display:none;">{{ data.unattempted }}</span>
+{% endfor %}
+
+<script src="{% static 'js/test_result.js' %}"></script>
 </body>
 </html>

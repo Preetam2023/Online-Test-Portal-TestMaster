@@ -92,6 +92,7 @@ DATABASES = {
     }
 }
 
+LOGIN_URL = '/user-login/'
 
 AUTH_USER_MODEL = 'accounts.User'
 

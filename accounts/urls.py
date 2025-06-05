@@ -40,6 +40,7 @@ from .views import (
     edit_test,
     cancel_test,
     test_details,
+    generate_question_paper_pdf,
     closed_tests_view,
     export_test_results_excel,
     export_test_results_pdf,
@@ -85,7 +86,7 @@ urlpatterns = [
     path('organization/add-test/', add_test, name='add-test'),
     path('organization/view-tests/', view_tests, name='view-tests'),
     path('organization/view-tests/test-details/<int:test_id>/', test_details, name='test_details'),
-
+    path('organization/view-tests/test-details/<int:test_id>/pdf/', generate_question_paper_pdf, name='question_paper_pdf'),
     path('organization/view-tests/edit-test/<int:test_id>/', edit_test, name='edit_test'),
     path('organization/view-tests/cancel-test/<int:test_id>/', cancel_test, name='cancel_test'),
     path('organization/closed-tests/', closed_tests_view, name='closed_tests'),

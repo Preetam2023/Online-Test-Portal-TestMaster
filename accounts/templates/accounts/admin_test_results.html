@@ -2,49 +2,105 @@
 {% load static %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/admin_test_results.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="admin-results-container">
-    <h2>Results for: {{ test.title }}</h2>
-
-    <div class="actions">
-        <a href="{% url 'export_results_excel' test.id %}" class="btn-export">Export to Excel</a>
-        <a href="{% url 'export_results_pdf' test.id %}" class="btn-export">Download as PDF</a>
+    <a href="javascript:history.back()" class="back-button">
+        <i class="fas fa-arrow-left"></i> Back to Tests
+    </a>
+    <div class="results-header">
+        <div class="header-content">
+            <h1 class="results-title">
+                <i class="fas fa-chart-line"></i> Results for: {{ test.title }}
+            </h1>
+            <p class="results-subtitle">Detailed performance analysis of all participants</p>
+        </div>
+        
+        <div class="header-actions">
+            <div class="stats-card">
+                <i class="fas fa-users"></i>
+                <span class="stat-value">{{ results|length }}</span>
+                <span class="stat-label">Participants</span>
+            </div>
+            
+            <div class="export-buttons">
+                <a href="{% url 'export_results_excel' test.id %}" class="btn-export excel">
+                    <i class="fas fa-file-excel"></i> Export to Excel
+                </a>
+                <a href="{% url 'export_results_pdf' test.id %}" class="btn-export pdf">
+                    <i class="fas fa-file-pdf"></i> Download PDF
+                </a>
+            </div>
+        </div>
     </div>
 
     {% if results %}
-    <table class="results-table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Score</th>
-                <th>Time Taken (sec)</th>
-                <th>Percentage</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for r in results %}
-            <tr>
-                <td>{{ r.user.get_full_name|default:r.user.email }}</td>
-                <td>{{ r.correct_answers }}/{{ test.total_marks }}</td>
-                <td>
-                    {% if result.time_taken %}
-                    {{ result.time_taken_formatted }}
-                    {% else %}
-                    <span class="na-text">N/A</span>
-                    {% endif %}
-                </td>
-                <td>{{ r.percentage }}%</td>
-                <td>{{ r.created_at|date:"M d, Y H:i" }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="table-container">
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th class="participant-col">Participant</th>
+                    <th class="score-col">Score</th>
+                    <th class="time-col">Time Taken</th>
+                    <th class="percentage-col">Percentage</th>
+                    <th class="date-col">Completion Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in results %}
+                <tr class="result-row">
+                    <td class="participant-cell">
+                        <div class="user-avatar">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-name">{{ r.user.get_full_name|default:r.user.email }}</span>
+                            <span class="user-email">{{ r.user.email }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="score-container">
+                            <div class="score-bar" style="width: {{ r.percentage }}%"></div>
+                            <span class="score-text">{{ r.correct_answers }}/{{ test.total_marks }}</span>
+                        </div>
+                    </td>
+                    <td>
+                        {% if r.time_taken %}
+                        <div class="time-taken">
+                            <i class="fas fa-clock"></i> {{ r.time_taken_formatted }}
+                        </div>
+                        {% else %}
+                        <span class="na-text">N/A</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="percentage-badge" data-percentage="{{ r.percentage }}">
+                            {{ r.percentage }}%
+                        </div>
+                    </td>
+                    <td>
+                        <div class="date-cell">
+                            <div class="date">{{ r.created_at|date:"M d, Y" }}</div>
+                            <div class="time">{{ r.created_at|date:"H:i" }}</div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
     {% else %}
-        <p>No participants yet.</p>
+    <div class="empty-state">
+        <div class="empty-icon">
+            <i class="fas fa-clipboard-list"></i>
+        </div>
+        <h3>No Participants Yet</h3>
+        <p>This test hasn't been taken by any participants yet. Check back later for results.</p>
+    </div>
     {% endif %}
 </div>
 {% endblock %}

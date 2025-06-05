@@ -71,8 +71,9 @@
     </div>
 
     <!-- ✅ Updated form with action and test_id -->
-    <form method="POST" action="{% url 'submit_org_test' %}" class="test-form" id="testForm">
-        {% csrf_token %}
+   <form method="POST" action="{% url 'submit_org_test' %}" class="test-form" id="testForm" data-test-id="{{ test.id }}">
+
+    {% csrf_token %}
         <input type="hidden" name="test_id" value="{{ test.id }}">
         
         {% for tq in test_questions %}

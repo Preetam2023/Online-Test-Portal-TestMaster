@@ -7,54 +7,153 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ user.first_name }}'s Profile</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <!-- Link to the external CSS file -->
-    <link rel="stylesheet" href="{% static 'css/user_profile.css' %}">  
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{% static 'css/user_profile.css' %}">
 </head>
 <body>
-    <img src="{% static 'img/prof_bg.jpg' %}" alt="Background Image" class="background-image">
+    <div class="profile-background">
+        <div class="background-overlay"></div>
+        <div class="particles" id="particles-js"></div>
+    </div>
 
-    <div class="profile-container">
-        <h1>Profile</h1>
-        <a href="{% url 'user_dashboard' %}"> 
-            <img src="{% static 'img/home icon.png' %}" alt="Home Icon" style="position: absolute; top: 20px; right: 20px; width: 70px; height: 70px; cursor: pointer;">
+    <div class="profile-wrapper">
+        <a href="{% url 'user_dashboard' %}" class="home-btn animate__animated animate__fadeInRight">
+            <i class="fas fa-home"></i>
         </a>
-        <div class="profile-info">
-            <div>
-                <span>Name:</span> {{ user.first_name }} {{ user.last_name }}
+
+        <div class="profile-card animate__animated animate__fadeInUp">
+            <div class="profile-header">
+                <div class="avatar-container">
+                    <div class="avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="status-indicator"></div>
+                </div>
+                <h1>{{ user.first_name }} {{ user.last_name }}</h1>
+                <p class="member-since">Member since {{ user.date_joined|date:"M Y" }}</p>
             </div>
-            <div>
-                <span>Email:</span> {{ user.email }}
-            </div>
-            <div>
-                <span>Joined:</span> {{ user.date_joined }}
+
+            <div class="profile-details">
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="detail-content">
+                        <span class="detail-label">Email</span>
+                        <span class="detail-value">{{ user.email }}</span>
+                    </div>
+                </div>
+
+                <div class="detail-item">
+                    <div class="detail-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="detail-content">
+                        <span class="detail-label">Joined</span>
+                        <span class="detail-value">{{ user.date_joined|date:"M d, Y" }}</span>
+                    </div>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value">{{ test_history|length }}</span>
+                            <span class="stat-label">Tests Taken</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value">
+                                {% if test_history %}
+                                    {{ highest_percentage }}%
+                                {% else %}
+                                    0%
+                                {% endif %}
+                            </span>
+                            <span class="stat-label">Best Score</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <h2 class="test-history">Test History</h2>
-        {% if test_history %}
-            <table>
-                <tr>
-                    <th>Test Name</th>
-                    <th>Your Marks</th>
-                    <th>Topper Marks</th>
-                </tr>
-                {% for test in test_history %}
-                    <tr>
-                        <td>{{ test.test_name }}</td>
-                        <td>{{ test.your_marks }}</td>
-                        <td>{{ test.topper_marks }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
-        {% else %}
-            <p>No test history available.</p>
-        {% endif %}
-        
-        <div class="quote" id="quote"></div>
+
+        <div class="test-history-section animate__animated animate__fadeInUp">
+            <h2 class="section-title">
+                <i class="fas fa-history"></i> Test History
+            </h2>
+            
+            {% if test_history %}
+            <div class="table-container">
+                <table class="test-history-table">
+                    <thead>
+                        <tr>
+                            <th>Test Name</th>
+                            <th>Your Score</th>
+                            <th>Top Score</th>
+                            <th>Percentage</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for test in test_history %}
+                        <tr class="test-row">
+                            <td data-label="Test Name">
+                                <i class="fas fa-file-alt"></i> {{ test.test_name }}
+                            </td>
+                            <td data-label="Your Score" class="{% if test.your_marks == test.topper_marks %}top-score{% endif %}">
+                                {{ test.your_marks }}
+                            </td>
+                            <td data-label="Top Score">{{ test.topper_marks }}</td>
+                            <td data-label="Percentage">
+                                <div class="progress-container">
+                                    <div class="progress-bar" style="width: {{ test.percentage }}%"></div>
+                                    <span>{{ test.percentage }}%</span>
+                                </div>
+                            </td>
+                            <td data-label="Date">{{ test.date|date:"M d, Y" }}</td>
+                            <td data-label="Action">
+                                <a href="{% url 'org_test_result' test.result_id %}" class="view-btn">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>No test history available yet.</p>
+                    <a href="#" class="btn-primary">Take a Test</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="inspirational-quote animate__animated animate__fadeIn">
+            <i class="fas fa-quote-left"></i>
+            <p id="quote-text">Success is the sum of small efforts, repeated day in and day out.</p>
+            <p id="quote-author">- Robert Collier</p>
+        </div>
     </div>
-    
-    <!-- Link to the external JavaScript file -->
-    <script src="{% static 'js/user_profile.js' %}"></script> 
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    <!-- Main JS -->
+    <script src="{% static 'js/user_profile.js' %}"></script>
 </body>
 </html>

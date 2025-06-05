@@ -45,20 +45,7 @@ def user_signup(request):
     return render(request, 'accounts/user_signup.html', {'form': form})
 
 
-from django.contrib.auth import authenticate, login, get_user_model
-from django.shortcuts import render, redirect
-from .forms import LoginForm
-
-User = get_user_model()  # Dynamically get the custom user model
-
-from django.contrib.auth import authenticate, login, get_user_model
-from django.shortcuts import render, redirect
-from .forms import LoginForm
-
-User = get_user_model()  # Dynamically get the custom user model
-
-# accounts/views.py
-
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model
 from django.shortcuts import render, redirect
 from .forms import LoginForm
@@ -66,28 +53,29 @@ from .forms import LoginForm
 User = get_user_model()
 
 def login_view(request):
+    form = LoginForm(request.POST or None)
+
+    # Show warning message if redirected from login_required
+    if request.method == 'GET' and 'next' in request.GET:
+        messages.warning(request, "⚠️ You must be logged in to access this page.")
+
     if request.method == 'POST':
-        form = LoginForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
-
-            print(f"Authenticating with email: {email}")
-
             user = authenticate(request, email=email, password=password)
 
             if user is not None:
                 login(request, user)
-                print("Authentication successful")
-                return redirect('user_dashboard')
+                return redirect(request.GET.get('next') or 'user_dashboard')
             else:
-                print("Authentication failed")
                 form.add_error(None, "Invalid email or password.")
-    else:
-        form = LoginForm()
 
-    context = {'form': form}
-    return render(request, 'accounts/user_login.html', context)
+    return render(request, 'accounts/user_login.html', {
+        'form': form,
+    })
+
+
 
 
 
@@ -142,11 +130,29 @@ def user_dashboard(request):
 
 @login_required
 def user_profile(request):
-    
-    test_history = []  # Placeholder for future test history data
+    user = request.user
+    test_history = OrganizationTestResult.objects.filter(user=user).select_related('test').order_by('-created_at')[:5]
+
+    # Prepare test data
+    test_data = []
+    for result in test_history:
+        topper = OrganizationTestResult.objects.filter(test=result.test).order_by('-percentage', 'time_taken').first()
+        test_data.append({
+            'test_name': result.test.title,
+            'your_marks': result.correct_answers,
+            'topper_marks': topper.correct_answers if topper else 'N/A',
+            'percentage': result.percentage,
+            'date': result.created_at,
+            'result_id': result.id
+        })
+
+    context = {
+        'user': user,
+        'test_history': test_data
+    }
     return render(request, 'accounts/user_profile.html', {
         'user': request.user,
-        'test_history': test_history
+        'test_history': test_data 
     })
 
 
@@ -843,7 +849,13 @@ from .models import OrganizationTest, OrganizationTestResult, TestQuestion, Ques
 
 from django.contrib.auth.decorators import login_required
 
-@login_required
+from .models import TestProgress
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.db.models import Avg
+from .models import OrganizationTestResult, TestQuestion, OrganizationTest, TestProgress
+import json
+
 def submit_org_test_view(request):
     if request.method == 'POST':
         test_id = request.POST.get('test_id')
@@ -863,6 +875,15 @@ def submit_org_test_view(request):
 
         percentage = round((correct_answers / total_questions) * 100, 2)
 
+        time_left = 0
+        try:
+            progress = TestProgress.objects.get(user=request.user, test_id=test.id)
+            time_left = progress.time_left
+        except TestProgress.DoesNotExist:
+            progress = None
+
+        time_taken = test.total_time * 60 - time_left
+
         result = OrganizationTestResult.objects.create(
             user=request.user,
             test=test,
@@ -870,55 +891,164 @@ def submit_org_test_view(request):
             correct_answers=correct_answers,
             percentage=percentage,
             answers=user_answers,
-            time_taken = test.total_time * 60 - int(test.time_left)
-
+            time_taken=time_taken
         )
 
         return redirect('org_test_result', result_id=result.id)
+
     return redirect('organization_tests')
 
+from django.shortcuts import render, get_object_or_404
+from django.db.models import Avg
+from .models import OrganizationTestResult, TestQuestion, TestProgress
+import json
 
-from django.shortcuts import get_object_or_404, render
-from django.contrib.auth.decorators import login_required
-from .models import OrganizationTestResult, TestQuestion
+from django.shortcuts import render, get_object_or_404
+from django.db.models import Avg
+from .models import OrganizationTestResult, TestQuestion, TestProgress
+import json
 
 @login_required
+
 def organization_test_result_view(request, result_id):
     result = get_object_or_404(OrganizationTestResult, id=result_id, user=request.user)
     test = result.test
     questions = TestQuestion.objects.filter(test=test).select_related('question')
 
-    # Prepare detailed question-answer review
+    # Prepare question-wise data and difficulty stats
     question_data = []
+    difficulty_stats = {
+        'Easy': {'correct': 0, 'total': 0},
+        'Medium': {'correct': 0, 'total': 0},
+        'Hard': {'correct': 0, 'total': 0}
+    }
+
     for tq in questions:
         q = tq.question
         qid = f"q{q.id}"
         user_answer = result.answers.get(qid)
-        correct = q.correct_option.strip() == (user_answer or "").strip()
+        correct_option = q.correct_option.strip()
+        is_correct = user_answer and user_answer.strip() == correct_option
+
         question_data.append({
+            'id': q.id,
             'text': q.text,
             'option1': q.option1,
             'option2': q.option2,
             'option3': q.option3,
             'option4': q.option4,
-            'correct': q.correct_option,
+            'correct': correct_option,
             'selected': user_answer,
-            'is_correct': correct,
+            'is_correct': is_correct,
+            'difficulty': q.difficulty
         })
 
-    # Leaderboard: all results for this test
-    leaderboard = OrganizationTestResult.objects.filter(test=test).select_related('user').order_by('-correct_answers', 'created_at')
+        difficulty_stats[q.difficulty]['total'] += 1
+        if is_correct:
+            difficulty_stats[q.difficulty]['correct'] += 1
 
-    # Calculate user rank
-    user_rank = list(leaderboard).index(result) + 1
+    def calculate_percentage(correct, total):
+        return round((correct / total) * 100) if total > 0 else 0
+
+    # Difficulty breakdown
+    difficulty_breakdown = {}
+    for level in ['Easy', 'Medium', 'Hard']:
+        total = difficulty_stats[level]['total']
+        correct = difficulty_stats[level]['correct']
+        attempted = sum(1 for q in question_data if q['difficulty'] == level and q['selected'])
+        incorrect = attempted - correct
+        unattempted = total - attempted
+        difficulty_breakdown[level.lower()] = {
+            'total': total,
+            'correct': correct,
+            'incorrect': incorrect,
+            'unattempted': unattempted
+        }
+
+    easy_percentage = calculate_percentage(difficulty_stats['Easy']['correct'], difficulty_stats['Easy']['total'])
+    medium_percentage = calculate_percentage(difficulty_stats['Medium']['correct'], difficulty_stats['Medium']['total'])
+    hard_percentage = calculate_percentage(difficulty_stats['Hard']['correct'], difficulty_stats['Hard']['total'])
+
+    # Leaderboard and stats
+    all_results = OrganizationTestResult.objects.filter(test=test)
+    average_percentage = all_results.aggregate(avg=Avg('percentage'))['avg'] or 0
+
+    def get_average_difficulty_percentage(level):
+        correct = total = 0
+        for res in all_results:
+            for tq in TestQuestion.objects.filter(test=res.test).select_related('question'):
+                q = tq.question
+                if q.difficulty == level:
+                    qid = f"q{q.id}"
+                    answer = res.answers.get(qid)
+                    if answer and q.correct_option.strip() == answer.strip():
+                        correct += 1
+                    total += 1
+        return calculate_percentage(correct, total)
+
+    average_easy_percentage = get_average_difficulty_percentage('Easy')
+    average_medium_percentage = get_average_difficulty_percentage('Medium')
+    average_hard_percentage = get_average_difficulty_percentage('Hard')
+
+    # Time formatter
+    def format_time(seconds):
+        hours = seconds // 3600
+        minutes = (seconds % 3600) // 60
+        secs = seconds % 60
+        return f"{hours:02d}:{minutes:02d}:{secs:02d}"
+
+    # Speed calculation
+    minutes_taken = result.time_taken / 60 if result.time_taken > 0 else 1
+    speed = result.total_questions / minutes_taken
+    time_taken_formatted = format_time(result.time_taken)
+
+    # Leaderboard (with formatted time)
+    leaderboard_raw = OrganizationTestResult.objects.filter(test=test).select_related('user').order_by('-percentage', 'time_taken')
+    leaderboard = []
+    for rank, entry in enumerate(leaderboard_raw, start=1):
+        leaderboard.append({
+            'id': entry.id,
+            'user': entry.user,
+            'percentage': entry.percentage,
+            'correct_answers': entry.correct_answers,
+            'total_questions': entry.total_questions,
+            'time_taken': format_time(entry.time_taken),  # Display
+            'time_taken_seconds': entry.time_taken, 
+            'created_at': entry.created_at,
+            'rank': rank
+        })
+
+    user_rank = next((entry['rank'] for entry in leaderboard if entry['id'] == result.id), None)
+
+    # Time taken comparison
+    topper_result = leaderboard[0] if leaderboard else None
+    topper_time_taken = leaderboard_raw[0].time_taken if leaderboard_raw else 0
+    average_time_taken = all_results.aggregate(avg=Avg('time_taken'))['avg'] or 0
+
+    topper_time_formatted = format_time(topper_time_taken)
+    average_time_formatted = format_time(int(average_time_taken))
 
     return render(request, 'accounts/test_result.html', {
         'result': result,
         'test': test,
         'question_data': question_data,
-        'leaderboard': leaderboard[:10],  # top 10
+        'leaderboard': leaderboard,
         'user_rank': user_rank,
+        'time_taken_formatted': time_taken_formatted,
+        'speed': round(speed, 1),
+        'average_percentage': round(average_percentage),
+        'easy_percentage': easy_percentage,
+        'medium_percentage': medium_percentage,
+        'hard_percentage': hard_percentage,
+        'average_easy_percentage': average_easy_percentage,
+        'average_medium_percentage': average_medium_percentage,
+        'average_hard_percentage': average_hard_percentage,
+        'difficulty_breakdown': difficulty_breakdown,
+        'time_data_json': json.dumps([]),  # per-question time disabled for now
+        'topper_time_formatted': topper_time_formatted,
+        'average_time_formatted': average_time_formatted
     })
+
 
 from .models import OrganizationTestResult
 
@@ -991,19 +1121,25 @@ from .models import TestProgress
 @csrf_exempt
 def save_test_progress(request):
     if request.method == 'POST' and request.user.is_authenticated:
-        data = json.loads(request.body)
-        test_id = data.get('test_id')
-        answers = data.get('answers', {})
-        time_left = data.get('time_left', 0)
+        try:
+            data = json.loads(request.body)
+            test_id = data.get('test_id')
+            answers = data.get('answers', {})
+            time_left = int(data.get('time_left', 0))
 
-        if test_id:
+            if not test_id:
+                return JsonResponse({'status': 'error', 'reason': 'Missing test_id'}, status=400)
+
             TestProgress.objects.update_or_create(
                 user=request.user,
                 test_id=test_id,
                 defaults={'answers': answers, 'time_left': time_left}
             )
             return JsonResponse({'status': 'saved'})
-    return JsonResponse({'status': 'error'}, status=400)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    return JsonResponse({'status': 'unauthorized'}, status=401)
+
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -1055,6 +1191,174 @@ def test_details(request, test_id):
     except OrganizationTest.DoesNotExist:
         return JsonResponse({'error': 'Test not found'}, status=404)
     
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image, PageTemplate, Frame
+from reportlab.lib.units import inch
+from reportlab.pdfgen import canvas
+from io import BytesIO
+import os
+from django.conf import settings
+from datetime import datetime
+from .models import OrganizationTest, TestQuestion
+
+class PDFCanvas(canvas.Canvas):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        self.logo_path = kwargs.pop('logo_path', None)
+        canvas.Canvas.__init__(self, *args, **kwargs)
+        self._page_count = 0
+        self._saved_page_states = []
+
+    def showPage(self):
+        self._saved_page_states.append(dict(self.__dict__))
+        self._startPage()
+        self._page_count += 1
+
+    def save(self):
+        num_pages = len(self._saved_page_states)
+        for state in self._saved_page_states:
+            self.__dict__.update(state)
+            
+            # Draw watermark on every page
+            if self.logo_path and os.path.exists(self.logo_path):
+                self.saveState()
+                self.setFillAlpha(0.1)  # 10% opacity
+                self.drawImage(self.logo_path, 
+                             x=inch, 
+                             y=self._pagesize[1]/2 - inch, 
+                             width=self._pagesize[0] - 2*inch, 
+                             height=2*inch,
+                             preserveAspectRatio=True,
+                             anchor='c')
+                self.restoreState()
+            
+            # Draw footer on every page
+            self.saveState()
+            self.setFont('Helvetica', 8)
+            self.setFillColor(colors.gray)
+            footer_text = (
+                f"Downloaded by: {self.user.get_full_name() or self.user.email} | "
+                f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} | "
+                f"System: TestMaster | Page {self._pageNumber} of {num_pages}"
+            )
+            self.drawString(inch, 0.75*inch, footer_text)
+            self.restoreState()
+            
+            canvas.Canvas.showPage(self)
+        canvas.Canvas.save(self)
+
+def generate_question_paper_pdf(request, test_id):
+    test = get_object_or_404(OrganizationTest, id=test_id)
+    test_questions = TestQuestion.objects.filter(test=test).select_related('question').order_by('id')
+    
+    # Get organization logo if exists
+    logo_path = None
+    if test.organization and test.organization.logo:
+        logo_path = os.path.join(settings.MEDIA_ROOT, test.organization.logo.name)
+    
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="{test.title}_Question_Paper.pdf"'
+    
+    buffer = BytesIO()
+    
+    # Create PDF with custom canvas
+    doc = SimpleDocTemplate(buffer, pagesize=letter,
+                          rightMargin=36, leftMargin=36,
+                          topMargin=72, bottomMargin=36)
+    
+    elements = []
+    styles = getSampleStyleSheet()
+    
+    # Define all custom styles
+    title_style = ParagraphStyle(
+        'Title',
+        parent=styles['Heading1'],
+        fontSize=16,
+        alignment=1,
+        textColor=colors.HexColor('#4361ee'),
+        spaceAfter=12
+    )
+    
+    question_style = ParagraphStyle(
+        'Question',
+        parent=styles['BodyText'],
+        fontSize=12,
+        textColor=colors.black,
+        spaceAfter=6,
+        leftIndent=12
+    )
+    
+    option_style = ParagraphStyle(
+        'Option',
+        parent=styles['BodyText'],
+        fontSize=11,
+        textColor=colors.HexColor('#555555'),
+        leftIndent=36,
+        spaceAfter=3
+    )
+    
+    # Add organization logo at top if exists
+    if logo_path and os.path.exists(logo_path):
+        logo = Image(logo_path, width=1.5*inch, height=0.75*inch)
+        logo.hAlign = 'CENTER'
+        elements.append(logo)
+        elements.append(Spacer(1, 12))
+    
+    # Add title and metadata
+    elements.append(Paragraph(test.title, title_style))
+    
+    meta_data = [
+        [Paragraph(f"<b>Test Code:</b> {test.test_code}", styles['BodyText']),
+         Paragraph(f"<b>Duration:</b> {test.total_time} minutes", styles['BodyText'])],
+        [Paragraph(f"<b>Total Marks:</b> {test.total_marks}", styles['BodyText']),
+         Paragraph(f"<b>Organization:</b> {test.organization.name}", styles['BodyText'])]
+    ]
+    
+    meta_table = Table(meta_data, colWidths=[3*inch, 3*inch])
+    meta_table.setStyle(TableStyle([
+        ('VALIGN', (0,0), (-1,-1), 'TOP'),
+        ('ALIGN', (0,0), (-1,-1), 'LEFT'),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 6),
+    ]))
+    elements.append(meta_table)
+    elements.append(Spacer(1, 24))
+    
+    # Add questions
+    for idx, test_question in enumerate(test_questions, start=1):
+        question = test_question.question
+        question_text = f"Q{idx}. {question.text}"
+        if test_question.is_star_question:
+            question_text += " ★"
+        
+        elements.append(Paragraph(question_text, question_style))
+        
+        options = [
+            (f"A. {question.option1}", 'A'),
+            (f"B. {question.option2}", 'B'),
+        ]
+        if question.option3:
+            options.append((f"C. {question.option3}", 'C'))
+        if question.option4:
+            options.append((f"D. {question.option4}", 'D'))
+        
+        for option_text, _ in options:
+            elements.append(Paragraph(option_text, option_style))
+        
+        elements.append(Spacer(1, 12))
+    
+    # Build the PDF with our custom canvas
+    doc.build(elements, canvasmaker=lambda *args, **kw: PDFCanvas(*args, user=request.user, logo_path=logo_path, **kw))
+    
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    
+    return response
+    
 def format_duration(seconds):
     minutes = seconds // 60
     secs = seconds % 60
@@ -1102,28 +1406,137 @@ def export_test_results_excel(request, test_id):
     wb.save(response)
     return response
 
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import login_required
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from io import BytesIO
+import os
+from django.conf import settings
+from .models import OrganizationTest, OrganizationTestResult, Organization
+
+class WatermarkedCanvas(canvas.Canvas):
+    def __init__(self, *args, **kwargs):
+        self.logo_path = kwargs.pop('logo_path', None)
+        canvas.Canvas.__init__(self, *args, **kwargs)
+        self.width, self.height = letter
+
+    def showPage(self):
+        self.saveState()
+        # Draw watermark if logo exists
+        if self.logo_path and os.path.exists(self.logo_path):
+            self.setFillAlpha(0.1)  # 10% opacity
+            self.drawImage(self.logo_path, 
+                         x=inch, 
+                         y=self.height/2 - inch, 
+                         width=self.width - 2*inch, 
+                         height=2*inch,
+                         preserveAspectRatio=True,
+                         anchor='c')
+            self.setFillAlpha(1)  # Reset opacity
+        self.restoreState()
+        canvas.Canvas.showPage(self)
+
 @login_required
 def export_test_results_pdf(request, test_id):
     test = get_object_or_404(OrganizationTest, id=test_id)
-    results = OrganizationTestResult.objects.filter(test=test).select_related('user')
-
+    results = OrganizationTestResult.objects.filter(test=test).select_related('user').order_by('-percentage')
+    
+    # Get organization logo if exists
+    logo_path = None
+    if test.organization and test.organization.logo:
+        logo_path = os.path.join(settings.MEDIA_ROOT, test.organization.logo.name)
+    
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = f'attachment; filename="{test.title}_results.pdf"'
-
-    p = canvas.Canvas(response)
-    p.setFont("Helvetica-Bold", 14)
-    p.drawString(50, 800, f"Results for {test.title}")
-    p.setFont("Helvetica", 10)
-
-    y = 770
-    for res in results:
-        p.drawString(50, y, f"{res.user.get_full_name() or res.user.email} | Score: {res.correct_answers} | %: {res.percentage} | Time: {res.time_taken}s | Date: {res.created_at.strftime('%Y-%m-%d %H:%M')}")
-        y -= 15
-        if y < 50:
-            p.showPage()
-            y = 800
-
-    p.save()
+    
+    buffer = BytesIO()
+    
+    # Create PDF with optional watermark
+    doc = SimpleDocTemplate(buffer, pagesize=letter, 
+                          rightMargin=30, leftMargin=30, 
+                          topMargin=30, bottomMargin=30)
+    
+    elements = []
+    
+    # Custom styles
+    styles = getSampleStyleSheet()
+    
+    # Title style
+    title_style = ParagraphStyle(
+        'Title',
+        parent=styles['Heading1'],
+        fontSize=16,
+        alignment=1,
+        textColor=colors.HexColor('#4361ee'),
+        spaceAfter=20
+    )
+    
+    # Add title with organization name if available
+    title_text = f"Test Results: {test.title}"
+    if test.organization:
+        title_text += f"<br/><font size='10' color='#6c757d'>{test.organization.name}</font>"
+    
+    elements.append(Paragraph(title_text, title_style))
+    
+    # Summary info
+    summary_data = [
+        ["Total Participants:", str(len(results))],
+        ["Highest Score:", f"{max(r.percentage for r in results) if results else 0}%"],
+        ["Average Score:", f"{sum(r.percentage for r in results)/len(results) if results else 0:.1f}%"]
+    ]
+    
+    summary_table = Table(summary_data, colWidths=[2*inch, 2*inch])
+    summary_table.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#f8f9fa')),
+        ('GRID', (0,0), (-1,-1), 1, colors.HexColor('#dee2e6')),
+        ('ALIGN', (0,0), (-1,-1), 'CENTER'),
+        ('FONTSIZE', (0,0), (-1,-1), 10),
+    ]))
+    elements.append(summary_table)
+    elements.append(Spacer(1, 20))
+    
+    # Main results table
+    data = [["#", "Participant", "Score", "Percentage", "Time Taken", "Date"]]
+    
+    for idx, result in enumerate(results, start=1):
+        data.append([
+            str(idx),
+            result.user.get_full_name() or result.user.email,
+            f"{result.correct_answers}/{test.total_marks}",
+            f"{result.percentage}%",
+            f"{result.time_taken}s" if result.time_taken else "N/A",
+            result.created_at.strftime("%Y-%m-%d %H:%M")
+        ])
+    
+    table = Table(data, colWidths=[0.5*inch, 2.5*inch, 1*inch, 1*inch, 1*inch, 1.5*inch])
+    
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#4361ee')),
+        ('TEXTCOLOR', (0,0), (-1,0), colors.white),
+        ('ALIGN', (0,0), (-1,-1), 'CENTER'),
+        ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0,0), (-1,0), 10),
+        ('BOTTOMPADDING', (0,0), (-1,0), 12),
+        ('BACKGROUND', (0,1), (-1,-1), colors.white),
+        ('GRID', (0,0), (-1,-1), 1, colors.HexColor('#dddddd')),
+        ('FONTSIZE', (0,1), (-1,-1), 9),
+        ('ROWBACKGROUNDS', (0,1), (-1,-1), [colors.white, colors.HexColor('#f8f9fa')]),
+    ]))
+    
+    elements.append(table)
+    
+    # Build PDF with optional watermark
+    doc.build(elements, canvasmaker=lambda *args, **kw: WatermarkedCanvas(*args, logo_path=logo_path, **kw))
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    
     return response
 
 

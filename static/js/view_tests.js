@@ -1,22 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
-  // Initialize modal variable outside the click handler
   let testDetailModal = null;
   
   document.querySelectorAll('.test-title-link').forEach(link => {
     link.addEventListener('click', function(e) {
       e.preventDefault();
       const testId = this.dataset.testId;
+      
       fetch(`/accounts/organization/view-tests/test-details/${testId}/`)
         .then(res => res.json())
         .then(data => {
           if (data.error) return alert(data.error);
 
-          // Get organization name from the response or use default
+          // Format the modal content (same as before)
           const orgName = data.organization_name || 
                          (data.test && data.test.organization && data.test.organization.name) || 
                          'ORGANIZATION';
 
-          // Format questions
           const questionsHtml = data.questions.map((q, i) => `
             <div class="question-block">
               <div class="question-text">Q${i + 1}. ${q.text}</div>
@@ -29,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
           `).join('');
 
-          // Create the question paper content with multiple watermarks
           const content = `
             <div class="question-paper">
               <div class="watermark-layer">
@@ -54,18 +52,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="questions-section">
                   ${questionsHtml}
                 </div>
-                
-                <div class="paper-footer">
-                </div>
               </div>
             </div>
           `;
 
-          // Inject into modal body
+          // Inject content into modal
           const modalBody = document.getElementById('testDetailContent');
           modalBody.innerHTML = content;
 
-          // Initialize or get modal instance
+          // Initialize modal if not already done
           const modalElement = document.getElementById('testDetailModal');
           if (!testDetailModal) {
             testDetailModal = new bootstrap.Modal(modalElement);
@@ -74,39 +69,16 @@ document.addEventListener('DOMContentLoaded', function() {
           // Show the modal
           testDetailModal.show();
 
-          // PDF download functionality
+          // Update PDF download button - KEY CHANGE IS HERE
           const downloadBtn = document.getElementById('downloadPdfBtn');
           if (downloadBtn) {
+            // Remove any existing click handlers
+            downloadBtn.onclick = null;
+            
+            // Set new handler to use Django PDF endpoint
             downloadBtn.onclick = () => {
-              const element = document.querySelector('.question-paper');
-              if (element) {
-                const opt = {
-                  margin: 5,
-                  filename: `${data.title.replace(/\s+/g, '_')}_Question_Paper.pdf`,
-                  image: { type: 'jpeg', quality: 0.98 },
-                  html2canvas: { 
-                    scale: 5,
-                    logging: true,
-                    useCORS: true,
-                    allowTaint: true
-                  },
-                  jsPDF: { 
-                    unit: 'mm', 
-                    format: 'a4', 
-                    orientation: 'portrait' 
-                  },
-                  pagebreak: { mode: 'avoid-all' }
-                };
-                
-                // Create a clone to avoid modal styling issues
-                const clone = element.cloneNode(true);
-                clone.style.padding = '2.5cm';
-                document.body.appendChild(clone);
-                
-                html2pdf().from(clone).set(opt).save().then(() => {
-                  document.body.removeChild(clone);
-                });
-              }
+              // Use the correct URL pattern from your urls.py
+              window.location.href = `/accounts/organization/view-tests/test-details/${testId}/pdf/`;
             };
           }
         })
@@ -117,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Add event listener for the close button (as fallback)
+  // Modal close handler
   document.addEventListener('click', function(e) {
     if (e.target.closest('.btn-close') || e.target.closest('[data-bs-dismiss="modal"]')) {
       if (testDetailModal) {
