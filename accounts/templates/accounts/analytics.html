@@ -1,0 +1,85 @@
+{% extends 'accounts/org_admin_base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/analytics.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="analytics-container">
+    <h2><i class="fas fa-chart-bar"></i> Analytics Dashboard</h2>
+
+    <div class="analytics-summary">
+        <div class="stat-card">Total Tests <span>{{ total_tests }}</span></div>
+        <div class="stat-card">Participants <span>{{ total_participants }}</span></div>
+        <div class="stat-card">Test Attempts <span>{{ total_attempts }}</span></div>
+    </div>
+
+    <div class="analytics-section">
+        <h3>Top 5 Most Attempted Tests</h3>
+        <canvas id="topTestsChart"></canvas>
+    </div>
+
+    <div class="analytics-section">
+        <h3>Average Score by Test</h3>
+        <canvas id="avgScoreChart"></canvas>
+    </div>
+
+    <div class="analytics-section">
+        <h3>Participation Over Time</h3>
+        <canvas id="participationChart"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{{ top_tests|json_script:"topTestsData" }}
+{{ avg_scores|json_script:"avgScoresData" }}
+{{ participation_chart|json_script:"participationData" }}
+
+<script>
+    const topTestsData = JSON.parse(document.getElementById('topTestsData').textContent);
+    const avgScoresData = JSON.parse(document.getElementById('avgScoresData').textContent);
+    const participationData = JSON.parse(document.getElementById('participationData').textContent);
+
+    new Chart(document.getElementById('topTestsChart'), {
+        type: 'bar',
+        data: {
+            labels: topTestsData.map(d => d.test__title),
+            datasets: [{
+                label: 'Attempts',
+                data: topTestsData.map(d => d.attempts),
+                backgroundColor: '#3f37c9',
+            }]
+        }
+    });
+
+    new Chart(document.getElementById('avgScoreChart'), {
+        type: 'bar',
+        data: {
+            labels: avgScoresData.map(d => d.test__title),
+            datasets: [{
+                label: 'Avg % Score',
+                data: avgScoresData.map(d => d.avg_score),
+                backgroundColor: '#00b894',
+            }]
+        }
+    });
+
+    new Chart(document.getElementById('participationChart'), {
+        type: 'line',
+        data: {
+            labels: participationData.map(d => d.date),
+            datasets: [{
+                label: 'Attempts per Day',
+                data: participationData.map(d => d.count),
+                borderColor: '#0984e3',
+                backgroundColor: 'rgba(9,132,227,0.1)',
+                fill: true
+            }]
+        }
+    });
+</script>
+{% endblock %}
+

@@ -61,13 +61,13 @@
             
             <div class="menu-section">
                 <span class="section-label">MANAGEMENT</span>
-                <a href="#" class="menu-item">
+                <a href="{% url 'participants' %}" class="menu-item {% if request.path == '/organization/participants/' %}active{% endif %}">
                     <div class="menu-icon">
                         <i class="fas fa-users"></i>
                     </div>
                     <span class="menu-text">Participants</span>
                 </a>
-                <a href="#" class="menu-item">
+                <a href="{% url 'organization_analytics' %}" class="menu-item {% if request.path == '/organization/analytics/' %}active{% endif %}">
                     <div class="menu-icon">
                         <i class="fas fa-chart-bar"></i>
                     </div>

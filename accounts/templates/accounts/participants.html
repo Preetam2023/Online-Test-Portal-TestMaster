@@ -1,0 +1,74 @@
+{% extends 'accounts/org_admin_base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/participants.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="participants-container">
+    <div class="closed-tests-header">
+        <h2><i class="fas fa-users"></i> Participants</h2>
+    </div>
+
+    {% if participants %}
+    <div class="table-responsive">
+        <table class="participants-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Attempted Tests</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in participants %}
+                <tr>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <ul class="test-list" id="test-list-{{ user.id }}">
+                            {% for test in user.tests|slice:":3" %}
+                                <li>{{ test }}</li>
+                            {% endfor %}
+                            {% if user.tests|length > 3 %}
+                                <li class="more-tests" style="display:none;">
+                                    {% for test in user.tests|slice:"3:" %}
+                                        <li>{{ test }}</li>
+                                    {% endfor %}
+                                </li>
+                                <button class="show-more" data-user-id="{{ user.id }}">+ Show more</button>
+                            {% endif %}
+                        </ul>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-user-slash"></i>
+        <h3>No participants found</h3>
+        <p>No users have attempted your organization tests yet.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.show-more').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const userId = btn.dataset.userId;
+                const moreItems = document.querySelector(`#test-list-${userId} .more-tests`);
+                if (moreItems) {
+                    moreItems.style.display = 'block';
+                    btn.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

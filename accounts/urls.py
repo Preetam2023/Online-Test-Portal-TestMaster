@@ -28,6 +28,8 @@ from .views import (
     get_questions_by_subject,
     get_random_questions,
     get_questions_by_ids,
+    add_manual_question,
+    create_subject,
     view_tests,
     organization_tests_view,
     start_org_test_view,
@@ -45,6 +47,9 @@ from .views import (
     export_test_results_excel,
     export_test_results_pdf,
     org_test_results_admin_view,
+    participants_view,
+    organization_analytics,
+
 )
 
 urlpatterns = [
@@ -90,9 +95,14 @@ urlpatterns = [
     path('organization/view-tests/edit-test/<int:test_id>/', edit_test, name='edit_test'),
     path('organization/view-tests/cancel-test/<int:test_id>/', cancel_test, name='cancel_test'),
     path('organization/closed-tests/', closed_tests_view, name='closed_tests'),
+    path('organization/closed-tests/test-details/<int:test_id>/', test_details, name='closed_test_details'),
+    path('organization/closed-tests/test-details/<int:test_id>/pdf/', generate_question_paper_pdf, name='closed_test_pdf'),
     path('organization/closed-tests/results/<int:test_id>/', org_test_results_admin_view, name='admin_test_results'),
     path('organization/closed-tests/results/<int:test_id>/excel/', export_test_results_excel, name='export_results_excel'),
     path('organization/closed-tests/results/<int:test_id>/pdf/', export_test_results_pdf, name='export_results_pdf'),
+    path('organization/participants/', participants_view, name='participants'),
+    path('organization/analytics/', organization_analytics, name='organization_analytics'),
+
 
 
 
@@ -100,6 +110,11 @@ urlpatterns = [
     path('api/get-random-questions/<int:subject_id>/', get_random_questions, name='get-random-questions'),
     path('api/get-questions/<int:subject_id>/', get_questions_by_subject, name='get-questions-by-subject'),
     path('api/get-questions-by-ids/', get_questions_by_ids, name='get-questions-by-ids'),
+    path('api/add-manual-question/', add_manual_question, name='add_manual_question'),
+    path('api/create-subject/', create_subject, name='create_subject'),
+
+
+
 
     #Test Data save and fetch
     path('save-progress/', save_test_progress, name='save_progress'),

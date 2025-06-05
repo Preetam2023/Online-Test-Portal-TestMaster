@@ -1,0 +1,41 @@
+.participants-container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.participants-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    min-width: 800px;
+}
+
+.participants-table thead {
+    background-color: #5a4e7c;
+    color: white;
+}
+
+.participants-table th, .participants-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+}
+
+.test-list {
+    list-style-type: disc;
+    margin-left: 1rem;
+    padding-left: 0;
+}
+
+.test-list .show-more {
+    margin-top: 0.5rem;
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    font-size: 0.85rem;
+}

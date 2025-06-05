@@ -592,9 +592,10 @@ from .models import Subject, Question, TestQuestion, OrganizationTest
 from .forms import AddTestForm
 def is_org_admin_or_moderator(user):
     return user.is_authenticated and user.role in ['ORG_ADMIN', 'MODERATOR']
+
+
 @login_required
 @user_passes_test(is_org_admin_or_moderator)
-
 
 def add_test(request):
     subjects = Subject.objects.all()
@@ -660,14 +661,41 @@ def add_test(request):
 from django.http import JsonResponse
 from .models import Question
 import random
-import json
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 @login_required
 @user_passes_test(is_org_admin_or_moderator)
 def get_random_questions(request, subject_id):
     count = int(request.GET.get('count', 0))
-    questions = list(Question.objects.filter(subject_id=subject_id))
-    selected = random.sample(questions, min(count, len(questions)))
+    easy = int(request.GET.get('easy', 0))
+    medium = int(request.GET.get('medium', 0))
+    hard = int(request.GET.get('hard', 0))
+
+    total_specified = easy + medium + hard
+
+    questions = []
+
+    # Difficulty-wise fetch
+    if total_specified > 0:
+        def get_random_by_difficulty(level, num):
+            pool = list(Question.objects.filter(subject_id=subject_id, difficulty=level))
+            return random.sample(pool, min(num, len(pool)))
+
+        questions += get_random_by_difficulty('Easy', easy)
+        questions += get_random_by_difficulty('Medium', medium)
+        questions += get_random_by_difficulty('Hard', hard)
+
+        remaining_needed = count - len(questions)
+        if remaining_needed > 0:
+            remaining_pool = list(
+                Question.objects.filter(subject_id=subject_id)
+                .exclude(id__in=[q.id for q in questions])
+            )
+            questions += random.sample(remaining_pool, min(remaining_needed, len(remaining_pool)))
+    else:
+        # Old fallback: pure random selection
+        pool = list(Question.objects.filter(subject_id=subject_id))
+        questions = random.sample(pool, min(count, len(pool)))
 
     return JsonResponse({
         'questions': [{
@@ -677,7 +705,8 @@ def get_random_questions(request, subject_id):
             'option2': q.option2,
             'option3': q.option3,
             'option4': q.option4,
-        } for q in selected]
+            'difficulty': q.difficulty,
+        } for q in questions]
     })
 
 
@@ -693,6 +722,8 @@ def get_questions_by_subject(request, subject_id):
             'option2': q.option2,
             'option3': q.option3,
             'option4': q.option4,
+            'difficulty': q.difficulty,
+
         } for q in questions]
     })
 
@@ -711,8 +742,79 @@ def get_questions_by_ids(request):
             'option2': q.option2,
             'option3': q.option3,
             'option4': q.option4,
+            'difficulty': q.difficulty,
+
         } for q in questions]
     })
+    
+import json
+from django.views.decorators.csrf import csrf_exempt
+from .models import Subject
+from django.http import JsonResponse
+
+@csrf_exempt
+def create_subject(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        name = data.get('name', '').strip()
+        if not name:
+            return JsonResponse({'success': False, 'error': 'Subject name is required'})
+
+        if Subject.objects.filter(name__iexact=name).exists():
+            return JsonResponse({'success': False, 'error': 'Subject already exists'})
+
+        subject = Subject.objects.create(name=name)
+        return JsonResponse({'success': True, 'id': subject.id})
+    return JsonResponse({'success': False, 'error': 'Invalid method'})
+
+
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from .models import Question, Subject, TestQuestion, OrganizationTest
+import uuid
+
+@csrf_exempt  # Only needed if CSRF isn't set up in fetch (but you did set it, so optional)
+def add_manual_question(request):
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        option1 = request.POST.get('option1')
+        option2 = request.POST.get('option2')
+        option3 = request.POST.get('option3') or ''
+        option4 = request.POST.get('option4') or ''
+        correct_option = request.POST.get('correct_option')
+        difficulty = request.POST.get('difficulty')
+        subject_id = request.POST.get('subject_id')
+
+        try:
+            subject = Subject.objects.get(id=subject_id)
+        except Subject.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Invalid subject'})
+
+        qid = f"Q{uuid.uuid4().hex[:8].upper()}"
+        question = Question.objects.create(
+            subject=subject,
+            qid=qid,
+            text=text,
+            option1=option1,
+            option2=option2,
+            option3=option3,
+            option4=option4,
+            correct_option=request.POST.get(correct_option),
+            difficulty=difficulty
+        )
+
+        return JsonResponse({
+            'success': True,
+            'question': {
+                'id': question.id,
+                'text': question.text,
+                'option1': question.option1,
+                'option2': question.option2,
+                'option3': question.option3,
+                'option4': question.option4,
+            }
+        })
+    return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 from .models import OrganizationTest
 
@@ -1186,6 +1288,8 @@ def test_details(request, test_id):
             'duration': test.total_time,
             'marks': test.total_marks,
             'questions': question_list,
+            'org_logo': test.organization.logo.url if test.organization.logo else None  # Add this line
+
         }
         return JsonResponse(data)
     except OrganizationTest.DoesNotExist:
@@ -1538,6 +1642,96 @@ def export_test_results_pdf(request, test_id):
     response.write(pdf)
     
     return response
+
+
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from .models import OrganizationTestResult
+from collections import defaultdict
+
+@login_required
+def participants_view(request):
+    # Get all test results for the current organization
+    results = OrganizationTestResult.objects.select_related('user', 'test').all()
+
+    participants_dict = defaultdict(lambda: {'email': '', 'tests': set()})
+
+    for result in results:
+        user = result.user
+        participants_dict[user.id]['name'] = user.get_full_name() or user.username
+        participants_dict[user.id]['email'] = user.email
+        participants_dict[user.id]['tests'].add(result.test.title)
+
+    participants = [
+        {
+            'id': uid,
+            'name': data['name'],
+            'email': data['email'],
+            'tests': list(data['tests'])
+        }
+        for uid, data in participants_dict.items()
+    ]
+
+    return render(request, 'accounts/participants.html', {
+        'participants': participants
+    })
+
+from django.shortcuts import render
+from django.db.models import Count, Avg
+from .models import OrganizationTest, OrganizationTestResult
+
+def organization_analytics(request):
+    org = request.user.org_admin_profile.organization  # ✅ your org only
+
+    org_tests = OrganizationTest.objects.filter(organization=org)
+    org_results = OrganizationTestResult.objects.filter(test__organization=org)
+
+    total_tests = org_tests.count()
+    total_participants = org_results.values('user').distinct().count()
+    total_attempts = org_results.count()
+
+    # Top 5 most attempted tests
+    top_tests = (
+        org_results
+        .values('test__title')
+        .annotate(attempts=Count('id'))
+        .order_by('-attempts')[:5]
+    )
+
+    # Avg score per test (based on percentage)
+    avg_scores = (
+        org_results
+        .values('test__title')
+        .annotate(avg_score=Avg('percentage'))
+        .order_by('-avg_score')[:5]
+    )
+
+    # Participation chart: date vs attempts
+    participation_chart = (
+        org_results
+        .extra({'date': "date(created_at)"})
+        .values('date')
+        .annotate(count=Count('id'))
+        .order_by('date')
+    )
+
+    context = {
+        'total_tests': total_tests,
+        'total_participants': total_participants,
+        'total_attempts': total_attempts,
+        'top_tests': list(top_tests),
+        'avg_scores': list(avg_scores),
+        'participation_chart': list(participation_chart),
+    }
+    
+    print("Top Tests:", list(top_tests))
+    print("Avg Scores:", list(avg_scores))
+    print("Participation:", list(participation_chart))
+
+
+    return render(request, 'accounts/analytics.html', context)
+
 
 
 @login_required

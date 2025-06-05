@@ -5,6 +5,11 @@
 <link rel="stylesheet" href="{% static 'css/closed_tests.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+
+
 {% endblock %}
 
 {% block extra_js %}
@@ -45,7 +50,10 @@
                     <td data-label="Title">
                         <div class="test-title">
                             <i class="fas fa-file-alt"></i> 
-                            <span>{{ test.title }}</span>
+                            <a href="#" class="closed-test-title-link" data-test-id="{{ test.id }}">
+                                {{ test.title }}
+                            </a>
+
                         </div>
                     </td>
                     <td data-label="Subject">
@@ -115,6 +123,7 @@
                 {% endfor %}
             </tbody>
         </table>
+    
     </div>
     
     <div class="pagination-container">
@@ -156,4 +165,27 @@
         </div>
     </div>
 </div>
+
+<!-- Modal for Closed Test Details -->
+<!-- Modal for Closed Test Details -->
+<div class="modal fade" id="closedTestDetailModal" tabindex="-1" aria-labelledby="closedTestDetailModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white justify-content-between align-items-center">
+        <h5 class="modal-title" id="closedTestDetailModalLabel">Question Paper</h5>
+        <div>
+          <button class="btn btn-light btn-sm me-2" id="closedDownloadPdfBtn">
+            <i class="fas fa-file-pdf"></i> Download PDF
+          </button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+      </div>
+      <div class="modal-body" id="closedTestDetailContent">
+        <!-- Question content injected here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
 {% endblock %}

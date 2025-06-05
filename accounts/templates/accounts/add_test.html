@@ -7,8 +7,6 @@
 {% endblock %}
 {% block content %}
 
-
-
 <div class="container mt-5">
     <h2 class="mb-4">Create a New Test</h2>
     <form id="addTestForm" method="POST">
@@ -18,9 +16,7 @@
             <input type="text" class="form-control" id="testName" name="title" required>
         </div>
         <div class="form-group">
-          
-          <label for="subject">Subject</label>
-
+            <label for="subject">Subject</label>
             <select class="form-control" id="subject" name="subject">
                 <option value="">-- Select a Subject --</option>
                 {% for subject in subjects %}
@@ -32,14 +28,11 @@
             </select>
 
             <div class="form-group mt-2 d-none" id="newSubjectContainer">
-              <label for="subjectName">New Subject Name</label>
-              <input type="text" class="form-control" id="subjectName" name="subject_name" placeholder="Enter new subject name">
-          </div>
-          
-            
+                <label for="subjectName">New Subject Name</label>
+                <input type="text" class="form-control" id="subjectName" name="subject_name" placeholder="Enter new subject name">
+            </div>
+        </div>
 
-              
-          
         <div class="form-row">
             <div class="form-group col-md-4">
                 <label for="totalQuestions">Total Questions</label>
@@ -64,9 +57,7 @@
             <label>Test Questions</label>
             <div id="testQuestions" class="border rounded p-3">
                 <button type="button" class="btn btn-outline-primary mt-2" id="addQuestionBtn">Add Questions</button>
-              </div>
-              
-            
+            </div>
         </div>
 
         <button type="submit" class="btn btn-success">Create Test</button>
@@ -83,7 +74,7 @@
       </div>
       <div class="modal-body">
         <button class="btn btn-info btn-block" id="fromBankBtn">From Question Bank</button>
-        <button class="btn btn-secondary btn-block" disabled>Add Manually (Coming Soon)</button>
+        <button class="btn btn-secondary btn-block" id="manualCreateBtn">Add Manually</button>
       </div>
     </div>
   </div>
@@ -106,9 +97,7 @@
             {% empty %}
                 <option disabled>No subjects available</option>
             {% endfor %}
-        </select>
-        
-        
+          </select>
         </div>
         <div class="btn-group w-100 mb-3">
           <button class="btn btn-outline-primary w-50" id="randomSelectBtn">Randomly Select</button>
@@ -129,6 +118,63 @@
     </div>
   </div>
 </div>
+
+<!-- Manual Question Creation Modal -->
+<div class="modal fade" id="manualCreateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Question Manually</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form id="manualQuestionForm">
+          <div class="form-group">
+            <label>Question Text</label>
+            <textarea class="form-control" name="text" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Option A</label>
+            <input type="text" class="form-control" name="option1" required>
+          </div>
+          <div class="form-group">
+            <label>Option B</label>
+            <input type="text" class="form-control" name="option2" required>
+          </div>
+          <div class="form-group">
+            <label>Option C</label>
+            <input type="text" class="form-control" name="option3">
+          </div>
+          <div class="form-group">
+            <label>Option D</label>
+            <input type="text" class="form-control" name="option4">
+          </div>
+          <div class="form-group">
+            <label>Correct Option</label>
+            <select class="form-control" name="correct_option" required>
+              <option value="">-- Select --</option>
+              <option value="option1">Option A</option>
+              <option value="option2">Option B</option>
+              <option value="option3">Option C</option>
+              <option value="option4">Option D</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Difficulty Level</label>
+            <select class="form-control" name="difficulty" required>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
+          <input type="hidden" name="subject_id" id="manualSubjectId">
+          <button type="submit" class="btn btn-success">Save Question</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 
 {% if messages %}

@@ -375,7 +375,8 @@
     animation: fadeIn 0.3s;
 }
 
-.modal-content {
+/* Only affect confirmation modal */
+#confirmationModal .modal-content {
     background-color: white;
     margin: 10% auto;
     padding: 1.5rem;
@@ -386,6 +387,17 @@
     position: relative;
     animation: slideDown 0.3s;
 }
+
+/* Let fullscreen modal take full space */
+.modal-fullscreen .modal-content {
+    height: 100vh !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0;
+    border: none;
+}
+
 
 @keyframes slideDown {
     from { transform: translateY(-50px); opacity: 0; }
@@ -478,4 +490,372 @@
     .actions-cell {
         width: auto;
     }
+}
+
+/* Add these styles to closed_tests.css */
+.question-paper {
+    position: relative;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.watermark-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.watermark {
+    position: absolute;
+    color: rgba(0,0,0,0.03);
+    font-size: 8rem;
+    font-weight: bold;
+    transform: rotate(-30deg);
+    user-select: none;
+}
+
+.watermark-1 { top: 20%; left: 10%; }
+.watermark-2 { top: 50%; left: 50%; }
+.watermark-3 { bottom: 20%; right: 10%; }
+
+.paper-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.org-logo {
+    max-height: 80px;
+    margin-bottom: 1rem;
+}
+
+.paper-title {
+    font-size: 1.8rem;
+    color: #4361ee;
+    margin-bottom: 1rem;
+}
+
+.paper-meta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+}
+
+.paper-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.divider {
+    height: 1px;
+    background: #eee;
+    margin: 1.5rem 0;
+}
+
+.question-block {
+    margin-bottom: 1.5rem;
+}
+
+.question-text {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.options-list {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 0.5rem 0;
+}
+
+.options-list li {
+    padding: 0.3rem 0;
+    font-size: 1rem;
+}
+
+/* Modal Backdrop Fix */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1040;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+    z-index: 1050;
+}
+
+/* Fullscreen Modal Styles */
+.modal-fullscreen .modal-content {
+    height: 100vh;
+    border-radius: 0;
+    border: none;
+}
+
+.modal-fullscreen .modal-body {
+    height: 100%;
+    overflow-y: auto;
+    padding: 0; /* Let injected paper handle padding */
+}
+
+
+/* Question Paper Styling (same as active tests) */
+.question-paper {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+
+.paper-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.paper-title {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin: 1rem 0;
+}
+
+/* Add this to your closed_tests.css - Question Paper Modal Styles Only */
+#closedTestDetailModal .modal-dialog {
+    max-width: 900px; /* Matches active test width */
+    margin: 1.75rem auto;
+}
+
+#closedTestDetailModal .modal-content {
+    border-radius: 8px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+#closedTestDetailModal .modal-header {
+    background: #2c3e50;
+    border-bottom: 1px solid #e9ecef;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#closedTestDetailModal .modal-title {
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+#closedTestDetailModal .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#closedTestDetailModal .btn-download-pdf {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+#closedTestDetailModal .btn-download-pdf:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+#closedTestDetailModal .modal-body {
+    padding: 0;
+    background: #fff;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+/* Question Paper Content (matches active test exactly) */
+.question-paper {
+    position: relative;
+    background: white;
+    padding: 30px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.watermark-layer {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.watermark {
+    position: absolute;
+    font-size: 5rem;
+    font-weight: 800;
+    color: rgba(0, 0, 0, 0.1);
+    transform: rotate(-30deg);
+    white-space: nowrap;
+    font-family: 'Poppins', sans-serif;
+}
+
+.watermark-1 { top: 15%; left: 5%; }
+.watermark-2 { top: 45%; left: 35%; }
+.watermark-3 { top: 75%; left: 65%; }
+
+.paper-header {
+    text-align: center;
+    margin-bottom: 25px;
+    position: relative;
+    z-index: 1;
+}
+
+.org-logo {
+    max-height: 70px;
+    margin-bottom: 15px;
+}
+
+.paper-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.paper-meta {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    color: #555;
+    flex-wrap: wrap;
+}
+
+.paper-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.paper-meta-item i {
+    font-size: 0.85rem;
+    color: #7f8c8d;
+}
+
+.divider {
+    border-top: 2px solid #e0e0e0;
+    margin: 20px 0;
+}
+
+.question-block {
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.question-text {
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #2c3e50;
+    font-size: 1rem;
+}
+
+.options-list {
+    list-style-type: none;
+    padding-left: 20px;
+    margin: 8px 0;
+}
+
+.options-list li {
+    margin-bottom: 6px;
+    position: relative;
+    font-size: 0.9rem;
+}
+
+.options-list li::before {
+    content: attr(data-option);
+    position: absolute;
+    left: -20px;
+    font-weight: 600;
+    color: #3498db;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #closedTestDetailModal .modal-dialog {
+        margin: 0.5rem auto;
+        max-width: 95%;
+    }
+    
+    .question-paper {
+        padding: 20px 15px;
+    }
+    
+    .paper-title {
+        font-size: 1.4rem;
+    }
+    
+    .paper-meta {
+        gap: 15px;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .watermark {
+        font-size: 3rem;
+    }
+    
+    #closedTestDetailModal .modal-body {
+        max-height: 80vh;
+    }
+}
+
+#closedTestDetailModal .bg-primary {
+    background-color: #004085 !important;  /* or your preferred color */
+}
+
+.btn-close {
+  background: transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%236c757d'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+  border: none;
+  color: #ffffff;
+  opacity: 0.7;
+  width: 1em;
+  height: 1em;
+  padding: 0.5em;
+  margin-left: 0.5rem;
+  transition: all 0.2s;
+}
+
+.btn-close:hover {
+  opacity: 1;
+  transform: rotate(90deg);
 }

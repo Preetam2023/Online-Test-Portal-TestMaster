@@ -1,0 +1,44 @@
+.analytics-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.analytics-summary {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    text-align: center;
+    flex: 1;
+    margin: 0 10px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.stat-card span {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 0.5rem;
+    color: #3f37c9;
+}
+
+.analytics-section {
+    margin-top: 2.5rem;
+}
+
+.analytics-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
