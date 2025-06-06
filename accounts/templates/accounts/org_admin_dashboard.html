@@ -4,6 +4,8 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/org_admin_dashboard.css' %}">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'css/view_tests.css' %}"> {# Include modal styling #}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block content %}
@@ -13,7 +15,6 @@
         <div class="header-content">
             <h1 class="greeting">Welcome to TestMaster</h1>
             <h3 class="subtitle">{{ user.org_admin_profile.organization.name }}</h3>
-
         </div>
         <div class="header-actions">
             <div class="notification-bell">
@@ -29,202 +30,139 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Stats Cards Grid -->
     <div class="stats-grid">
         <div class="stat-card card-1">
-            <div class="stat-icon">
-                <i class="fas fa-door-open"></i>
-            </div>
+            <div class="stat-icon"><i class="fas fa-door-open"></i></div>
             <div class="stat-info">
-                <h3 class="stat-value">12</h3>
+                <h3 class="stat-value">{{ total_active_tests }}</h3>
                 <p class="stat-title">Active Tests</p>
             </div>
-            <a href="#" class="stat-link">View all <i class="fas fa-arrow-right"></i></a>
+            <a href="{% url 'view-tests' %}" class="stat-link">View all <i class="fas fa-arrow-right"></i></a>
             <div class="card-wave"></div>
         </div>
-        
+
         <div class="stat-card card-2">
-            <div class="stat-icon">
-                <i class="fas fa-users"></i>
-            </div>
+            <div class="stat-icon"><i class="fas fa-users"></i></div>
             <div class="stat-info">
-                <h3 class="stat-value">1,245</h3>
+                <h3 class="stat-value">{{ total_participants }}</h3>
                 <p class="stat-title">Participants</p>
             </div>
-            <a href="#" class="stat-link">View all <i class="fas fa-arrow-right"></i></a>
+            <a href="{% url 'participants' %}" class="stat-link">View all <i class="fas fa-arrow-right"></i></a>
             <div class="card-wave"></div>
         </div>
-        
+
         <div class="stat-card card-3">
-            <div class="stat-icon">
-                <i class="fas fa-check-circle"></i>
-            </div>
+            <div class="stat-icon"><i class="fas fa-user-cog"></i></div>
             <div class="stat-info">
-                <h3 class="stat-value">87%</h3>
-                <p class="stat-title">Completion Rate</p>
+                <h3 class="stat-value">Manage</h3>
+                <p class="stat-title">Moderators</p>
             </div>
-            <a href="#" class="stat-link">View stats <i class="fas fa-arrow-right"></i></a>
+            <a href="{% url 'control-moderators' %}" class="stat-link">Manage now <i class="fas fa-arrow-right"></i></a>
             <div class="card-wave"></div>
         </div>
-        
+
         <div class="stat-card card-4">
-            <div class="stat-icon">
-                <i class="fas fa-clock"></i>
-            </div>
+            <div class="stat-icon"><i class="fas fa-chart-bar"></i></div>
             <div class="stat-info">
-                <h3 class="stat-value">5</h3>
-                <p class="stat-title">Pending Reviews</p>
+                <h3 class="stat-value">View</h3>
+                <p class="stat-title">Test Analysis</p>
             </div>
-            <a href="#" class="stat-link">Review now <i class="fas fa-arrow-right"></i></a>
+            <a href="{% url 'organization_analytics' %}" class="stat-link">Analyze now <i class="fas fa-arrow-right"></i></a>
             <div class="card-wave"></div>
         </div>
     </div>
-    
-    <!-- Recent Activity Section -->
-    <div class="recent-activity">
-        <div class="section-header">
-            <h2><i class="fas fa-history"></i> Recent Activity</h2>
-            <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
-        </div>
-        <div class="activity-list">
-            <div class="activity-item">
-                <div class="activity-icon success">
-                    <i class="fas fa-check"></i>
-                </div>
-                <div class="activity-details">
-                    <h5>New test published</h5>
-                    <p>Midterm Assessment was published successfully</p>
-                    <small>Today, 10:45 AM</small>
-                </div>
-            </div>
-            <div class="activity-item">
-                <div class="activity-icon warning">
-                    <i class="fas fa-exclamation"></i>
-                </div>
-                <div class="activity-details">
-                    <h5>Test results pending</h5>
-                    <p>5 tests need your review and approval</p>
-                    <small>Yesterday, 3:30 PM</small>
-                </div>
-            </div>
-            <div class="activity-item">
-                <div class="activity-icon primary">
-                    <i class="fas fa-user-plus"></i>
-                </div>
-                <div class="activity-details">
-                    <h5>New participant</h5>
-                    <p>John Doe registered for Final Examination</p>
-                    <small>Yesterday, 1:15 PM</small>
-                </div>
-            </div>
-        </div>
-    </div>
-    
+
     <!-- Recent Tests Section -->
-    <div class="recent-tests">
-        <div class="section-header">
-            <h2><i class="fas fa-clipboard-list"></i> Recent Tests</h2>
-            <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+    <table class="recent-tests-table">
+        <thead>
+            <tr>
+                <th>Test</th>
+                <th>Status</th>
+                <th>Attempts</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for test in recent_tests %}
+            <tr>
+                <td>
+                    <div class="test-info">
+                        <div class="test-icon bg-primary">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div>
+                            <div class="test-name">{{ test.title }}</div>
+                            <div class="test-meta">{{ test.subject.name }}</div>
+                        </div>
+                    </div>
+                </td>
+
+                <td>
+                    {% if not test.is_cancelled %}
+                        <span class="status-badge active">Active</span>
+                    {% else %}
+                        <span class="status-badge closed">Closed</span>
+                    {% endif %}
+                </td>
+
+                <td>{{ test.organizationtestresult_set.count }}</td>
+
+                <td>{{ test.date_created|date:"d M Y" }}</td>
+
+                <td>
+                    <div class="action-buttons">
+                        <!-- Updated View Button -->
+                        <button class="action-btn view-btn test-title-link" data-test-id="{{ test.id }}" title="View">
+                            <i class="fas fa-eye"></i>
+                        </button>
+
+                        {% if not test.is_cancelled %}
+                            <a href="{% url 'edit_test' test.id %}" class="action-btn edit-btn" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'closed_test_details' test.id %}" class="action-btn stats-btn" title="Statistics">
+                                <i class="fas fa-chart-bar"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No recent tests found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- 🧾 Modal for Test Details -->
+<div class="modal fade" id="testDetailModal" tabindex="-1" aria-labelledby="testDetailModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="testDetailModalLabel">Test Details</h5>
+        <div class="header-actions">
+          <button class="btn-download-pdf" id="downloadPdfBtn">
+            <i class="fas fa-file-pdf"></i> Download PDF
+          </button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        
-        <div class="table-container">
-            <table class="data-table">
-                <thead>
-                    <tr>
-                        <th>Test Name</th>
-                        <th>Status</th>
-                        <th>Participants</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <div class="test-info">
-                                <div class="test-icon bg-primary">
-                                    <i class="fas fa-file-alt"></i>
-                                </div>
-                                <div>
-                                    <div class="test-name">Midterm Assessment</div>
-                                    <div class="test-meta">Mathematics</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td><span class="status-badge active">Active</span></td>
-                        <td>324</td>
-                        <td>15 Oct 2023</td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn view-btn" title="View">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="action-btn edit-btn" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="test-info">
-                                <div class="test-icon bg-info">
-                                    <i class="fas fa-file-alt"></i>
-                                </div>
-                                <div>
-                                    <div class="test-name">Final Examination</div>
-                                    <div class="test-meta">Science</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td><span class="status-badge draft">Draft</span></td>
-                        <td>-</td>
-                        <td>20 Dec 2023</td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn view-btn" title="View">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="action-btn edit-btn" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="test-info">
-                                <div class="test-icon bg-success">
-                                    <i class="fas fa-file-alt"></i>
-                                </div>
-                                <div>
-                                    <div class="test-name">Weekly Quiz #5</div>
-                                    <div class="test-meta">English</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td><span class="status-badge closed">Closed</span></td>
-                        <td>187</td>
-                        <td>05 Oct 2023</td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-btn view-btn" title="View">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="action-btn stats-btn" title="Statistics">
-                                    <i class="fas fa-chart-bar"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+      </div>
+      <div class="modal-body" id="testDetailContent">
+        <!-- Content injected by JS -->
+      </div>
     </div>
+  </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/org_admin_dashboard.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+<script src="{% static 'js/view_tests.js' %}" defer></script>
+<script src="{% static 'js/org_admin_dashboard.js' %}" defer></script>
 {% endblock %}

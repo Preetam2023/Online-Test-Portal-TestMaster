@@ -371,20 +371,39 @@ from .forms import (OrganizationSignupForm, OrganizationLoginForm,
 from .models import Organization, ModeratorProfile
 import random
 import string
-
 @login_required
 def org_admin_dashboard(request):
     if not hasattr(request.user, 'org_admin_profile'):
         return redirect('organization-admin-login')
-    
+
     organization = request.user.org_admin_profile.organization
+
+    total_active_tests = OrganizationTest.objects.filter(
+        organization=organization,
+        is_cancelled=False
+    ).count()
+
+    total_participants = OrganizationTestResult.objects.filter(
+        test__organization=organization
+    ).values('user').distinct().count()
+
     moderators = ModeratorProfile.objects.filter(organization=organization)
-    
+
+    recent_tests = OrganizationTest.objects.filter(
+        organization=organization,
+        is_cancelled=False
+    ).order_by('-date_created')[:5]
+
     context = {
         'organization': organization,
         'moderators': moderators,
+        'total_active_tests': total_active_tests,
+        'total_participants': total_participants,
+        'recent_tests': recent_tests,
     }
+
     return render(request, 'accounts/org_admin_dashboard.html', context)
+
 
 @login_required
 def organization_settings(request):
@@ -768,53 +787,81 @@ def create_subject(request):
     return JsonResponse({'success': False, 'error': 'Invalid method'})
 
 
-from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from .models import Question, Subject, TestQuestion, OrganizationTest
-import uuid
+from django.views.decorators.csrf import csrf_exempt # If you handle CSRF differently for APIs
+from .models import Question, Subject # Make sure to import your models
+import json
+import uuid # For qid
 
-@csrf_exempt  # Only needed if CSRF isn't set up in fetch (but you did set it, so optional)
+@csrf_exempt # Only if you are sure about CSRF implications for this API endpoint.
+             # Otherwise, ensure CSRF token is handled correctly by the client.
+             # The JS already sends X-CSRFToken, so this might not be needed if Django's CSRF middleware is standard.
 def add_manual_question(request):
     if request.method == 'POST':
-        text = request.POST.get('text')
-        option1 = request.POST.get('option1')
-        option2 = request.POST.get('option2')
-        option3 = request.POST.get('option3') or ''
-        option4 = request.POST.get('option4') or ''
-        correct_option = request.POST.get('correct_option')
-        difficulty = request.POST.get('difficulty')
-        subject_id = request.POST.get('subject_id')
-
         try:
-            subject = Subject.objects.get(id=subject_id)
-        except Subject.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Invalid subject'})
+            # 1. Parse JSON data from the request body
+            data = json.loads(request.body)
 
-        qid = f"Q{uuid.uuid4().hex[:8].upper()}"
-        question = Question.objects.create(
-            subject=subject,
-            qid=qid,
-            text=text,
-            option1=option1,
-            option2=option2,
-            option3=option3,
-            option4=option4,
-            correct_option=request.POST.get(correct_option),
-            difficulty=difficulty
-        )
+            text = data.get('text')
+            option1 = data.get('option1')
+            option2 = data.get('option2')
+            option3 = data.get('option3') or '' # Handle optional fields
+            option4 = data.get('option4') or '' # Handle optional fields
+            correct_option_key = data.get('correct_option') # This will be 'option1', 'option2', etc.
+            difficulty = data.get('difficulty')
+            subject_id = data.get('subject_id')
 
-        return JsonResponse({
-            'success': True,
-            'question': {
-                'id': question.id,
-                'text': question.text,
-                'option1': question.option1,
-                'option2': question.option2,
-                'option3': question.option3,
-                'option4': question.option4,
-            }
-        })
-    return JsonResponse({'success': False, 'error': 'Invalid request method'})
+            # Basic validation (add more as needed)
+            if not all([text, option1, option2, correct_option_key, difficulty, subject_id]):
+                return JsonResponse({'success': False, 'error': 'Missing required fields'}, status=400)
+
+            try:
+                subject = Subject.objects.get(id=subject_id)
+            except Subject.DoesNotExist:
+                return JsonResponse({'success': False, 'error': 'Invalid subject ID'}, status=400)
+
+            # Generate a unique qid (if you still need this format)
+            # If your Question model's primary key `id` is an AutoField, 
+            # that's usually enough for uniqueness.
+            # qid_value = f"Q{uuid.uuid4().hex[:8].upper()}"
+
+            question = Question.objects.create(
+                subject=subject,
+                # qid=qid_value, # If you have a qid field
+                text=text,
+                option1=option1,
+                option2=option2,
+                option3=option3,
+                option4=option4,
+                correct_option=correct_option_key, # 2. Save the key directly
+                difficulty=difficulty
+            )
+
+            # 3. Ensure the response includes all fields needed by the frontend
+            return JsonResponse({
+                'success': True,
+                'question': {
+                    'id': question.id, # Use the actual database ID
+                    'text': question.text,
+                    'option1': question.option1,
+                    'option2': question.option2,
+                    'option3': question.option3,
+                    'option4': question.option4,
+                    'correct_option': question.correct_option, # Include this
+                    'difficulty': question.difficulty,         # Include this
+                    'subject_id': subject.id # Good to include for consistency
+                }
+            }, status=201) # 201 Created is a good status for new resources
+
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'error': 'Invalid JSON format'}, status=400)
+        except Exception as e:
+            # Log the exception e for debugging
+            print(f"Error in add_manual_question: {e}") 
+            return JsonResponse({'success': False, 'error': f'An unexpected error occurred: {str(e)}'}, status=500)
+
+    return JsonResponse({'success': False, 'error': 'Invalid request method. Only POST is allowed.'}, status=405)
+
 
 from .models import OrganizationTest
 

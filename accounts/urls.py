@@ -105,7 +105,6 @@ urlpatterns = [
 
 
 
-
     # API endpoints for dynamic question loading
     path('api/get-random-questions/<int:subject_id>/', get_random_questions, name='get-random-questions'),
     path('api/get-questions/<int:subject_id>/', get_questions_by_subject, name='get-questions-by-subject'),

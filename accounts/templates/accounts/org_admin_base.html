@@ -27,8 +27,10 @@
         <div class="sidebar-menu">
             <div class="menu-section">
                 <span class="section-label">MAIN</span>
-                <a href="{% url 'organization-admin-dashboard' %}" class="menu-item {% if request.path == '/organization-admin-dashboard/' %}active{% endif %}">
-                    <div class="menu-icon">
+                {% url 'organization-admin-dashboard' as dashboard_url %}
+                <a href="{{ dashboard_url }}" class="menu-item {% if request.path == dashboard_url %}active{% endif %}">
+
+                <div class="menu-icon">
                         <i class="fas fa-tachometer-alt"></i>
                     </div>
                     <span class="menu-text">Dashboard</span>
@@ -38,52 +40,80 @@
             
             <div class="menu-section">
                 <span class="section-label">TESTS</span>
-                <a href="{% url 'add-test' %}" class="menu-item {% if request.path == '/organization/add-test/' %}active{% endif %}">
+                {% url 'add-test' as add_test_url %}
+                <a href="{{ add_test_url }}" class="menu-item {% if request.path == add_test_url %}active{% endif %}">
                     <div class="menu-icon">
                         <i class="fas fa-plus-circle"></i>
                     </div>
                     <span class="menu-text">Add Test</span>
-                </a>
-                <a href="{% url 'view-tests' %}" class="menu-item {% if request.path == '/organization/view-tests/' %}active{% endif %}">
+                        <div class="active-indicator"></div>
 
+                </a>
+                {% url 'view-tests' as view_tests_url %}
+                <a href="{{ view_tests_url }}" class="menu-item {% if request.path == view_tests_url %}active{% endif %}">
                     <div class="menu-icon">
                         <i class="fas fa-door-open"></i>
                     </div>
                     <span class="menu-text">Open Tests</span>
+                                            <div class="active-indicator"></div>
+
                 </a>
-                <a href="{% url 'closed_tests' %}" class="menu-item {% if request.path == '/organization/closed-tests/' %}active{% endif %}">
+
+                {% url 'closed_tests' as closed_tests_url %}
+                <a href="{{ closed_tests_url }}" class="menu-item {% if request.path == closed_tests_url %}active{% endif %}">
                     <div class="menu-icon">
                         <i class="fas fa-door-closed"></i>
                     </div>
                     <span class="menu-text">Closed Tests</span>
+                                            <div class="active-indicator"></div>
+
                 </a>
             </div>
             
             <div class="menu-section">
                 <span class="section-label">MANAGEMENT</span>
-                <a href="{% url 'participants' %}" class="menu-item {% if request.path == '/organization/participants/' %}active{% endif %}">
+
+                {% url 'participants' as participants_url %}
+<a href="{{ participants_url }}" class="menu-item {% if request.path == participants_url %}active{% endif %}">
+
                     <div class="menu-icon">
                         <i class="fas fa-users"></i>
                     </div>
                     <span class="menu-text">Participants</span>
+                                            <div class="active-indicator"></div>
+
                 </a>
-                <a href="{% url 'organization_analytics' %}" class="menu-item {% if request.path == '/organization/analytics/' %}active{% endif %}">
+
+                {% url 'organization_analytics' as organization_analytics %}
+<a href="{{ organization_analytics }}" class="menu-item {% if request.path == organization_analytics %}active{% endif %}">
+
                     <div class="menu-icon">
                         <i class="fas fa-chart-bar"></i>
                     </div>
                     <span class="menu-text">Analytics</span>
+                                            <div class="active-indicator"></div>
+
                 </a>
-                <a href="{% url 'organization-settings' %}" class="menu-item {% if request.path == '/organization/settings/' %}active{% endif %}">
+
+                {% url 'organization-settings' as organization_settings %}
+<a href="{{ organization_settings }}" class="menu-item {% if request.path == organization_settings %}active{% endif %}">
+
                     <div class="menu-icon">
                         <i class="fas fa-cog"></i>
                     </div>
                     <span class="menu-text">Settings</span>
+                        <div class="active-indicator"></div>
+
                 </a>
-                <a href="{% url 'control-moderators' %}" class="menu-item {% if request.path == '/organization/moderators/' %}active{% endif %}">
+
+                 {% url 'control-moderators' as control_moderators %}
+<a href="{{ control_moderators }}" class="menu-item {% if request.path == control_moderators %}active{% endif %}">
                     <div class="menu-icon">
                         <i class="fas fa-users-cog"></i>
                     </div>
                     <span class="menu-text">Moderators</span>
+                        <div class="active-indicator"></div>
+
                 </a>
             </div>
         </div>
