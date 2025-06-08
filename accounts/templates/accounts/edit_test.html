@@ -1,25 +1,78 @@
-{% extends 'accounts/org_admin_base.html' %}
+{% extends 'accounts/shared_base.html' %}
+{% load static %}
+{% block title %}Edit Test{% endblock %}
+
+{% block extra_css %}
+  {% if user.role == "ORG_ADMIN" %}
+    <link rel="stylesheet" href="{% static 'css/org_admin_base.css' %}">
+  {% elif user.role == "MODERATOR" %}
+    <link rel="stylesheet" href="{% static 'css/moderator_sidebar.css' %}">
+  {% endif %}
+  <link rel="stylesheet" href="{% static 'css/edit_test.css' %}"> 
+  <link rel="stylesheet" href="{% static 'css/add_test.css' %}">
+{# or results.css if applicable #}
+{% endblock %}
+
+
 {% block content %}
 <h2>Edit Test</h2>
-<form method="post">
+<form method="post" id="editTestForm">
     {% csrf_token %}
     <label>Title:</label>
-    <input type="text" name="title" value="{{ test.title }}"><br>
+    <input type="text" name="title" value="{{ test.title }}" required><br>
 
     <label>Test Code:</label>
-    <input type="text" name="test_code" value="{{ test.test_code }}"><br>
+    <input type="text" name="test_code" value="{{ test.test_code }}" required><br>
 
     <label>Total Questions:</label>
-    <input type="number" name="total_questions" value="{{ test.total_questions }}"><br>
+    <input type="number" name="total_questions" id="totalQuestionsInput" value="{{ test.total_questions }}" required><br>
+
+    <label>Duration (minutes):</label>
+    <input type="number" name="duration" value="{{ test.total_time }}" required><br>
+
+    <label>Total Marks:</label>
+    <input type="number" name="full_marks" value="{{ test.total_marks }}" required><br>
 
     <label>Subject:</label>
-    <select name="subject">
+    <select name="subject" id="subjectSelect">
         {% for subject in subjects %}
             <option value="{{ subject.id }}" {% if subject == test.subject %}selected{% endif %}>{{ subject.name }}</option>
         {% endfor %}
-    </select><br>
+    </select><br><br>
 
-    <button type="submit">Save Changes</button>
-    <a href="{% url 'organization_tests' %}">❌ Cancel</a>
+    <!-- Question management -->
+    <h5>Selected Questions</h5>
+    <div id="selectedQuestionsList">
+        {% for tq in test_questions %}
+        <div class="selected-question" data-id="{{ tq.question.id }}">
+            <strong>{{ tq.question.text }}</strong><br>
+            A. {{ tq.question.option1 }}<br>
+            B. {{ tq.question.option2 }}<br>
+            {% if tq.question.option3 %}C. {{ tq.question.option3 }}<br>{% endif %}
+            {% if tq.question.option4 %}D. {{ tq.question.option4 }}<br>{% endif %}
+            <span class="badge bg-info text-dark">Difficulty: {{ tq.question.difficulty }}</span>
+            <span class="badge bg-success">Correct: {{ tq.question.correct_option }}</span>
+            <button type="button" class="btn btn-danger btn-sm remove-question" data-id="{{ tq.question.id }}">Remove</button>
+            <hr>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Add question buttons -->
+    <div class="mb-3">
+        <button type="button" id="addRandomBtn" class="btn btn-outline-primary"> Add Questions</button>
+    </div>
+
+    <input type="hidden" name="question_ids" id="questionIdsInput">
+
+    <button type="submit" class="btn btn-success">💾 Save Changes</button>
+    <a href="{% url 'view-tests' %}" class="btn btn-secondary">❌ Cancel</a>
 </form>
+
+<!-- Include existing random/manual modal structures -->
+{% include 'accounts/add_test_modal.html' %}
+
+{% endblock %}
+{% block extra_js %}
+<script src="{% static 'js/edit_test.js' %}"></script>
 {% endblock %}

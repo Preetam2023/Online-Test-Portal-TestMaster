@@ -429,3 +429,8 @@ label {
     font-size: 0.75rem;
     color: var(--primary-color);
 }
+
+.text-success {
+    color: green;
+    font-weight: 500;
+}

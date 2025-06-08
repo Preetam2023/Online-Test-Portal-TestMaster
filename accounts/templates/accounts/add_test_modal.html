@@ -1,0 +1,120 @@
+<!-- Question Source Modal -->
+<div class="modal fade" id="questionSourceModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">
+            <i class="fas fa-question-circle me-2"></i>
+            Add Questions
+        </h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body text-center py-4">
+        <button class="btn btn-info btn-lg btn-block mb-3" id="fromBankBtn">
+            <i class="fas fa-database me-2"></i> From Question Bank
+        </button>
+        <button class="btn btn-secondary btn-lg btn-block" id="manualCreateBtn">
+            <i class="fas fa-edit me-2"></i> Add Manually
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Question Bank Modal -->
+<div class="modal fade" id="questionBankModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Select Subject & Questions</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="subjectSelect">Subject</label>
+          <select class="form-control" id="subjectSelect">
+            {% for subject in subjects %}
+                <option value="{{ subject.id }}">{{ subject.name }}</option>
+            {% empty %}
+                <option disabled>No subjects available</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="btn-group w-100 mb-3">
+          <button class="btn btn-outline-primary w-50" id="randomSelectBtn">Randomly Select</button>
+          <button class="btn btn-outline-dark w-50" id="manualPickBtn">Manually Pick</button>
+        </div>
+
+        <div id="randomQuestionInput" class="d-none">
+          <label for="randomCount">How many questions?</label>
+          <input type="number" class="form-control" id="randomCount" min="1">
+          <button class="btn btn-success mt-2" id="randomAddBtn">Add Random Questions</button>
+        </div>
+
+        <div id="manualQuestionList" class="d-none">
+          <!-- Questions with checkboxes will be dynamically injected here -->
+        </div>
+        <button class="btn btn-success d-none mt-2" id="addSelectedManualBtn">Add Selected Questions</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Manual Question Creation Modal -->
+<div class="modal fade" id="manualCreateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Question Manually</h5>
+        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form id="manualQuestionForm">
+          <div class="form-group">
+            <label>Question Text</label>
+            <textarea class="form-control" name="text" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Option A</label>
+            <input type="text" class="form-control" name="option1" required>
+          </div>
+          <div class="form-group">
+            <label>Option B</label>
+            <input type="text" class="form-control" name="option2" required>
+          </div>
+          <div class="form-group">
+            <label>Option C</label>
+            <input type="text" class="form-control" name="option3">
+          </div>
+          <div class="form-group">
+            <label>Option D</label>
+            <input type="text" class="form-control" name="option4">
+          </div>
+          <div class="form-group">
+            <label>Correct Option</label>
+            <select class="form-control" name="correct_option" required>
+              <option value="">-- Select --</option>
+              <option value="option1">Option A</option>
+              <option value="option2">Option B</option>
+              <option value="option3">Option C</option>
+              <option value="option4">Option D</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Difficulty Level</label>
+            <select class="form-control" name="difficulty" required>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
+          <input type="hidden" name="subject_id" id="manualSubjectId">
+          <button type="submit" class="btn btn-success">Save Question</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

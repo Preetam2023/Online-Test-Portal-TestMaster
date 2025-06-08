@@ -1,18 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
+
 :root {
-    /* Color Palette */
-    --primary: #6C5CE7;  /* Purple */
-    --primary-light: #F1EFFC;
-    --secondary: #00B894;  /* Teal */
-    --accent: #FD79A8;    /* Pink */
-    --dark: #2D3436;      /* Dark Gray */
-    --light: #F5F6FA;
-    --gray: #636E72;
-    --gray-light: #DFE6E9;
-    --success: #00B894;   /* Teal */
-    --danger: #D63031;    /* Red */
-    --warning: #FDCB6E;   /* Yellow */
-    --info: #0984E3;      /* Blue */
+    --primary: #4361ee;
+    --primary-light: #4895ef;
+    --primary-dark: #3f37c9;
+    --secondary: #4cc9f0;
+    --accent: #f72585;
+    --success: #4ade80;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --dark: #1e293b;
+    --light: #f8fafc;
+    --gray: #94a3b8;
+    --glass: rgba(255, 255, 255, 0.1);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease-in-out;
 }
+
 
 * {
     margin: 0;
@@ -28,7 +35,7 @@
 }
 
 /* Sidebar Styles */
-.sidebar {
+.sidebar, .moderator-dashboard .sidebar {
     width: 280px;
     background: linear-gradient(180deg, var(--dark), #1A1E1F);
     color: white;
@@ -39,7 +46,7 @@
     z-index: 100;
 }
 
-.user-profile-card {
+.user-profile-card,  .sidebar {
     padding: 1.5rem;
     display: flex;
     align-items: center;
@@ -60,7 +67,7 @@
     font-size: 1.25rem;
 }
 
-.user-info h4 {
+.user-info h4 ,  .sidebar{
     color: white;
     margin-bottom: 0.25rem;
 }
@@ -76,7 +83,7 @@
     overflow-y: auto;
 }
 
-.moderator-nav ul {
+.moderator-nav ul,  .sidebar {
     list-style: none;
 }
 

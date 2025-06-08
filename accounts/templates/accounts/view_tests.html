@@ -1,15 +1,22 @@
-{% extends 'accounts/org_admin_base.html' %}
+{% extends 'accounts/shared_base.html' %}
 {% load static %}
 
+{% block title %}View Tests{% endblock %}
+
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/view_tests.css' %}">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  {% if user.role == "ORG_ADMIN" %}
+    <link rel="stylesheet" href="{% static 'css/org_admin_base.css' %}">
+  {% elif user.role == "MODERATOR" %}
+    <link rel="stylesheet" href="{% static 'css/moderator_sidebar.css' %}">
+  {% endif %}
+  <link rel="stylesheet" href="{% static 'css/view_tests.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
-<script src="{% static 'js/view_tests.js' %}" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+  <script src="{% static 'js/view_tests.js' %}" defer></script>
 {% endblock %}
 
 {% block content %}
@@ -20,104 +27,101 @@
     {% endif %}
   {% endfor %}
 {% endif %}
+
 <div class="test-container">
-    <div class="test-header">
-        <h2><i class="fas fa-clipboard-list"></i> Available Tests</h2>
-        <div class="header-actions">
-            <a href="{% url 'add-test' %}" class="btn-create">
-                <i class="fas fa-plus"></i> Create New Test
+  <div class="test-header">
+    <h2><i class="fas fa-clipboard-list"></i> Available Tests</h2>
+    {% if user.role == "MODERATOR" %}
+      <p class="text-muted mt-1 mb-3">Showing only the tests you have created.</p>
+    {% endif %}
+    <div class="header-actions">
+      <a href="{% url 'add-test' %}" class="btn-create">
+        <i class="fas fa-plus"></i> Create New Test
+      </a>
+    </div>
+  </div>
+
+  {% if tests %}
+  <div class="table-responsive">
+    <table class="test-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Subject</th>
+          <th>Questions</th>
+          <th>Test Code</th>
+          <th>Date Created</th>
+          <th>Created By</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for test in tests %}
+        <tr class="test-row">
+          <td data-label="Title">
+            <a href="#" class="test-title-link" data-test-id="{{ test.id }}">
+              <i class="fas fa-file-alt"></i> {{ test.title }}
             </a>
-        </div>
-    </div>
+          </td>
+          <td data-label="Subject">
+            <span class="subject-badge">{{ test.subject.name }}</span>
+          </td>
+          <td data-label="Questions">{{ test.total_questions }}</td>
+          <td data-label="Test Code"><code>{{ test.test_code }}</code></td>
+          <td data-label="Date Created">{{ test.date_created|date:"M d, Y" }}</td>
+          <td data-label="Created By">
+            {% if test.created_by %}
+              {% if test.created_by.role == "ORG_ADMIN" %}
+                <span class="admin-badge"><i class="fas fa-user-shield"></i> Admin</span>
+              {% elif test.created_by.role == "MODERATOR" %}
+                <span class="moderator-badge"><i class="fas fa-user-tie"></i> {{ test.created_by.moderator_profile.full_name }}</span>
+              {% else %}
+                <span class="user-badge"><i class="fas fa-user"></i> {{ test.created_by.get_full_name|default:test.created_by.email }}</span>
+              {% endif %}
+            {% else %}
+              <span class="unknown-badge">Unknown</span>
+            {% endif %}
+          </td>
+          <td data-label="Actions" class="actions-cell">
+            <div class="action-buttons">
+              <a href="{% url 'edit_test' test.id %}" class="btn-edit" title="Edit">
+                <i class="fas fa-edit"></i>
+              </a>
+              <a href="{% url 'cancel_test' test.id %}" class="btn-delete" title="Cancel" onclick="return confirmAction('Are you sure you want to cancel this test?')">
+                <i class="fas fa-trash-alt"></i>
+              </a>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
-    {% if tests %}
-    <div class="table-responsive">
-        <table class="test-table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Subject</th>
-                    <th>Questions</th>
-                    <th>Test Code</th>
-                    <th>Date Created</th>
-                    <th>Created By</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for test in tests %}
-                <tr class="test-row">
-                    <td data-label="Title">
-                        <a href="#" class="test-title-link" data-test-id="{{ test.id }}">
-                            <i class="fas fa-file-alt"></i> {{ test.title }}
-                        </a>
-                    </td>
-                    <td data-label="Subject">
-                        <span class="subject-badge">{{ test.subject.name }}</span>
-                    </td>
-                    <td data-label="Questions">
-                        {{ test.total_questions }}
-                    </td>
-                    <td data-label="Test Code">
-                        <code>{{ test.test_code }}</code>
-                    </td>
-                    <td data-label="Date Created">
-                        {{ test.date_created|date:"M d, Y" }}
-                    </td>
-                    <td data-label="Created By">
-                        {% if test.created_by %}
-                            {% if test.created_by.role == "ORG_ADMIN" %}
-                                <span class="admin-badge"><i class="fas fa-user-shield"></i> Admin</span>
-                            {% elif test.created_by.role == "MODERATOR" %}
-                                <span class="moderator-badge"><i class="fas fa-user-tie"></i> {{ test.created_by.moderator_profile.full_name }}</span>
-                            {% else %}
-                                <span class="user-badge"><i class="fas fa-user"></i> {{ test.created_by.get_full_name|default:test.created_by.email }}</span>
-                            {% endif %}
-                        {% else %}
-                            <span class="unknown-badge">Unknown</span>
-                        {% endif %}
-                    </td>
-                    <td data-label="Actions" class="actions-cell">
-                        <div class="action-buttons">
-                            <a href="{% url 'edit_test' test.id %}" class="btn-edit" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a href="{% url 'cancel_test' test.id %}" class="btn-delete" title="Cancel" onclick="return confirmAction('Are you sure you want to cancel this test?')">
-                                <i class="fas fa-trash-alt"></i>
-                            </a>
-                        </div>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-<!-- Modal for Test Details -->
-<div class="modal fade" id="testDetailModal" tabindex="-1" aria-labelledby="testDetailModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="testDetailModalLabel">Test Details</h5>
-        <div class="header-actions">
-          <button class="btn-download-pdf" id="downloadPdfBtn">
-            <i class="fas fa-file-pdf"></i> Download PDF
-          </button>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  <!-- Test Details Modal -->
+  <div class="modal fade" id="testDetailModal" tabindex="-1" aria-labelledby="testDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="testDetailModalLabel">Test Details</h5>
+          <div class="header-actions">
+            <button class="btn-download-pdf" id="downloadPdfBtn">
+              <i class="fas fa-file-pdf"></i> Download PDF
+            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
         </div>
-      </div>
-      <div class="modal-body" id="testDetailContent">
-        <!-- Content will be injected here by JS -->
+        <div class="modal-body" id="testDetailContent"></div>
       </div>
     </div>
   </div>
-</div>
 
-    {% else %}
+  {% else %}
     <div class="empty-state">
-        <i class="fas fa-clipboard"></i>
-        <h3>No Tests Available</h3>
-        <p>You haven't created any tests yet. Click the button below to create your first test.</p>
-    {% endif %}
+      <i class="fas fa-clipboard"></i>
+      <h3>No Tests Available</h3>
+      <p>You haven't created any tests yet. Click the button below to create your first test.</p>
+    </div>
+  {% endif %}
 </div>
 {% endblock %}

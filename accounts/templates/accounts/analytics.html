@@ -1,35 +1,74 @@
-{% extends 'accounts/org_admin_base.html' %}
+{% extends 'accounts/shared_base.html' %}
 {% load static %}
 
 {% block extra_css %}
+
+  {% if user.role == "ORG_ADMIN" %}
+    <link rel="stylesheet" href="{% static 'css/org_admin_base.css' %}">
+  {% elif user.role == "MODERATOR" %}
+    <link rel="stylesheet" href="{% static 'css/moderator_sidebar.css' %}">
+  {% endif %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="{% static 'css/analytics.css' %}">
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-gradient-colors"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 {% endblock %}
 
 {% block content %}
 <div class="analytics-container">
-    <h2><i class="fas fa-chart-bar"></i> Analytics Dashboard</h2>
+  <!-- Animated Header -->
+  <div class="dashboard-header animate__animated animate__fadeIn">
+    {% if user.role == "ORG_ADMIN" %}
+  <h2>Organization Analytics</h2>
+{% elif user.role == "MODERATOR" %}
+  <h2>My Test Analytics</h2>
+{% endif %}
 
-    <div class="analytics-summary">
-        <div class="stat-card">Total Tests <span>{{ total_tests }}</span></div>
-        <div class="stat-card">Participants <span>{{ total_participants }}</span></div>
-        <div class="stat-card">Test Attempts <span>{{ total_attempts }}</span></div>
-    </div>
+  </div>
 
-    <div class="analytics-section">
-        <h3>Top 5 Most Attempted Tests</h3>
-        <canvas id="topTestsChart"></canvas>
+  <!-- 3D Stat Cards -->
+  <div class="stats-grid">
+    <div class="stat-card animate__animated animate__fadeInUp">
+      <p class="stat-card-title">Total Tests</p>
+      <p class="stat-card-value">{{ total_tests }}</p>
     </div>
+    <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s">
+      <p class="stat-card-title">Active Users</p>
+      <p class="stat-card-value">{{ total_participants }}</p>
+    </div>
+    <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s">
+      <p class="stat-card-title">Test Attempts</p>
+      <p class="stat-card-value">{{ total_attempts }}</p>
+    </div>
+  </div>
 
-    <div class="analytics-section">
-        <h3>Average Score by Test</h3>
-        <canvas id="avgScoreChart"></canvas>
+  <!-- Top Tests Chart (Interactive 3D Bars) -->
+  <div class="chart-section animate__animated animate__fadeIn" style="animation-delay: 0.3s">
+    <h3><i class="fas fa-trophy"></i> Top Performing Tests</h3>
+    <div class="chart-container">
+      <canvas id="topTestsChart"></canvas>
     </div>
+  </div>
 
-    <div class="analytics-section">
-        <h3>Participation Over Time</h3>
-        <canvas id="participationChart"></canvas>
+  <!-- Score Distribution (Gradient Radar) -->
+  <div class="chart-section animate__animated animate__fadeIn" style="animation-delay: 0.4s">
+    <h3><i class="fas fa-star-chart"></i> Score Distribution</h3>
+    <div class="chart-container">
+      <canvas id="avgScoreChart"></canvas>
     </div>
+  </div>
+
+  <!-- Participation Timeline (Animated Line) -->
+  <div class="chart-section animate__animated animate__fadeIn" style="animation-delay: 0.5s">
+    <h3><i class="fas fa-timeline"></i> Engagement Timeline</h3>
+    <div class="chart-container">
+      <canvas id="participationChart"></canvas>
+    </div>
+  </div>
 </div>
 {% endblock %}
 
@@ -39,47 +78,192 @@
 {{ participation_chart|json_script:"participationData" }}
 
 <script>
-    const topTestsData = JSON.parse(document.getElementById('topTestsData').textContent);
-    const avgScoresData = JSON.parse(document.getElementById('avgScoresData').textContent);
-    const participationData = JSON.parse(document.getElementById('participationData').textContent);
+  // Premium Chart Configurations
+  Chart.register(ChartDataLabels);
+  
+  Chart.defaults.font.family = 'Inter';
+  Chart.defaults.color = '#6c757d';
+  Chart.defaults.borderColor = 'rgba(0, 0, 0, 0.05)';
+  Chart.defaults.animation.duration = 2000;
+  Chart.defaults.animation.easing = 'easeOutQuart';
 
-    new Chart(document.getElementById('topTestsChart'), {
-        type: 'bar',
-        data: {
-            labels: topTestsData.map(d => d.test__title),
-            datasets: [{
-                label: 'Attempts',
-                data: topTestsData.map(d => d.attempts),
-                backgroundColor: '#3f37c9',
-            }]
-        }
-    });
+  // Data Parsing
+  const topTestsData = JSON.parse(document.getElementById('topTestsData').textContent);
+  const avgScoresData = JSON.parse(document.getElementById('avgScoresData').textContent);
+  const participationData = JSON.parse(document.getElementById('participationData').textContent);
 
-    new Chart(document.getElementById('avgScoreChart'), {
-        type: 'bar',
-        data: {
-            labels: avgScoresData.map(d => d.test__title),
-            datasets: [{
-                label: 'Avg % Score',
-                data: avgScoresData.map(d => d.avg_score),
-                backgroundColor: '#00b894',
-            }]
+  // Top Tests Chart (3D Bars with Gradient)
+  new Chart(document.getElementById('topTestsChart'), {
+    type: 'bar',
+    data: {
+      labels: topTestsData.map(d => d.test__title),
+      datasets: [{
+        label: 'Attempts',
+        data: topTestsData.map(d => d.attempts),
+        backgroundColor: (ctx) => {
+          const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, 400);
+          gradient.addColorStop(0, 'rgba(67, 97, 238, 0.8)');
+          gradient.addColorStop(1, 'rgba(63, 55, 201, 0.8)');
+          return gradient;
+        },
+        borderColor: 'rgba(67, 97, 238, 1)',
+        borderWidth: 2,
+        borderRadius: 12,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(0, 0, 0, 0.85)',
+          titleFont: { size: 14, weight: 'bold' },
+          bodyFont: { size: 13 },
+          padding: 12,
+          cornerRadius: 12,
+          displayColors: false
+        },
+        datalabels: {
+          color: '#fff',
+          font: { weight: 'bold' },
+          anchor: 'end',
+          align: 'top',
+          formatter: (value) => value > 0 ? value : ''
         }
-    });
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: 'rgba(0, 0, 0, 0.03)' },
+          ticks: { font: { weight: '600' } }
+        },
+        x: {
+          grid: { display: false }
+        }
+      }
+    },
+    plugins: [ChartDataLabels]
+  });
 
-    new Chart(document.getElementById('participationChart'), {
-        type: 'line',
-        data: {
-            labels: participationData.map(d => d.date),
-            datasets: [{
-                label: 'Attempts per Day',
-                data: participationData.map(d => d.count),
-                borderColor: '#0984e3',
-                backgroundColor: 'rgba(9,132,227,0.1)',
-                fill: true
-            }]
+  // Score Distribution (Radar with Gradient Fill)
+  new Chart(document.getElementById('avgScoreChart'), {
+    type: 'radar',
+    data: {
+      labels: avgScoresData.map(d => d.test__title),
+      datasets: [{
+        label: 'Avg Score %',
+        data: avgScoresData.map(d => d.avg_score),
+        backgroundColor: 'rgba(67, 97, 238, 0.2)',
+        borderColor: 'rgba(67, 97, 238, 1)',
+        borderWidth: 2,
+        pointBackgroundColor: 'rgba(67, 97, 238, 1)',
+        pointBorderColor: '#fff',
+        pointHoverRadius: 8,
+        pointRadius: 5
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `${ctx.parsed.r.toFixed(1)}%`
+          }
         }
-    });
+      },
+      scales: {
+        r: {
+          angleLines: { color: 'rgba(0, 0, 0, 0.05)' },
+          grid: { color: 'rgba(0, 0, 0, 0.03)' },
+          pointLabels: { font: { weight: '600' } },
+          min: 0,
+          max: 100,
+          ticks: {
+            stepSize: 20,
+            callback: (value) => `${value}%`,
+            backdropColor: 'transparent'
+          }
+        }
+      },
+      elements: {
+        line: {
+          tension: 0.3
+        }
+      }
+    }
+  });
+
+  // Participation Timeline (Animated Line with Gradient Area)
+  new Chart(document.getElementById('participationChart'), {
+    type: 'line',
+    data: {
+      labels: participationData.map(d => d.date),
+      datasets: [{
+        label: 'Daily Activity',
+        data: participationData.map(d => d.count),
+        borderColor: 'rgba(247, 37, 133, 1)',
+        backgroundColor: (ctx) => {
+          const gradient = ctx.chart.ctx.createLinearGradient(0, 0, 0, 400);
+          gradient.addColorStop(0, 'rgba(247, 37, 133, 0.2)');
+          gradient.addColorStop(1, 'rgba(247, 37, 133, 0)');
+          return gradient;
+        },
+        borderWidth: 3,
+        tension: 0.4,
+        fill: true,
+        pointBackgroundColor: '#fff',
+        pointBorderColor: 'rgba(247, 37, 133, 1)',
+        pointRadius: 5,
+        pointHoverRadius: 8
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          mode: 'index',
+          intersect: false
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          grid: { color: 'rgba(0, 0, 0, 0.03)' }
+        },
+        x: {
+          grid: { display: false }
+        }
+      },
+      interaction: {
+        mode: 'nearest',
+        axis: 'x',
+        intersect: false
+      }
+    }
+  });
+
+  // Add floating particles animation to background
+  document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.analytics-container');
+    for (let i = 0; i < 20; i++) {
+      const particle = document.createElement('div');
+      particle.style.position = 'absolute';
+      particle.style.width = `${Math.random() * 5 + 2}px`;
+      particle.style.height = particle.style.width;
+      particle.style.background = `rgba(67, 97, 238, ${Math.random() * 0.3 + 0.1})`;
+      particle.style.borderRadius = '50%';
+      particle.style.top = `${Math.random() * 100}%`;
+      particle.style.left = `${Math.random() * 100}%`;
+      particle.style.zIndex = '0';
+      particle.style.animation = `float ${Math.random() * 10 + 10}s linear infinite`;
+      container.appendChild(particle);
+    }
+  });
 </script>
 {% endblock %}
-

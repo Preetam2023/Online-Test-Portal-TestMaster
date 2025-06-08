@@ -1,41 +1,213 @@
+/* participants.css */
+:root {
+  --primary-color: #4361ee;
+  --secondary-color: #3a0ca3;
+  --accent-color: #7209b7;
+  --light-bg: #f8f9fa;
+  --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
 .participants-container {
-    max-width: 1400px;
-    margin: 2rem auto;
-    padding: 1.5rem;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.closed-tests-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+}
+
+.closed-tests-header h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2b2d42;
+  margin: 0;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.closed-tests-header h2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 70%;
+  width: 5px;
+  background: var(--primary-color);
+  border-radius: 10px;
+}
+
+.closed-tests-header i {
+  margin-right: 1rem;
+  color: var(--primary-color);
+  font-size: 1.8rem;
+}
+
+.table-responsive {
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  animation: fadeIn 0.6s ease-out;
 }
 
 .participants-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.95rem;
-    min-width: 800px;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
 .participants-table thead {
-    background-color: #5a4e7c;
-    color: white;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
 }
 
-.participants-table th, .participants-table td {
-    padding: 1rem;
-    border-bottom: 1px solid #eee;
-    vertical-align: top;
+.participants-table th {
+  padding: 1.2rem 1.5rem;
+  text-align: left;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.participants-table td {
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+  vertical-align: middle;
+  transition: var(--transition);
+}
+
+.participants-table tr:last-child td {
+  border-bottom: none;
+}
+
+.participants-table tbody tr:hover {
+  background-color: rgba(67, 97, 238, 0.05);
+}
+
+.participants-table tbody tr:hover td {
+  transform: translateX(5px);
 }
 
 .test-list {
-    list-style-type: disc;
-    margin-left: 1rem;
-    padding-left: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.test-list .show-more {
-    margin-top: 0.5rem;
-    background: none;
-    border: none;
-    color: #007bff;
-    cursor: pointer;
-    font-size: 0.85rem;
+.test-list li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.test-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--accent-color);
+  font-weight: bold;
+}
+
+.show-more {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+}
+
+.show-more:hover {
+  background: rgba(67, 97, 238, 0.1);
+}
+
+.show-more::after {
+  content: '↓';
+  margin-left: 0.3rem;
+  font-size: 0.9rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--card-shadow);
+  animation: fadeIn 0.8s ease-out;
+}
+
+.empty-state i {
+  font-size: 4rem;
+  color: #adb5bd;
+  margin-bottom: 1.5rem;
+  animation: pulse 2s infinite;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+  color: #6c757d;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.avatar {
+  background-color: var(--primary-color);
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  margin-right: 0.75rem;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .closed-tests-header h2 {
+    font-size: 1.6rem;
+  }
+  
+  .participants-table th,
+  .participants-table td {
+    padding: 1rem;
+  }
 }

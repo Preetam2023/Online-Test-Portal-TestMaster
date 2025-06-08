@@ -2,11 +2,212 @@
 {% load static %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 <link rel="stylesheet" href="{% static 'css/participants.css' %}">
+<style>
+    :root {
+        --primary-color: #4361ee;
+        --secondary-color: #3a0ca3;
+        --accent-color: #7209b7;
+        --light-bg: #f8f9fa;
+        --card-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f5f7fb;
+    }
+    
+    .participants-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    
+    .closed-tests-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 2.5rem;
+        position: relative;
+    }
+    
+    .closed-tests-header h2 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2b2d42;
+        margin: 0;
+        position: relative;
+        padding-left: 1.5rem;
+    }
+    
+    .closed-tests-header h2::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 70%;
+        width: 5px;
+        background: var(--primary-color);
+        border-radius: 10px;
+    }
+    
+    .closed-tests-header i {
+        margin-right: 1rem;
+        color: var(--primary-color);
+        font-size: 1.8rem;
+    }
+    
+    .table-responsive {
+        background: white;
+        border-radius: 12px;
+        box-shadow: var(--card-shadow);
+        overflow: hidden;
+        animation: fadeIn 0.6s ease-out;
+    }
+    
+    .participants-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+    
+    .participants-table thead {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: white;
+    }
+    
+    .participants-table th {
+        padding: 1.2rem 1.5rem;
+        text-align: left;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+    
+    .participants-table td {
+        padding: 1.2rem 1.5rem;
+        border-bottom: 1px solid #e9ecef;
+        vertical-align: middle;
+        transition: var(--transition);
+    }
+    
+    .participants-table tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .participants-table tbody tr:hover {
+        background-color: rgba(67, 97, 238, 0.05);
+    }
+    
+    .participants-table tbody tr:hover td {
+        transform: translateX(5px);
+    }
+    
+    .test-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+    
+    .test-list li {
+        position: relative;
+        padding-left: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .test-list li::before {
+        content: '•';
+        position: absolute;
+        left: 0;
+        color: var(--accent-color);
+        font-weight: bold;
+    }
+    
+    .show-more {
+        background: none;
+        border: none;
+        color: var(--primary-color);
+        font-weight: 600;
+        cursor: pointer;
+        padding: 0.3rem 0.5rem;
+        border-radius: 6px;
+        margin-top: 0.5rem;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+    }
+    
+    .show-more:hover {
+        background: rgba(67, 97, 238, 0.1);
+    }
+    
+    .show-more::after {
+        content: '↓';
+        margin-left: 0.3rem;
+        font-size: 0.9rem;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: var(--card-shadow);
+        animation: fadeIn 0.8s ease-out;
+    }
+    
+    .empty-state i {
+        font-size: 4rem;
+        color: #adb5bd;
+        margin-bottom: 1.5rem;
+    }
+    
+    .empty-state h3 {
+        font-size: 1.5rem;
+        color: #495057;
+        margin-bottom: 0.5rem;
+    }
+    
+    .empty-state p {
+        color: #6c757d;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Pulse animation for empty state icon */
+    .empty-state i {
+        animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .closed-tests-header h2 {
+            font-size: 1.6rem;
+        }
+        
+        .participants-table th, 
+        .participants-table td {
+            padding: 1rem;
+        }
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="participants-container">
+<div class="participants-container animate__animated animate__fadeIn">
     <div class="closed-tests-header">
         <h2><i class="fas fa-users"></i> Participants</h2>
     </div>
@@ -23,8 +224,15 @@
             </thead>
             <tbody>
                 {% for user in participants %}
-                <tr>
-                    <td>{{ user.name }}</td>
+                <tr class="animate__animated animate__fadeInUp" style="animation-delay: {{ forloop.counter0|divisibleby:2|yesno:'0.1s,0.2s' }};">
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="avatar mr-2" style="background-color: {% cycle '#4361ee' '#3a0ca3' '#7209b7' '#4cc9f0' %}; color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600;">
+                                {{ user.name|first|upper }}
+                            </div>
+                            {{ user.name }}
+                        </div>
+                    </td>
                     <td>{{ user.email }}</td>
                     <td>
                         <ul class="test-list" id="test-list-{{ user.id }}">
@@ -32,12 +240,14 @@
                                 <li>{{ test }}</li>
                             {% endfor %}
                             {% if user.tests|length > 3 %}
-                                <li class="more-tests" style="display:none;">
+                                <div class="more-tests" style="display:none;">
                                     {% for test in user.tests|slice:"3:" %}
                                         <li>{{ test }}</li>
                                     {% endfor %}
-                                </li>
-                                <button class="show-more" data-user-id="{{ user.id }}">+ Show more</button>
+                                </div>
+                                <button class="show-more" data-user-id="{{ user.id }}">
+                                    + {{ user.tests|length|add:"-3" }} more
+                                </button>
                             {% endif %}
                         </ul>
                     </td>
@@ -57,18 +267,26 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.show-more').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const userId = btn.dataset.userId;
-                const moreItems = document.querySelector(`#test-list-${userId} .more-tests`);
-                if (moreItems) {
-                    moreItems.style.display = 'block';
-                    btn.style.display = 'none';
-                }
-            });
+    $(document).ready(function() {
+        $('.show-more').on('click', function() {
+            const userId = $(this).data('user-id');
+            $(`#test-list-${userId} .more-tests`).slideDown(300);
+            $(this).fadeOut(200);
         });
+        
+        // Add subtle hover effect to table rows
+        $('.participants-table tbody tr').hover(
+            function() {
+                $(this).css('transform', 'translateY(-2px)');
+                $(this).css('box-shadow', '0 5px 15px rgba(0,0,0,0.05)');
+            },
+            function() {
+                $(this).css('transform', 'translateY(0)');
+                $(this).css('box-shadow', 'none');
+            }
+        );
     });
 </script>
 {% endblock %}

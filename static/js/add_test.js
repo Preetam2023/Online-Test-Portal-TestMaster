@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
+
+  
     const testQuestionsDiv = document.getElementById("testQuestions");
     const addQuestionBtnGlobal = document.getElementById("addQuestionBtn"); // Get the button globally
 
@@ -319,7 +321,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const totalSpecifiedByDifficulty = easy + medium + hard;
 
             let finalCount = count;
-            if (totalSpecifiedByDifficulty > 0 && count > 0 && totalSpecifiedByDifficulty !== count) {
+            if (totalSpecifiedByDifficulty > 0 && count > 0 && totalSpecifiedByDifficulty > count) {
                 alert(`The sum of difficulty-wise questions (${totalSpecifiedByDifficulty}) does not match the total random questions specified (${count}). Please adjust.`);
                 return;
             } else if (totalSpecifiedByDifficulty > 0 && count === 0) {
@@ -374,25 +376,46 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
                 .then(data => {
                     if (data.questions && data.questions.length > 0) {
-                        manualQuestionListDiv.innerHTML = data.questions.map(q => `
-                            <div class="form-check mb-2 p-2 border rounded hover-bg-light">
-                                <input class="form-check-input" type="checkbox" value="${q.id}" id="question-${q.id}" data-question='${JSON.stringify(q)}'>
-                                <label class="form-check-label w-100 cursor-pointer" for="question-${q.id}">
-                                    <div class="d-flex justify-content-between align-items-start">
-                                        <div>
-                                            <div class="question-text fw-bold">${q.text}</div>
-                                            <div class="options small text-muted mt-1">
-                                                A. ${q.option1}<br>
-                                                B. ${q.option2}<br>
-                                                ${q.option3 ? `C. ${q.option3}<br>` : ''}
-                                                ${q.option4 ? `D. ${q.option4}<br>` : ''}
-                                            </div>
-                                        </div>
-                                        <span class="badge bg-info text-dark ms-2">Difficulty: ${q.difficulty || 'N/A'}</span>
-                                    </div>
-                                </label>
-                            </div>
-                        `).join('');
+                        manualQuestionListDiv.innerHTML = data.questions.map(q => {
+    const correctMap = {
+        option1: 'A',
+        option2: 'B',
+        option3: 'C',
+        option4: 'D'
+    };
+let correctText = 'N/A';
+if (q.correct_option && ['option1', 'option2', 'option3', 'option4'].includes(q.correct_option)) {
+    const label = correctMap[q.correct_option];
+    const value = q[q.correct_option] || '';
+    if (value.trim() !== '') {
+        correctText = `${label} (${value})`;
+    }
+}
+const correctOption = `<div class="mt-1 text-success small"><strong>Correct:</strong> ${correctText}</div>`;
+
+
+    return `
+        <div class="form-check mb-2 p-2 border rounded hover-bg-light">
+            <input class="form-check-input" type="checkbox" value="${q.id}" id="question-${q.id}" data-question='${JSON.stringify(q)}'>
+            <label class="form-check-label w-100 cursor-pointer" for="question-${q.id}">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="question-text fw-bold">${q.text}</div>
+                        <div class="options small text-muted mt-1">
+                            A. ${q.option1}<br>
+                            B. ${q.option2}<br>
+                            ${q.option3 ? `C. ${q.option3}<br>` : ''}
+                            ${q.option4 ? `D. ${q.option4}<br>` : ''}
+                        </div>
+                        ${correctOption}
+                    </div>
+                    <span class="badge bg-info text-dark ms-2">Difficulty: ${q.difficulty || 'N/A'}</span>
+                </div>
+            </label>
+        </div>
+    `;
+}).join('');
+
                     } else {
                         manualQuestionListDiv.innerHTML = '<div class="alert alert-warning">No questions available for this subject.</div>';
                     }

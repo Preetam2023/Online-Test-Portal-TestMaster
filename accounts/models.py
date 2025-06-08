@@ -136,7 +136,7 @@ class OrganizationTest(models.Model):
     total_questions = models.PositiveIntegerField()
     total_marks = models.PositiveIntegerField()  # Add total_marks field
     total_time = models.PositiveIntegerField()  # Add total_time field
-    test_code = models.CharField(max_length=20, unique=True)
+    test_code = models.CharField(max_length=20)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     use_random_questions = models.BooleanField(default=False)
     advanced_features = models.BooleanField(default=False)

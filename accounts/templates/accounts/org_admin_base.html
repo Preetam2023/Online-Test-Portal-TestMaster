@@ -50,7 +50,7 @@
 
                 </a>
                 {% url 'view-tests' as view_tests_url %}
-                <a href="{{ view_tests_url }}" class="menu-item {% if request.path == view_tests_url %}active{% endif %}">
+                <a href="{{ view_tests_url }}" class="menu-item {% if request.path == view_tests_url or active_page == 'open_tests' %}active{% endif %}">
                     <div class="menu-icon">
                         <i class="fas fa-door-open"></i>
                     </div>
@@ -60,7 +60,7 @@
                 </a>
 
                 {% url 'closed_tests' as closed_tests_url %}
-                <a href="{{ closed_tests_url }}" class="menu-item {% if request.path == closed_tests_url %}active{% endif %}">
+                <a href="{{ closed_tests_url }}" class="menu-item {% if request.path == closed_tests_url or active_page == 'closed_tests' %}active{% endif %}">
                     <div class="menu-icon">
                         <i class="fas fa-door-closed"></i>
                     </div>
@@ -91,7 +91,7 @@
                         <i class="fas fa-chart-bar"></i>
                     </div>
                     <span class="menu-text">Analytics</span>
-                                            <div class="active-indicator"></div>
+                                                                <div class="active-indicator"></div>
 
                 </a>
 

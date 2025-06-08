@@ -1,0 +1,67 @@
+{% load static %}
+<aside class="sidebar">
+
+    <div class="user-profile-card">
+        <div class="user-avatar">
+            {{ user.moderator_profile.organization.name|first|upper }}
+        </div>
+        <div class="user-info">
+            <h4>{{ user.moderator_profile.full_name }}</h4>
+            <p>{{ user.moderator_profile.organization.name }}</p>
+        </div>
+    </div>
+
+    <nav class="moderator-nav">
+        <ul>
+            {% url 'moderator-dashboard' as dashboard_url %}
+            <li class="{% if request.path == dashboard_url %}active{% endif %}">
+                <a href="{{ dashboard_url }}">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            {% url 'add-test' as add_test_url %}
+            <li class="{% if request.path == add_test_url %}active{% endif %}">
+                <a href="{{ add_test_url }}">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Add Test</span>
+                </a>
+            </li>
+
+{% url 'view-tests' as view_tests_url %}
+<li class="{% if request.path == view_tests_url %}active{% endif %}">
+    <a href="{{ view_tests_url }}">
+        <i class="fas fa-clipboard-list"></i>
+        <span>Open Tests</span>
+    </a>
+</li>
+
+
+{% url 'closed_tests' as closed_tests_url %}
+<li class="{% if request.path == closed_tests_url %}active{% endif %}">
+    <a href="{{ closed_tests_url }}">
+        <i class="fas fa-door-closed"></i>
+        <span>Closed Tests</span>
+    </a>
+</li>
+
+
+{% url 'organization_analytics' as organization_analytics %}
+<li class="{% if request.path == organization_analytics %}active{% endif %}">
+    <a href="{{ organization_analytics }}">
+        <i class="fas fa-chart-bar"></i>
+        <span>Analytics</span>
+    </a>
+</li>
+
+
+            <li class="{% if request.path == '/moderator/settings/' %}active{% endif %}">
+                <a href="#">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>

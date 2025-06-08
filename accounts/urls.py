@@ -102,9 +102,9 @@ urlpatterns = [
     path('organization/closed-tests/results/<int:test_id>/pdf/', export_test_results_pdf, name='export_results_pdf'),
     path('organization/participants/', participants_view, name='participants'),
     path('organization/analytics/', organization_analytics, name='organization_analytics'),
+    
 
-
-
+    
     # API endpoints for dynamic question loading
     path('api/get-random-questions/<int:subject_id>/', get_random_questions, name='get-random-questions'),
     path('api/get-questions/<int:subject_id>/', get_questions_by_subject, name='get-questions-by-subject'),
@@ -123,4 +123,7 @@ urlpatterns = [
     # Moderator
     path('moderator/login/', moderator_login, name='moderator-login'),
     path('moderator/dashboard/', moderator_dashboard, name='moderator-dashboard'),
+    path('moderator/add-test/', add_test, name='moderator-add-test'),
+
+    
 ]

@@ -33,18 +33,21 @@
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="{% if request.path == '/moderator/tests/add/' %}active{% endif %}">
-                        <a href="#">
-                            <i class="fas fa-plus-circle"></i>
-                            <span>Add Test</span>
-                        </a>
-                    </li>
-                    <li class="{% if request.path == '/moderator/tests/view/' %}active{% endif %}">
-                        <a href="#">
-                            <i class="fas fa-clipboard-list"></i>
-                            <span>View Tests</span>
-                        </a>
-                    </li>
+  {% url 'add-test' as add_test_url %}
+<li class="{% if request.path == add_test_url %}active{% endif %}">
+    <a href="{{ add_test_url }}">
+        <i class="fas fa-plus-circle"></i>
+        <span>Add Test</span>
+    </a>
+</li>
+
+{% url 'view-tests' as view_tests_url %}
+<li class="{% if request.path == view_tests_url %}active{% endif %}">
+    <a href="{{ view_tests_url }}">
+        <i class="fas fa-clipboard-list"></i>
+        <span>Open Tests</span>
+    </a>
+</li>
                     <li class="{% if request.path == '/moderator/tests/delete/' %}active{% endif %}">
                         <a href="#">
                             <i class="fas fa-trash-alt"></i>

@@ -3,12 +3,22 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/org_admin_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/org_admin_base.css' %}">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/view_tests.css' %}"> {# Include modal styling #}
+<link rel="stylesheet" href="{% static 'css/view_tests.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 {% endblock %}
 
 {% block content %}
+
+<!-- Animated Background Elements -->
+<div class="bg-elements">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+    <div class="circle circle-4"></div>
+    <div class="circle circle-5"></div>
+</div>
 <div class="dashboard-container">
     <!-- Dashboard Header -->
     <div class="dashboard-header">
@@ -33,48 +43,58 @@
 
     <!-- Stats Cards Grid -->
     <div class="stats-grid">
-        <div class="stat-card card-1">
-            <div class="stat-icon"><i class="fas fa-door-open"></i></div>
-            <div class="stat-info">
-                <h3 class="stat-value">{{ total_active_tests }}</h3>
-                <p class="stat-title">Active Tests</p>
-            </div>
-            <a href="{% url 'view-tests' %}" class="stat-link">View all <i class="fas fa-arrow-right"></i></a>
-            <div class="card-wave"></div>
-        </div>
-
-        <div class="stat-card card-2">
-            <div class="stat-icon"><i class="fas fa-users"></i></div>
-            <div class="stat-info">
-                <h3 class="stat-value">{{ total_participants }}</h3>
-                <p class="stat-title">Participants</p>
-            </div>
-            <a href="{% url 'participants' %}" class="stat-link">View all <i class="fas fa-arrow-right"></i></a>
-            <div class="card-wave"></div>
-        </div>
-
-        <div class="stat-card card-3">
-            <div class="stat-icon"><i class="fas fa-user-cog"></i></div>
-            <div class="stat-info">
-                <h3 class="stat-value">Manage</h3>
-                <p class="stat-title">Moderators</p>
-            </div>
-            <a href="{% url 'control-moderators' %}" class="stat-link">Manage now <i class="fas fa-arrow-right"></i></a>
-            <div class="card-wave"></div>
-        </div>
-
-        <div class="stat-card card-4">
-            <div class="stat-icon"><i class="fas fa-chart-bar"></i></div>
-            <div class="stat-info">
-                <h3 class="stat-value">View</h3>
-                <p class="stat-title">Test Analysis</p>
-            </div>
-            <a href="{% url 'organization_analytics' %}" class="stat-link">Analyze now <i class="fas fa-arrow-right"></i></a>
-            <div class="card-wave"></div>
-        </div>
+    <div class="stat-card card-1">
+      <div class="stat-icon"><i class="fas fa-door-open"></i></div>
+      <div class="stat-info">
+        <h3 class="stat-value">{{ total_active_tests }}</h3>
+        <p class="stat-title">Active Tests</p>
+      </div>
+      <a href="{% url 'view-tests' %}" class="stat-link">View all <i class="fas fa-arrow-right"></i></a>
+      <div class="card-wave"></div>
     </div>
 
+    <div class="stat-card card-2">
+      <div class="stat-icon"><i class="fas fa-users"></i></div>
+      <div class="stat-info">
+        <h3 class="stat-value">{{ total_participants }}</h3>
+        <p class="stat-title">Participants</p>
+      </div>
+      <a href="{% url 'participants' %}" class="stat-link">View all <i class="fas fa-arrow-right"></i></a>
+      <div class="card-wave"></div>
+    </div>
+
+    <div class="stat-card card-3">
+      <div class="stat-icon"><i class="fas fa-user-cog"></i></div>
+      <div class="stat-info">
+        <h3 class="stat-value">Manage</h3>
+        <p class="stat-title">Moderators</p>
+      </div>
+      <a href="{% url 'control-moderators' %}" class="stat-link">Manage now <i class="fas fa-arrow-right"></i></a>
+      <div class="card-wave"></div>
+    </div>
+
+    <div class="stat-card card-4">
+      <div class="stat-icon"><i class="fas fa-chart-bar"></i></div>
+      <div class="stat-info">
+        <h3 class="stat-value">View</h3>
+        <p class="stat-title">Test Analysis</p>
+      </div>
+      <a href="{% url 'organization_analytics' %}" class="stat-link">Analyze now <i class="fas fa-arrow-right"></i></a>
+      <div class="card-wave"></div>
+    </div>
+  </div>
+
     <!-- Recent Tests Section -->
+
+        <!-- Recent Tests Section -->
+    <div class="section-header">
+        <h2 class="section-title">Recently Created Tests</h2>
+        <div class="section-actions">
+            <a href="{% url 'view-tests' %}" class="view-all-link">
+                View All <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
     <table class="recent-tests-table">
         <thead>
             <tr>

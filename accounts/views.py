@@ -624,7 +624,17 @@ def add_test(request):
 
         if form.is_valid():
             test = form.save(commit=False)
-            test.organization = request.user.org_admin_profile.organization
+            
+            # Set organization based on who's creating the test
+            
+            user = request.user
+
+            if hasattr(user, 'org_admin_profile'): 
+                organization = user.org_admin_profile.organization
+            else:
+                organization = user.moderator_profile.organization
+                
+            test.organization = organization
             test.created_by = request.user
 
             # Handle subject selection or new subject creation
@@ -664,6 +674,7 @@ def add_test(request):
             return redirect('view-tests')
 
         else:
+            print("Form Errors:", form.errors)
             messages.error(request, "Failed to add test. Please correct the errors below.", extra_tags='admin')
 
     else:
@@ -684,37 +695,58 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 
 @login_required
 @user_passes_test(is_org_admin_or_moderator)
+
 def get_random_questions(request, subject_id):
     count = int(request.GET.get('count', 0))
     easy = int(request.GET.get('easy', 0))
     medium = int(request.GET.get('medium', 0))
     hard = int(request.GET.get('hard', 0))
 
-    total_specified = easy + medium + hard
+    total_requested = easy + medium + hard
+
+    # Only show error if total difficulty-wise count exceeds the total
+    if total_requested > count:
+        return JsonResponse({
+            'error': 'The sum of difficulty-wise questions exceeds the total number of questions.'
+        }, status=400)
 
     questions = []
+    added_ids = set()
 
-    # Difficulty-wise fetch
-    if total_specified > 0:
-        def get_random_by_difficulty(level, num):
-            pool = list(Question.objects.filter(subject_id=subject_id, difficulty=level))
-            return random.sample(pool, min(num, len(pool)))
+    def get_random_by_difficulty(level_name, num_required, exclude_ids):
+        qs = list(
+            Question.objects.filter(subject_id=subject_id, difficulty=level_name)
+            .exclude(id__in=exclude_ids)
+        )
+        return random.sample(qs, min(num_required, len(qs)))
 
-        questions += get_random_by_difficulty('Easy', easy)
-        questions += get_random_by_difficulty('Medium', medium)
-        questions += get_random_by_difficulty('Hard', hard)
+    # Fetch difficulty-wise questions
+    easy_qs = get_random_by_difficulty('Easy', easy, added_ids)
+    added_ids.update(q.id for q in easy_qs)
 
-        remaining_needed = count - len(questions)
-        if remaining_needed > 0:
-            remaining_pool = list(
-                Question.objects.filter(subject_id=subject_id)
-                .exclude(id__in=[q.id for q in questions])
-            )
-            questions += random.sample(remaining_pool, min(remaining_needed, len(remaining_pool)))
-    else:
-        # Old fallback: pure random selection
-        pool = list(Question.objects.filter(subject_id=subject_id))
-        questions = random.sample(pool, min(count, len(pool)))
+    medium_qs = get_random_by_difficulty('Medium', medium, added_ids)
+    added_ids.update(q.id for q in medium_qs)
+
+    hard_qs = get_random_by_difficulty('Hard', hard, added_ids)
+    added_ids.update(q.id for q in hard_qs)
+
+    questions.extend(easy_qs + medium_qs + hard_qs)
+
+    # Fill remaining questions with easy-level ones
+    remaining = count - len(questions)
+    if remaining > 0:
+        filler_easy = get_random_by_difficulty('Easy', remaining, added_ids)
+        added_ids.update(q.id for q in filler_easy)
+        questions.extend(filler_easy)
+
+    # Final fallback: fill any still missing count
+    if len(questions) < count:
+        needed = count - len(questions)
+        remaining_pool = list(
+            Question.objects.filter(subject_id=subject_id)
+            .exclude(id__in=added_ids)
+        )
+        questions += random.sample(remaining_pool, min(needed, len(remaining_pool)))
 
     return JsonResponse({
         'questions': [{
@@ -725,14 +757,28 @@ def get_random_questions(request, subject_id):
             'option3': q.option3,
             'option4': q.option4,
             'difficulty': q.difficulty,
+            'correct_option': q.correct_option,
         } for q in questions]
     })
+
 
 
 @login_required
 @user_passes_test(is_org_admin_or_moderator)
 def get_questions_by_subject(request, subject_id):
     questions = Question.objects.filter(subject_id=subject_id)
+
+    def resolve_correct_option(q):
+        if q.correct_option == q.option1:
+            return 'option1'
+        elif q.correct_option == q.option2:
+            return 'option2'
+        elif q.correct_option == q.option3:
+            return 'option3'
+        elif q.correct_option == q.option4:
+            return 'option4'
+        return None
+
     return JsonResponse({
         'questions': [{
             'id': q.id,
@@ -742,9 +788,10 @@ def get_questions_by_subject(request, subject_id):
             'option3': q.option3,
             'option4': q.option4,
             'difficulty': q.difficulty,
-
+            'correct_option': resolve_correct_option(q),
         } for q in questions]
     })
+
 
 
 @login_required
@@ -753,6 +800,18 @@ def get_questions_by_ids(request):
     data = json.loads(request.body)
     ids = data.get('ids', [])
     questions = Question.objects.filter(id__in=ids)
+
+    def resolve_correct_option(q):
+        if q.correct_option == q.option1:
+            return 'option1'
+        elif q.correct_option == q.option2:
+            return 'option2'
+        elif q.correct_option == q.option3:
+            return 'option3'
+        elif q.correct_option == q.option4:
+            return 'option4'
+        return None
+
     return JsonResponse({
         'questions': [{
             'id': q.id,
@@ -762,9 +821,10 @@ def get_questions_by_ids(request):
             'option3': q.option3,
             'option4': q.option4,
             'difficulty': q.difficulty,
-
+            'correct_option': resolve_correct_option(q),
         } for q in questions]
     })
+
     
 import json
 from django.views.decorators.csrf import csrf_exempt
@@ -865,11 +925,33 @@ def add_manual_question(request):
 
 from .models import OrganizationTest
 
+from accounts.models import OrganizationTest
+
 def view_tests(request):
-    tests = OrganizationTest.objects.filter(
-        organization=request.user.org_admin_profile.organization,
-        is_cancelled=False 
-    ).order_by('-date_created')
+    user = request.user
+
+    # Determine the organization
+    if hasattr(user, 'org_admin_profile'):
+        organization = user.org_admin_profile.organization
+        # Org admin sees all tests in the org
+        tests = OrganizationTest.objects.filter(
+            organization=organization,
+            is_cancelled=False
+        ).order_by('-date_created')
+
+    elif hasattr(user, 'moderator_profile'):
+        organization = user.moderator_profile.organization
+        # Moderator sees only their own tests
+        tests = OrganizationTest.objects.filter(
+            organization=organization,
+            created_by=user,
+            is_cancelled=False
+        ).order_by('-date_created')
+
+    else:
+        # fallback — forbidden or redirect
+        return HttpResponseForbidden("Unauthorized access.")
+
     return render(request, 'accounts/view_tests.html', {'tests': tests})
 
 
@@ -923,6 +1005,10 @@ def organization_tests_view(request):
     return redirect('user_dashboard')
 
 # views.py
+from .models import OrganizationTest, TestQuestion, Question
+
+@login_required
+@user_passes_test(is_org_admin_or_moderator)
 def edit_test(request, test_id):
     test = get_object_or_404(OrganizationTest, id=test_id)
 
@@ -930,15 +1016,33 @@ def edit_test(request, test_id):
         test.title = request.POST.get('title')
         test.test_code = request.POST.get('test_code')
         test.total_questions = request.POST.get('total_questions')
-        # Update subject if changed
-        subject_id = request.POST.get('subject')
-        test.subject_id = subject_id
+        test.duration = request.POST.get('duration')
+        test.full_marks = request.POST.get('full_marks')
+        test.subject_id = request.POST.get('subject')
         test.save()
+
+        # Update selected questions
+        question_ids = request.POST.get('question_ids', '')
+        question_id_list = [int(qid) for qid in question_ids.split(',') if qid.isdigit()]
+
+        TestQuestion.objects.filter(test=test).delete()
+        for qid in question_id_list:
+            question = Question.objects.get(id=qid)
+            TestQuestion.objects.create(test=test, question=question)
+
         messages.success(request, "Test updated successfully.", extra_tags='admin')
         return redirect('view-tests')
 
     subjects = Subject.objects.all()
-    return render(request, 'accounts/edit_test.html', {'test': test, 'subjects': subjects})
+    test_questions = TestQuestion.objects.filter(test=test).select_related('question')
+
+    return render(request, 'accounts/edit_test.html', {
+        'test': test,
+        'subjects': subjects,
+        'test_questions': test_questions,
+        'active_page': 'open_tests',
+    })
+
 
 from django.utils import timezone
 
@@ -954,16 +1058,35 @@ def cancel_test(request, test_id):
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import OrganizationTest
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
 
 @login_required
 def closed_tests_view(request):
-    closed_tests = OrganizationTest.objects.filter(
-        is_cancelled=True
-    ).select_related('subject', 'created_by', 'cancelled_by')
+    user = request.user
+
+    if hasattr(user, 'org_admin_profile'):
+        organization = user.org_admin_profile.organization
+        closed_tests = OrganizationTest.objects.filter(
+            organization=organization,
+            is_cancelled=True
+        ).select_related('subject', 'created_by', 'cancelled_by')
+
+    elif hasattr(user, 'moderator_profile'):
+        organization = user.moderator_profile.organization
+        closed_tests = OrganizationTest.objects.filter(
+            organization=organization,
+            is_cancelled=True,
+            created_by=user  # Only their tests
+        ).select_related('subject', 'created_by', 'cancelled_by')
+
+    else:
+        return HttpResponseForbidden("You do not have permission to access this page.")
 
     return render(request, 'accounts/closed_tests.html', {
         'tests': closed_tests
     })
+
 
 
 
@@ -1532,6 +1655,7 @@ def org_test_results_admin_view(request, test_id):
     return render(request, 'accounts/admin_test_results.html', {
         'test': test,
         'results': results,
+        'active_page': 'closed_tests',
     })
 
 @login_required
@@ -1728,35 +1852,48 @@ from django.shortcuts import render
 from django.db.models import Count, Avg
 from .models import OrganizationTest, OrganizationTestResult
 
+from django.db.models import Count, Avg
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from .models import OrganizationTest, OrganizationTestResult
+
+@login_required
 def organization_analytics(request):
-    org = request.user.org_admin_profile.organization  # ✅ your org only
+    user = request.user
 
-    org_tests = OrganizationTest.objects.filter(organization=org)
-    org_results = OrganizationTestResult.objects.filter(test__organization=org)
+    if hasattr(user, 'org_admin_profile'):
+        org = user.org_admin_profile.organization
+        tests = OrganizationTest.objects.filter(organization=org)
+        results = OrganizationTestResult.objects.filter(test__organization=org)
 
-    total_tests = org_tests.count()
-    total_participants = org_results.values('user').distinct().count()
-    total_attempts = org_results.count()
+    elif hasattr(user, 'moderator_profile'):
+        org = user.moderator_profile.organization
+        tests = OrganizationTest.objects.filter(organization=org, created_by=user)
+        results = OrganizationTestResult.objects.filter(test__in=tests)
 
-    # Top 5 most attempted tests
+    else:
+        return HttpResponseForbidden("Unauthorized access.")
+
+    total_tests = tests.count()
+    total_participants = results.values('user').distinct().count()
+    total_attempts = results.count()
+
     top_tests = (
-        org_results
+        results
         .values('test__title')
         .annotate(attempts=Count('id'))
         .order_by('-attempts')[:5]
     )
 
-    # Avg score per test (based on percentage)
     avg_scores = (
-        org_results
+        results
         .values('test__title')
         .annotate(avg_score=Avg('percentage'))
         .order_by('-avg_score')[:5]
     )
 
-    # Participation chart: date vs attempts
     participation_chart = (
-        org_results
+        results
         .extra({'date': "date(created_at)"})
         .values('date')
         .annotate(count=Count('id'))
@@ -1771,13 +1908,9 @@ def organization_analytics(request):
         'avg_scores': list(avg_scores),
         'participation_chart': list(participation_chart),
     }
-    
-    print("Top Tests:", list(top_tests))
-    print("Avg Scores:", list(avg_scores))
-    print("Participation:", list(participation_chart))
-
 
     return render(request, 'accounts/analytics.html', context)
+
 
 
 
