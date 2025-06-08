@@ -49,6 +49,7 @@ from .views import (
     org_test_results_admin_view,
     participants_view,
     organization_analytics,
+    moderator_settings,
 
 )
 
@@ -124,6 +125,12 @@ urlpatterns = [
     path('moderator/login/', moderator_login, name='moderator-login'),
     path('moderator/dashboard/', moderator_dashboard, name='moderator-dashboard'),
     path('moderator/add-test/', add_test, name='moderator-add-test'),
+    path('moderator/settings/', moderator_settings, name='moderator_settings'),
+    path('moderator/closed-test/', closed_tests_view, name='moderator-closed-tests'),
+    path('moderator/active-tests/', view_tests, name='moderator-active-tests'),
+    path('moderator/analytics/', organization_analytics, name='moderator_analytics'),
+
+
 
     
 ]

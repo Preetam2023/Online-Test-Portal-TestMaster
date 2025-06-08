@@ -1,7 +1,8 @@
 /* Ultra Premium Analytics Dashboard */
 :root {
   --primary: #4361ee;
-  --primary-light: #4895ef;
+  --primary-color:#4361ee;
+  --primary-light: #e6e9ff;
   --secondary: #3f37c9;
   --accent: #f72585;
   --dark: #1a1a2e;
@@ -160,21 +161,6 @@ body {
   text-shadow: none; /* Remove glow if it causes visibility issues */
 }
 
-.stat-card:nth-child(2) .stat-card-value {
-  background: linear-gradient(90deg, #00b4d8, #0096c7); /* Darker teal */
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: initial; /* Allow visible fallback */
-  color: #0096c7; /* Add a visible fallback */
-}
-
-.stat-card:nth-child(3) .stat-card-value {
-  background: linear-gradient(90deg, #e63946, #d00000); /* Darker red */
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: initial;
-  color: #d00000;
-}
 
 
 /* Ultra-Modern Chart Sections */

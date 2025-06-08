@@ -1,28 +1,51 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}TestMaster{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TestMaster - {% block title %}{% endblock %}</title>
+    <!-- Core CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Base CSS for both roles -->
+    <link rel="stylesheet" href="{% static 'css/shared_base.css' %}">
+    
+    <!-- Role-specific CSS -->
+    {% if user.role == "ORG_ADMIN" %}
+      <link rel="stylesheet" href="{% static 'css/org_admin_sidebar.css' %}">
+    {% elif user.role == "MODERATOR" %}
+      <link rel="stylesheet" href="{% static 'css/moderator_sidebar.css' %}">
+    {% endif %}
+    
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <div class="d-flex">
-        {% if request.user.role == "MODERATOR" %}
-            {% include 'accounts/moderator_sidebar.html' %}
-        {% else %}
-            {% include 'accounts/org_admin_sidebar.html' %}
-        {% endif %}
+    {% if user.role == "ORG_ADMIN" %}
+      {% include 'accounts/org_admin_sidebar.html' %}
+    {% elif user.role == "MODERATOR" %}
+      {% include 'accounts/moderator_sidebar.html' %}
+    {% endif %}
 
-        <div class="main-content" id="mainContent" style="flex: 1; padding: 20px;">
+    <div class="main-content" id="mainContent">
+        <div class="mobile-header">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="mobile-title">{% block page_title %}{% endblock %}</div>
+        </div>
+        
+        <div class="content-container">
             {% block content %}{% endblock %}
         </div>
     </div>
 
+    <!-- JavaScript -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/shared_base.js' %}"></script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>

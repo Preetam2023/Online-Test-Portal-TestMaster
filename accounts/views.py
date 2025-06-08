@@ -1856,8 +1856,13 @@ from django.db.models import Count, Avg
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import OrganizationTest, OrganizationTestResult
+from django.db.models import Count, Avg
+from django.db.models.functions import TruncDate
+from django.http import HttpResponseForbidden
+from django.db.models.functions import TruncDate
 
 @login_required
+
 def organization_analytics(request):
     user = request.user
 
@@ -1874,10 +1879,12 @@ def organization_analytics(request):
     else:
         return HttpResponseForbidden("Unauthorized access.")
 
+    # Efficient counts
     total_tests = tests.count()
     total_participants = results.values('user').distinct().count()
     total_attempts = results.count()
 
+    # Top 5 most attempted tests
     top_tests = (
         results
         .values('test__title')
@@ -1885,6 +1892,7 @@ def organization_analytics(request):
         .order_by('-attempts')[:5]
     )
 
+    # Avg score per test (based on percentage)
     avg_scores = (
         results
         .values('test__title')
@@ -1892,9 +1900,10 @@ def organization_analytics(request):
         .order_by('-avg_score')[:5]
     )
 
+    # Participation over time using TruncDate (much faster than .extra)
     participation_chart = (
         results
-        .extra({'date': "date(created_at)"})
+        .annotate(date=TruncDate('created_at'))
         .values('date')
         .annotate(count=Count('id'))
         .order_by('date')
@@ -1921,3 +1930,30 @@ def moderator_dashboard(request):
     
     # Add moderator dashboard logic here
     return render(request, 'accounts/moderator_dashboard.html')
+
+
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+
+@login_required
+def moderator_settings(request):
+    user = request.user
+
+    if not hasattr(user, 'moderator_profile'):
+        return HttpResponseForbidden("You are not authorized to access this page.")
+
+    if request.method == 'POST':
+        form = PasswordChangeForm(user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Prevent logout
+            messages.success(request, "Password updated successfully.")
+            return redirect('moderator_settings')
+        else:
+            messages.error(request, "Please correct the errors below.")
+    else:
+        form = PasswordChangeForm(user)
+
+    return render(request, 'accounts/moderator_settings.html', {
+        'form': form
+    })

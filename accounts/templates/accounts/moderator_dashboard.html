@@ -1,16 +1,17 @@
-{% extends 'accounts/moderator_base.html' %}
+{% extends 'accounts/shared_base.html' %}
 {% load static %}
+{% block title %}Moderator Dashboard{% endblock %}
 
-{% block moderator_title %}Moderator Dashboard{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/moderator_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/moderator_sidebar.css' %}">
 <link rel="stylesheet" href="{% static 'css/moderator_dashboard.css' %}">
 
 
 {% endblock %}
 
-{% block moderator_content %}
+{% block content %}
+
 <div class="dashboard-header">
     <h2>Welcome, {{ user.moderator_profile.full_name }}</h2>
     <p>{{ user.moderator_profile.organization.name }}</p>

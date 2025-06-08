@@ -5,7 +5,8 @@
 
 {% block extra_css %}
   {% if user.role == "ORG_ADMIN" %}
-    <link rel="stylesheet" href="{% static 'css/org_admin_base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/org_admin_sidebar.css' %}">
+
   {% elif user.role == "MODERATOR" %}
     <link rel="stylesheet" href="{% static 'css/moderator_sidebar.css' %}">
   {% endif %}
