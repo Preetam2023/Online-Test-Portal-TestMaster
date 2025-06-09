@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Reset Verification</title>
+    <style type="text/css">
+        /* Client-specific resets */
+        body, html {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            background-color: #f7f9fc;
+        }
+        
+        /* Prevent WebKit and Windows mobile from changing default text sizes */
+        body {
+            -webkit-text-size-adjust: 100% !important;
+            -ms-text-size-adjust: 100% !important;
+            -webkit-font-smoothing: antialiased !important;
+        }
+        
+        /* Outlook link fix */
+        a {
+            color: #4361ee;
+            text-decoration: none;
+        }
+        
+        /* Responsive images */
+        img {
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+            -ms-interpolation-mode: bicubic;
+            max-width: 100%;
+        }
+        
+        /* Email container */
+        .email-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Header */
+        .email-header {
+            background: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .email-header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        /* Content */
+        .email-body {
+            padding: 30px;
+        }
+        
+        .greeting {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .instructions {
+            font-size: 15px;
+            color: #555555;
+            margin-bottom: 30px;
+        }
+        
+        /* Verification code */
+        .verification-code {
+            background-color: #f0f4ff;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 30px 0;
+            border: 1px dashed #4361ee;
+        }
+        
+        .code {
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 5px;
+            color: #4361ee;
+            margin: 15px 0;
+        }
+        
+        .code-expiry {
+            font-size: 14px;
+            color: #666666;
+            font-style: italic;
+        }
+        
+        /* Button */
+        .button-container {
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .button {
+            display: inline-block;
+            background-color: #4361ee;
+            color: white !important;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .button:hover {
+            background-color: #3a56d4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+        }
+        
+        /* Footer */
+        .email-footer {
+            background-color: #f7f9fc;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #888888;
+            border-top: 1px solid #e5e9f2;
+        }
+        
+        .footer-links {
+            margin: 15px 0;
+        }
+        
+        .footer-links a {
+            color: #666666;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+        
+        /* Mobile styles */
+        @media screen and (max-width: 480px) {
+            .email-container {
+                border-radius: 0;
+            }
+            
+            .email-header {
+                padding: 25px 15px;
+            }
+            
+            .email-header h1 {
+                font-size: 20px;
+            }
+            
+            .email-body {
+                padding: 25px 15px;
+            }
+            
+            .code {
+                font-size: 28px;
+                letter-spacing: 3px;
+            }
+            
+            .button {
+                padding: 12px 25px;
+            }
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f7f9fc;">
+    <!-- Email container -->
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+            <td align="center" style="padding: 30px 10px;">
+                <!--[if (gte mso 9)|(IE)]>
+                <table align="center" border="0" cellspacing="0" cellpadding="0" width="600">
+                <tr>
+                <td align="center" valign="top" width="600">
+                <![endif]-->
+                <div class="email-container" style="max-width: 600px; margin: 0 auto;">
+                    <!-- Header -->
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr>
+                            <td class="email-header" style="background: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%); padding: 30px 20px; text-align: center; color: white;">
+                                <h1 style="margin: 0; font-size: 24px; font-weight: 600;">Reset Your Password</h1>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <!-- Body content -->
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr>
+                            <td class="email-body" style="padding: 30px;">
+                                <p class="greeting" style="font-size: 16px; margin-bottom: 20px;">Hi <strong>{{ recipient }}</strong>,</p>
+                                
+                                <p class="instructions" style="font-size: 15px; color: #555555; margin-bottom: 30px;">
+                                    We received a request to reset your password. Please use the verification code below to proceed with resetting your password. This code will expire in 15 minutes.
+                                </p>
+                                
+                                <!-- Verification code -->
+                                <div class="verification-code" style="background-color: #f0f4ff; border-radius: 8px; padding: 20px; text-align: center; margin: 30px 0; border: 1px dashed #4361ee;">
+                                    <p style="margin: 0 0 10px 0; font-size: 14px; color: #555555;">Your verification code:</p>
+                                    <div class="code" style="font-size: 36px; font-weight: 700; letter-spacing: 5px; color: #4361ee; margin: 15px 0;">{{ code }}</div>
+                                    <p class="code-expiry" style="font-size: 14px; color: #666666; font-style: italic;">Expires in 15 minutes</p>
+                                </div>
+                                
+                                <p class="instructions" style="font-size: 15px; color: #555555; margin-bottom: 30px;">
+                                    If you didn't request this password reset, please ignore this email or contact support if you have any concerns.
+                                </p>
+                                
+                                <!-- Button -->
+                                <div class="button-container" style="margin: 30px 0; text-align: center;">
+                                    <a href="{{ reset_link }}" class="button" style="display: inline-block; background-color: #4361ee; color: white !important; font-weight: 600; text-decoration: none; padding: 12px 30px; border-radius: 30px;">Reset Password</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <!-- Footer -->
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr>
+                            <td class="email-footer" style="background-color: #f7f9fc; padding: 20px; text-align: center; font-size: 12px; color: #888888; border-top: 1px solid #e5e9f2;">
+                                <div class="footer-links" style="margin: 15px 0;">
+                                    <a href="{{ support_link }}" style="color: #666666; margin: 0 10px; text-decoration: none;">Contact Support</a>
+                                    <a href="{{ privacy_link }}" style="color: #666666; margin: 0 10px; text-decoration: none;">Privacy Policy</a>
+                                    <a href="{{ terms_link }}" style="color: #666666; margin: 0 10px; text-decoration: none;">Terms of Service</a>
+                                    <a href="{{ unsubscribe_link }}" style="color: #666666; margin: 0 10px; text-decoration: none;">Unsubscribe</a>
+                                </div>
+                                <p style="margin: 0;">&copy; {{ now|date:"Y" }} TestMaster. All rights reserved.</p>
+                                <p style="margin: 10px 0 0 0; font-size: 11px; color: #aaaaaa;">
+                                    TestMaster, Kolkata, INDIA
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!--[if (gte mso 9)|(IE)]>
+                </td>
+                </tr>
+                </table>
+                <![endif]-->
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -5,6 +5,8 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/moderator_sidebar.css' %}">
+<link rel="stylesheet" href="{% static 'css/moderator_settings.css' %}">
+
 {% endblock %}
 
 {% block content %}
@@ -20,12 +22,20 @@
     </button>
   </form>
 
-  {% if messages %}
-    <div class="mt-3">
-      {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
-      {% endfor %}
+{% if messages %}
+    <div style="margin-bottom: 20px;">
+        {% for message in messages %}
+            <div
+                style="padding: 15px; border-radius: 5px; 
+                       {% if message.tags == 'success' %}background-color: #d4edda; color: #155724;{% endif %}
+                       {% if message.tags == 'error' %}background-color: #f8d7da; color: #721c24;{% endif %}
+                       border: 1px solid transparent;
+                       ">
+                {{ message }}
+            </div>
+        {% endfor %}
     </div>
-  {% endif %}
+{% endif %}
+
 </div>
 {% endblock %}

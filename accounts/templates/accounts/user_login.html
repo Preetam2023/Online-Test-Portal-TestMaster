@@ -1,4 +1,6 @@
 {% load static %}
+{% load socialaccount %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -53,10 +55,21 @@
                             <label class="custom-control-label" for="remember">Remember Me</label>
                         </div>
                         <div>
-                            <a href="#" class="forgot-password" style="color:rgb(46, 125, 50);">Forgot Password?</a>
+                           <a href="{% url 'forgot_password' %}" class="forgot-password" style="color:rgb(46, 125, 50);">Forgot Password?</a>
+
                         </div>
                     </div>
                     <button type="submit" style="background-color: #2e7d32;" class="btn btn-success w-100 font-weight-bold mt-2">Login</button>
+                
+
+
+<!-- Google Login Button -->
+<div class="text-center my-3">
+    <p class="text-muted mb-2">OR</p>
+    <a href="{% provider_login_url 'google' %}" class="btn btn-outline-danger w-100">
+        <i class="fab fa-google mr-2"></i> Login with Google
+    </a>
+
                 </form>
                 
                 <div class="pt-4 text-center">

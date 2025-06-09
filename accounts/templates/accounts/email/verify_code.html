@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Code | SecureApp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #e0e7ff;
+            --secondary: #3f37c9;
+            --text: #2b2d42;
+            --light-text: #8d99ae;
+            --background: #f8f9fa;
+            --white: #ffffff;
+            --success: #4bb543;
+            --error: #ff3333;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIj48Y2lyY2xlIGN4PSI3MCUiIGN5PSIxMCUiIHI9IjEiIGZpbGw9IiM0MzYxZWUiIG9wYWNpdHk9IjAuMSI+PC9jaXJjbGU+PGNpcmNsZSBjeD0iMTAlIiBjeT0iMjAlIiByPSIxLjUiIGZpbGw9IiM0MzYxZWUiIG9wYWNpdHk9IjAuMSI+PC9jaXJjbGU+PGNpcmNsZSBjeD0iODAlIiBjeT0iNjAlIiByPSIxIiBmaWxsPSIjNDM2MWVlIiBvcGFjaXR5PSIwLjEiPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjMwJSIgY3k9IjgwJSIgcj0iMS41IiBmaWxsPSIjNDM2MWVlIiBvcGFjaXR5PSIwLjEiPjwvY2lyY2xlPjxjaXJjbGUgY3g9IjUwJSIgY3k9IjMwJSIgcj0iMSIgZmlsbD0iIzQzNjFlZSIgb3BhY2l0eT0iMC4xIj48L2NpcmNsZT48L3N2Zz4=');
+        }
+        
+        .auth-container {
+            background-color: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 480px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .auth-container:hover {
+            transform: translateY(-5px);
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .auth-header h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        
+        .auth-header p {
+            color: var(--light-text);
+            font-size: 14px;
+        }
+        
+        .auth-header strong {
+            color: var(--primary);
+            font-weight: 500;
+        }
+        
+        .auth-icon {
+            background-color: var(--primary-light);
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--primary);
+            font-size: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background-color: var(--white);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+            color: var(--white);
+        }
+        
+        .btn-success:hover {
+            background-color: #3a9e33;
+            transform: translateY(-2px);
+        }
+        
+        .messages {
+            margin-bottom: 24px;
+        }
+        
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        
+        .alert-error {
+            background-color: #fee2e2;
+            color: var(--error);
+            border-left: 4px solid var(--error);
+        }
+        
+        .alert-success {
+            background-color: #dcfce7;
+            color: var(--success);
+            border-left: 4px solid var(--success);
+        }
+        
+        @media (max-width: 576px) {
+            .auth-container {
+                padding: 32px 24px;
+            }
+            
+            .auth-header h3 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-header">
+            <div class="auth-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Enter Verification Code</h3>
+            <p>A code has been sent to: <strong>{{ email }}</strong></p>
+        </div>
+        
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'error' %}error{% else %}success{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="code">Verification Code</label>
+                <input type="text" name="code" id="code" class="form-control" placeholder="Enter 6-digit code" required>
+            </div>
+            
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-check-circle btn-icon"></i> Verify Code
+            </button>
+        </form>
+    </div>
+</body>
+</html>

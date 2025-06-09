@@ -502,13 +502,22 @@ def control_moderators(request):
                     full_name=full_name
                 )
                 
-                # Prepare email content
+                # Get absolute login URL correctly using reverse()
+                login_path = reverse('moderator-login')  # e.g. '/moderator/login/'
+                login_url = request.build_absolute_uri(login_path)  # full URL
+                
+                # Build site_url for absolute image URLs (removes trailing slash)
+                site_url = request.build_absolute_uri('/')[:-1]
+                
+                # Prepare email content with site_url for absolute image URLs
                 email_context = {
                     'moderator_name': full_name,
                     'organization_name': organization.name,
                     'email': email,
                     'password': password,
-                    'login_url': request.build_absolute_uri('accounts/moderator/login/')
+                    'login_url': login_url,
+                    'organization': organization,  # for organization.logo.url
+                    'site_url': site_url,
                 }
                 
                 # Render HTML email template
@@ -1957,3 +1966,119 @@ def moderator_settings(request):
     return render(request, 'accounts/moderator_settings.html', {
         'form': form
     })
+
+
+# views.py
+
+import random
+from django.core.mail import send_mail
+from django.utils.timezone import now, timedelta
+from django.contrib.auth import get_user_model
+from .models import PasswordResetCode
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.conf import settings
+from django.utils.timezone import now
+import random
+User = get_user_model()
+
+def forgot_password_request(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        try:
+            user = User.objects.get(email=email)
+
+            # Limit: Check if user already requested 5 times today
+            today_attempts = PasswordResetCode.objects.filter(
+                user=user,
+                created_at__gte=now().replace(hour=0, minute=0, second=0),
+            ).count()
+
+            if today_attempts >= 5:
+                messages.error(request, "You have exceeded the verification request limit (5/day).")
+                return render(request, 'accounts/email/forgot_password.html')
+
+
+            # Invalidate old codes by deleting them before creating a new one
+            PasswordResetCode.objects.filter(user=user).delete()
+            
+            # Generate 6-digit code
+            code = str(random.randint(100000, 999999))
+            PasswordResetCode.objects.create(user=user, code=code)
+
+            # Send email
+            subject = '🔐 Your TestMaster Verification Code'
+            from_email = settings.DEFAULT_FROM_EMAIL
+            context = {
+                'code': code,
+                'recipient': email,
+                'now': now(),
+            }
+            html_content = render_to_string('accounts/email/verification_code_email.html', context)
+
+            msg = EmailMultiAlternatives(subject, '', from_email, [email])
+            msg.attach_alternative(html_content, "text/html")
+            msg.send()
+
+
+            request.session['reset_email'] = email
+            messages.success(request, 'Verification code sent to your email.')
+            return redirect('verify_reset_code')
+
+        except User.DoesNotExist:
+            messages.error(request, 'No account found with that email.')
+
+    return render(request, 'accounts/email/forgot_password.html')
+
+
+def verify_reset_code(request):
+    email = request.session.get('reset_email')
+    if not email:
+        return redirect('forgot_password')
+
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        messages.error(request, "Session expired. Try again.")
+        return redirect('forgot_password')
+
+    if request.method == 'POST':
+        code_input = request.POST.get('code')
+        valid_codes = PasswordResetCode.objects.filter(user=user, code=code_input).order_by('-created_at')
+
+        if valid_codes.exists() and valid_codes[0].is_valid():
+            request.session['verified_email'] = email
+            return redirect('reset_password_form')
+        else:
+            messages.error(request, "Invalid or expired code.")
+
+    return render(request, 'accounts/email/verify_code.html', {'email': email})
+
+from django.contrib.auth.hashers import make_password
+
+def reset_password_form(request):
+    email = request.session.get('verified_email')
+    if not email:
+        return redirect('forgot_password')
+
+    user = User.objects.get(email=email)
+
+    if request.method == 'POST':
+        new_password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+
+        if new_password != confirm_password:
+            messages.error(request, "Passwords do not match.")
+        else:
+            user.password = make_password(new_password)
+            user.save()
+
+            # Cleanup
+            PasswordResetCode.objects.filter(user=user).delete()
+            request.session.flush()
+            messages.success(request, "Password successfully reset. Please login.")
+            return redirect('user_login')  # Or wherever login is.
+
+    return render(request, 'accounts/email/reset_password.html')

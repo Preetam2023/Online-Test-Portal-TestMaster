@@ -50,6 +50,9 @@ from .views import (
     participants_view,
     organization_analytics,
     moderator_settings,
+    forgot_password_request,
+    reset_password_form,
+    verify_reset_code,
 
 )
 
@@ -129,8 +132,12 @@ urlpatterns = [
     path('moderator/closed-test/', closed_tests_view, name='moderator-closed-tests'),
     path('moderator/active-tests/', view_tests, name='moderator-active-tests'),
     path('moderator/analytics/', organization_analytics, name='moderator_analytics'),
-
-
+    
+    
+    # Password Reset
+    path('forgot-password/', forgot_password_request, name='forgot_password'),
+    path('verify-reset-code/', verify_reset_code, name='verify_reset_code'),
+    path('reset-password/', reset_password_form, name='reset_password_form'),
 
     
 ]

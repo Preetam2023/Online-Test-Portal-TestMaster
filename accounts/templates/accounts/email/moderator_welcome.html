@@ -1,35 +1,362 @@
+{% load static %}
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; }
-        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
-        .header { color: #4361ee; text-align: center; }
-        .credentials { background: #f8f9fa; padding: 15px; border-radius: 5px; }
-        .footer { margin-top: 20px; font-size: 0.9em; color: #6c757d; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to {{ organization_name }} Moderator Team</title>
+    <style type="text/css">
+        /* Client-specific resets */
+        body, html {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            background-color: #f7f9fc;
+        }
+        
+        /* Prevent WebKit and Windows mobile from changing default text sizes */
+        body {
+            -webkit-text-size-adjust: 100% !important;
+            -ms-text-size-adjust: 100% !important;
+            -webkit-font-smoothing: antialiased !important;
+        }
+        
+        /* Outlook link fix */
+        a {
+            color: #4361ee;
+            text-decoration: none;
+        }
+        
+        /* Responsive images */
+        img {
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+            -ms-interpolation-mode: bicubic;
+            max-width: 100%;
+        }
+        
+        /* Email container */
+        .email-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Header */
+        .email-header {
+            background: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+        }
+        
+        .logo {
+            max-height: 60px;
+            margin-bottom: 15px;
+        }
+        
+        .email-header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Content */
+        .email-body {
+            padding: 30px;
+        }
+        
+        .greeting {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .welcome-text {
+            font-size: 15px;
+            color: #555555;
+            margin-bottom: 25px;
+        }
+        
+        /* Credentials box */
+        .credentials-box {
+            background-color: #f0f4ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            border-left: 4px solid #4361ee;
+        }
+        
+        .credentials-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4361ee;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        
+        .credential-item {
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        
+        .credential-label {
+            font-weight: 600;
+            color: #333333;
+            display: inline-block;
+            width: 100px;
+        }
+        
+        /* Responsibilities */
+        .responsibilities {
+            margin: 30px 0;
+        }
+        
+        .responsibilities h3 {
+            color: #4361ee;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        
+        .responsibilities ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+        
+        .responsibilities li {
+            margin-bottom: 8px;
+            color: #555555;
+        }
+        
+        /* Button */
+        .button-container {
+            margin: 30px 0;
+            text-align: center;
+        }
+        
+        .button {
+            display: inline-block;
+            background-color: #4361ee;
+            color: white !important;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .button:hover {
+            background-color: #3a56d4;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(67, 97, 238, 0.2);
+        }
+        
+        /* Footer */
+        .email-footer {
+            background-color: #f7f9fc;
+            padding: 25px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #888888;
+            border-top: 1px solid #e5e9f2;
+        }
+        
+        .social-links {
+            margin: 15px 0;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            margin: 0 8px;
+        }
+        
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            opacity: 1;
+        }
+        
+        .footer-links {
+            margin: 15px 0;
+        }
+        
+        .footer-links a {
+            color: #666666;
+            margin: 0 10px;
+            text-decoration: none;
+            font-size: 11px;
+        }
+        
+        /* Mobile styles */
+        @media screen and (max-width: 480px) {
+            .email-container {
+                border-radius: 0;
+            }
+            
+            .email-header {
+                padding: 25px 15px;
+            }
+            
+            .email-header h1 {
+                font-size: 20px;
+            }
+            
+            .email-body {
+                padding: 25px 15px;
+            }
+            
+            .credential-label {
+                display: block;
+                width: auto;
+                margin-bottom: 3px;
+            }
+        }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <h2>Welcome to {{ organization_name }}</h2>
-        </div>
-        
-        <p>Hello {{ moderator_name }},</p>
-        
-        <p>You have been added as a moderator to <strong>{{ organization_name }}</strong> on TestMaster.</p>
-        
-        <div class="credentials">
-            <h3>Your Login Credentials:</h3>
-            <p><strong>Email:</strong> {{ email }}</p>
-            <p><strong>Password:</strong> {{ password }}</p>
-        </div>
-        
-        <p>Please <a href="{{ login_url }}">login here</a> and change your password immediately.</p>
-        
-        <div class="footer">
-            <p>This is an automated message. Please do not reply.</p>
-        </div>
-    </div>
+<body style="margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f7f9fc;">
+    <!-- Email container -->
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+            <td align="center" style="padding: 30px 10px;">
+                <!--[if (gte mso 9)|(IE)]>
+                <table align="center" border="0" cellspacing="0" cellpadding="0" width="600">
+                <tr>
+                <td align="center" valign="top" width="600">
+                <![endif]-->
+                <div class="email-container" style="max-width: 600px; margin: 0 auto;">
+                    <!-- Header with logo -->
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr>
+                            <td class="email-header" style="background: linear-gradient(135deg, #4361ee 0%, #3f37c9 100%); padding: 30px 20px; text-align: center; color: white;">
+                                <!-- Logo placeholder - replace with actual logo URL -->
+                         {% if organization.logo %}
+    <img src="{{ site_url|default:'' }}{{ organization.logo.url }}" alt="{{ organization.name }} Logo" class="logo" style="max-height: 60px; margin-bottom: 15px;">
+{% else %}
+    <img src="{{ site_url|default:'' }}{% static 'img/default-organization-logo.png' %}" alt="{{ organization_name }}" class="logo" style="max-height: 60px; margin-bottom: 15px;">
+{% endif %}
+
+
+                                <h1 style="margin: 0; font-size: 24px; font-weight: 600; letter-spacing: 0.5px;">Welcome to the Moderator Team!</h1>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <!-- Body content -->
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr>
+                            <td class="email-body" style="padding: 30px;">
+                                <p class="greeting" style="font-size: 16px; margin-bottom: 20px;">Hello <strong>{{ moderator_name }}</strong>,</p>
+                                
+                                <p class="welcome-text" style="font-size: 15px; color: #555555; margin-bottom: 25px;">
+                                    Welcome to <strong>{{ organization_name }}</strong> as a <strong>MODERATOR</strong>. We're excited to have you on board and appreciate your commitment to maintaining our community standards.
+                                </p>
+                                
+                                <!-- Credentials box -->
+                                <div class="credentials-box" style="background-color: #f0f4ff; border-radius: 8px; padding: 20px; margin: 25px 0; border-left: 4px solid #4361ee;">
+                                    <h3 class="credentials-title" style="font-size: 18px; font-weight: 600; color: #4361ee; margin-top: 0; margin-bottom: 15px;">Your Login Credentials</h3>
+                                    
+                                    <div class="credential-item" style="margin-bottom: 10px; font-size: 15px;">
+                                        <span class="credential-label" style="font-weight: 600; color: #333333; display: inline-block; width: 100px;">Email:</span>
+                                        <span>{{ email }}</span>
+                                    </div>
+                                    
+                                    <div class="credential-item" style="margin-bottom: 10px; font-size: 15px;">
+                                        <span class="credential-label" style="font-weight: 600; color: #333333; display: inline-block; width: 100px;">Password:</span>
+                                        <span>{{ password }}</span>
+                                    </div>
+                                </div>
+                                
+                                <p class="welcome-text" style="font-size: 15px; color: #555555; margin-bottom: 25px;">
+                                    For security reasons, please change your password from the settings immediately after logging in for the first time.
+                                </p>
+                                
+                                <!-- Responsibilities section -->
+                                <div class="responsibilities" style="margin: 30px 0;">
+                                    <h3 style="color: #4361ee; font-size: 18px; margin-bottom: 15px;">Your Moderator Responsibilities:</h3>
+                                    <ul style="padding-left: 20px; margin: 0;">
+                                        <li style="margin-bottom: 8px; color: #555555;">Review and moderate Test-Realted content</li>
+                                        <li style="margin-bottom: 8px; color: #555555;">Enforce community guidelines</li>
+                                        <li style="margin-bottom: 8px; color: #555555;">Assist with user inquiries and reports</li>
+                                        <li style="margin-bottom: 8px; color: #555555;">Help maintain a positive community environment</li>
+                                    </ul>
+                                </div>
+                                
+                                <!-- Button -->
+                                <div class="button-container" style="margin: 30px 0; text-align: center;">
+                                    <a href="{{ login_url }}" class="button" style="display: inline-block; background-color: #4361ee; color: white !important; font-weight: 600; text-decoration: none; padding: 12px 30px; border-radius: 30px;">Login to Your Account</a>
+                                </div>
+                                
+                                <p class="welcome-text" style="font-size: 15px; color: #555555; margin-bottom: 25px;">
+                                    If you have any questions about your role or need assistance, please don't hesitate to contact our support team.
+                                </p>
+                                
+                                <p style="font-size: 15px; color: #555555; margin-bottom: 0;">
+                                    Welcome aboard!<br>
+                                    <strong>The {{ organization_name }} Team</strong>
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                    <!-- Footer -->
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+                        <tr>
+                            <td class="email-footer" style="background-color: #f7f9fc; padding: 25px 20px; text-align: center; font-size: 12px; color: #888888; border-top: 1px solid #e5e9f2;">
+                                <!-- Social links -->
+                                <div class="social-links" style="margin: 15px 0;">
+                                    <a href="{{ facebook_url }}" style="display: inline-block; margin: 0 8px;">
+                                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/facebook.svg" alt="Facebook" class="social-icon" style="width: 24px; height: 24px; opacity: 0.7;">
+                                    </a>
+                                    <a href="{{ twitter_url }}" style="display: inline-block; margin: 0 8px;">
+                                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/twitter.svg" alt="Twitter" class="social-icon" style="width: 24px; height: 24px; opacity: 0.7;">
+                                    </a>
+                                    <a href="{{ linkedin_url }}" style="display: inline-block; margin: 0 8px;">
+                                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/linkedin.svg" alt="LinkedIn" class="social-icon" style="width: 24px; height: 24px; opacity: 0.7;">
+                                    </a>
+                                    <a href="{{ instagram_url }}" style="display: inline-block; margin: 0 8px;">
+                                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v5/icons/instagram.svg" alt="Instagram" class="social-icon" style="width: 24px; height: 24px; opacity: 0.7;">
+                                    </a>
+                                </div>
+                                
+                                <!-- Footer links -->
+                                <div class="footer-links" style="margin: 15px 0;">
+                                    <a href="{{ support_link }}" style="color: #666666; margin: 0 10px; text-decoration: none; font-size: 11px;">Contact Support</a>
+                                    <a href="{{ privacy_link }}" style="color: #666666; margin: 0 10px; text-decoration: none; font-size: 11px;">Privacy Policy</a>
+                                    <a href="{{ terms_link }}" style="color: #666666; margin: 0 10px; text-decoration: none; font-size: 11px;">Terms of Service</a>
+                                </div>
+                                
+                                <p style="margin: 0;">&copy; {{ now|date:"Y" }} {{ organization_name }}. All rights reserved.</p>
+                                <p style="margin: 10px 0 0 0; font-size: 11px; color: #aaaaaa;">
+                                    {{ organization_name }} , Kolkata, INDIA
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!--[if (gte mso 9)|(IE)]>
+                </td>
+                </tr>
+                </table>
+                <![endif]-->
+            </td>
+        </tr>
+    </table>
 </body>
 </html>

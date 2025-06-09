@@ -1,4 +1,6 @@
 {% load static %}
+{% load socialaccount %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,9 +72,12 @@
 
                 <div class="sideline my-4">OR</div>
 
-                <button class="btn btn-outline-success btn-block mt-2" style="height: 40px; border-radius: 5px;">
-                    <i class="fab fa-google mr-2"></i> Sign up with Google
-                </button>
+                <a href="{% provider_login_url 'google' %}" style="text-decoration: none;">
+    <button class="btn btn-outline-success btn-block mt-2" style="height: 40px; border-radius: 5px;">
+        <i class="fab fa-google mr-2"></i> Sign up with Google
+    </button>
+</a>
+
                 
                 <div class="pt-4 text-center">
                     Already have an account? <a href="{% url 'user_login' %}" class="font-weight-bold text-success">Log In</a>
