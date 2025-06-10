@@ -134,10 +134,20 @@ urlpatterns = [
     path('moderator/analytics/', organization_analytics, name='moderator_analytics'),
     
     
-    # Password Reset
-    path('forgot-password/', forgot_password_request, name='forgot_password'),
-    path('verify-reset-code/', verify_reset_code, name='verify_reset_code'),
-    path('reset-password/', reset_password_form, name='reset_password_form'),
+    # Password Reset for user(student)
+    path('user-login/forgot-password/', forgot_password_request, name='user_forgot_password'),
+    path('user-login/forgot-password/verify-reset-code/', verify_reset_code, name='user_verify_reset_code'),
+    path('user-login/forgot-password/verify-reset-code/reset-password/', reset_password_form, name='user_reset_password_form'),
+   
+    # Password Reset for admin
+    path('organization-admin-login/forgot-password/', forgot_password_request, name='admin_forgot_password'),
+    path('organization-admin-login/forgot-password/verify-reset-code/', verify_reset_code, name='admin_verify_reset_code'),
+    path('organization-admin-login/forgot-password/verify-reset-code/reset-password/', reset_password_form, name='admin_reset_password_form'),
+    
+    # Password Reset for moderator
+    path('moderator/login/forgot-password/', forgot_password_request, name='moderator_forgot_password'),
+    path('moderator/login/forgot-password/verify-reset-code/', verify_reset_code, name='moderator_verify_reset_code'),
+    path('moderator/login/forgot-password/verify-reset-code/reset-password/', reset_password_form, name='moderator_reset_password_form'),
 
     
 ]

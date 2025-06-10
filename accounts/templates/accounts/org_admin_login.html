@@ -34,7 +34,7 @@
 
         <div class="options">
           <label><input type="checkbox" name="remember"> Remember me</label>
-          <a href="#">Forgot your password?</a>
+          <a href="{% url 'admin_forgot_password' %}">Forgot your password?</a>
         </div>
 
         <button type="submit" class="btn-primary">Log In</button>
@@ -44,7 +44,11 @@
       <a href="{% url 'organization-admin-signup' %}" class="btn-secondary">
         Create new organization account
       </a>
+      <div class="options">
+        <p>Are you a moderator? <a href="{% url 'moderator-login' %}">Login Here</a></p>
+      </div>
     </div>
+     
   </div>
 </body>
 </html>

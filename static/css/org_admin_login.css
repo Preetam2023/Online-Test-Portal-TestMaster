@@ -48,7 +48,7 @@ body {
   input[type="password"] {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 13px;
     border: 1px solid #d1d5db;
     border-radius: 6px;
     font-size: 14px;
@@ -67,7 +67,7 @@ input[type="password"]:focus {
     justify-content: space-between;
     align-items: center;
     font-size: 14px;
-    margin-bottom: 15px;
+    margin-bottom: 13px;
   }
   
   .options a {
@@ -113,6 +113,7 @@ input[type="password"]:focus {
     text-decoration: none;
   }
   
+
   .btn-secondary:hover {
     background-color: #2d5bd8;
     color: white;

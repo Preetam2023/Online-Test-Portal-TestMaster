@@ -28,21 +28,27 @@ def about(request):
 def contact(request):
     return render(request, 'accounts/contact.html')
 
+from django.contrib.auth import login
+
 def user_signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
-            messages.success(request, 'Registration successful. You can now log in.')
+
+            # ✅ Set backend explicitly for normal login
+            user.backend = 'django.contrib.auth.backends.ModelBackend'
+
             login(request, user)
+            messages.success(request, 'Registration successful. You can now log in.')
             return redirect('user_dashboard')
         else:
-            print(form.errors)  # 👉 Add this line to debug
-
+            print(form.errors)
     else:
         form = SignupForm()
 
     return render(request, 'accounts/user_signup.html', {'form': form})
+
 
 
 from django.contrib import messages
@@ -219,7 +225,7 @@ def admin_login_view(request):
             
             # Authenticate using email as username
             user = authenticate(request, username=email, password=password)
-            
+
             if user is not None:
                 # Check if user has organization admin profile
                 if hasattr(user, 'org_admin_profile'):
@@ -347,8 +353,11 @@ from django.contrib import messages
 def organization_admin_signup(request):
     if request.method == 'POST':
         form = OrganizationSignupForm(request.POST, request.FILES)
+        
         if form.is_valid():
             user = form.save()
+            user.backend = 'django.contrib.auth.backends.ModelBackend'
+
             login(request, user)
             messages.success(request, 'Organization registration successful!')
             return redirect('organization-admin-dashboard')  # Replace with your dashboard URL
@@ -2000,32 +2009,31 @@ def forgot_password_request(request):
                 messages.error(request, "You have exceeded the verification request limit (5/day).")
                 return render(request, 'accounts/email/forgot_password.html')
 
-
-            # Invalidate old codes by deleting them before creating a new one
+            # Invalidate old codes
             PasswordResetCode.objects.filter(user=user).delete()
-            
-            # Generate 6-digit code
             code = str(random.randint(100000, 999999))
             PasswordResetCode.objects.create(user=user, code=code)
 
             # Send email
             subject = '🔐 Your TestMaster Verification Code'
             from_email = settings.DEFAULT_FROM_EMAIL
-            context = {
-                'code': code,
-                'recipient': email,
-                'now': now(),
-            }
+            context = {'code': code, 'recipient': email, 'now': now()}
             html_content = render_to_string('accounts/email/verification_code_email.html', context)
 
             msg = EmailMultiAlternatives(subject, '', from_email, [email])
             msg.attach_alternative(html_content, "text/html")
             msg.send()
 
-
             request.session['reset_email'] = email
             messages.success(request, 'Verification code sent to your email.')
-            return redirect('verify_reset_code')
+
+            # Determine role-based redirect
+            if 'organization-admin-login' in request.path:
+                return redirect('admin_verify_reset_code')
+            elif 'moderator/login' in request.path:
+                return redirect('moderator_verify_reset_code')
+            else:
+                return redirect('user_verify_reset_code')
 
         except User.DoesNotExist:
             messages.error(request, 'No account found with that email.')
@@ -2033,16 +2041,17 @@ def forgot_password_request(request):
     return render(request, 'accounts/email/forgot_password.html')
 
 
+
 def verify_reset_code(request):
     email = request.session.get('reset_email')
     if not email:
-        return redirect('forgot_password')
+        return redirect('user_forgot_password')  # default
 
     try:
         user = User.objects.get(email=email)
     except User.DoesNotExist:
         messages.error(request, "Session expired. Try again.")
-        return redirect('forgot_password')
+        return redirect('user_forgot_password')
 
     if request.method == 'POST':
         code_input = request.POST.get('code')
@@ -2050,20 +2059,31 @@ def verify_reset_code(request):
 
         if valid_codes.exists() and valid_codes[0].is_valid():
             request.session['verified_email'] = email
-            return redirect('reset_password_form')
+
+            if 'organization-admin-login' in request.path:
+                return redirect('admin_reset_password_form')
+            elif 'moderator/login' in request.path:
+                return redirect('moderator_reset_password_form')
+            else:
+                return redirect('user_reset_password_form')
         else:
             messages.error(request, "Invalid or expired code.")
 
     return render(request, 'accounts/email/verify_code.html', {'email': email})
+
 
 from django.contrib.auth.hashers import make_password
 
 def reset_password_form(request):
     email = request.session.get('verified_email')
     if not email:
-        return redirect('forgot_password')
+        return redirect('user_forgot_password')
 
-    user = User.objects.get(email=email)
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        messages.error(request, "User not found.")
+        return redirect('user_forgot_password')
 
     if request.method == 'POST':
         new_password = request.POST.get('password')
@@ -2079,6 +2099,13 @@ def reset_password_form(request):
             PasswordResetCode.objects.filter(user=user).delete()
             request.session.flush()
             messages.success(request, "Password successfully reset. Please login.")
-            return redirect('user_login')  # Or wherever login is.
+
+            # Redirect based on role
+            if 'organization-admin-login' in request.path:
+                return redirect('organization-admin-login')  # change this to your actual admin login URL name
+            elif 'moderator/login' in request.path:
+                return redirect('moderator-login')  # change this to your actual moderator login URL name
+            else:
+                return redirect('user_login')
 
     return render(request, 'accounts/email/reset_password.html')

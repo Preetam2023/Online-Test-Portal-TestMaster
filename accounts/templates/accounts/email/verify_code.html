@@ -130,6 +130,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
         }
         
         .btn-success {
@@ -139,7 +150,16 @@
         
         .btn-success:hover {
             background-color: #3a9e33;
-            transform: translateY(-2px);
+        }
+        
+        .btn-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:disabled {
+            opacity: 0.8;
+            cursor: not-allowed;
+            transform: none !important;
         }
         
         .messages {
@@ -183,7 +203,7 @@
                 <i class="fas fa-shield-alt"></i>
             </div>
             <h3>Enter Verification Code</h3>
-            <p>A code has been sent to: <strong>{{ email }}</strong></p>
+            <p>A code has been sent to <strong>{{ email }}</strong> also check in spam section</p>
         </div>
         
         {% if messages %}
@@ -196,17 +216,42 @@
         </div>
         {% endif %}
         
-        <form method="POST">
+        <form method="POST" id="verificationForm">
             {% csrf_token %}
             <div class="form-group">
                 <label for="code">Verification Code</label>
                 <input type="text" name="code" id="code" class="form-control" placeholder="Enter 6-digit code" required>
             </div>
             
-            <button type="submit" class="btn btn-success">
-                <i class="fas fa-check-circle btn-icon"></i> Verify Code
+            <button type="submit" class="btn btn-primary" id="verifyBtn">
+                Verify Code
             </button>
         </form>
     </div>
+<script>
+document.getElementById('verificationForm').addEventListener('submit', function(e) {
+    e.preventDefault(); // Prevent immediate submission
+    
+    const verifyBtn = document.getElementById('verifyBtn');
+    const form = this;
+    
+    // First show verifying state
+    verifyBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin btn-icon"></i> Verifying...';
+    verifyBtn.className = 'btn btn-success';
+    verifyBtn.disabled = true;
+    
+    // Simulate verification delay (remove this in production)
+    setTimeout(() => {
+        // Show verified state
+        verifyBtn.innerHTML = '<i class="fas fa-check-circle btn-icon"></i> Verified!';
+        
+        // Wait 1 second before submitting
+        setTimeout(() => {
+            form.submit();
+        }, 1000);
+        
+    }, 500); // Simulated verification delay
+});
+</script>
 </body>
 </html>

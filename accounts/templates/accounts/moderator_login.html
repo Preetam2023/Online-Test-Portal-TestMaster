@@ -14,7 +14,7 @@
     <div class="login-container">
         <div class="login-card">
             <div class="login-header">
-                <img src="{% static 'img/logo_png.png' %}" alt="TestMaster Logo">
+                
                 <h2>Moderator Login</h2>
                 <p>Access your organization's test management panel</p>
             </div>
@@ -46,7 +46,7 @@
             
             <div class="login-footer">
                 <p>Not a moderator? <a href="{% url 'organization-admin-login' %}">Organization admin login</a></p>
-                <p><a href="#">Forgot password?</a></p>
+                <p><a href= "{% url 'moderator_forgot_password' %} ">Forgot password?</a></p>
             </div>
         </div>
     </div>
