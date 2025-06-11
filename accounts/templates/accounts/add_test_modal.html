@@ -51,6 +51,7 @@
         <div id="randomQuestionInput" class="d-none">
           <label for="randomCount">How many questions?</label>
           <input type="number" class="form-control" id="randomCount" min="1">
+         
           <button class="btn btn-success mt-2" id="randomAddBtn">Add Random Questions</button>
         </div>
 
@@ -59,6 +60,7 @@
         </div>
         <button class="btn btn-success d-none mt-2" id="addSelectedManualBtn">Add Selected Questions</button>
       </div>
+      
     </div>
   </div>
 </div>
@@ -110,7 +112,9 @@
               <option value="Medium">Medium</option>
               <option value="Hard">Hard</option>
             </select>
+            
           </div>
+          
           <input type="hidden" name="subject_id" id="manualSubjectId">
           <button type="submit" class="btn btn-success">Save Question</button>
         </form>

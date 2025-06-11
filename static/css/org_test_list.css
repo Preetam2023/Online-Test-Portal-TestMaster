@@ -367,3 +367,44 @@ body {
     }
 }
 
+/* Test Code Error Message */
+.test-code-error {
+    background: #FFF5F5;
+    border: 1px solid #FFEBEE;
+    border-radius: 6px;
+    padding: 12px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    animation: fadeIn 0.3s ease-out;
+    color: #D32F2F;
+    font-size: 14px;
+}
+
+.test-code-error i {
+    color: #F44336;
+    font-size: 16px;
+}
+
+.test-code-error p {
+    margin: 0;
+    font-weight: 500;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Shake animation for wrong input */
+.shake-animation {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-3px); }
+    40%, 60% { transform: translateX(3px); }
+}

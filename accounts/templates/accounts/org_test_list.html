@@ -7,9 +7,17 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 <div class="org-tests-container">
     <div class="header-section">
+        
         <a href="{% url 'user_dashboard' %}" class="home-button">
             <i class="fas fa-home"></i>
         </a>
+        {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
         <h2>Available Tests for <span class="org-name">{{ organization.name }}</span></h2>
         <div class="decoration-circle"></div>
         <div class="decoration-circle"></div>
@@ -40,17 +48,29 @@
                     </div>
                 </div>
                 
-                <form method="post" action="{% url 'verify_org_test_code' test_id=test.id %}" class="test-access-form">
-                    {% csrf_token %}
-                    <div class="input-group">
-                        <i class="fas fa-key"></i>
-                        <input type="password" name="test_code" id="test_code_{{ test.id }}" placeholder="Enter test code" required>
-                    </div>
-                    <button type="submit" class="btn start-test-btn">
-                        <span>Start Test</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </button>
-                </form>
+               <form method="post" action="{% url 'verify_org_test_code' test_id=test.id %}" class="test-access-form">
+    {% csrf_token %}
+    <div class="input-group">
+        <i class="fas fa-key"></i>
+        <input type="password" name="test_code" id="test_code_{{ test.id }}" placeholder="Enter test code" required>
+    </div>
+    
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.extra_tags == test.id|stringformat:"s" %}
+                <div class="test-code-error">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>{{ message }}</p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    
+    <button type="submit" class="btn start-test-btn">
+        <span>Start Test</span>
+        <i class="fas fa-arrow-right"></i>
+    </button>
+</form>
                 
                 <div class="card-decoration"></div>
             </div>

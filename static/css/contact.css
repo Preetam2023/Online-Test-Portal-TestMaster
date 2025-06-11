@@ -232,4 +232,23 @@ textarea {
     height: 20px;
     filter: brightness(0) saturate(100%) invert(27%) sepia(63%) saturate(620%) hue-rotate(84deg) brightness(91%) contrast(88%);
   }
+  /* Generic alert box */
+.alert {
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+
+  .alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px 20px;
+  border: 1px solid #c3e6cb;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
   

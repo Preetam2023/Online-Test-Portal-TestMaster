@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="{% static 'css/user_login.css' %}">
 </head>
 <body>
+    
 <div class="container">
     <div class="row m-5 no-gutters shadow-lg">
         <!-- Image Section -->
@@ -24,18 +25,22 @@
             <h2 class="pb-3" style="color: #2e7d32; font-weight:bold; text-align: center;">User Login</h2>
             <div class="form-style">
                 {% if messages %}
-    <div class="alert-container mb-3">
-        {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        {% endfor %}
-    </div>
+  <div class="message-container">
+    {% for message in messages %}
+      <div class="alert alert-warning">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
 {% endif %}
 
+{% if form.non_field_errors %}
+  <div class="alert alert-danger">
+    {% for error in form.non_field_errors %}
+      {{ error }}
+    {% endfor %}
+  </div>
+{% endif %}
                 <form method="post" action="">
                     {% csrf_token %}
                     <div class="form-group pb-3 mb-4">
@@ -61,6 +66,7 @@
                     </div>
                     <button type="submit" style="background-color: #2e7d32;" class="btn btn-success w-100 font-weight-bold mt-2">Login</button>
                 
+
 
 
 <!-- Google Login Button -->

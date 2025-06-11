@@ -50,71 +50,70 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-// 1. Marks Comparison Chart
-new Chart(document.getElementById('comparisonChart'), {
-    type: 'bar',
-    data: {
-        labels: ['You', 'Topper', 'Average'],
-        datasets: [{
-            label: 'Score (%)',
-            data: [
-                parseFloat(document.getElementById('youScore')?.innerText || percentage),
-                parseFloat(document.getElementById('topperScore')?.innerText || 100),
-                parseFloat(document.getElementById('avgScore')?.innerText || 60)
-            ],
-            backgroundColor: ['#4CAF50B3', '#FFC107B3', '#2196F3B3']
-        }]
-    },
-    options: {
-        scales: { y: { beginAtZero: true, max: 100 } },
-        plugins: { legend: { display: false } }
-    }
-});
-
-// 2. Time Comparison Chart (minutes)
-const yourTime = parseInt(document.getElementById('yourTime')?.innerText || 0);
-const topperTime = parseInt(document.getElementById('topperTime')?.innerText || 0);
-const avgTime = parseInt(document.getElementById('avgTime')?.innerText || 0);
-
-new Chart(document.getElementById('timeComparisonChart'), {
-    type: 'bar',
-    data: {
-        labels: ['You', 'Topper', 'Average'],
-        datasets: [{
-            label: 'Time Taken (min)',
-            data: [
-                Math.round(yourTime / 60),
-                Math.round(topperTime / 60),
-                Math.round(avgTime / 60)
-            ],
-            backgroundColor: ['#03A9F4B3', '#FFC107B3', '#9C27B0B3']
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true,
-                title: { display: true, text: 'Minutes' }
-            }
+    // 1. Marks Comparison Chart
+    new Chart(document.getElementById('comparisonChart'), {
+        type: 'bar',
+        data: {
+            labels: ['You', 'Topper', 'Average'],
+            datasets: [{
+                label: 'Score (%)',
+                data: [
+                    parseFloat(document.getElementById('youScore')?.innerText || percentage),
+                    parseFloat(document.getElementById('topperScore')?.innerText || 100),
+                    parseFloat(document.getElementById('avgScore')?.innerText || 60)
+                ],
+                backgroundColor: ['#4CAF50B3', '#FFC107B3', '#2196F3B3']
+            }]
         },
-        plugins: {
-            legend: { display: false },
-            tooltip: {
-                callbacks: {
-                    label: function(context) {
-                        const min = context.raw;
-                        const sec = min * 60;
-                        const h = Math.floor(sec / 3600);
-                        const m = Math.floor((sec % 3600) / 60);
-                        const s = sec % 60;
-                        return ` ${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        options: {
+            scales: { y: { beginAtZero: true, max: 100 } },
+            plugins: { legend: { display: false } }
+        }
+    });
+
+    // 2. Time Comparison Chart (minutes)
+    const yourTime = parseInt(document.getElementById('yourTime')?.innerText || 0);
+    const topperTime = parseInt(document.getElementById('topperTime')?.innerText || 0);
+    const avgTime = parseInt(document.getElementById('avgTime')?.innerText || 0);
+
+    new Chart(document.getElementById('timeComparisonChart'), {
+        type: 'bar',
+        data: {
+            labels: ['You', 'Topper', 'Average'],
+            datasets: [{
+                label: 'Time Taken (min)',
+                data: [
+                    Math.round(yourTime / 60),
+                    Math.round(topperTime / 60),
+                    Math.round(avgTime / 60)
+                ],
+                backgroundColor: ['#03A9F4B3', '#FFC107B3', '#9C27B0B3']
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Minutes' }
+                }
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const min = context.raw;
+                            const sec = min * 60;
+                            const h = Math.floor(sec / 3600);
+                            const m = Math.floor((sec % 3600) / 60);
+                            const s = sec % 60;
+                            return ` ${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+                        }
                     }
                 }
             }
         }
-    }
-});
-
+    });
 
     // Chart 3: Difficulty-wise Bar Chart (Correct/Incorrect/Unattempted)
     const levels = ['easy', 'medium', 'hard'];
@@ -167,54 +166,58 @@ new Chart(document.getElementById('timeComparisonChart'), {
         }
     });
 
-    // Chart 4: Heatmap for Detailed Difficulty (Optional, can be repurposed later)
-    const matrixCtx = document.getElementById('stackedDifficultyChart').getContext('2d');
-    new Chart(matrixCtx, {
-        type: 'matrix',
-        data: {
-            datasets: [{
-                label: 'Difficulty Heatmap',
-                data: [
-                    { x: 'Easy', y: 'Correct', v: diffCorrect[0] },
-                    { x: 'Easy', y: 'Incorrect', v: diffIncorrect[0] },
-                    { x: 'Easy', y: 'Unattempted', v: diffUnattempted[0] },
-                    { x: 'Medium', y: 'Correct', v: diffCorrect[1] },
-                    { x: 'Medium', y: 'Incorrect', v: diffIncorrect[1] },
-                    { x: 'Medium', y: 'Unattempted', v: diffUnattempted[1] },
-                    { x: 'Hard', y: 'Correct', v: diffCorrect[2] },
-                    { x: 'Hard', y: 'Incorrect', v: diffIncorrect[2] },
-                    { x: 'Hard', y: 'Unattempted', v: diffUnattempted[2] }
-                ],
-                backgroundColor(ctx) {
-                    const value = ctx.dataset.data[ctx.dataIndex].v;
-                    return `hsl(${Math.max(0, 120 - value * 10)}, 70%, 60%)`;
-                },
-                width: ({ chart }) => (chart.chartArea || {}).width / 3 - 10,
-                height: ({ chart }) => (chart.chartArea || {}).height / 3 - 10
-            }]
-        },
-        options: {
-            scales: {
-                x: { type: 'category', offset: true },
-                y: { type: 'category', offset: true }
+    // Only initialize matrix chart if element exists
+    const matrixCanvas = document.getElementById('stackedDifficultyChart');
+    if (matrixCanvas) {
+        const matrixCtx = matrixCanvas.getContext('2d');
+        new Chart(matrixCtx, {
+            type: 'matrix',
+            data: {
+                datasets: [{
+                    label: 'Difficulty Heatmap',
+                    data: [
+                        { x: 'Easy', y: 'Correct', v: diffCorrect[0] },
+                        { x: 'Easy', y: 'Incorrect', v: diffIncorrect[0] },
+                        { x: 'Easy', y: 'Unattempted', v: diffUnattempted[0] },
+                        { x: 'Medium', y: 'Correct', v: diffCorrect[1] },
+                        { x: 'Medium', y: 'Incorrect', v: diffIncorrect[1] },
+                        { x: 'Medium', y: 'Unattempted', v: diffUnattempted[1] },
+                        { x: 'Hard', y: 'Correct', v: diffCorrect[2] },
+                        { x: 'Hard', y: 'Incorrect', v: diffIncorrect[2] },
+                        { x: 'Hard', y: 'Unattempted', v: diffUnattempted[2] }
+                    ],
+                    backgroundColor(ctx) {
+                        const value = ctx.dataset.data[ctx.dataIndex].v;
+                        return `hsl(${Math.max(0, 120 - value * 10)}, 70%, 60%)`;
+                    },
+                    width: ({ chart }) => (chart.chartArea || {}).width / 3 - 10,
+                    height: ({ chart }) => (chart.chartArea || {}).height / 3 - 10
+                }]
             },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label(ctx) {
-                            const { x, y, v } = ctx.raw;
-                            return `${y} in ${x}: ${v}`;
+            options: {
+                scales: {
+                    x: { type: 'category', offset: true },
+                    y: { type: 'category', offset: true }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label(ctx) {
+                                const { x, y, v } = ctx.raw;
+                                return `${y} in ${x}: ${v}`;
+                            }
                         }
                     }
                 }
             }
-        }
-    });
+        });
+    }
 
-    // Chart 5: Time Distribution Box Plot
+    // Only initialize boxplot if element and data exist
     const timeData = JSON.parse(document.getElementById('timeData')?.innerText || '[]');
-    if (timeData.length) {
-        new Chart(document.getElementById('timeDistributionChart'), {
+    const boxplotCanvas = document.getElementById('timeDistributionChart');
+    if (timeData.length && boxplotCanvas) {
+        new Chart(boxplotCanvas, {
             type: 'boxplot',
             data: {
                 labels: ['Time Spent'],
@@ -235,5 +238,94 @@ new Chart(document.getElementById('timeComparisonChart'), {
                 }
             }
         });
+    }
+
+    // PDF Download functionality
+    const downloadBtn = document.getElementById('downloadPdfBtn');
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function() {
+            // Show loading indicator
+            const btn = this;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating PDF...';
+            btn.disabled = true;
+            
+            // Get all the data we need
+            const testTitle = document.querySelector('.test-title').innerText.replace(' - Result', '');
+            const orgName = document.querySelector('.test-meta i.fa-building').parentNode.innerText.trim();
+            const testDate = document.querySelector('.test-meta i.fa-calendar-alt').parentNode.innerText.trim();
+            const score = document.querySelector('.score-value').innerText;
+            const correctAnswers = document.querySelector('.correct').innerText;
+            const totalQuestions = document.querySelector('.total').innerText;
+            const rank = document.querySelector('.your-rank strong').innerText;
+            const timeTaken = document.querySelector('.time-taken').innerText.replace('Time Taken: ', '');
+            
+            // Get result ID from URL
+const parts = window.location.pathname.split('/');
+const resultId = parts[parts.indexOf('result') + 1];
+            
+            // Create a data object to send to the server
+            const pdfData = {
+                testTitle: testTitle,
+                orgName: orgName,
+                testDate: testDate,
+                score: score,
+                correctAnswers: correctAnswers,
+                totalQuestions: totalQuestions,
+                rank: rank,
+                timeTaken: timeTaken,
+                htmlContent: document.querySelector('.result-container').innerHTML
+            };
+            
+            // Send request to generate PDF
+            // In your test_result.js, update the fetch URL to:
+fetch(`/accounts/user-dashboard/organization-tests/result/${resultId}/download-pdf/`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': getCookie('csrftoken'),
+    },
+    body: JSON.stringify(pdfData)
+})
+
+            .then(response => {
+                if (response.ok) return response.blob();
+                throw new Error('PDF generation failed');
+            })
+            .then(blob => {
+                // Create download link
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${testTitle.replace(/\s+/g, '_')}_Result.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                a.remove();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to generate PDF. Please try again.');
+            })
+            .finally(() => {
+                btn.innerHTML = '<i class="fas fa-download"></i> Download Result';
+                btn.disabled = false;
+            });
+        });
+    }
+
+    // Helper function to get CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
     }
 });

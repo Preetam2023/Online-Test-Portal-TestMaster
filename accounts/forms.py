@@ -196,3 +196,10 @@ class AddTestForm(forms.ModelForm):
             raise forms.ValidationError("This field is required.")
 
         return subject
+from django import forms
+from .models import ContactMessage
+
+class ContactMessageForm(forms.ModelForm):
+    class Meta:
+        model = ContactMessage
+        fields = ['name', 'email', 'phone', 'message']

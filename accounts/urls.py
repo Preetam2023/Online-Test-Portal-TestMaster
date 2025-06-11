@@ -16,7 +16,7 @@ from .views import (
     custom_logout,
     org_admin_dashboard,
     about,
-    contact,
+    contact_view,
     organization_settings,
     change_password,
     control_moderators,
@@ -39,7 +39,7 @@ from .views import (
     submit_org_test_view,
     organization_test_result_view,
     organization_test_history_view,
-    edit_test,
+    edit_test,download_test_result_pdf,
     cancel_test,
     test_details,
     generate_question_paper_pdf,
@@ -62,8 +62,9 @@ urlpatterns = [
     path('user-signup/', user_signup, name='user_signup'),
     path('user-login/', login_view, name='user_login'),
     path('about-us/', about, name='about'),
-    path('contact/', contact, name='contact'),
+    path('contact/', contact_view, name='contact'),
     path('logout/', custom_logout, name='custom_logout'),
+    
 
     # User Dashboard
     path('user-dashboard/', user_dashboard, name='user_dashboard'),
@@ -76,6 +77,7 @@ urlpatterns = [
     path('user-dashboard/organization-tests/verify-org-test-code/<int:test_id>/', verify_org_test_code, name='verify_org_test_code'),
     path('user-dashboard/organization-tests/submit-org-test/', submit_org_test_view, name='submit_org_test'),
     path('user-dashboard/organization-tests/result/<int:result_id>/', organization_test_result_view, name='org_test_result'),
+    path('user-dashboard/organization-tests/result/<int:result_id>/download-pdf/', download_test_result_pdf, name='org_test_result_pdf'),
     path('user-dashboard/organization-tests/history/', organization_test_history_view, name='org_test_history'),
 
     path('user-dashboard/mock-test/<str:subject>/', mock_test_page, name='mock_test_page'),

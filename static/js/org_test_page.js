@@ -84,9 +84,10 @@ function startTimer() {
         timeLeft--;
         updateTimerDisplay();
         if (timeLeft <= 0) {
-            clearInterval(timer);
-            submitTest();
-        }
+    clearInterval(timer);
+    submitTest(true); // true = auto submit due to timeout
+}
+
     }, 1000);
     autoSaveInterval = setInterval(autoSaveProgress, 15000); // every 15 sec
 }
@@ -166,12 +167,42 @@ function startTest() {
 }
 
 // SUBMIT TEST
-function submitTest() {
+function submitTest(auto = false) {
     if (testSubmitted) return;
     testSubmitted = true;
     clearInterval(timer);
     clearInterval(autoSaveInterval);
 
+    const testForm = document.getElementById('testForm');
+
+    if (auto) {
+        // ⏱ If time is over, submit form to backend immediately
+        const formData = new FormData(testForm);
+
+        if (!formData.has('test_id') && testId) {
+            formData.append('test_id', testId);
+        }
+
+        fetch(testForm.action, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+            },
+            body: formData
+        })
+        .then(response => {
+            if (response.redirected) {
+                window.location.href = response.url;
+            } else {
+                console.error("Auto submission failed.");
+            }
+        })
+        .catch(error => console.error("Auto submit error:", error));
+
+        return; // ✅ Stop further frontend result display
+    }
+
+    // Manual submit flow (user clicked Submit button)
     const questions = document.querySelectorAll('.question-card');
     let correctCount = 0;
     const totalQuestions = questions.length;
@@ -199,7 +230,6 @@ function submitTest() {
     });
 
     const percentage = Math.round((correctCount / totalQuestions) * 100);
-    const testForm = document.getElementById('testForm');
     const resultSection = document.getElementById('result');
     if (testForm && resultSection) {
         testForm.style.display = 'none';
@@ -211,14 +241,13 @@ function submitTest() {
 
     animateScore(correctCount, totalQuestions, percentage);
 
-    // Prevent going back after submission
     window.history.pushState(null, "", window.location.href);
     window.onpopstate = function () {
-    alert("You have already submitted the test. Back navigation is disabled.");
-    window.history.pushState(null, "", window.location.href);
-};
-
+        alert("You have already submitted the test. Back navigation is disabled.");
+        window.history.pushState(null, "", window.location.href);
+    };
 }
+
 
 // ANIMATE SCORE
 function animateScore(correct, total, percentage) {

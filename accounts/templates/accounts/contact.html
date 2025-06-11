@@ -4,6 +4,16 @@
 {% block title %}TestMaster - Contact Us{% endblock %}
 
 {% block content %}
+{% if messages %}
+  <div class="message-container">
+    {% for message in messages %}
+      <div class="alert alert-success">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
 <section class="contact-section">
   <div class="contact-wrapper">
     <div class="contact-image">
@@ -11,21 +21,25 @@
     </div>
     <div class="contact-form-container">
       <h2>Contact Us</h2>
-      <form id="contactForm">
-        <div class="form-group">
-          <input type="text" placeholder="Full Name" id="name" name="name" required>
-        </div>
-        <div class="form-group">
-          <input type="email" placeholder="Email Address" id="email" name="email" required>
-        </div>
-        <div class="form-group">
-          <input type="tel" placeholder="Phone Number" id="phone" name="phone" required>
-        </div>
-        <div class="form-group">
-          <textarea id="message" placeholder="Write Your Message" name="message" rows="4"></textarea>
-        </div>
-        <button type="submit" class="btn">Submit</button>
-      </form>
+      <form method="POST" id="contactForm">
+
+
+  {% csrf_token %}
+  <div class="form-group">
+    <input type="text" placeholder="Full Name" name="name" required>
+  </div>
+  <div class="form-group">
+    <input type="email" placeholder="Email Address" name="email" required>
+  </div>
+  <div class="form-group">
+    <input type="tel" placeholder="Phone Number" name="phone" required>
+  </div>
+  <div class="form-group">
+    <textarea name="message" placeholder="Write Your Message" rows="4" required></textarea>
+  </div>
+  <button type="submit" class="btn">Submit</button>
+</form>
+
     </div>
   </div>
 </section>

@@ -36,3 +36,10 @@ admin.site.register(User, CustomUserAdmin)
 admin.site.register(StudentProfile)
 admin.site.register(OrganizationAdminProfile)
 admin.site.register(Organization)
+from django.contrib import admin
+from .models import ContactMessage
+
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'phone', 'submitted_at')
+    search_fields = ('name', 'email', 'phone', 'message')

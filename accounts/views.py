@@ -1183,7 +1183,11 @@ def submit_org_test_view(request):
             answers=user_answers,
             time_taken=time_taken
         )
-
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': True,
+                'redirect_url': reverse('org_test_result', args=[result.id])
+            })
         return redirect('org_test_result', result_id=result.id)
 
     return redirect('organization_tests')
@@ -1197,8 +1201,19 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import Avg
 from .models import OrganizationTestResult, TestQuestion, TestProgress
 import json
-
-@login_required
+from django.http import HttpResponse
+from io import BytesIO
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
+from reportlab.lib.units import inch
+from reportlab.lib import colors
+from django.views.decorators.csrf import csrf_exempt
+import os
+from django.conf import settings
+@csrf_exempt
+#@login_required
 
 def organization_test_result_view(request, result_id):
     result = get_object_or_404(OrganizationTestResult, id=result_id, user=request.user)
@@ -1317,7 +1332,8 @@ def organization_test_result_view(request, result_id):
 
     topper_time_formatted = format_time(topper_time_taken)
     average_time_formatted = format_time(int(average_time_taken))
-
+    if request.method == 'POST' and request.path.endswith('/download-pdf/'):
+        return download_test_result_pdf(request, result)
     return render(request, 'accounts/test_result.html', {
         'result': result,
         'test': test,
@@ -1338,13 +1354,62 @@ def organization_test_result_view(request, result_id):
         'topper_time_formatted': topper_time_formatted,
         'average_time_formatted': average_time_formatted
     })
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from reportlab.pdfgen import canvas
+from io import BytesIO
+import json
 
+@csrf_exempt
+def download_test_result_pdf(request, result_id):
+    if request.method == 'POST':
+        try:
+            # Parse the JSON data from the request
+            data = json.loads(request.body)
+            
+            # Create a BytesIO buffer for the PDF
+            buffer = BytesIO()
+            
+            # Create the PDF object
+            p = canvas.Canvas(buffer)
+            
+            # Add content to PDF
+            p.drawString(100, 800, f"Test Result: {data['testTitle']}")
+            p.drawString(100, 780, f"Organization: {data['orgName']}")
+            p.drawString(100, 760, f"Date: {data['testDate']}")
+            p.drawString(100, 740, f"Score: {data['score']}")
+            p.drawString(100, 720, f"Correct Answers: {data['correctAnswers']}/{data['totalQuestions']}")
+            p.drawString(100, 700, f"Rank: {data['rank']}")
+            p.drawString(100, 680, f"Time Taken: {data['timeTaken']}")
+            
+            # Add verification text
+            p.drawString(100, 600, "Digitally Verified by:")
+            p.drawString(100, 580, data['orgName'])
+            
+            # Close the PDF object cleanly
+            p.showPage()
+            p.save()
+            
+            # Get the PDF from buffer
+            pdf = buffer.getvalue()
+            buffer.close()
+            
+            # Create response
+            response = HttpResponse(content_type='application/pdf')
+            response['Content-Disposition'] = f'attachment; filename="{data["testTitle"].replace(" ", "_")}_Result.pdf"'
+            response.write(pdf)
+            return response
+            
+        except Exception as e:
+            print(f"Error generating PDF: {str(e)}")
+            return HttpResponse(status=500)
+    
+    return HttpResponse(status=405)  # Method not allowed
 
 from .models import OrganizationTestResult
 
 from django.db.models import Q
 from .models import OrganizationTestResult, Subject
-
 @login_required
 def organization_test_history_view(request):
     subject_id = request.GET.get('subject')
@@ -2109,3 +2174,18 @@ def reset_password_form(request):
                 return redirect('user_login')
 
     return render(request, 'accounts/email/reset_password.html')
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import ContactMessage
+from .forms import ContactMessageForm  # only if you're using the form class
+
+def contact_view(request):
+    if request.method == 'POST':
+        form = ContactMessageForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your message has been submitted.")
+            return redirect('contact')  # Replace with your contact page URL name
+    else:
+        form = ContactMessageForm()
+    return render(request, 'accounts/contact.html', {'form': form})

@@ -1,74 +1,174 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Test History</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TestMaster | Test History </title>
     <link rel="stylesheet" href="{% static 'css/test_history.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="test-history-container">
-        <h1>My Test History</h1>
+    <header class="main-header">
+        <div class="header-content">
+            <a href="{% url 'user_dashboard' %}" class="home-btn">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <h1 class="logo">TestMaster</h1>
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+            </div>
+        </div>
+    </header>
 
-        <!-- 🔍 FILTER FORM -->
-        <form method="get" class="filter-form">
-            <label>
-                Subject:
-                <select name="subject">
-                    <option value="">-- All Subjects --</option>
-                    {% for subject in subjects %}
-                        <option value="{{ subject.id }}" {% if selected_subject == subject.id|stringformat:"s" %}selected{% endif %}>
-                            {{ subject.name }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </label>
+    <main class="content-wrapper">
+        <div class="test-history-container">
+            <div class="page-header">
+                <h2><i class="fas fa-history"></i> My Test History</h2>
+                <p class="subtitle">Review your past test performances and track your progress</p>
+            </div>
 
-            <label>
-                Start Date:
-                <input type="date" name="start_date" value="{{ start_date }}">
-            </label>
+            <!-- Filter Section -->
+            <div class="filter-card">
+                <form method="get" class="filter-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="subject">
+                                <i class="fas fa-book"></i> Subject
+                            </label>
+                            <select name="subject" id="subject" class="form-select">
+                                <option value="">-- All Subjects --</option>
+                                {% for subject in subjects %}
+                                    <option value="{{ subject.id }}" {% if selected_subject == subject.id|stringformat:"s" %}selected{% endif %}>
+                                        {{ subject.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
 
-            <label>
-                End Date:
-                <input type="date" name="end_date" value="{{ end_date }}">
-            </label>
+                        <div class="form-group">
+                            <label for="start_date">
+                                <i class="fas fa-calendar-alt"></i> Start Date
+                            </label>
+                            <input type="date" name="start_date" id="start_date" value="{{ start_date }}" class="form-input">
+                        </div>
 
-            <button type="submit" class="filter-btn">Filter</button>
-            <a href="{% url 'org_test_history' %}" class="clear-btn">Clear</a>
-        </form>
+                        <div class="form-group">
+                            <label for="end_date">
+                                <i class="fas fa-calendar-alt"></i> End Date
+                            </label>
+                            <input type="date" name="end_date" id="end_date" value="{{ end_date }}" class="form-input">
+                        </div>
+                    </div>
 
-        <!-- 📊 RESULTS TABLE -->
-        {% if results %}
-        <table class="history-table">
-            <thead>
-                <tr>
-                    <th>Test Title</th>
-                    <th>Total Marks</th>
-                    <th>Obtained</th>
-                    <th>Percentage</th>
-                    <th>Date</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for result in results %}
-                <tr>
-                    <td>{{ result.test.title }}</td>
-                    <td>{{ result.test.total_marks }}</td>
-                    <td>{{ result.correct_answers }}</td>
-                    <td>{{ result.percentage }}%</td>
-                    <td>{{ result.created_at|date:"M d, Y H:i" }}</td>
-                    <td>
-                        <a href="{% url 'org_test_result' result.id %}" class="view-btn">View</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        {% else %}
-            <p class="no-results">You haven't completed any tests yet.</p>
-        {% endif %}
-    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn filter-btn">
+                            <i class="fas fa-filter"></i> Apply Filters
+                        </button>
+                        <a href="{% url 'org_test_history' %}" class="btn clear-btn">
+                            <i class="fas fa-broom"></i> Clear
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section">
+                {% if results %}
+                <div class="summary-card">
+                    <div class="summary-item">
+                        <h3>Total Tests</h3>
+                        <p>{{ results|length }}</p>
+                    </div>
+
+                    <div class="summary-item">
+                        <h3>Highest Score</h3>
+                        <p>
+                            {% with max_score=results|dictsort:"percentage"|last %}
+                                {{ max_score.percentage }}%
+                            {% endwith %}
+                        </p>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="history-table">
+                        <thead>
+                            <tr>
+                                <th>Test Title</th>
+                                <th>Subject</th>
+                                <th>Score</th>
+                                <th>Percentage</th>
+                                <th>Date</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in results %}
+                            <tr>
+                                <td>
+                                    <div class="test-info">
+                                        <i class="fas fa-file-alt"></i>
+                                        <span>{{ result.test.title }}</span>
+                                    </div>
+                                </td>
+                                <td>{{ result.test.subject.name|default:"General" }}</td>
+                                <td>
+                                    <div class="score-display">
+                                        <span class="obtained">{{ result.correct_answers }}</span>
+                                        <span class="separator">/</span>
+                                        <span class="total">{{ result.test.total_marks }}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="percentage-circle" data-percent="{{ result.percentage }}">
+                                        <svg class="circle-chart" viewBox="0 0 36 36">
+                                            <path class="circle-bg"
+                                                d="M18 2.0845
+                                                    a 15.9155 15.9155 0 0 1 0 31.831
+                                                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                                            />
+                                            <path class="circle-fill"
+                                                stroke-dasharray="{{ result.percentage }}, 100"
+                                                d="M18 2.0845
+                                                    a 15.9155 15.9155 0 0 1 0 31.831
+                                                    a 15.9155 15.9155 0 0 1 0 -31.831"
+                                            />
+                                        </svg>
+                                        <span class="percentage-text">{{ result.percentage }}%</span>
+                                    </div>
+                                </td>
+                                <td>{{ result.created_at|date:"M d, Y" }}</td>
+                                <td>
+                                    <a href="{% url 'org_test_result' result.id %}" class="btn view-btn">
+                                        <i class="fas fa-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <h3>No Test Results Found</h3>
+                    <p>You haven't completed any tests yet. Start learning and take your first test!</p>
+                    <a href="{% url 'available_tests' %}" class="btn primary-btn">
+                        <i class="fas fa-arrow-right"></i> Browse Available Tests
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; TestMaster. All rights reserved.</p>
+    </footer>
 </body>
 </html>
