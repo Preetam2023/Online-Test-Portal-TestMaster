@@ -27,32 +27,39 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    document.querySelectorAll('.report-submit').forEach(button => {
-        button.addEventListener('click', () => {
-            const questionId = button.getAttribute('data-question-id');
-            const reason = button.previousElementSibling.value;
+   document.querySelectorAll('.report-submit').forEach(button => {
+    button.addEventListener('click', () => {
+        const questionId = button.getAttribute('data-question-id');
+        const reason = button.previousElementSibling.value;
+        const subjectName = button.getAttribute('data-subject-name');
 
-            if (!reason.trim()) return alert("Please enter a reason.");
+        if (!reason.trim()) return alert("Please enter a reason.");
+        if (!subjectName) return alert("Subject name missing. Cannot submit report.");
 
-            fetch('/report-question/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                body: JSON.stringify({ question_id: questionId, reason })
-            }).then(res => {
-                if (res.ok) {
-                    alert('Report submitted successfully!');
-                    button.parentElement.style.display = 'none';
-                } else {
-                    alert('Failed to report question.');
-                }
-            });
+        fetch(`/user-dashboard/question-bank/${subjectName}/report-question/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ question_id: questionId, reason })
+        })
+        .then(res => res.json().then(data => ({ status: res.status, ok: res.ok, body: data })))
+        .then(({ status, ok, body }) => {
+            if (ok && body.success) {
+                alert('Report submitted successfully!');
+                button.parentElement.style.display = 'none';
+            } else {
+                alert('Failed to report question: ' + (body.error || 'Server error. Status ' + status));
+            }
+        })
+        .catch(error => {
+            console.error('Network error:', error);
+            alert('Something went wrong. Please try again.');
         });
     });
 });
-
+});
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {

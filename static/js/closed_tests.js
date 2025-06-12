@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
 }
 
 
-            fetch(`/accounts/organization/closed-tests/test-details/${testId}/`)
+            fetch(`/testmaster/organization/closed-tests/test-details/${testId}/`)
                 .then(res => {
                     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
                     return res.json();

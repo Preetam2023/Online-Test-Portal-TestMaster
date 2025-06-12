@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const queryParams = new URLSearchParams({ count, easy, medium, hard });
-        fetch(`/accounts/api/get-random-questions/${subjectId}/?${queryParams.toString()}`)
+        fetch(`/testmaster/api/get-random-questions/${subjectId}/?${queryParams.toString()}`)
             .then(res => res.json())
             .then(data => {
                 data.questions.forEach(q => appendQuestion(q));
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Manual pick logic
     document.getElementById('manualPickBtn').onclick = () => {
         const subjectId = document.getElementById("subjectSelect").value;
-        fetch(`/accounts/api/get-questions/${subjectId}/`)
+        fetch(`/testmaster/api/get-questions/${subjectId}/`)
             .then(res => res.json())
             .then(data => {
                 const container = document.getElementById("manualQuestionList");
@@ -186,7 +186,7 @@ if (q.correct_option && ['option1', 'option2', 'option3', 'option4'].includes(q.
         e.preventDefault();
         const data = Object.fromEntries(new FormData(manualForm).entries());
 
-        fetch("/accounts/api/add-manual-question/", {
+        fetch("/testmaster/api/add-manual-question/", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // You need a backend endpoint to save this question.
             // Replace '/accounts/api/add-manual-question/' with your actual endpoint.
-            fetch('/accounts/api/add-manual-question/', {
+            fetch('/testmaster/api/add-manual-question/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // If difficulty counts are given, backend should respect them.
             const queryParams = new URLSearchParams({ count: finalCount, easy, medium, hard });
 
-            fetch(`/accounts/api/get-random-questions/${subjectId}/?${queryParams.toString()}`)
+            fetch(`/testmaster/api/get-random-questions/${subjectId}/?${queryParams.toString()}`)
                 .then(res => {
                     if (!res.ok) throw new Error(`Error fetching random questions: ${res.statusText}`);
                     return res.json();
@@ -369,7 +369,7 @@ document.addEventListener('DOMContentLoaded', function () {
             addSelectedManualBtn.classList.remove("d-none");
             manualQuestionListDiv.innerHTML = '<div class="text-center p-3"><i class="fas fa-spinner fa-spin"></i> Loading questions...</div>'; // Loading indicator
 
-            fetch(`/accounts/api/get-questions/${subjectId}/`)
+            fetch(`/testmaster/api/get-questions/${subjectId}/`)
                 .then(res => {
                     if (!res.ok) throw new Error(`Error fetching questions: ${res.statusText}`);
                     return res.json();

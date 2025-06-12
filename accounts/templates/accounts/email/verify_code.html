@@ -229,29 +229,65 @@
         </form>
     </div>
 <script>
-document.getElementById('verificationForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // Prevent immediate submission
-    
-    const verifyBtn = document.getElementById('verifyBtn');
+document.getElementById('verificationForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
     const form = this;
-    
-    // First show verifying state
-    verifyBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin btn-icon"></i> Verifying...';
-    verifyBtn.className = 'btn btn-success';
+
+    const codeInput = document.getElementById('code');
+    const verifyBtn = document.getElementById('verifyBtn');
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    // Reset button + old messages
     verifyBtn.disabled = true;
-    
-    // Simulate verification delay (remove this in production)
-    setTimeout(() => {
-        // Show verified state
-        verifyBtn.innerHTML = '<i class="fas fa-check-circle btn-icon"></i> Verified!';
-        
-        // Wait 1 second before submitting
-        setTimeout(() => {
-            form.submit();
-        }, 1000);
-        
-    }, 500); // Simulated verification delay
+    verifyBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin btn-icon"></i> Verifying...';
+    verifyBtn.className = 'btn btn-primary';
+    const msgBox = document.querySelector('.messages');
+    if (msgBox) msgBox.innerHTML = '';
+
+    try {
+        const response = await fetch("", {
+            method: "POST",
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': csrfToken
+            },
+            body: new URLSearchParams({
+                code: codeInput.value
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.status === 'success') {
+            verifyBtn.innerHTML = '<i class="fas fa-check-circle btn-icon"></i> Verified!';
+            verifyBtn.className = 'btn btn-success';
+            setTimeout(() => {
+                window.location.href = data.redirect_url;
+            }, 800);
+        } else {
+            // Show error without success state
+            verifyBtn.innerHTML = 'Verify Code';
+            verifyBtn.className = 'btn btn-primary';
+            verifyBtn.disabled = false;
+
+            const messagesDiv = document.querySelector('.messages') || document.createElement('div');
+            messagesDiv.className = 'messages';
+            messagesDiv.innerHTML = `
+                <div class="alert alert-error">${data.message}</div>
+            `;
+            form.parentElement.insertBefore(messagesDiv, form);
+        }
+    } catch (err) {
+        console.error("Verification failed:", err);
+        alert("Something went wrong. Please try again.");
+        verifyBtn.innerHTML = 'Verify Code';
+        verifyBtn.className = 'btn btn-primary';
+        verifyBtn.disabled = false;
+    }
 });
 </script>
+
+
 </body>
 </html>

@@ -20,7 +20,7 @@
             <p class="subtitle">Manage your organization's profile, security, and preferences</p>
         </div>
         <div class="header-illustration">
-            <img src="{% static 'images/settings-illustration.svg' %}" alt="Settings Illustration">
+            <img src="{% static 'img/setting.png' %}" alt="Settings Illustration">
         </div>
     </div>
 
@@ -170,9 +170,7 @@
                         <i class="fas fa-lock"></i>
                         <input type="password" name="old_password" id="currentPassword" required placeholder=" " autocomplete="current-password">
                         <label for="currentPassword">Current Password</label>
-                        <button type="button" class="toggle-password" data-target="currentPassword" aria-label="Show password">
-                            <i class="fas fa-eye"></i>
-                        </button>
+                        
                     </div>
                 </div>
                 
@@ -181,9 +179,7 @@
                         <i class="fas fa-key"></i>
                         <input type="password" name="new_password1" id="newPassword" required placeholder=" " autocomplete="new-password">
                         <label for="newPassword">New Password</label>
-                        <button type="button" class="toggle-password" data-target="newPassword" aria-label="Show password">
-                            <i class="fas fa-eye"></i>
-                        </button>
+                        
                     </div>
                 </div>
                 
@@ -192,9 +188,7 @@
                         <i class="fas fa-key"></i>
                         <input type="password" name="new_password2" id="confirmPassword" required placeholder=" " autocomplete="new-password">
                         <label for="confirmPassword">Confirm New Password</label>
-                        <button type="button" class="toggle-password" data-target="confirmPassword" aria-label="Show password">
-                            <i class="fas fa-eye"></i>
-                        </button>
+
                     </div>
                 </div>
             </div>

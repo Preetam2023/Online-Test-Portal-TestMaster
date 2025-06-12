@@ -104,3 +104,142 @@ button:hover {
     border-top-right-radius: 12px;
     border-bottom-right-radius: 12px;
 }
+/* ===== Message/Alerts Styling ===== */
+.alert {
+    position: relative;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    border-radius: 8px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: messageIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+@keyframes messageIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert::before {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 18px;
+}
+
+.alert-success {
+    background-color: #f0fdf4;
+    color: #166534;
+    border-left: 4px solid #22c55e;
+}
+
+.alert-success::before {
+    content: "\f058";
+    color: #22c55e;
+}
+
+.alert-error, 
+.alert-danger {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border-left: 4px solid #ef4444;
+}
+
+.alert-error::before,
+.alert-danger::before {
+    content: "\f06a";
+    color: #ef4444;
+}
+
+.alert-info {
+    background-color: #eff6ff;
+    color: #1e40af;
+    border-left: 4px solid #3b82f6;
+}
+
+.alert-info::before {
+    content: "\f05a";
+    color: #3b82f6;
+}
+
+.alert-warning {
+    background-color: #fefce8;
+    color: #854d0e;
+    border-left: 4px solid #facc15;
+}
+
+.alert-warning::before {
+    content: "\f071";
+    color: #facc15;
+}
+
+/* Close button for messages */
+.alert-close {
+    margin-left: auto;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: inherit;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.alert-close:hover {
+    opacity: 1;
+}
+
+/* Form error messages */
+.error {
+    color: #ef4444;
+    font-size: 13px;
+    margin-top: -15px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97);
+}
+
+.error::before {
+    content: "\f06a";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    font-size: 14px;
+}
+
+/* Shake animation for invalid fields */
+@keyframes shake {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-4px); }
+    40%, 60% { transform: translateX(4px); }
+}
+
+/* For login page specifically */
+.login-box .alert {
+    margin: 0 auto 25px;
+    max-width: 100%;
+}
+
+/* For signup page specifically */
+.left-section .alert {
+    margin-bottom: 30px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .alert {
+        padding: 12px 15px;
+        font-size: 13px;
+    }
+    
+    .alert::before {
+        font-size: 16px;
+    }
+}

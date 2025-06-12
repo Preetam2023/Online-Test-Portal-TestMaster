@@ -13,7 +13,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 3rem;
-  background-color: #005d02;
+  background-color: #1e7222;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
@@ -160,7 +160,7 @@ textarea {
 
 
   footer {
-    background-color: #005d02;
+    background-color: #1e7222;
     padding: 2rem 2rem 3rem;
     margin-top: 2rem;
     color: #fff;
@@ -176,7 +176,7 @@ textarea {
     max-width: 1200px;
     margin: auto;
     gap: 3rem;
-    text-align: left;
+    text-align: center;
   }
   .footer-section {
     flex: 1 1 220px;

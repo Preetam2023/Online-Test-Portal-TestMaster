@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
       e.preventDefault();
       const testId = this.dataset.testId;
       
-      fetch(`/accounts/organization/view-tests/test-details/${testId}/`)
+      fetch(`/testmaster/organization/view-tests/test-details/${testId}/`)
         .then(res => res.json())
         .then(data => {
           if (data.error) return alert(data.error);

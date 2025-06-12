@@ -22,14 +22,15 @@ class CustomUserAdmin(UserAdmin):
     filter_horizontal = ()
 
 
+
+
 from django.contrib import admin
-from .models import Question, Subject, QuestionReport
+from .models import QuestionReport
 
 @admin.register(QuestionReport)
 class QuestionReportAdmin(admin.ModelAdmin):
-    list_display = ('question', 'user', 'reported_at', 'reason')
-    search_fields = ('reason', 'question__text', 'user__username')
-    list_filter = ('reported_at', 'question__subject')
+    list_display = ['question', 'user', 'reason', 'reported_at']
+    search_fields = ['question__text', 'user__username', 'reason']
 
 # Register your models here
 admin.site.register(User, CustomUserAdmin)

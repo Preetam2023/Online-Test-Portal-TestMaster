@@ -40,7 +40,12 @@
                         <button class="report-toggle"><i class="fas fa-flag"></i> Report</button>
                         <div class="report-form" style="display: none;">
                             <textarea placeholder="Describe the issue..."></textarea>
-                            <button class="report-submit" data-question-id="{{ question.id }}">Submit Report</button>
+<button class="report-submit" 
+        data-question-id="{{ question.id }}" 
+        data-subject-name="{{ selected_subject.name  }}">
+    Submit
+</button>
+
                         </div>
                     </div>
                     <p><strong>{{ forloop.counter }}. {{ question.text }}</strong></p>

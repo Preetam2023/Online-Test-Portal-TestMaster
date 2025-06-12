@@ -12,12 +12,15 @@
       <h2>Organization Admin Login</h2>
 
       {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
             {{ message }}
-          </div>
-        {% endfor %}
-      {% endif %}
+            <button class="alert-close" onclick="this.parentElement.remove()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    {% endfor %}
+{% endif %}
 
       <form method="POST" action="{% url 'organization-admin-login' %}">
         {% csrf_token %}
@@ -50,5 +53,27 @@
     </div>
      
   </div>
+  <script>
+// Auto-dismiss messages after 5 seconds
+document.querySelectorAll('.alert').forEach(alert => {
+    setTimeout(() => {
+        alert.style.opacity = '0';
+        setTimeout(() => alert.remove(), 300);
+    }, 5000);
+});
+
+// Add shake animation to invalid form fields
+document.querySelectorAll('input:invalid').forEach(input => {
+    input.addEventListener('input', () => {
+        if (input.validity.valid) {
+            input.style.borderColor = '#7ab2ff';
+        } else {
+            input.style.borderColor = '#ef4444';
+            input.classList.add('shake-animation');
+            setTimeout(() => input.classList.remove('shake-animation'), 500);
+        }
+    });
+});
+</script>
 </body>
 </html>

@@ -278,7 +278,7 @@ const resultId = parts[parts.indexOf('result') + 1];
             
             // Send request to generate PDF
             // In your test_result.js, update the fetch URL to:
-fetch(`/accounts/user-dashboard/organization-tests/result/${resultId}/download-pdf/`, {
+fetch(`/testmaster/user-dashboard/organization-tests/result/${resultId}/download-pdf/`, {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',

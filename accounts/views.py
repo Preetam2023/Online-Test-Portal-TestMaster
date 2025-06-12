@@ -184,26 +184,40 @@ def practice_questions(request, subject_name=None):
         'questions': questions,
     })
 
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-import json
+
 from .models import Question, QuestionReport
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+from .models import Question, QuestionReport
+import json
 
 @csrf_exempt
 def report_question(request):
     if request.method == 'POST':
-        data = json.loads(request.body)
-        question_id = data.get('question_id')
-        reason = data.get('reason')
-        question = Question.objects.get(id=question_id)
+        if not request.user.is_authenticated:
+            return JsonResponse({'error': 'Login required to report questions.'}, status=403)
+        
+        try:
+            data = json.loads(request.body)
+            question_id = data.get('question_id')
+            reason = data.get('reason')
 
-        QuestionReport.objects.create(
-            question=question,
-            user=request.user if request.user.is_authenticated else None,
-            reason=reason
-        )
-        return JsonResponse({'success': True})
+            question = Question.objects.get(id=question_id)
+
+            QuestionReport.objects.create(
+                question=question,
+                user=request.user,
+                reason=reason
+            )
+            return JsonResponse({'success': True})
+
+        except Question.DoesNotExist:
+            return JsonResponse({'error': 'Question not found.'}, status=404)
+        except Exception as e:
+            return JsonResponse({'error': f'Failed to report question: {str(e)}'}, status=500)
+
     return JsonResponse({'error': 'Invalid request'}, status=400)
+
 
 
 
@@ -2107,10 +2121,12 @@ def forgot_password_request(request):
 
 
 
+from django.http import JsonResponse
+
 def verify_reset_code(request):
     email = request.session.get('reset_email')
     if not email:
-        return redirect('user_forgot_password')  # default
+        return redirect('user_forgot_password')
 
     try:
         user = User.objects.get(email=email)
@@ -2122,9 +2138,22 @@ def verify_reset_code(request):
         code_input = request.POST.get('code')
         valid_codes = PasswordResetCode.objects.filter(user=user, code=code_input).order_by('-created_at')
 
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            # AJAX request — return JSON only
+            if valid_codes.exists() and valid_codes[0].is_valid():
+                request.session['verified_email'] = email
+                if 'organization-admin-login' in request.path:
+                    return JsonResponse({'status': 'success', 'redirect_url': '/testmaster/organization-admin-login/forgot-password/verify-reset-code/reset-password/'})
+                elif 'moderator/login' in request.path:
+                    return JsonResponse({'status': 'success', 'redirect_url': '/testmaster/moderator/login/forgot-password/verify-reset-code/reset-password/'})
+                else:
+                    return JsonResponse({'status': 'success', 'redirect_url': '/testmaster/user-login/forgot-password/verify-reset-code/reset-password/'})
+            else:
+                return JsonResponse({'status': 'error', 'message': 'Invalid or expired verification code.'})
+
+        # fallback for non-AJAX (optional)
         if valid_codes.exists() and valid_codes[0].is_valid():
             request.session['verified_email'] = email
-
             if 'organization-admin-login' in request.path:
                 return redirect('admin_reset_password_form')
             elif 'moderator/login' in request.path:
@@ -2135,7 +2164,6 @@ def verify_reset_code(request):
             messages.error(request, "Invalid or expired code.")
 
     return render(request, 'accounts/email/verify_code.html', {'email': email})
-
 
 from django.contrib.auth.hashers import make_password
 

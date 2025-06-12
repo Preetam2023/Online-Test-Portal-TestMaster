@@ -43,7 +43,9 @@
     <!-- Question management -->
     <h5>Selected Questions</h5>
     <div id="selectedQuestionsList">
+
         {% for tq in test_questions %}
+
         <div class="selected-question" data-id="{{ tq.question.id }}">
             <strong>{{ tq.question.text }}</strong><br>
             A. {{ tq.question.option1 }}<br>
@@ -52,10 +54,13 @@
             {% if tq.question.option4 %}D. {{ tq.question.option4 }}<br>{% endif %}
             <span class="badge bg-info text-dark">Difficulty: {{ tq.question.difficulty }}</span>
             <span class="badge bg-success">Correct: {{ tq.question.correct_option }}</span>
-            <button type="button" class="btn btn-danger btn-sm remove-question" data-id="{{ tq.question.id }}">Remove</button>
             <hr>
+                                  <button type="button" class="btn btn-danger btn-sm remove-question" data-id="{{ tq.question.id }}">Remove</button>
+
         </div>
+        
         {% endfor %}
+
     </div>
 
     <!-- Add question buttons -->

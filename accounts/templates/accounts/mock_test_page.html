@@ -138,7 +138,7 @@
         <div class="result-card" id="result" style="display: none;">
             <div class="result-header">
                 <i class="fas fa-trophy"></i>
-                <h2>Test Results</h2>
+                <h3>Temporary scorecard. Save your result, it won’t be shown again. </h3>
             </div>
             <div class="result-body">
                 <div class="score-display">
@@ -177,6 +177,16 @@
             </div>
         </div>
     </div>
+</div>
+<div id="submit-confirmation-modal" class="modal-overlay">
+  <div class="modal-box">
+    <h3>Submit Test?</h3>
+    <p>Are you sure you want to submit your test? You won't be able to change answers afterward.</p>
+    <div class="modal-actions">
+      <button id="confirm-submit" class="confirm-btn">Yes, Submit</button>
+      <button id="cancel-submit" class="cancel-btn">Cancel</button>
+    </div>
+  </div>
 </div>
 
 <script src="{% static 'js/mock_test_page.js' %}"></script>

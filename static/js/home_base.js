@@ -1,4 +1,3 @@
-//nothing is written in template
 document.addEventListener('DOMContentLoaded', function () {
   const coursesBtn = document.getElementById('courses-btn');
   const modal = document.getElementById('coming-soon-modal');
