@@ -23,83 +23,82 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ------------------------ Modal Restore/Delete ------------------------
-    const modal = document.getElementById('confirmationModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalMessage = document.getElementById('modalMessage');
-    const modalCancel = document.getElementById('modalCancel');
-    const modalConfirm = document.getElementById('modalConfirm');
-    const closeModal = document.querySelector('.close-modal');
+    // ------------------------ Modal Restore/Delete ------------------------
+const modal = document.getElementById('confirmationModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalMessage = document.getElementById('modalMessage');
+const modalCancel = document.getElementById('modalCancel');
+const modalConfirm = document.getElementById('modalConfirm');
+const closeModal = document.querySelector('.close-modal');
 
-    let currentAction = null;
-    let currentTestId = null;
+let currentAction = null;
+let currentTestId = null;
 
-    document.querySelectorAll('.btn-restore').forEach(btn => {
-        btn.addEventListener('click', function () {
-            currentTestId = this.getAttribute('data-test-id');
-            currentAction = 'restore';
-            modalTitle.textContent = 'Restore Test';
-            modalMessage.textContent = 'Are you sure you want to restore this test? It will be available in the active tests list.';
-            modal.style.display = 'block';
-        });
+// Utility to open modal
+function openModal(title, message, action, testId) {
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+    currentAction = action;
+    currentTestId = testId;
+    modal.classList.add('show');
+    modal.style.display = 'block';
+}
+
+// Utility to close modal
+function closeModalFunc() {
+    modal.classList.remove('show');
+    modal.style.display = 'none';
+    currentAction = null;
+    currentTestId = null;
+}
+
+// Attach click events
+document.querySelectorAll('.btn-restore').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const testId = this.getAttribute('data-test-id');
+        openModal(
+            'Restore Test',
+            'Are you sure you want to restore this test? It will be available in the active tests list.',
+            'restore',
+            testId
+        );
     });
+});
 
-    document.querySelectorAll('.btn-permanent-delete').forEach(btn => {
-        btn.addEventListener('click', function () {
-            currentTestId = this.getAttribute('data-test-id');
-            currentAction = 'delete';
-            modalTitle.textContent = 'Permanently Delete Test';
-            modalMessage.textContent = 'This action cannot be undone. All test data will be permanently deleted. Are you sure?';
-            modal.style.display = 'block';
-        });
+document.querySelectorAll('.btn-permanent-delete').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const testId = this.getAttribute('data-test-id');
+        openModal(
+            'Permanently Delete Test',
+            'This action cannot be undone. All test data will be permanently deleted. Are you sure?',
+            'delete',
+            testId
+        );
     });
+});
 
-    document.getElementById('export-btn').addEventListener('click', function () {
-        alert('Export to CSV functionality will be added soon');
-    });
+closeModal?.addEventListener('click', closeModalFunc);
+modalCancel?.addEventListener('click', closeModalFunc);
 
-    closeModal.addEventListener('click', function () {
-        modal.style.display = 'none';
-    });
-
-    modalCancel.addEventListener('click', function () {
-        modal.style.display = 'none';
-    });
-
-    modalConfirm.addEventListener('click', function () {
-        modal.style.display = 'none';
-        if (currentAction && currentTestId) {
-            if (currentAction === 'restore') {
-                alert(`Restoring test with ID: ${currentTestId}`);
-            } else if (currentAction === 'delete') {
-                alert(`Permanently deleting test with ID: ${currentTestId}`);
-            }
+// Confirm button logic
+modalConfirm?.addEventListener('click', function () {
+    if (currentAction && currentTestId) {
+        if (currentAction === 'restore') {
+            window.location.href = `/testmaster/organization/closed-tests/restore/${currentTestId}/`;
+        } else if (currentAction === 'delete') {
+            window.location.href = `/testmaster/organization/closed-tests/permanently-delete/${currentTestId}/`;
         }
-    });
+    }
+    closeModalFunc();
+});
 
-    window.addEventListener('click', function (event) {
-        if (event.target === modal) {
-            modal.style.display = 'none';
-        }
-    });
+// Clicking outside modal closes it
+window.addEventListener('click', function (event) {
+    if (event.target === modal) {
+        closeModalFunc();
+    }
+});
 
-    // ------------------------ Animate Rows on View ------------------------
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    document.querySelectorAll('.closed-test-row').forEach(row => {
-        observer.observe(row);
-    });
 
     // ------------------------ QUESTION PAPER PREVIEW ------------------------
         let closedTestDetailModal = null;

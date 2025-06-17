@@ -133,3 +133,122 @@ body {
     height: 38px;
     font-size: 0.9rem;
 }
+/* Error Message Styling */
+.error-message {
+    color: #dc3545;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
+    display: none;
+    animation: fadeIn 0.3s ease-out;
+    position: relative;
+    padding-left: 1.25rem;
+}
+
+.error-message::before {
+    content: "\f06a";
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    left: 0;
+    top: 0.1rem;
+    font-size: 0.9rem;
+}
+
+/* Add red border to invalid fields */
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.is-invalid:focus {
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+/* Backend Error Message Styling */
+.custom-alert {
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-left: 4px solid;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.custom-alert.alert-success {
+    background-color: #f0fdf4;
+    color: #166534;
+    border-left-color: #22c55e;
+}
+
+.custom-alert.alert-error,
+.custom-alert.alert-danger {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border-left-color: #ef4444;
+}
+
+.custom-alert.alert-info {
+    background-color: #eff6ff;
+    color: #1e40af;
+    border-left-color: #3b82f6;
+}
+
+.custom-alert.alert-warning {
+    background-color: #fefce8;
+    color: #854d0e;
+    border-left-color: #facc15;
+}
+
+.alert-icon {
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    margin-right: 12px;
+    font-size: 18px;
+}
+
+.custom-alert.alert-success .alert-icon::before {
+    content: "\f058";
+    color: #22c55e;
+}
+
+.custom-alert.alert-error .alert-icon::before,
+.custom-alert.alert-danger .alert-icon::before {
+    content: "\f06a";
+    color: #ef4444;
+}
+
+.custom-alert.alert-info .alert-icon::before {
+    content: "\f05a";
+    color: #3b82f6;
+}
+
+.custom-alert.alert-warning .alert-icon::before {
+    content: "\f071";
+    color: #facc15;
+}
+
+.alert-content {
+    flex: 1;
+}
+
+.custom-alert .close {
+    color: inherit;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    padding: 0;
+    background: none;
+    border: none;
+    margin-left: 15px;
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.custom-alert .close:hover {
+    opacity: 1;
+    color: inherit;
+}

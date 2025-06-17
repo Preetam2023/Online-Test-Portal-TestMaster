@@ -6,12 +6,44 @@ from .models import User, Organization, OrganizationAdminProfile,OrganizationTes
 
 User = get_user_model()
 
+from django import forms
+from django.core.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
+from accounts.models import User  # adjust import if needed
+
 class SignupForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
+    password = forms.CharField(
+        widget=forms.PasswordInput,
+        help_text="Password must be at least 8 characters with a number and a special character."
+    )
 
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'password']
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("This email is already registered.")
+        return email
+
+    def clean_password(self):
+        password = self.cleaned_data.get("password")
+        # Use Django's built-in password validators
+        validate_password(password)
+        return password
+    
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+        if any(char.isdigit() for char in first_name):
+            raise ValidationError("First name should not contain any digit. Please use a proper name.")
+        return first_name
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get('last_name')
+        if any(char.isdigit() for char in last_name):
+            raise ValidationError("Last name should not contain any digit. Please use a proper name.")
+        return last_name
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -19,6 +51,7 @@ class SignupForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
 
 from django import forms
 from django.core.exceptions import ValidationError

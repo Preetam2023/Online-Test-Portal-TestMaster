@@ -20,7 +20,6 @@
             <p class="subtitle">Manage your organization's profile, security, and preferences</p>
         </div>
         <div class="header-illustration">
-            <img src="{% static 'img/setting.png' %}" alt="Settings Illustration">
         </div>
     </div>
 
@@ -105,9 +104,8 @@
                         <h3>Two-Factor Authentication</h3>
                         <p>Add an extra layer of security</p>
                     </div>
-                    <button class="btn btn-outline">
-                        Enable <i class="fas fa-chevron-right"></i>
-                    </button>
+                    <button class="btn btn-outline" id="enable2faBtn">Enable <i class="fas fa-chevron-right"></i></button>
+
                 </div>
                 
                 <div class="security-item">
@@ -118,9 +116,8 @@
                         <h3>Login History</h3>
                         <p>View recent account activity</p>
                     </div>
-                    <button class="btn btn-outline">
-                        View <i class="fas fa-chevron-right"></i>
-                    </button>
+                    <button class="btn btn-outline" id="viewLoginHistoryBtn">View <i class="fas fa-chevron-right"></i></button>
+
                 </div>
             </div>
         </div>
@@ -216,6 +213,48 @@
     <button class="toast-close">
         <i class="fas fa-times"></i>
     </button>
+</div>
+
+<!-- Coming Soon Modal -->
+<div class="modal" id="comingSoonModal">
+    <div class="modal-dialog small">
+        <div class="modal-header">
+            <h3><i class="fas fa-clock"></i> Coming Soon</h3>
+            <button class="modal-close" id="closeComingSoon" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body text-center">
+            <p class="lead">🚧 We're currently working on this feature.</p>
+            <p>Please check back soon for updates.</p>
+            <button class="btn btn-secondary mt-3" id="dismissComingSoon">OK</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="loginHistoryModal">
+    <div class="modal-dialog small">
+        <div class="modal-header">
+            <h3><i class="fas fa-history"></i> Login History</h3>
+            <button class="modal-close" id="closeLoginHistory"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            {% if login_history %}
+                <ul class="login-history-list">
+                    {% for log in login_history %}
+                        <li>
+                            <i class="fas fa-sign-in-alt"></i>
+                            {{ log.timestamp|date:"d M Y, h:i A" }}<br>
+                            <small>IP: {{ log.ip_address }}</small>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No recent login history available.</p>
+            {% endif %}
+            <button class="btn btn-secondary mt-3" id="dismissLoginHistory">Close</button>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

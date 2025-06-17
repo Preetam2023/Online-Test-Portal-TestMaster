@@ -11,13 +11,11 @@
         <a href="{% url 'user_dashboard' %}" class="home-button">
             <i class="fas fa-home"></i>
         </a>
-        {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-{{ message.tags }}">
-            {{ message }}
-          </div>
-        {% endfor %}
-      {% endif %}
+        <div class="search-container">
+    <input type="text" id="test-search" placeholder="Search tests..." />
+    <i class="fas fa-search search-icon"></i>
+</div>
+
         <h2>Available Tests for <span class="org-name">{{ organization.name }}</span></h2>
         <div class="decoration-circle"></div>
         <div class="decoration-circle"></div>
@@ -27,7 +25,7 @@
 
     <div class="tests-grid">
         {% for test in tests %}
-            <div class="test-card" data-subject="{{ test.subject.name|lower }}">
+<div class="test-card" data-title="{{ test.title|lower }}" id="test-card-{{ test.id }}" data-subject="{{ test.subject.name|lower }}">
                 <div class="card-header">
                     <h3>{{ test.title }}</h3>
                     <div class="subject-badge">{{ test.subject.name }}</div>
@@ -62,6 +60,7 @@
                     <i class="fas fa-exclamation-triangle"></i>
                     <p>{{ message }}</p>
                 </div>
+                <div id="scroll-target" data-scroll-to="test-card-{{ test.id }}"></div>
             {% endif %}
         {% endfor %}
     {% endif %}

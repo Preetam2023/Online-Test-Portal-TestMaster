@@ -1,109 +1,126 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Organization Registration</title>
     <link rel="stylesheet" href="{% static 'css/org_admin_signup.css' %}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-R...X" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 <body>
     <div class="container">
         <div class="left-section">
-            <h1 style=" color:rgb(36, 109, 227);">Organization Registration </h1>
+            <h1 style="color:rgb(36, 109, 227);">Organization Registration</h1>
             <p class="subheading">Create your organization account to manage tests</p>
 
-           {% if messages %}
-    {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-            {{ message }}
-            <button class="alert-close" onclick="this.parentElement.remove()">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-    {% endfor %}
-{% endif %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                        <button class="alert-close" onclick="this.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
 
-<!-- Update form error display -->
-{% if form.field.errors %}
-    <div class="error">
-        {{ form.field.errors|join:", " }}
-    </div>
-{% endif %}
-
-            <form method="post" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data" class="registration-form">
                 {% csrf_token %}
-<div class="form-group">
-    <label for="id_organization_name">Organization Name <span class="required-star">*</span></label>
-    {{ form.organization_name }}
-    {% if form.organization_name.errors %}
-        <div class="error">{{ form.organization_name.errors }}</div>
-    {% endif %}
-</div>
 
-<div class="form-group">
-    <label for="id_email">Email <span class="required-star">*</span></label>
-    {{ form.email }}
-    {% if form.email.errors %}
-        <div class="error">{{ form.email.errors }}</div>
-    {% endif %}
-</div>
+                <div class="form-group">
+                    <label for="id_organization_name">Organization Name <span class="required-star">*</span></label>
+                    {{ form.organization_name }}
+                    {% if form.organization_name.errors %}
+                        <div class="form-error">
+                            {% for error in form.organization_name.errors %}
+                                <div class="error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
 
-<div class="form-group">
-    <label for="id_password1">Password <span class="required-star">*</span></label>
-    {{ form.password1 }}
-    {% if form.password1.errors %}
-        <div class="error">{{ form.password1.errors }}</div>
-    {% endif %}
-</div>
+                <div class="form-group">
+                    <label for="id_email">Email <span class="required-star">*</span></label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <div class="form-error">
+                            {% for error in form.email.errors %}
+                                <div class="error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
 
-<div class="form-group">
-    <label for="id_password2">Confirm Password <span class="required-star">*</span></label>
-    {{ form.password2 }}
-    {% if form.password2.errors %}
-        <div class="error">{{ form.password2.errors }}</div>
-    {% endif %}
-</div>
+                <div class="form-group">
+                    <label for="id_password1">Password <span class="required-star">*</span></label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                        <div class="form-error">
+                            {% for error in form.password1.errors %}
+                                <div class="error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
 
-<!-- Logo remains without asterisk -->
-<div class="form-group">
-    {{ form.logo.label_tag }}
-    {{ form.logo }}
-    {% if form.logo.errors %}
-        <div class="error">{{ form.logo.errors }}</div>
-    {% endif %}
-</div>
+                <div class="form-group">
+                    <label for="id_password2">Confirm Password <span class="required-star">*</span></label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        <div class="form-error">
+                            {% for error in form.password2.errors %}
+                                <div class="error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    {{ form.logo.label_tag }}
+                    {{ form.logo }}
+                    {% if form.logo.errors %}
+                        <div class="form-error">
+                            {% for error in form.logo.errors %}
+                                <div class="error">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
 
                 <button type="submit" class="btn-submit">Register</button>
             </form>
-                Already have an account?<a href="{% url 'organization-admin-login' %}" class="login-link"> Log in</a>
-               
+
+            Already have an account? 
+            <a href="{% url 'organization-admin-login' %}" class="login-link">Log in</a>
         </div>
+
         <div class="right-section">
             <!-- Optional right section content -->
         </div>
     </div>
-    <script>
-// Auto-dismiss messages after 5 seconds
-document.querySelectorAll('.alert').forEach(alert => {
-    setTimeout(() => {
-        alert.style.opacity = '0';
-        setTimeout(() => alert.remove(), 300);
-    }, 5000);
-});
 
-// Add shake animation to invalid form fields
-document.querySelectorAll('input:invalid').forEach(input => {
-    input.addEventListener('input', () => {
-        if (input.validity.valid) {
-            input.style.borderColor = '#7ab2ff';
-        } else {
-            input.style.borderColor = '#ef4444';
-            input.classList.add('shake-animation');
-            setTimeout(() => input.classList.remove('shake-animation'), 500);
-        }
+    <script>
+    // Auto-dismiss messages after 5 seconds
+    document.querySelectorAll('.alert').forEach(alert => {
+        setTimeout(() => {
+            alert.style.opacity = '0';
+            setTimeout(() => alert.remove(), 300);
+        }, 5000);
     });
-});
-</script>
+
+    // Add shake animation to invalid form fields
+    document.querySelectorAll('input:invalid').forEach(input => {
+        input.addEventListener('input', () => {
+            if (input.validity.valid) {
+                input.style.borderColor = '#7ab2ff';
+            } else {
+                input.style.borderColor = '#ef4444';
+                input.classList.add('shake-animation');
+                setTimeout(() => input.classList.remove('shake-animation'), 500);
+            }
+        });
+    });
+    </script>
 </body>
 </html>

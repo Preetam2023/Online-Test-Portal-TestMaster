@@ -90,6 +90,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'online_test_portal.middleware.login_logger.LoginTrackingMiddleware',
+
 ]
 
 

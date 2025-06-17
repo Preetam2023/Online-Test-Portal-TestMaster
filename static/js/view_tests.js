@@ -97,4 +97,53 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   });
+
+  // DELETE CONFIRMATION MODAL
+document.querySelectorAll('.btn-delete').forEach(button => {
+  button.addEventListener('click', function (e) {
+    e.preventDefault(); // Prevent default navigation
+    const deleteUrl = this.getAttribute('href');
+
+    // Set the confirmation button's href in the modal
+    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+    confirmDeleteBtn.setAttribute('href', deleteUrl);
+
+    // Show the modal
+    const deleteModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+    deleteModal.show();
+  });
+});
+
+// SHARE LINK MODAL
+document.querySelectorAll('.btn-share').forEach(button => {
+  button.addEventListener('click', function () {
+    const testId = this.getAttribute('data-test-id');
+    const shareUrl = `${window.location.origin}/testmaster/user-dashboard/organization-tests/start-org-test/${testId}/`;
+
+    const shareLinkInput = document.getElementById('shareLinkInput');
+    shareLinkInput.value = shareUrl;
+
+    const shareModal = new bootstrap.Modal(document.getElementById('shareModal'));
+    shareModal.show();
+  });
+});
+
+// COPY TO CLIPBOARD
+document.getElementById('copyShareLinkBtn')?.addEventListener('click', () => {
+  const shareLinkInput = document.getElementById('shareLinkInput');
+  shareLinkInput.select();
+  shareLinkInput.setSelectionRange(0, 99999); // for mobile
+
+  try {
+    document.execCommand('copy');
+    const originalText = document.getElementById('copyShareLinkBtn').innerHTML;
+    document.getElementById('copyShareLinkBtn').innerHTML = '<i class="fas fa-check"></i> Copied!';
+    setTimeout(() => {
+      document.getElementById('copyShareLinkBtn').innerHTML = originalText;
+    }, 1500);
+  } catch (err) {
+    alert('Failed to copy link.');
+  }
+});
+
 });

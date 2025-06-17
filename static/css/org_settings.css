@@ -837,3 +837,19 @@ body {
         max-width: 95%;
     }
 }
+
+.login-history-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 1rem 0;
+}
+
+.login-history-list li {
+    background: #f9fafb;
+    padding: 0.75rem 1rem;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    border-left: 4px solid #3b82f6;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}

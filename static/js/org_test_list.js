@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Close message alerts
     const closeButtons = document.querySelectorAll('.close-btn');
+    const searchInput = document.getElementById('test-search');
     closeButtons.forEach(button => {
         button.addEventListener('click', function() {
             this.parentElement.style.animation = 'fadeOut 0.5s ease-out';
@@ -49,6 +50,62 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    document.querySelectorAll('.test-code-error').forEach(errorBox => {
+    const inputGroup = errorBox.closest('.test-access-form').querySelector('.input-group input');
+    if (inputGroup) {
+        inputGroup.classList.add('shake-animation');
+        setTimeout(() => inputGroup.classList.remove('shake-animation'), 600);
+    }
+});
+const scrollTarget = document.querySelector('#scroll-target');
+if (scrollTarget) {
+    const targetId = scrollTarget.getAttribute('data-scroll-to');
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+        setTimeout(() => {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300); // Delay ensures layout is ready
+    }
+}
+
+
+
+searchInput.addEventListener('input', function () {
+    const query = this.value.trim().toLowerCase();
+
+    if (!query) {
+        testCards.forEach(card => card.style.display = 'block');
+        return;
+    }
+
+    const exactMatches = [];
+    const partialMatches = [];
+
+    testCards.forEach(card => {
+        const title = card.getAttribute('data-title');
+
+        if (title.includes(query)) {
+            if (title.startsWith(query)) {
+                exactMatches.push(card);
+            } else {
+                partialMatches.push(card);
+            }
+        } else {
+            card.style.display = 'none';
+        }
+    });
+
+    // Hide all cards first
+    testCards.forEach(card => card.style.display = 'none');
+
+    // Show matches in order
+    [...exactMatches, ...partialMatches].forEach(card => {
+        card.style.display = 'block';
+    });
+});
+
+
+
 });
 
 // Add custom animation to CSS

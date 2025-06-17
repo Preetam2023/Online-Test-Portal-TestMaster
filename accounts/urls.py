@@ -53,7 +53,8 @@ from .views import (
     forgot_password_request,
     reset_password_form,
     verify_reset_code,
-
+    restore_closed_test,
+    permanently_delete_test,
 )
 
 urlpatterns = [
@@ -82,8 +83,8 @@ urlpatterns = [
 
     path('user-dashboard/mock-test/<str:subject>/', mock_test_page, name='mock_test_page'),
     path('user-dashboard/question-bank/', practice_questions, name='practice_questions'),
+    path('user-dashboard/question-bank/report-question/', report_question, name='report_question'),
     path('user-dashboard/question-bank/<str:subject_name>/', practice_questions, name='practice_questions'),
-    path('user-dashboard/question-bank/<str:subject_name>/report-question/', report_question, name='report_question'),
 
     # Organization Admin
     path('organization-admin-signup/', organization_admin_signup, name='organization-admin-signup'),
@@ -106,6 +107,8 @@ urlpatterns = [
     path('organization/closed-tests/results/<int:test_id>/', org_test_results_admin_view, name='admin_test_results'),
     path('organization/closed-tests/results/<int:test_id>/excel/', export_test_results_excel, name='export_results_excel'),
     path('organization/closed-tests/results/<int:test_id>/pdf/', export_test_results_pdf, name='export_results_pdf'),
+    path('organization/closed-tests/restore/<int:test_id>/', restore_closed_test, name='restore_closed_test'),
+    path('organization/closed-tests/permanently-delete/<int:test_id>/', permanently_delete_test, name='permanently_delete_test'),
     path('organization/participants/', participants_view, name='participants'),
     path('organization/analytics/', organization_analytics, name='organization_analytics'),
     

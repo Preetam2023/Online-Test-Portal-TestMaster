@@ -49,11 +49,16 @@
         </div>
 
         <div id="randomQuestionInput" class="d-none">
-          <label for="randomCount">How many questions?</label>
-          <input type="number" class="form-control" id="randomCount" min="1">
-         
-          <button class="btn btn-success mt-2" id="randomAddBtn">Add Random Questions</button>
-        </div>
+  <label for="randomCount">How many questions?</label>
+  <input type="number" class="form-control" id="randomCount" min="1">
+  
+  <div id="difficultyInputsWrapper"></div> <!-- placeholder for difficulty fields -->
+
+  <div class="text-end">
+    <button class="btn btn-success mt-3" id="randomAddBtn">Add Random Questions</button>
+  </div>
+</div>
+
 
         <div id="manualQuestionList" class="d-none">
           <!-- Questions with checkboxes will be dynamically injected here -->

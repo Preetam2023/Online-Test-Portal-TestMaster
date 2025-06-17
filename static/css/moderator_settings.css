@@ -160,6 +160,34 @@ input[type="password"] {
   transform: scale(1.1);
 }
 
+.modal.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+}
+
+.modal-dialog.small {
+    max-width: 400px;
+    width: 90%;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    animation: fadeIn 0.3s ease;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+
 /* ========== Alert Messages ========== */
 .alert {
   padding: var(--space-md);

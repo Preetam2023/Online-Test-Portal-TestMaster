@@ -213,6 +213,47 @@
     </div>
 
     {% if participants %}
+    <div class="filter-toggle-container" style="margin-bottom: 1rem;">
+    <button id="toggleFilterBtn" class="btn btn-primary">
+        <i class="fas fa-filter"></i> Filter
+    </button>
+</div>
+
+<div id="filterFormContainer" style="display: none; margin-bottom: 1.5rem;">
+    <form method="get" class="filter-form d-flex gap-3 align-items-end flex-wrap">
+        <div>
+            <label>Subject</label>
+            <select name="subject" class="form-control">
+                <option value="">All</option>
+                {% for subject in subjects %}
+                    <option value="{{ subject.id }}" {% if filters.subject == subject.id|stringformat:"s" %}selected{% endif %}>{{ subject.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label>Test</label>
+            <select name="test" class="form-control">
+                <option value="">All</option>
+                {% for t in tests %}
+                    <option value="{{ t.id }}" {% if filters.test == t.id|stringformat:"s" %}selected{% endif %}>{{ t.title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <label>Start Date</label>
+            <input type="date" name="start_date" class="form-control" value="{{ filters.start_date }}">
+        </div>
+        <div>
+            <label>End Date</label>
+            <input type="date" name="end_date" class="form-control" value="{{ filters.end_date }}">
+        </div>
+        <div>
+            <button type="submit" class="btn btn-success"><i class="fas fa-search"></i> Apply</button>
+        </div>
+    </form>
+</div>
+
+
     <div class="table-responsive">
         <table class="participants-table">
             <thead>
@@ -288,5 +329,19 @@
             }
         );
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleBtn = document.getElementById('toggleFilterBtn');
+        const formContainer = document.getElementById('filterFormContainer');
+        
+        toggleBtn.addEventListener('click', function () {
+            if (formContainer.style.display === 'none') {
+                formContainer.style.display = 'block';
+            } else {
+                formContainer.style.display = 'none';
+            }
+        });
+    });
 </script>
+
 {% endblock %}

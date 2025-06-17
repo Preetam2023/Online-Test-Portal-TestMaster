@@ -292,12 +292,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     </div>
                 `;
                 // Insert after the "How many questions?" input, or append if structure is simpler
-                const randomCountInput = document.getElementById('randomCount');
-                if(randomCountInput && randomCountInput.parentElement) {
-                     randomCountInput.parentElement.appendChild(difficultyInputs);
-                } else {
-                     randomQuestionInputDiv.appendChild(difficultyInputs);
-                }
+                    const wrapper = document.getElementById("difficultyInputsWrapper");
+    if (wrapper) {
+        wrapper.appendChild(difficultyInputs);
+    }
             }
         };
     }

@@ -173,3 +173,61 @@ document.addEventListener('keydown', function(e) {
         });
     }
 });
+
+function showToast(message = "Action completed", type = "success") {
+    const toast = document.getElementById("toast");
+    const toastMsg = document.getElementById("toast-message");
+    toastMsg.innerText = message;
+
+    toast.classList.remove("error", "warning", "success");
+    toast.classList.add(type || "success");
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    }, 4000);
+}
+
+const comingSoonModal = document.getElementById("comingSoonModal");
+const closeComingSoon = document.getElementById("closeComingSoon");
+const dismissComingSoon = document.getElementById("dismissComingSoon");
+
+function showComingSoon() {
+    comingSoonModal.classList.add("active");
+    document.body.style.overflow = 'hidden';
+}
+
+function hideComingSoon() {
+    comingSoonModal.classList.remove("active");
+    document.body.style.overflow = '';
+}
+
+if (document.getElementById("enable2faBtn")) {
+    document.getElementById("enable2faBtn").addEventListener("click", showComingSoon);
+}
+
+closeComingSoon.addEventListener("click", hideComingSoon);
+dismissComingSoon.addEventListener("click", hideComingSoon);
+comingSoonModal.addEventListener("click", e => {
+    if (e.target === comingSoonModal) hideComingSoon();
+});
+
+const loginHistoryModal = document.getElementById("loginHistoryModal");
+document.getElementById("viewLoginHistoryBtn").addEventListener("click", () => {
+    loginHistoryModal.classList.add("active");
+    document.body.style.overflow = "hidden";
+});
+document.getElementById("closeLoginHistory").addEventListener("click", () => {
+    loginHistoryModal.classList.remove("active");
+    document.body.style.overflow = "";
+});
+document.getElementById("dismissLoginHistory").addEventListener("click", () => {
+    loginHistoryModal.classList.remove("active");
+    document.body.style.overflow = "";
+});
+loginHistoryModal.addEventListener("click", e => {
+    if (e.target === loginHistoryModal) {
+        loginHistoryModal.classList.remove("active");
+        document.body.style.overflow = "";
+    }
+});

@@ -112,6 +112,17 @@ class PasswordResetCode(models.Model):
     def __str__(self):
         return f"{self.user.email} - {self.code}"
 
+from django.db import models
+from django.conf import settings
+
+class LoginHistory(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.email} at {self.timestamp}"
 
 # -------------------- Organization & Profiles --------------------
 class Organization(models.Model):

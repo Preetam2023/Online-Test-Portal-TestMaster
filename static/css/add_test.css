@@ -434,3 +434,32 @@ label {
     color: green;
     font-weight: 500;
 }
+
+/* Fix for subject dropdown (select box) */
+select.form-control {
+    appearance: none; /* hide default arrow for consistency */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    height: auto; /* let height adjust naturally */
+    padding: 0.85rem 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    background-color: #fcfcfc;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='gray' class='bi bi-caret-down-fill' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658c-.566-.682-.106-1.658.753-1.658h9.592c.86 0 1.32.976.753 1.658L8.753 11.14a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1rem;
+
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+select.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+    background-color: white;
+}

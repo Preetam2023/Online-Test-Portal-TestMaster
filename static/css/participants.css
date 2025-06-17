@@ -211,3 +211,15 @@
     padding: 1rem;
   }
 }
+
+.filter-form .form-control {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    min-width: 180px;
+}
+
+.filter-form .btn {
+    padding: 0.5rem 1.2rem;
+    font-weight: 500;
+}

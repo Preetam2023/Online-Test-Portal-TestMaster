@@ -29,32 +29,51 @@
                 <p class="text-muted">Fill in your details to get started</p>
             </div>
             <div class="form-style">
+               {% if messages %}
+<div class="mb-3">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} custom-alert alert-dismissible fade show" role="alert">
+        <i class="alert-icon"></i>
+        <div class="alert-content">
+            {{ message }}
+        </div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
                 <form method="post" action="" id="signupForm">
                     {% csrf_token %}
                     <div class="form-group pb-3">
-                        <label for="first_name">First Name</label>
-                        <input type="text" name="first_name" class="form-control" required id="first_name" placeholder="Enter your first name">
-                    </div>
-                    <div class="form-group pb-3">
-                        <label for="last_name">Last Name</label>
-                        <input type="text" name="last_name" class="form-control" required id="last_name" placeholder="Enter your last name">
-                    </div>
-                    <div class="form-group pb-3">
-                        <label for="id_email">Email Address</label>
-                        <input type="email" name="email" class="form-control" required id="id_email" placeholder="Enter your email">
-                    </div>
-                    <div class="form-group pb-3">
-                        <label for="id_password">Password</label>
-                        <div class="input-group">
-                            <input type="password" name="password" class="form-control" required id="id_password" placeholder="Create a password">
-                            <div class="input-group-append">
-                                <span class="input-group-text toggle-password" data-target="id_password">
-                                    <i class="far fa-eye"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <small class="form-text text-muted">At least 8 characters with a number and a special character</small>
-                    </div>
+    <label for="first_name">First Name</label>
+    <input type="text" name="first_name" class="form-control" required id="first_name" placeholder="Enter your first name">
+    <div class="error-message" id="first_name_error"></div>
+</div>
+<div class="form-group pb-3">
+    <label for="last_name">Last Name</label>
+    <input type="text" name="last_name" class="form-control" required id="last_name" placeholder="Enter your last name">
+    <div class="error-message" id="last_name_error"></div>
+</div>
+<div class="form-group pb-3">
+    <label for="id_email">Email Address</label>
+    <input type="email" name="email" class="form-control" required id="id_email" placeholder="Enter your email">
+    <div class="error-message" id="email_error"></div>
+</div>
+<div class="form-group pb-3">
+    <label for="id_password">Password</label>
+    <div class="input-group">
+        <input type="password" name="password" class="form-control" required id="id_password" placeholder="Create a password">
+        <div class="input-group-append">
+            <span class="input-group-text toggle-password" data-target="id_password">
+                <i class="far fa-eye"></i>
+            </span>
+        </div>
+    </div>
+    <div class="error-message" id="password_error"></div>
+    <small class="form-text text-muted">At least 8 characters with a number and a special character</small>
+</div>
 
                     <div class="form-group pb-3">
                         <div class="custom-control custom-checkbox">

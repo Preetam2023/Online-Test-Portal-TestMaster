@@ -30,24 +30,26 @@ def contact(request):
 
 from django.contrib.auth import login
 
+from django.contrib import messages
+
 def user_signup(request):
     if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save()
-
-            # ✅ Set backend explicitly for normal login
             user.backend = 'django.contrib.auth.backends.ModelBackend'
-
             login(request, user)
             messages.success(request, 'Registration successful. You can now log in.')
             return redirect('user_dashboard')
         else:
-            print(form.errors)
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field.capitalize()}: {error}")
     else:
         form = SignupForm()
 
     return render(request, 'accounts/user_signup.html', {'form': form})
+
 
 
 
@@ -427,6 +429,7 @@ def org_admin_dashboard(request):
 
     return render(request, 'accounts/org_admin_dashboard.html', context)
 
+from accounts.models import LoginHistory
 
 @login_required
 def organization_settings(request):
@@ -444,10 +447,13 @@ def organization_settings(request):
     else:
         form = OrganizationSettingsForm(instance=organization)
     
+    login_history = LoginHistory.objects.filter(user=request.user).order_by('-timestamp')[:10]  # latest 10 logins
+
     return render(request, 'accounts/org_settings.html', {
         'form': form,
         'organization': organization,
         'active_page': 'settings', 
+        'login_history': login_history,
     })
 
 from django.http import JsonResponse
@@ -1374,35 +1380,228 @@ from reportlab.pdfgen import canvas
 from io import BytesIO
 import json
 
+from io import BytesIO
+from django.http import HttpResponse
+import json
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image, Table, TableStyle
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib import colors
+from reportlab.lib.units import inch
+from reportlab.pdfgen import canvas
+from reportlab.lib.utils import ImageReader
+import os
+from django.conf import settings
+
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 @csrf_exempt
 def download_test_result_pdf(request, result_id):
     if request.method == 'POST':
         try:
-            # Parse the JSON data from the request
             data = json.loads(request.body)
+            
+            # Register professional fonts (make sure these fonts are available in your system)
+            try:
+                pdfmetrics.registerFont(TTFont('Roboto', 'Roboto-Regular.ttf'))
+                pdfmetrics.registerFont(TTFont('Roboto-Bold', 'Roboto-Bold.ttf'))
+                pdfmetrics.registerFont(TTFont('Playfair', 'PlayfairDisplay-Regular.ttf'))
+                font_available = True
+            except:
+                font_available = False
             
             # Create a BytesIO buffer for the PDF
             buffer = BytesIO()
             
-            # Create the PDF object
-            p = canvas.Canvas(buffer)
+            # Create the PDF document with smaller margins for border effect
+            doc = SimpleDocTemplate(buffer, pagesize=letter,
+                                  rightMargin=36, leftMargin=36,
+                                  topMargin=36, bottomMargin=36)
             
-            # Add content to PDF
-            p.drawString(100, 800, f"Test Result: {data['testTitle']}")
-            p.drawString(100, 780, f"Organization: {data['orgName']}")
-            p.drawString(100, 760, f"Date: {data['testDate']}")
-            p.drawString(100, 740, f"Score: {data['score']}")
-            p.drawString(100, 720, f"Correct Answers: {data['correctAnswers']}/{data['totalQuestions']}")
-            p.drawString(100, 700, f"Rank: {data['rank']}")
-            p.drawString(100, 680, f"Time Taken: {data['timeTaken']}")
+            # Prepare styles with professional fonts if available
+            styles = getSampleStyleSheet()
             
-            # Add verification text
-            p.drawString(100, 600, "Digitally Verified by:")
-            p.drawString(100, 580, data['orgName'])
+            # Custom styles
+            title_style = ParagraphStyle(
+                'Title',
+                parent=styles['Heading1'],
+                fontName='Playfair' if font_available else 'Helvetica-Bold',
+                fontSize=22,
+                alignment=1,  # center
+                spaceAfter=14,
+                textColor=colors.HexColor('#2c3e50'),
+                leading=28
+            )
             
-            # Close the PDF object cleanly
-            p.showPage()
-            p.save()
+            subtitle_style = ParagraphStyle(
+                'Subtitle',
+                parent=styles['Heading2'],
+                fontName='Roboto-Bold' if font_available else 'Helvetica-Bold',
+                fontSize=12,
+                alignment=1,
+                textColor=colors.HexColor('#7f8c8d'),
+                spaceAfter=24
+            )
+            
+            header_style = ParagraphStyle(
+                'Header',
+                parent=styles['Heading2'],
+                fontName='Roboto-Bold' if font_available else 'Helvetica-Bold',
+                fontSize=14,
+                textColor=colors.HexColor('#3498db'),
+                spaceAfter=6,
+                leading=18
+            )
+            
+            content_style = ParagraphStyle(
+                'Content',
+                parent=styles['BodyText'],
+                fontName='Roboto' if font_available else 'Helvetica',
+                fontSize=12,
+                textColor=colors.HexColor('#34495e'),
+                spaceAfter=12,
+                leading=16
+            )
+            
+            highlight_style = ParagraphStyle(
+                'Highlight',
+                parent=styles['BodyText'],
+                fontName='Roboto-Bold' if font_available else 'Helvetica-Bold',
+                fontSize=20,
+                textColor=colors.HexColor('#e74c3c'),
+                alignment=1,
+                spaceAfter=20
+            )
+            
+            footer_style = ParagraphStyle(
+                'Footer',
+                parent=styles['BodyText'],
+                fontName='Roboto' if font_available else 'Helvetica-Oblique',
+                fontSize=10,
+                textColor=colors.HexColor('#7f8c8d'),
+                alignment=1  # center
+            )
+            
+            # Prepare content elements
+            elements = []
+            
+            # Function to add watermark and decorative elements
+            def add_design_elements(canvas, doc):
+                canvas.saveState()
+                
+                # Draw border
+                canvas.setStrokeColor(colors.HexColor('#3498db'))
+                canvas.setLineWidth(1.5)
+                canvas.rect(20, 20, doc.width + 32, doc.height + 32)
+                
+                # Draw decorative corner elements
+                canvas.setLineWidth(0.5)
+                corner_size = 15
+                # Top-left
+                canvas.line(20, doc.height + 50, 20 + corner_size, doc.height + 50)
+                canvas.line(20, doc.height + 50, 20, doc.height + 50 - corner_size)
+                # Top-right
+                canvas.line(doc.width + 52, doc.height + 50, doc.width + 52 - corner_size, doc.height + 50)
+                canvas.line(doc.width + 52, doc.height + 50, doc.width + 52, doc.height + 50 - corner_size)
+                # Bottom-left
+                canvas.line(20, 20, 20 + corner_size, 20)
+                canvas.line(20, 20, 20, 20 + corner_size)
+                # Bottom-right
+                canvas.line(doc.width + 52, 20, doc.width + 52 - corner_size, 20)
+                canvas.line(doc.width + 52, 20, doc.width + 52, 20 + corner_size)
+                
+                # Add watermark
+                canvas.setFont('Helvetica', 48)
+                canvas.setFillColor(colors.HexColor('#f5f5f5'))
+                canvas.setFillAlpha(0.1)
+                canvas.drawCentredString(doc.width/2 + 36, doc.height/2 + 20, data['orgName'])
+                canvas.setFillAlpha(1)
+                
+                # Add abstract background lines
+                canvas.setStrokeColor(colors.HexColor('#e0e0e0'))
+                canvas.setLineWidth(0.3)
+                for i in range(0, int(doc.width), 30):
+                    canvas.line(i + 36, 36, i + 36, doc.height + 36)
+                for i in range(0, int(doc.height), 30):
+                    canvas.line(36, i + 36, doc.width + 36, i + 36)
+                
+                canvas.restoreState()
+            
+            # Add organization logo if available
+            logo_path = os.path.join(settings.MEDIA_ROOT, 'organization_logo.png')
+            if os.path.exists(logo_path):
+                try:
+                    logo = Image(logo_path, width=2.5*inch, height=0.8*inch)
+                    logo.hAlign = 'CENTER'
+                    elements.append(logo)
+                    elements.append(Spacer(1, 10))
+                except:
+                    pass
+            
+            # Add certificate title
+            elements.append(Paragraph("CERTIFICATE OF ACHIEVEMENT", title_style))
+            elements.append(Paragraph("This is to certify that the participant has completed the test", subtitle_style))
+            elements.append(Spacer(1, 20))
+            
+            # Add decorative horizontal line
+            elements.append(Spacer(1, 1))
+            elements.append(Table([[""]], colWidths=[7*inch], style=[
+                ('LINEABOVE', (0, 0), (-1, -1), 1, colors.HexColor('#3498db'))
+            ]))
+            elements.append(Spacer(1, 20))
+            
+            # Add test information
+            info_table = Table([
+                [Paragraph("Test Name:", content_style), Paragraph(data['testTitle'], content_style)],
+                [Paragraph("Organization:", content_style), Paragraph(data['orgName'], content_style)],
+                [Paragraph("Date Completed:", content_style), Paragraph(data['testDate'], content_style)]
+            ], colWidths=[2*inch, 5*inch])
+            
+            elements.append(info_table)
+            elements.append(Spacer(1, 30))
+            
+            # Add score information in a framed box
+            score_frame = Table([
+                [Paragraph("TEST SCORE SUMMARY", header_style)],
+                [Spacer(1, 10)],
+                [
+                    Table([
+                        [Paragraph("Score Percentage", content_style), Paragraph(data['score'], highlight_style)],
+                        [Paragraph("Correct Answers", content_style), Paragraph(f"{data['correctAnswers']}/{data['totalQuestions']}", content_style)],
+                        [Paragraph("Rank", content_style), Paragraph(data['rank'], content_style)],
+                        [Paragraph("Time Taken", content_style), Paragraph(data['timeTaken'], content_style)]
+                    ], colWidths=[3*inch, 3*inch])
+                ]
+            ], style=[
+                ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#3498db')),
+                ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+                ('BOX', (0, 0), (-1, -1), 1, colors.HexColor('#bdc3c7')),
+                ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor('#f8f9fa'))
+            ])
+            
+            elements.append(score_frame)
+            elements.append(Spacer(1, 40))
+            
+            # Add verification section
+            verification_table = Table([
+                [Paragraph("Digitally Verified by:", footer_style)],
+                [Spacer(1, 5)],
+                [Paragraph(data['orgName'], header_style)],
+                [Spacer(1, 5)],
+                [Table([[""]], colWidths=[3*inch], style=[
+                    ('LINEABOVE', (0, 0), (-1, -1), 0.5, colors.HexColor('#7f8c8d'))
+                ])],
+                [Paragraph("Authorized Signature", footer_style)]
+            ], colWidths=[6*inch], hAlign='CENTER')
+            
+            elements.append(verification_table)
+            elements.append(Spacer(1, 20))
+            
+            # Add footer note
+            elements.append(Paragraph("This is an electronically generated document and does not require a physical signature.", footer_style))
+            
+            # Build the PDF with design elements
+            doc.build(elements, onFirstPage=add_design_elements, onLaterPages=add_design_elements)
             
             # Get the PDF from buffer
             pdf = buffer.getvalue()
@@ -1419,7 +1618,6 @@ def download_test_result_pdf(request, result_id):
             return HttpResponse(status=500)
     
     return HttpResponse(status=405)  # Method not allowed
-
 from .models import OrganizationTestResult
 
 from django.db.models import Q
@@ -1468,9 +1666,8 @@ def verify_org_test_code(request, test_id):
 
         if entered_code == test.test_code:
             return redirect('start_org_test', test_code=test.test_code)
-        else:
-            
-            messages.error(request, "❌ Incorrect test code. Please try again.")
+        else:   
+            messages.error(request, "Incorrect test code. Please try again.", extra_tags=str(test.id))
             
             # Get all tests and the organization again
             all_tests = OrganizationTest.objects.filter(organization=test.organization)
@@ -1917,19 +2114,53 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .models import OrganizationTestResult
 from collections import defaultdict
+from collections import defaultdict
+from django.db.models import Q
+from django.utils.dateparse import parse_date
+from accounts.models import OrganizationTestResult, OrganizationTest, Subject
 
 @login_required
 def participants_view(request):
-    # Get all test results for the current organization
-    results = OrganizationTestResult.objects.select_related('user', 'test').all()
+    user = request.user
+
+    if hasattr(user, 'org_admin_profile'):
+        organization = user.org_admin_profile.organization
+    elif hasattr(user, 'moderator_profile'):
+        organization = user.moderator_profile.organization
+    else:
+        return HttpResponseForbidden("Unauthorized access.")
+
+    # Filters
+    subject_id = request.GET.get('subject')
+    test_id = request.GET.get('test')
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    # Filter tests
+    test_filter = Q(organization=organization)
+    if subject_id:
+        test_filter &= Q(subject_id=subject_id)
+    if test_id:
+        test_filter &= Q(id=test_id)
+
+    filtered_tests = OrganizationTest.objects.filter(test_filter)
+
+    result_filter = Q(test__in=filtered_tests)
+    if start_date:
+        result_filter &= Q(created_at__date__gte=parse_date(start_date))
+    if end_date:
+        result_filter &= Q(created_at__date__lte=parse_date(end_date))
+
+
+    results = OrganizationTestResult.objects.select_related('user', 'test').filter(result_filter)
 
     participants_dict = defaultdict(lambda: {'email': '', 'tests': set()})
 
     for result in results:
-        user = result.user
-        participants_dict[user.id]['name'] = user.get_full_name() or user.username
-        participants_dict[user.id]['email'] = user.email
-        participants_dict[user.id]['tests'].add(result.test.title)
+        u = result.user
+        participants_dict[u.id]['name'] = u.get_full_name() or u.email
+        participants_dict[u.id]['email'] = u.email
+        participants_dict[u.id]['tests'].add(result.test.title)
 
     participants = [
         {
@@ -1941,9 +2172,26 @@ def participants_view(request):
         for uid, data in participants_dict.items()
     ]
 
+    # ✅ FIXED subject filter without error
+    subjects = Subject.objects.filter(
+        id__in=OrganizationTest.objects.filter(organization=organization).values_list('subject_id', flat=True).distinct()
+    )
+
+    tests = OrganizationTest.objects.filter(organization=organization)
+
     return render(request, 'accounts/participants.html', {
-        'participants': participants
+        'participants': participants,
+        'subjects': subjects,
+        'tests': tests,
+        'filters': {
+            'subject': subject_id,
+            'test': test_id,
+            'start_date': start_date,
+            'end_date': end_date
+        }
     })
+
+
 
 from django.shortcuts import render
 from django.db.models import Count, Avg
@@ -2217,3 +2465,37 @@ def contact_view(request):
     else:
         form = ContactMessageForm()
     return render(request, 'accounts/contact.html', {'form': form})
+
+
+from django.contrib import messages
+from django.shortcuts import redirect, get_object_or_404
+from accounts.models import OrganizationTest
+
+# Restore Closed Test
+def restore_closed_test(request, test_id):
+    user = request.user
+    test = get_object_or_404(OrganizationTest, id=test_id, is_cancelled=True)
+
+    if hasattr(user, 'org_admin_profile') or (hasattr(user, 'moderator_profile') and test.created_by == user):
+        test.is_cancelled = False
+        test.cancelled_by = None
+        test.cancelled_at = None
+        test.save()
+        messages.success(request, f'Test "{test.title}" has been restored successfully.')
+    else:
+        messages.error(request, 'You do not have permission to restore this test.')
+
+    return redirect('closed_tests')
+
+# Permanently Delete Closed Test
+def permanently_delete_test(request, test_id):
+    user = request.user
+    test = get_object_or_404(OrganizationTest, id=test_id, is_cancelled=True)
+
+    if hasattr(user, 'org_admin_profile') or (hasattr(user, 'moderator_profile') and test.created_by == user):
+        test.delete()
+        messages.success(request, f'Test "{test.title}" has been permanently deleted.')
+    else:
+        messages.error(request, 'You do not have permission to delete this test.')
+
+    return redirect('closed_tests')
