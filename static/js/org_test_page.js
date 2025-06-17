@@ -100,7 +100,7 @@ function autoSaveProgress() {
         answers[input.name] = input.value;
     });
 
-    fetch('/save-progress/', {
+    fetch('/testmaster/save-progress/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -119,7 +119,7 @@ function autoSaveProgress() {
 // RESTORE STATE
 function restoreProgress() {
     if (!testId) return Promise.resolve();
-    return fetch(`/load-progress/?test_id=${testId}`)
+    return fetch(`/testmaster/load-progress/${testId}/`)
         .then(response => response.json())
         .then(data => {
             if (data.answers) {
@@ -166,7 +166,6 @@ function startTest() {
     }
 }
 
-// SUBMIT TEST
 function submitTest(auto = false) {
     if (testSubmitted) return;
     testSubmitted = true;
@@ -174,79 +173,106 @@ function submitTest(auto = false) {
     clearInterval(autoSaveInterval);
 
     const testForm = document.getElementById('testForm');
+    
+    // ✅ Collect current answers
+    const getCurrentAnswers = () => {
+        const answers = {};
+        document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
+            answers[input.name] = input.value;
+        });
+        return answers;
+    };
 
-    if (auto) {
-        // ⏱ If time is over, submit form to backend immediately
-        const formData = new FormData(testForm);
+    // ✅ Save progress before final submit
+    fetch('/testmaster/save-progress/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+        },
+        body: JSON.stringify({
+            test_id: testId,
+            answers: getCurrentAnswers(),
+            time_left: timeLeft,
+        }),
+    }).catch(err => console.error("Final save before submit failed:", err));
 
-        if (!formData.has('test_id') && testId) {
-            formData.append('test_id', testId);
-        }
-
-        fetch(testForm.action, {
-            method: 'POST',
-            headers: {
-                'X-CSRFToken': csrfToken,
-            },
-            body: formData
-        })
-        .then(response => {
-            if (response.redirected) {
-                window.location.href = response.url;
-            } else {
-                console.error("Auto submission failed.");
-            }
-        })
-        .catch(error => console.error("Auto submit error:", error));
-
-        return; // ✅ Stop further frontend result display
+    // ✅ Build form data
+    const formData = new FormData(testForm);
+    if (!formData.has('test_id') && testId) {
+        formData.append('test_id', testId);
     }
 
-    // Manual submit flow (user clicked Submit button)
-    const questions = document.querySelectorAll('.question-card');
-    let correctCount = 0;
-    const totalQuestions = questions.length;
+    // ✅ Submit to backend
+    fetch(testForm.action, {
+        method: 'POST',
+        headers: {
+            'X-CSRFToken': csrfToken,
+        },
+        body: formData
+    })
+    .then(response => {
+        if (response.redirected) {
+            window.location.href = response.url;
+        } else {
+            console.error(auto ? "Auto submission failed." : "Manual submission failed.");
+        }
 
-    questions.forEach(question => {
-        const correctAnswer = question.getAttribute('data-correct')?.trim();
-        const selectedOption = question.querySelector('input[type="radio"]:checked');
-        const options = question.querySelectorAll('.option');
+        testForm.querySelectorAll('input, button').forEach(el => {
+    el.disabled = true;
+});
+    })
+    .catch(error => console.error(auto ? "Auto submit error:" : "Manual submit error:", error));
 
-        options.forEach(option => {
-            const input = option.querySelector('input');
-            if (input && input.value.trim() === correctAnswer) {
-                option.classList.add('correct-answer');
+    // ✅ Manual-only UI logic (result preview, animation)
+    if (!auto) {
+        const questions = document.querySelectorAll('.question-card');
+        let correctCount = 0;
+        const totalQuestions = questions.length;
+
+        questions.forEach(question => {
+            const correctAnswer = question.getAttribute('data-correct')?.trim();
+            const selectedOption = question.querySelector('input[type="radio"]:checked');
+            const options = question.querySelectorAll('.option');
+
+            options.forEach(option => {
+                const input = option.querySelector('input');
+                if (input && input.value.trim() === correctAnswer) {
+                    option.classList.add('correct-answer');
+                }
+            });
+
+            if (selectedOption) {
+                const selectedLabel = selectedOption.closest('.option');
+                if (selectedOption.value.trim() !== correctAnswer) {
+                    selectedLabel.classList.add('incorrect-answer');
+                } else {
+                    correctCount++;
+                }
             }
         });
 
-        if (selectedOption) {
-            const selectedLabel = selectedOption.closest('.option');
-            if (selectedOption.value.trim() !== correctAnswer) {
-                selectedLabel.classList.add('incorrect-answer');
-            } else {
-                correctCount++;
-            }
+        const percentage = Math.round((correctCount / totalQuestions) * 100);
+        const resultSection = document.getElementById('result');
+        if (testForm && resultSection) {
+            testForm.style.display = 'none';
+            resultSection.style.display = 'block';
         }
-    });
 
-    const percentage = Math.round((correctCount / totalQuestions) * 100);
-    const resultSection = document.getElementById('result');
-    if (testForm && resultSection) {
-        testForm.style.display = 'none';
-        resultSection.style.display = 'block';
+        const seeResultsBtn = document.querySelector('.see-results-btn');
+        if (seeResultsBtn) seeResultsBtn.style.display = 'block';
+
+        animateScore(correctCount, totalQuestions, percentage);
     }
 
-    const seeResultsBtn = document.querySelector('.see-results-btn');
-    if (seeResultsBtn) seeResultsBtn.style.display = 'block';
-
-    animateScore(correctCount, totalQuestions, percentage);
-
+    // ✅ Block back navigation post-submit
     window.history.pushState(null, "", window.location.href);
     window.onpopstate = function () {
         alert("You have already submitted the test. Back navigation is disabled.");
         window.history.pushState(null, "", window.location.href);
     };
 }
+
 
 
 // ANIMATE SCORE
@@ -333,7 +359,65 @@ document.addEventListener('DOMContentLoaded', () => {
             autoSaveProgress(); // Save immediately on change
         });
     });
+
+    document.addEventListener('keydown', function (e) {
+    // Block Ctrl+C, Ctrl+X, Ctrl+U, Ctrl+S, Ctrl+P, F12
+    if ((e.ctrlKey && ['c', 'x', 'u', 's', 'p'].includes(e.key.toLowerCase())) || e.key === 'F12') {
+        e.preventDefault();
+        alert("Cheating prevention: Action blocked");
+    }
+
+
 });
+
+// Block right-click context menu
+document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+});
+
+let hasWarnedTabSwitch = false;
+
+document.addEventListener('visibilitychange', function () {
+    if (document.hidden && !testSubmitted && !hasWarnedTabSwitch) {
+        hasWarnedTabSwitch = true;
+
+        if (typeof Swal !== "undefined") {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Tab Switching Detected!',
+                text: 'Switching tabs is strictly not allowed during test. You may be disqualified.',
+                confirmButtonText: 'Okay, I understand',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+            });
+        } else {
+            alert("Switching tabs is strictly not allowed during test. You may be disqualified from the test.");
+        }
+
+        // Optional: log this attempt to server via fetch()
+    }
+});
+
+
+});
+
+document.getElementById('submitTestBtn')?.addEventListener('click', () => {
+    if (testSubmitted) return;
+
+    Swal.fire({
+        title: 'Submit Test?',
+        text: 'Are you sure you want to submit the test now?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, submit it!',
+        cancelButtonText: 'Cancel',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            submitTest(false);  // Manual submission
+        }
+    });
+});
+
 
 // WARNING BEFORE LEAVING
 window.addEventListener('beforeunload', function (e) {

@@ -118,15 +118,18 @@
         {% endfor %}
         
         <div class="test-controls">
-            <button type="submit" class="submit-btn">
-                <i class="fas fa-paper-plane"></i> Submit Test
-            </button>
+            <button type="button" class="submit-btn" id="submitTestBtn">
+    <i class="fas fa-paper-plane"></i> Submit Test
+</button>
+
         </div>
     </form>
 </div>
 
 <link rel="stylesheet" href="{% static 'css/org_test_page.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     const testDurationInMinutes = {{ test.total_time|default:20 }};
 </script>

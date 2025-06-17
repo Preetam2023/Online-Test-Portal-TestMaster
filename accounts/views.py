@@ -1183,16 +1183,18 @@ def submit_org_test_view(request):
             if selected and selected.strip() == tq.question.correct_option.strip():
                 correct_answers += 1
 
-        percentage = round((correct_answers / total_questions) * 100, 2)
+        percentage = round((correct_answers / total_questions) * 100, 2) if total_questions else 0.0
 
-        time_left = 0
         try:
             progress = TestProgress.objects.get(user=request.user, test_id=test.id)
             time_left = progress.time_left
+            print(f"[DEBUG] Retrieved time_left for user {request.user.username}: {time_left} seconds")
         except TestProgress.DoesNotExist:
-            progress = None
+            time_left = 0
+            print(f"[DEBUG] No TestProgress found for user {request.user.username}, defaulting time_left to 0")
 
         time_taken = test.total_time * 60 - time_left
+        print(f"[DEBUG] Final calculated time_taken: {time_taken} seconds")
 
         result = OrganizationTestResult.objects.create(
             user=request.user,
@@ -1203,6 +1205,10 @@ def submit_org_test_view(request):
             answers=user_answers,
             time_taken=time_taken
         )
+
+        # ✅ Optional: Clean up progress record
+        TestProgress.objects.filter(user=request.user, test_id=test.id).delete()
+
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             return JsonResponse({
                 'success': True,
@@ -1211,6 +1217,8 @@ def submit_org_test_view(request):
         return redirect('org_test_result', result_id=result.id)
 
     return redirect('organization_tests')
+
+
 
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Avg
