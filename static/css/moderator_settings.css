@@ -248,3 +248,72 @@ a:focus, button:focus, input:focus, textarea:focus {
 .mt-3 { margin-top: var(--space-md); }
 .mt-4 { margin-top: var(--space-lg); }
 .mt-5 { margin-top: var(--space-xl); }
+
+
+/* moderator_settings.css */
+
+.settings-wrapper {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.settings-form label {
+  font-weight: 600;
+  color: #333;
+}
+
+.settings-form input {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  width: 100%;
+  transition: border-color 0.3s;
+}
+
+.settings-form input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.settings-form .form-text {
+  color: #666;
+  margin-top: 4px;
+}
+
+.error-list {
+  margin-top: 8px;
+}
+
+.error-item {
+  background-color: #ffe6e6;
+  color: #b00020;
+  padding: 8px 12px;
+  border-left: 4px solid #b00020;
+  border-radius: 6px;
+  margin-top: 6px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.error-item i {
+  color: #b00020;
+}
+
+.btn.btn-primary {
+  background-color: #007bff;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: 600;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.btn.btn-primary:hover {
+  background-color: #0056b3;
+}

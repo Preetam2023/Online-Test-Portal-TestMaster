@@ -208,6 +208,7 @@ class TestProgress(models.Model):
     test_id = models.IntegerField()
     answers = models.JSONField(default=dict)
     time_left = models.IntegerField(default=0)
+    tab_switch_count = models.IntegerField(default=0)
 
     def __str__(self):
         return f'{self.user.username} - Test {self.test_id}'
@@ -221,6 +222,7 @@ class OrganizationTestResult(models.Model):
     answers = models.JSONField(default=dict)  # key: qID, value: selected option
     time_taken = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+    tab_switch_count = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.user.email} - {self.test.title} ({self.percentage}%)"

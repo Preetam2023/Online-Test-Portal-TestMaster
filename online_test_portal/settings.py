@@ -52,7 +52,8 @@ INSTALLED_APPS = [
 SITE_ID = 2
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
-LOGIN_REDIRECT_URL = '/accounts/user-dashboard/'
+SOCIALACCOUNT_AUTO_SIGNUP = True 
+LOGIN_REDIRECT_URL = '/testmaster/user-dashboard/'
 
 
 

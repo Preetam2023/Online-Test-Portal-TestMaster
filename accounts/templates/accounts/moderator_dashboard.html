@@ -23,7 +23,7 @@
             <i class="fas fa-clipboard-list"></i>
         </div>
         <div class="stat-info">
-            <h3>12</h3>
+            <h3>{{ active_tests }}</h3>
             <p>Active Tests</p>
         </div>
     </div>
@@ -32,7 +32,7 @@
             <i class="fas fa-users"></i>
         </div>
         <div class="stat-info">
-            <h3>248</h3>
+            <h3>{{ participants }}</h3>
             <p>Participants</p>
         </div>
     </div>
@@ -41,14 +41,14 @@
             <i class="fas fa-check-circle"></i>
         </div>
         <div class="stat-info">
-            <h3>87%</h3>
+            <h3>{{ completion_rate }}%</h3>
             <p>Completion Rate</p>
         </div>
     </div>
 </div>
 
 <div class="dashboard-cards">
-    <div class="card" onclick="window.location.href='#'">
+    <div class="card" onclick="window.location.href='{% url 'moderator-add-test' %}'">
         <div class="card-icon">
             <i class="fas fa-plus-circle"></i>
         </div>
@@ -59,18 +59,19 @@
         </div>
     </div>
     
-    <div class="card" onclick="window.location.href='#'">
+    <div class="card" onclick="window.location.href='{% url 'moderator-active-tests' %}'">
         <div class="card-icon">
             <i class="fas fa-clipboard-list"></i>
         </div>
         <div class="card-content">
             <h4>My Tests</h4>
             <p>View and manage tests you've created</p>
-            <div class="card-badge">5 Updated</div>
+            <div class="card-badge">{{ my_tests }} total</div>
+
         </div>
     </div>
     
-    <div class="card" onclick="window.location.href='#'">
+    <div class="card" onclick="window.location.href='{% url 'moderator-closed-tests' %}'">
         <div class="card-icon">
             <i class="fas fa-chart-bar"></i>
         </div>
@@ -81,7 +82,7 @@
         </div>
     </div>
     
-    <div class="card" onclick="window.location.href='#'">
+    <div class="card" onclick="window.location.href='{% url 'moderator_settings' %}'">
         <div class="card-icon">
             <i class="fas fa-cog"></i>
         </div>
@@ -98,36 +99,34 @@
         <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
     </div>
     <div class="activity-list">
-        <div class="activity-item">
-            <div class="activity-icon">
-                <i class="fas fa-user-plus"></i>
-            </div>
-            <div class="activity-details">
-                <h5>New Moderator Added</h5>
-                <p>You were added to {{ user.moderator_profile.organization.name }}</p>
-                <small>{{ user.date_joined|date:"M d, Y" }}</small>
-            </div>
+
+    {% for login in recent_logins %}
+    <div class="activity-item">
+        <div class="activity-icon">
+            <i class="fas fa-sign-in-alt"></i>
         </div>
-        <div class="activity-item">
-            <div class="activity-icon">
-                <i class="fas fa-sign-in-alt"></i>
-            </div>
-            <div class="activity-details">
-                <h5>Login Activity</h5>
-                <p>You logged in to the system</p>
-                <small>Today, {{ user.last_login|time:"g:i A" }}</small>
-            </div>
-        </div>
-        <div class="activity-item">
-            <div class="activity-icon">
-                <i class="fas fa-edit"></i>
-            </div>
-            <div class="activity-details">
-                <h5>Test Updated</h5>
-                <p>You modified "Midterm Assessment"</p>
-                <small>Yesterday, 3:45 PM</small>
-            </div>
+        <div class="activity-details">
+            <h5>Login Activity</h5>
+            <p>You logged in from IP {{ login.ip_address }}</p>
+            <small>{{ login.timestamp|date:"M d, Y, h:i A" }}</small>
         </div>
     </div>
+    {% endfor %}
+
+    {% for result in recent_results %}
+    <div class="activity-item">
+        <div class="activity-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="activity-details">
+            <h5>Test Submitted</h5>
+            <p>{{ result.user.email }} submitted <strong>{{ result.test.title }}</strong></p>
+            <small>{{ result.created_at|date:"M d, Y, h:i A" }}</small>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
 </div>
 {% endblock %}

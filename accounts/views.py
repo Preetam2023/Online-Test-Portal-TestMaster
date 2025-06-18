@@ -1184,17 +1184,16 @@ def submit_org_test_view(request):
                 correct_answers += 1
 
         percentage = round((correct_answers / total_questions) * 100, 2) if total_questions else 0.0
+        tab_switch_count = 0
 
         try:
             progress = TestProgress.objects.get(user=request.user, test_id=test.id)
             time_left = progress.time_left
-            print(f"[DEBUG] Retrieved time_left for user {request.user.username}: {time_left} seconds")
+            tab_switch_count = progress.tab_switch_count
         except TestProgress.DoesNotExist:
             time_left = 0
-            print(f"[DEBUG] No TestProgress found for user {request.user.username}, defaulting time_left to 0")
 
         time_taken = test.total_time * 60 - time_left
-        print(f"[DEBUG] Final calculated time_taken: {time_taken} seconds")
 
         result = OrganizationTestResult.objects.create(
             user=request.user,
@@ -1203,7 +1202,8 @@ def submit_org_test_view(request):
             correct_answers=correct_answers,
             percentage=percentage,
             answers=user_answers,
-            time_taken=time_taken
+            time_taken=time_taken,
+            tab_switch_count=tab_switch_count  
         )
 
         # ✅ Optional: Clean up progress record
@@ -1700,6 +1700,8 @@ def save_test_progress(request):
             test_id = data.get('test_id')
             answers = data.get('answers', {})
             time_left = int(data.get('time_left', 0))
+            tab_switch_count = int(data.get('tab_switch_count', 0))
+
 
             if not test_id:
                 return JsonResponse({'status': 'error', 'reason': 'Missing test_id'}, status=400)
@@ -1707,7 +1709,7 @@ def save_test_progress(request):
             TestProgress.objects.update_or_create(
                 user=request.user,
                 test_id=test_id,
-                defaults={'answers': answers, 'time_left': time_left}
+                defaults={'answers': answers, 'time_left': time_left, 'tab_switch_count': tab_switch_count}
             )
             return JsonResponse({'status': 'saved'})
         except Exception as e:
@@ -1725,7 +1727,8 @@ def get_test_progress(request, test_id):
             progress = TestProgress.objects.get(user=request.user, test_id=test_id)
             return JsonResponse({
                 'answers': progress.answers,
-                'time_left': progress.time_left
+                'time_left': progress.time_left,
+                'tab_switch_count': progress.tab_switch_count 
             })
         except TestProgress.DoesNotExist:
             pass
@@ -2276,13 +2279,53 @@ def organization_analytics(request):
 
 
 
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from accounts.models import (
+    ModeratorProfile, OrganizationTest, OrganizationTestResult, LoginHistory
+)
+
 @login_required
 def moderator_dashboard(request):
     if not hasattr(request.user, 'moderator_profile'):
         return redirect('moderator-login')
-    
-    # Add moderator dashboard logic here
-    return render(request, 'accounts/moderator_dashboard.html')
+
+    moderator = request.user.moderator_profile
+    organization = moderator.organization
+
+    # ✅ All tests by this moderator in this org
+    my_tests = OrganizationTest.objects.filter(organization=organization, created_by=request.user)
+
+    # ✅ Active tests (logic: not cancelled and with questions)
+    active_tests = my_tests.filter(is_cancelled=False).count()
+
+    # ✅ All participants in results for this org’s tests
+    participant_count = OrganizationTestResult.objects.filter(
+        test__organization=organization
+    ).values('user').distinct().count()
+
+    # ✅ Completion rate (submitted results vs total tests * expected participants logic can vary)
+    total_tests = my_tests.count()
+    total_results = OrganizationTestResult.objects.filter(test__in=my_tests).count()
+    completion_rate = round((total_results / total_tests) * 100, 2) if total_tests > 0 else 0
+
+    # ✅ Recent logins (last 5 for this user)
+    recent_logins = LoginHistory.objects.filter(user=request.user).order_by('-timestamp')[:5]
+
+    # ✅ Recent test results (last 3)
+    recent_results = OrganizationTestResult.objects.filter(test__in=my_tests).order_by('-created_at')[:3]
+
+    context = {
+        'active_tests': active_tests,
+        'participants': participant_count,
+        'completion_rate': completion_rate,
+        'my_tests': total_tests,
+        'recent_logins': recent_logins,
+        'recent_results': recent_results,
+    }
+
+    return render(request, 'accounts/moderator_dashboard.html', context)
+
 
 
 from django.contrib.auth import update_session_auth_hash

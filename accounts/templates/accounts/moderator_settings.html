@@ -24,19 +24,37 @@
         {% endfor %}
     </div>
 {% endif %}
-<div class="container mt-5">
+<div class="container mt-5 settings-wrapper">
   <h2><i class="fas fa-cog"></i> Change Password</h2>
 
-  <form method="post" class="mt-4">
+  <form method="post" class="mt-4 settings-form">
     {% csrf_token %}
-    {{ form.as_p }}
+
+    {% for field in form %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        
+        {% if field.help_text %}
+          <small class="form-text text-muted">{{ field.help_text }}</small>
+        {% endif %}
+        
+        {% if field.errors %}
+          <div class="error-list">
+            {% for error in field.errors %}
+              <div class="error-item">
+                <i class="fas fa-exclamation-circle"></i> {{ error }}
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
 
     <button type="submit" class="btn btn-primary">
       <i class="fas fa-save"></i> Update Password
     </button>
   </form>
-
-
-
 </div>
+
 {% endblock %}

@@ -7,6 +7,8 @@ let testSubmitted = false;
 let isDragging = false;
 let offsetX, offsetY;
 let autoSaveInterval;
+let tabSwitchCount = 0;
+let hasWarnedTabSwitch = false;
 
 const testId = window.testId || document.getElementById('testForm')?.dataset.testId;
 const csrfToken = document.querySelector('[name="csrfmiddlewaretoken"]')?.value;
@@ -84,10 +86,9 @@ function startTimer() {
         timeLeft--;
         updateTimerDisplay();
         if (timeLeft <= 0) {
-    clearInterval(timer);
-    submitTest(true); // true = auto submit due to timeout
-}
-
+            clearInterval(timer);
+            submitTest(true); // true = auto submit due to timeout
+        }
     }, 1000);
     autoSaveInterval = setInterval(autoSaveProgress, 15000); // every 15 sec
 }
@@ -110,6 +111,7 @@ function autoSaveProgress() {
             test_id: testId,
             answers: answers,
             time_left: timeLeft,
+            tab_switch_count: tabSwitchCount, 
         }),
     }).catch(error => {
         console.error('Auto-save failed:', error);
@@ -117,28 +119,64 @@ function autoSaveProgress() {
 }
 
 // RESTORE STATE
-function restoreProgress() {
-    if (!testId) return Promise.resolve();
-    return fetch(`/testmaster/load-progress/${testId}/`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.answers) {
-                for (const [name, value] of Object.entries(data.answers)) {
-                    const input = document.querySelector(`input[name="${name}"][value="${value}"]`);
-                    if (input) {
-                        input.checked = true;
-                        input.dataset.wasChecked = "true";
-                    }
+async function restoreProgress() {
+    if (!testId) return;
+
+    try {
+        const response = await fetch(`/testmaster/load-progress/${testId}/`);
+        if (!response.ok) return;
+        
+        const data = await response.json();
+        
+        // Restore answers
+        if (data.answers) {
+            for (const [name, value] of Object.entries(data.answers)) {
+                const input = document.querySelector(`input[name="${name}"][value="${value}"]`);
+                if (input) {
+                    input.checked = true;
+                    input.dataset.wasChecked = "true";
                 }
             }
-            if (data.time_left) {
-                timeLeft = parseInt(data.time_left);
-                updateTimerDisplay();
-            }
-        })
-        .catch(error => console.error('Restore failed:', error));
+        }
+        
+        // Restore timer
+        if (data.time_left) {
+            timeLeft = parseInt(data.time_left);
+            updateTimerDisplay();
+        }
+        
+        // Restore tab switch count
+        if (data.tab_switch_count) {
+            tabSwitchCount = parseInt(data.tab_switch_count);
+            const counterEl = document.getElementById('tabSwitchCount');
+            if (counterEl) counterEl.textContent = tabSwitchCount;
+        }
+
+        // Show restore notification only if we actually restored something
+        if (data.answers || data.time_left || data.tab_switch_count) {
+            showRestoreNotification();
+        }
+    } catch (error) {
+        console.error('Restore failed:', error);
+    }
 }
 
+function showRestoreNotification() {
+    if (typeof Swal !== 'undefined') {
+        Swal.fire({
+            icon: 'info',
+            title: 'Session Restored',
+            text: 'Your test session was automatically restored from the last saved state.',
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 4000,
+            timerProgressBar: true,
+        });
+    } else {
+        alert("Your session was restored from saved progress.");
+    }
+}
 
 // TOGGLE START BUTTON
 function toggleStartButton() {
@@ -151,7 +189,7 @@ function toggleStartButton() {
     }
 }
 
-function startTest() {
+async function startTest() {
     const form = document.getElementById('testForm');
     const timerContainer = document.getElementById('timerContainer');
     const instructions = document.querySelector('.instructions-card');
@@ -160,9 +198,10 @@ function startTest() {
         form.classList.add('visible');
         timerContainer.style.display = 'block';
         if (instructions) instructions.style.display = 'none';
-        restoreProgress().then(() => {
-            setTimeout(startTimer, 1000); // Start timer after 1s to allow UI update
-        });
+        
+        // First restore progress, then start timer
+        await restoreProgress();
+        startTimer();
     }
 }
 
@@ -174,7 +213,7 @@ function submitTest(auto = false) {
 
     const testForm = document.getElementById('testForm');
     
-    // ✅ Collect current answers
+    // Collect current answers
     const getCurrentAnswers = () => {
         const answers = {};
         document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
@@ -183,7 +222,7 @@ function submitTest(auto = false) {
         return answers;
     };
 
-    // ✅ Save progress before final submit
+    // Save progress before final submit
     fetch('/testmaster/save-progress/', {
         method: 'POST',
         headers: {
@@ -194,16 +233,17 @@ function submitTest(auto = false) {
             test_id: testId,
             answers: getCurrentAnswers(),
             time_left: timeLeft,
+            tab_switch_count: tabSwitchCount, 
         }),
     }).catch(err => console.error("Final save before submit failed:", err));
 
-    // ✅ Build form data
+    // Build form data
     const formData = new FormData(testForm);
     if (!formData.has('test_id') && testId) {
         formData.append('test_id', testId);
     }
 
-    // ✅ Submit to backend
+    // Submit to backend
     fetch(testForm.action, {
         method: 'POST',
         headers: {
@@ -219,12 +259,12 @@ function submitTest(auto = false) {
         }
 
         testForm.querySelectorAll('input, button').forEach(el => {
-    el.disabled = true;
-});
+            el.disabled = true;
+        });
     })
     .catch(error => console.error(auto ? "Auto submit error:" : "Manual submit error:", error));
 
-    // ✅ Manual-only UI logic (result preview, animation)
+    // Manual-only UI logic (result preview, animation)
     if (!auto) {
         const questions = document.querySelectorAll('.question-card');
         let correctCount = 0;
@@ -265,15 +305,13 @@ function submitTest(auto = false) {
         animateScore(correctCount, totalQuestions, percentage);
     }
 
-    // ✅ Block back navigation post-submit
+    // Block back navigation post-submit
     window.history.pushState(null, "", window.location.href);
     window.onpopstate = function () {
         alert("You have already submitted the test. Back navigation is disabled.");
         window.history.pushState(null, "", window.location.href);
     };
 }
-
-
 
 // ANIMATE SCORE
 function animateScore(correct, total, percentage) {
@@ -310,6 +348,65 @@ function seeResults() {
         form.style.display = 'none';
         result.style.display = 'block';
         window.scrollTo(0, 0);
+    }
+}
+
+
+
+// Store beforeunload handler reference for removal
+const beforeUnloadHandler = function(e) {
+    if (!testSubmitted) {
+        // Save progress synchronously if possible
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/testmaster/save-progress/', false); // Synchronous!
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('X-CSRFToken', csrfToken);
+        xhr.send(JSON.stringify({
+            test_id: testId,
+            answers: getCurrentAnswers(),
+            time_left: timeLeft,
+            tab_switch_count: tabSwitchCount,
+        }));
+        
+        // Set flag for next load
+        sessionStorage.setItem('was_refreshed', 'true');
+        sessionStorage.setItem('last_save_time', Date.now().toString());
+        
+        e.preventDefault();
+        e.returnValue = '';
+        return '';
+    }
+};
+
+// MODIFIED VISIBILITY CHANGE HANDLER
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden && !testSubmitted) {
+        tabSwitchCount++;
+        
+        // Update UI immediately
+        const counterEl = document.getElementById('tabSwitchCount');
+        if (counterEl) counterEl.textContent = tabSwitchCount;
+        
+        // Auto-save the new count
+        autoSaveProgress();
+        
+        // Show warning
+        showTabSwitchWarning();
+    }
+});
+
+function showTabSwitchWarning() {
+    if (typeof Swal !== "undefined") {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Tab Switching Detected!',
+            text: `Tab switches: ${tabSwitchCount}. Switching tabs is strictly not allowed during test. You may be disqualified.`,
+            confirmButtonText: 'Okay, I understand',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+        });
+    } else {
+        alert(`Tab switches: ${tabSwitchCount}. Switching tabs is strictly not allowed during test. You may be disqualified.`);
     }
 }
 
@@ -361,44 +458,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('keydown', function (e) {
-    // Block Ctrl+C, Ctrl+X, Ctrl+U, Ctrl+S, Ctrl+P, F12
-    if ((e.ctrlKey && ['c', 'x', 'u', 's', 'p'].includes(e.key.toLowerCase())) || e.key === 'F12') {
-        e.preventDefault();
-        alert("Cheating prevention: Action blocked");
-    }
-
-
-});
-
-// Block right-click context menu
-document.addEventListener('contextmenu', function (e) {
-    e.preventDefault();
-});
-
-let hasWarnedTabSwitch = false;
-
-document.addEventListener('visibilitychange', function () {
-    if (document.hidden && !testSubmitted && !hasWarnedTabSwitch) {
-        hasWarnedTabSwitch = true;
-
-        if (typeof Swal !== "undefined") {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Tab Switching Detected!',
-                text: 'Switching tabs is strictly not allowed during test. You may be disqualified.',
-                confirmButtonText: 'Okay, I understand',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-            });
-        } else {
-            alert("Switching tabs is strictly not allowed during test. You may be disqualified from the test.");
+        // Block Ctrl+C, Ctrl+X, Ctrl+U, Ctrl+S, Ctrl+P, F12
+        if ((e.ctrlKey && ['c', 'x', 'u', 's', 'p'].includes(e.key.toLowerCase())) || e.key === 'F12') {
+            e.preventDefault();
+            alert("Cheating prevention: Action blocked");
         }
+    });
 
-        // Optional: log this attempt to server via fetch()
-    }
-});
+    // Block right-click context menu
+    document.addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    });
 
-
+    // Set up refresh confirmation
+    window.addEventListener('beforeunload', beforeUnloadHandler);
+    
+    // Add custom refresh handler for browsers that support it
+    window.addEventListener('unload', function() {
+        if (!testSubmitted) {
+            sessionStorage.setItem('was_refreshed', 'true');
+        }
+    });
 });
 
 document.getElementById('submitTestBtn')?.addEventListener('click', () => {
@@ -418,13 +498,71 @@ document.getElementById('submitTestBtn')?.addEventListener('click', () => {
     });
 });
 
+// Function to get current answers
+function getCurrentAnswers() {
+    const answers = {};
+    document.querySelectorAll('input[type="radio"]:checked').forEach(input => {
+        answers[input.name] = input.value;
+    });
+    return answers;
+}
 
-// WARNING BEFORE LEAVING
-window.addEventListener('beforeunload', function (e) {
-    if (!testSubmitted) {
-        autoSaveProgress();
-        e.preventDefault();
-        e.returnValue = '';
-        return '';
-    }
-});
+// NEW: REFRESH CONFIRMATION FUNCTION
+// Remove any existing beforeunload handlers
+window.removeEventListener('beforeunload', beforeUnloadHandler);
+
+// NEW REFRESH HANDLER
+function handleRefreshConfirmation(e) {
+    if (testSubmitted) return; // No warning if test is already submitted
+    
+    // Prevent default browser popup
+    e.preventDefault();
+    e.returnValue = '';
+    
+    // Show our custom popup instead
+    Swal.fire({
+        title: 'Are you sure?',
+        html: '<strong>Are you sure you want to refresh or leave the test?</strong><br>Your progress may be lost.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, leave',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        reverseButtons: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // User confirmed - proceed with refresh/leave
+            // Save progress before leaving
+            sessionStorage.setItem('was_refreshed', 'true');
+            
+            // For refresh, we need to do a synchronous save
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/testmaster/save-progress/', false); // Synchronous!
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-CSRFToken', csrfToken);
+            xhr.send(JSON.stringify({
+                test_id: testId,
+                answers: getCurrentAnswers(),
+                time_left: timeLeft,
+                tab_switch_count: tabSwitchCount,
+            }));
+            
+            // Remove the handler to prevent infinite loop
+            window.removeEventListener('beforeunload', handleRefreshConfirmation);
+            
+            // If this was a refresh, do it now
+            if (e.type === 'beforeunload') {
+                window.location.reload();
+            }
+        }
+    });
+    
+    // Return the confirmation message (though most modern browsers ignore it)
+    return '';
+}
+
+// Add the single handler
+window.addEventListener('beforeunload', handleRefreshConfirmation);
