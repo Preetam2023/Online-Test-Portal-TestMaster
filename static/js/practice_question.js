@@ -61,6 +61,38 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+
+    // Handle Option Selection
+    document.querySelectorAll('.options').forEach(optionGroup => {
+        const buttons = optionGroup.querySelectorAll('.option-btn');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (optionGroup.classList.contains('answered')) return;
+
+                const correctOption = button.getAttribute('data-correct').trim();
+                const selectedOption = button.textContent.trim();
+
+                buttons.forEach(btn => {
+                    const btnText = btn.textContent.trim();
+
+                    // Highlight correct answer
+                    if (btnText === correctOption) {
+                        btn.classList.add('correct');
+                    }
+
+                    // If selected wrong option
+                    if (btn === button && btnText !== correctOption) {
+                        btn.classList.add('wrong');
+                    }
+
+                    btn.disabled = true;
+                });
+
+                optionGroup.classList.add('answered');
+            });
+        });
+    });
 });
 
 // CSRF helper
