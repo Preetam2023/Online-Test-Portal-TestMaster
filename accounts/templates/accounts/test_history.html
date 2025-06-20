@@ -99,7 +99,8 @@
                             <tr>
                                 <th>Test Title</th>
                                 <th>Subject</th>
-                                <th>Score</th>
+                                <th>Corrected 
+                                    Questions</th>
                                 <th>Percentage</th>
                                 <th>Date</th>
                                 <th>Details</th>
@@ -119,7 +120,7 @@
                                     <div class="score-display">
                                         <span class="obtained">{{ result.correct_answers }}</span>
                                         <span class="separator">/</span>
-                                        <span class="total">{{ result.test.total_marks }}</span>
+                                        <span class="total">{{ result.test.total_questions }}</span>
                                     </div>
                                 </td>
                                 <td>
@@ -158,9 +159,7 @@
                     </div>
                     <h3>No Test Results Found</h3>
                     <p>You haven't completed any tests yet. Start learning and take your first test!</p>
-                    <a href="{% url 'available_tests' %}" class="btn primary-btn">
-                        <i class="fas fa-arrow-right"></i> Browse Available Tests
-                    </a>
+                   
                 </div>
                 {% endif %}
             </div>

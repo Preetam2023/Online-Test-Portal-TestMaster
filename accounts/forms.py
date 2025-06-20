@@ -35,15 +35,17 @@ class SignupForm(forms.ModelForm):
     
     def clean_first_name(self):
         first_name = self.cleaned_data.get('first_name')
-        if any(char.isdigit() for char in first_name):
-            raise ValidationError("First name should not contain any digit. Please use a proper name.")
+        if not first_name.isalpha():
+            raise ValidationError("First name must contain only letters (A–Z), no digits, spaces, or special characters.")
         return first_name
 
     def clean_last_name(self):
         last_name = self.cleaned_data.get('last_name')
-        if any(char.isdigit() for char in last_name):
-            raise ValidationError("Last name should not contain any digit. Please use a proper name.")
+        if not last_name.isalpha():
+            raise ValidationError("Last name must contain only letters (A–Z), no digits, spaces, or special characters.")
         return last_name
+    
+
 
     def save(self, commit=True):
         user = super().save(commit=False)
