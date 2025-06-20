@@ -201,7 +201,8 @@ window.addEventListener('click', function (event) {
                     const downloadBtn = document.getElementById('closedDownloadPdfBtn');
                     if (downloadBtn) {
                         downloadBtn.onclick = () => {
-                            window.location.href = `/accounts/organization/closed-tests/test-details/${testId}/pdf/`;
+                            window.location.href = `/testmaster/organization/closed-tests/test-details/${testId}/pdf/`;
+
                         };
                     }
                 })

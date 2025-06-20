@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
         output.textContent = 'Running...';
         output.classList.remove('error');
 
-        fetch('/accounts/user-dashboard/code-editor/run-code/', {
+        fetch('/testmaster/user-dashboard/code-editor/run-code/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

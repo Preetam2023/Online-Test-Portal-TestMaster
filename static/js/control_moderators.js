@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const isActive = this.checked;
             const statusText = this.nextElementSibling.nextElementSibling;
             
-            fetch(`/accounts/organization/moderators/toggle-status/${moderatorId}/`, {
+            fetch(`/testmaster/organization/moderators/toggle-status/${moderatorId}/`, {
                 method: 'GET',
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',

@@ -217,7 +217,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             // You need a backend endpoint to save this question.
-            // Replace '/accounts/api/add-manual-question/' with your actual endpoint.
             fetch('/testmaster/api/add-manual-question/', {
                 method: 'POST',
                 headers: {

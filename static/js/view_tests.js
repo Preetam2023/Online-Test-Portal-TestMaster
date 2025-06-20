@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Set new handler to use Django PDF endpoint
             downloadBtn.onclick = () => {
               // Use the correct URL pattern from your urls.py
-              window.location.href = `/accounts/organization/view-tests/test-details/${testId}/pdf/`;
+              window.location.href = `/testmaster/organization/view-tests/test-details/${testId}/pdf/`;
             };
           }
         })

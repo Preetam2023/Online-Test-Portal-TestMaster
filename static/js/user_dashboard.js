@@ -1,19 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const orgBtn = document.getElementById('orgBtn');
+     const orgBtn = document.getElementById('orgBtn');
     const orgForm = document.getElementById('orgForm');
 
     if (orgBtn && orgForm) {
-        // Toggle on button click
-        orgBtn.addEventListener('click', function (e) {
-            e.preventDefault();
-            orgForm.classList.toggle('show');
-        });
+        // Always hide the form by default
+        orgForm.classList.remove('show');
 
-        // Show the form if organization_name is present (from Django)
+        // Show the form only if orgName is provided
         const orgName = "{{ organization_name|default:'' }}";
         if (orgName.trim() !== "") {
             orgForm.classList.add('show');
         }
+
+        // Toggle visibility on button click
+        orgBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            orgForm.classList.toggle('show');
+        });
     }
 
 

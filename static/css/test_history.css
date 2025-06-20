@@ -282,9 +282,7 @@ a {
     border-bottom: none;
 }
 
-.history-table tr:hover {
-    background-color: #f8f9fa;
-}
+
 
 .test-info {
     display: flex;

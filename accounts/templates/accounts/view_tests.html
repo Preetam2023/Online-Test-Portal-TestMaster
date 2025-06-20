@@ -17,7 +17,7 @@
 {% block extra_js %}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
   <!-- Bootstrap JS Bundle (includes Popper) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
   <script src="{% static 'js/view_tests.js' %}" defer></script>
 {% endblock %}
@@ -125,6 +125,26 @@
   </div>
 </div>
 
+<!-- Test Detail Modal -->
+<div class="modal fade" id="testDetailModal" tabindex="-1" aria-labelledby="testDetailModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="testDetailModalLabel"><i class="fas fa-file-alt"></i> Test Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="testDetailContent">
+        <!-- Dynamic content will be inserted here -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="downloadPdfBtn">
+          <i class="fas fa-download"></i> Download PDF
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
   <!-- Share Link Modal -->
